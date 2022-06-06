@@ -44,16 +44,16 @@ namespace reseune {
         }
         
         void describe() const {
-            print_bits("FB:    ", FLAG_BITS);
-            print_bits("VB:    ", VALUE_BITS);
-            print_bits("FLAG_VALUE:  ", FLAG_VALUE);
-            print_bits("FLAG_LAST_VALUE:  ", FLAG_LAST_VALUE);
-            print_bits("VMask  ", MASK_VALUE, false);
-            print_bits("FMask: ", MASK_FLAG, false);
-            print_bits("Bits:  ", _value);
-            print_bits("VBits  ", value());
-            print_bits("FBits: ", flag());
-            print_bits("Type:  ", type());
+            print_bits("FB:              ", FLAG_BITS);
+            print_bits("VB:              ", VALUE_BITS);
+            print_bits("FLAG_VALUE:      ", FLAG_VALUE, false);
+            print_bits("FLAG_LAST_VALUE: ", FLAG_LAST_VALUE, false);
+            print_bits("VMask            ", MASK_VALUE, false);
+            print_bits("FMask:           ", MASK_FLAG, false);
+            print_bits("Bits:            ", _value);
+            print_bits("VBits            ", value());
+            print_bits("FBits:           ", flag());
+            print_bits("Type:            ", type());
             // print("FB:     ", FLAG_BITS);
         }
         
