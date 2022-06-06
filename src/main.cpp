@@ -7,9 +7,18 @@
 using namespace reseune;
 
 int main() {
-    reseune::cellu64 acell(33);
-}
+    printf("Size of void * = %zu\n", sizeof(void *));
+    printf("Size of uintptr_t = %zu\n", sizeof(uintptr_t));
+    printf("Size of unsigned long = %zu\n", sizeof(unsigned long));
+    printf("Size of unsigned long long = %zu\n", sizeof(unsigned long long));
 
+    if (true) {
+        reseune::cellu64 acell(33);
+        printf("Value: %llu\n", acell.value());
+        acell.print_bits();
+    }
+
+}
 
 
 

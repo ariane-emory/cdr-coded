@@ -1,17 +1,20 @@
-#ifndef AECC_CELL
-#define AECC_CELL
+#ifndef RESEUNE_CELL
+#define RESEUNE_CELL
 
 #include <inttypes.h>
+#include <stdio.h>
 
 namespace reseune {
+    // Presently T is expected to be some integer where sizeof(T) == sizeof(void *).
+    
     template <typename T>
     class cell {
     public:
         typedef T value_type;
         
-        static constexpr uint64_t FLAG_MASK_VALUE      = 0b01000000'00000000'00000000'000000;
-        static constexpr uint64_t FLAG_MASK_LAST_VALUE = 0b10000000'00000000'00000000'000000;
-        static constexpr uint64_t FLAG_MASK_REST       = 0b11000000'00000000'00000000'000000;
+        static constexpr uint64_t FLAG_MASK_VALUE      = 0b01000000'00000000'00000000'000000ul;
+        static constexpr uint64_t FLAG_MASK_LAST_VALUE = 0b10000000'00000000'00000000'000000ul;
+        static constexpr uint64_t FLAG_MASK_REST       = 0b11000000'00000000'00000000'000000ul;
 
         enum class cell_type {
             value      = FLAG_MASK_VALUE,
@@ -19,9 +22,22 @@ namespace reseune {
             rest       = FLAG_MASK_REST            
         };
 
-        void * value;
+        void * _value;
 
-        cell(value_type const & _value) {            
+        constexpr cell(value_type const & v) : _value(reinterpret_cast<void *>(v)) {}
+
+        constexpr value_type value() const {
+            return reinterpret_cast<value_type>(_value);
+        }
+
+        void print_bits() const {
+            uintptr_t v = reinterpret_cast<uintptr_t>(_value);
+            
+            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul);
+                 mask;
+                 mask >>=1) {
+                printf((mask & v) ? "1" : "0");
+            }
         }
     };
 
