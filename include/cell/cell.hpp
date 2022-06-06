@@ -31,7 +31,7 @@ namespace reseune {
         }
 
         constexpr value_type value() const {
-            return reinterpret_cast<value_type>(_value);
+            return reinterpret_cast<value_type>(_value & MASK_VALUE);
         }
 
         static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
