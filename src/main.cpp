@@ -2,7 +2,7 @@
 #include "thing/thing.hpp"
 
 int main() {
-    Thing myThing;
+    reseune::Thing myThing;
 
     myThing.hello();
 }
