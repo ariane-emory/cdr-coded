@@ -19,25 +19,25 @@ namespace reseune {
 
         static constexpr uint8_t   FLAG_BITS       = 2;
         static constexpr uint8_t   VALUE_BITS      = 64-FLAG_BITS;
+        static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
+        static constexpr uintptr_t MASK_FLAG       = ~MASK_VALUE;
         static constexpr uintptr_t FLAG_MASK_VALUE      = cell_type::element      << VALUE_BITS;
         static constexpr uintptr_t FLAG_MASK_LAST_VALUE = cell_type::last_element << VALUE_BITS;
         static constexpr uintptr_t FLAG_MASK_REST       = cell_type::rest         << VALUE_BITS;
-        static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
-        static constexpr uintptr_t MASK_FLAG       = ~MASK_VALUE;
         
 
-        uintptr_t _value;
+        uintptr_t data;
 
         constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
-            _value = v | ct;
+            data = v | ct;
         }
 
         constexpr value_type value() const {
-            return _value & MASK_VALUE;
+            return data & MASK_VALUE;
         }
 
         constexpr value_type flag() const {
-            return _value & MASK_FLAG;
+            return data & MASK_FLAG;
         }
 
         constexpr cell_type type() const {
@@ -47,15 +47,15 @@ namespace reseune {
         void describe() const {
             print("FB:                   ", FLAG_BITS);
             print("VB:                   ", VALUE_BITS);
-            print_bits("FMask:                ", MASK_FLAG, false);
-            print_bits("VMask                 ", MASK_VALUE, false);
+            print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
+            print_bits("MASK_VALUE:           ", MASK_FLAG, false);
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-            print_bits("Bits:                 ", _value);
-            print_bits("VBits                 ", value());
-            print_bits("FBits:                ", flag());
-            print_bits("Type:                 ", type());
+            print_bits("C.data:               ", data);
+            print_bits("C.value()             ", value());
+            print_bits("C.flag():             ", flag());
+            print_bits("C.type():             ", type());
             // print("FB:          ", FLAG_BITS);
         }
         
