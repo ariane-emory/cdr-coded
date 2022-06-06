@@ -28,23 +28,23 @@ namespace reseune {
 
         uintptr_t data;
 
-        constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
+        inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
             data = v | ct;
         }
 
-        constexpr value_type value() const {
+        inline constexpr value_type value() const {
             return data & MASK_VALUE;
         }
 
-        constexpr value_type flag() const {
+        inline constexpr value_type flag() const {
             return data & MASK_FLAG;
         }
 
-        constexpr cell_type type() const {
+        inline constexpr cell_type type() const {
             return static_cast<cell_type>(flag() > 62); 
         }
         
-        void describe() const {
+        inline void describe() const {
             print("FB:                   ", FLAG_BITS);
             print("VB:                   ", VALUE_BITS);
             print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
