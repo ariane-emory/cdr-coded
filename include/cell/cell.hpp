@@ -26,6 +26,7 @@ namespace reseune {
     };
 
     typedef cell<uint64_t> ucell64;
+    typedef cell<uintptr_t> ucell;
 }
 
 #endif
