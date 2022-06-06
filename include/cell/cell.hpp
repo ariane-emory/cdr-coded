@@ -45,13 +45,13 @@ namespace reseune {
         }
         
         void describe() const {
-            print_bits("FB:                   ", FLAG_BITS);
-            print_bits("VB:                   ", VALUE_BITS);
+            print("FB:                   ", FLAG_BITS);
+            print("VB:                   ", VALUE_BITS);
+            print_bits("FMask:                ", MASK_FLAG, false);
+            print_bits("VMask                 ", MASK_VALUE, false);
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-            print_bits("VMask                 ", MASK_VALUE, false);
-            print_bits("FMask:                ", MASK_FLAG, false);
             print_bits("Bits:                 ", _value);
             print_bits("VBits                 ", value());
             print_bits("FBits:                ", flag());
@@ -87,7 +87,7 @@ namespace reseune {
         }
 
         static void print(char const * descr, uint8_t const & v) {
-            printf("%s%u\n", descr, v);
+            printf("%s %u\n", descr, v);
         }
     };
 }
