@@ -15,8 +15,8 @@ namespace reseune {
         static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'000000ul;
         static constexpr uintptr_t FLAG_LAST_VALUE = 0b10000000'00000000'00000000'000000ul;
         static constexpr uintptr_t FLAG_REST       = 0b11000000'00000000'00000000'000000ul;
-        static constexpr uintptr_t VALUE_MASK      = 0b00111111'11111111'11111111'111111ul;
-        static constexpr uintptr_t FLAG_MASK       = ~VALUE_MASK;
+        static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'111111ul;
+        static constexpr uintptr_t MASK_FLAG       = ~MASK_VALUE;
         
         enum cell_type : uintptr_t {
             element      = FLAG_VALUE,
@@ -42,7 +42,6 @@ namespace reseune {
                  mask >>=1) {
                 putchar((mask & v) ? '1' : '0');
             }
-
             putchar('\n');
         }
         
@@ -50,8 +49,8 @@ namespace reseune {
             uintptr_t v = reinterpret_cast<uintptr_t>(_value);
 
             print_uint64_t_bits("Bits:   ", v);
-            print_uint64_t_bits("FMask:  ", FLAG_MASK);
-            print_uint64_t_bits("VMask:  ", VALUE_MASK);
+            print_uint64_t_bits("FMask:  ", MASK_FLAG);
+            print_uint64_t_bits("VMask:  ", MASK_VALUE);
         }
     };
 
