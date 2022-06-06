@@ -17,12 +17,13 @@ namespace reseune {
         };
 
         inline static constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
-            return ct << VALUE_BITS;
+            return ct << VALUE_BITS_COUNT;
         }
 
-        static constexpr uint8_t   FLAG_BITS            = 2;
-        static constexpr uint8_t   VALUE_BITS           = 64 - FLAG_BITS;
-        static constexpr uintptr_t MASK_VALUE           = (1ul << VALUE_BITS) - 1;
+        static constexpr uint8_t   FLAG_BITS_COUNT            = 2;
+        static constexpr uint8_t   VALUE_BITS_COUNT           = 64 - FLAG_BITS_COUNT;
+        
+        static constexpr uintptr_t MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
 
         static constexpr uintptr_t MASK_FLAG            = ~MASK_VALUE;
         static constexpr uintptr_t FLAG_MASK_VALUE      = cell_type_to_mask(cell_type::element);
@@ -48,8 +49,8 @@ namespace reseune {
         }
         
         inline void describe() const {
-            print("VB:                   ", VALUE_BITS);
-            print("FB:                   ", FLAG_BITS);
+            print("VB:                   ", VALUE_BITS_COUNT);
+            print("FB:                   ", FLAG_BITS_COUNT);
             print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
             print_bits("MASK_VALUE:           ", MASK_FLAG, false);
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
@@ -59,7 +60,7 @@ namespace reseune {
             print_bits("C.flag():             ", flag());
             print_bits("C.value()             ", value());
             print_bits("C.type():             ", type());
-            // print("FB:          ", FLAG_BITS);
+            // print("FB:          ", FLAG_BITS_COUNT);
         }
         
     private:
