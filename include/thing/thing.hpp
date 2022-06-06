@@ -2,7 +2,7 @@
 #define AECC_THING
 
 namespace reseune {
-    class Thing {
+    class thing {
     public:
         void hello() const;
     };
