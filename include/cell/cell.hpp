@@ -7,10 +7,9 @@
 namespace reseune {
     // Presently T is expected to be some integer where sizeof(T) == sizeof(void *).
     
-    template <typename T>
     class cell {
     public:
-        typedef T value_type;
+        typedef uintptr_t value_type;
         
         static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'000000ul;
         static constexpr uintptr_t FLAG_LAST_VALUE = 0b10000000'00000000'00000000'000000ul;
@@ -24,14 +23,14 @@ namespace reseune {
             rest         = FLAG_REST            
         };
 
-        void * _value;
+        uintptr_t _value;
 
         constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
-            _value = reinterpret_cast<void *>(v | ct);
+            _value = v | ct;
         }
 
         constexpr value_type value() const {
-            return reinterpret_cast<value_type>(_value & MASK_VALUE);
+            return _value & MASK_VALUE;
         }
 
         static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
@@ -59,8 +58,6 @@ namespace reseune {
             print_uint64_t_bits("VMask  ", MASK_VALUE);
         }
     };
-
-    typedef cell<uintptr_t> cellu64;
 }
 
 #endif

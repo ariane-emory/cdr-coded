@@ -14,7 +14,7 @@ int main() {
     printf("\n");
     
     if (true) {
-        reseune::cellu64 acell(33);
+        reseune::cell acell(33);
         printf("Value:  %lu\n", acell.value());
         acell.describe();
     }
