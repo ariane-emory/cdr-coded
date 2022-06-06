@@ -51,9 +51,7 @@ namespace reseune {
         }
         
         void describe() const {
-            uintptr_t v = reinterpret_cast<uintptr_t>(_value);
-
-            print_uint64_t_bits("Bits:  ", v);
+            print_uint64_t_bits("Bits:  ", _value);
             print_uint64_t_bits("FMask: ", MASK_FLAG);
             print_uint64_t_bits("VMask  ", MASK_VALUE);
         }
