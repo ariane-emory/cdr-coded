@@ -49,6 +49,8 @@ namespace reseune {
             print_bits("VBits  ", value());
             print_bits("FBits: ", flag());
             print_bits("Type:  ", type());
+            // print("FB:     ", FLAG_BITS);
+            print_bits("FB:      ", FLAG_BITS);
         }
         
     private:
@@ -73,13 +75,13 @@ namespace reseune {
             }
             
             if (print_int)
-                printf(" = %lu\n", v);
+                printf(" = %lu\n", tmp);
             else
                 putchar('\n');
         }
 
         static void print(char const * descr, uint8_t const & v) {
-            printf("%s%u\n", descr v);
+            printf("%s%u\n", descr, v);
         }
     };
 }
