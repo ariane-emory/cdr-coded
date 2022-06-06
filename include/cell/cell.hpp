@@ -37,7 +37,7 @@ namespace reseune {
         static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
             printf("%s", descr);
 
-            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul);
+            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul), uint8_t ix = 0;
                  mask;
                  mask >>=1) {
                 putchar((mask & v) ? '1' : '0');
