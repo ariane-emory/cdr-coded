@@ -7,7 +7,7 @@
 using namespace reseune;
 
 int main() {
-    reseune::ucell acell(33);
+    reseune::cellu64 acell(33);
 }
 
 

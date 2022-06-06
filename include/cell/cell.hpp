@@ -4,7 +4,7 @@
 #include <inttypes.h>
 
 namespace reseune {
-    template <typename T> // T is expected to be some int type of 48 bits of less.
+    template <typename T>
     class cell {
     public:
         typedef T value_type;
@@ -25,8 +25,7 @@ namespace reseune {
         }
     };
 
-    typedef cell<uint64_t> ucell64;
-    typedef cell<uintptr_t> ucell;
+    typedef cell<uint64_t> cellu64;
 }
 
 #endif
