@@ -37,8 +37,8 @@ namespace reseune {
             return _value & MASK_FLAG;
         }
 
-        constexpr value_type type() const {
-            return flag() >> 62; 
+        constexpr cell_type type() const {
+            return static_cast<cell_type>(flag() > 62); 
         }
         
         void describe() const {
