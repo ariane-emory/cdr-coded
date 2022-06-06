@@ -55,18 +55,22 @@ namespace reseune {
         static void print_bits(char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
-            uint8_t ix = 0;
+            uintptr_t tmp = static_cast<uintptr_t>(v);
             
-            for (T mask = reinterpret_cast<T>(0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul);
-                 mask;
-                 mask >>= 1) {
-                putchar((mask & v) ? '1' : '0');
+            {
+                uint8_t ix = 0;
+            
+                for (uintptr_t mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
+                     mask;
+                     mask >>= 1) {
+                    putchar((mask & tmp) ? '1' : '0');
 
-                ++ix %= 8;
-                if (0 == ix && mask > 1)
-                    putchar('\'');
+                    ++ix %= 8;
+                    if (0 == ix && mask > 1)
+                        putchar('\'');
+                }
             }
-
+            
             if (print_int)
                 printf(" = %lu\n", v);
             else
