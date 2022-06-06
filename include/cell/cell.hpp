@@ -17,6 +17,10 @@ namespace reseune {
             rest         = 3
         };
 
+        inline constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
+            return ct << VALUE_BITS;
+        }
+
         static constexpr uint8_t   FLAG_BITS       = 2;
         static constexpr uint8_t   VALUE_BITS      = 64-FLAG_BITS;
         static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
@@ -30,10 +34,6 @@ namespace reseune {
 
         inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
             data = v | cell_type_to_mask(ct);
-        }
-
-        inline constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
-            return ct << VALUE_BITS;
         }
         
         inline constexpr value_type value() const {
