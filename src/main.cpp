@@ -15,7 +15,6 @@ int main() {
     
     if (true) {
         reseune::cell acell(33);
-        printf("Value:  %lu\n", acell.value());
         acell.describe();
     }
 
