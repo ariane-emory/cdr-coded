@@ -35,12 +35,18 @@ namespace reseune {
         }
 
         static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
-            printf("%s", descr);
+            printf("%s 0b", descr);
 
-            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul), uint8_t ix = 0;
+            uint8_t ix = 0;
+            
+            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'00000000ul);
                  mask;
-                 mask >>=1) {
+                 mask >>= 1) {
                 putchar((mask & v) ? '1' : '0');
+
+                ++ix %= 8;
+                if (0 == ix && mask > 1)
+                    putchar('\'');
             }
             putchar('\n');
         }
@@ -48,9 +54,9 @@ namespace reseune {
         void describe() const {
             uintptr_t v = reinterpret_cast<uintptr_t>(_value);
 
-            print_uint64_t_bits("Bits:   ", v);
-            print_uint64_t_bits("FMask:  ", MASK_FLAG);
-            print_uint64_t_bits("VMask:  ", MASK_VALUE);
+            print_uint64_t_bits("Bits:  ", v);
+            print_uint64_t_bits("FMask: ", MASK_FLAG);
+            print_uint64_t_bits("VMask  ", MASK_VALUE);
         }
     };
 
