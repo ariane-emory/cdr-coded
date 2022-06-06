@@ -29,9 +29,13 @@ namespace reseune {
         uintptr_t data;
 
         inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
-            data = v | ct;
+            data = v | cell_type_to_mask(ct);
         }
 
+        inline constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
+            return ct << VALUE_BITS;
+        }
+        
         inline constexpr value_type value() const {
             return data & MASK_VALUE;
         }
@@ -45,16 +49,16 @@ namespace reseune {
         }
         
         inline void describe() const {
-            print("FB:                   ", FLAG_BITS);
             print("VB:                   ", VALUE_BITS);
+            print("FB:                   ", FLAG_BITS);
             print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
             print_bits("MASK_VALUE:           ", MASK_FLAG, false);
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
             print_bits("C.data:               ", data);
-            print_bits("C.value()             ", value());
             print_bits("C.flag():             ", flag());
+            print_bits("C.value()             ", value());
             print_bits("C.type():             ", type());
             // print("FB:          ", FLAG_BITS);
         }
