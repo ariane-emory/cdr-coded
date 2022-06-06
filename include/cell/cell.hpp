@@ -36,7 +36,7 @@ namespace reseune {
             for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul);
                  mask;
                  mask >>=1) {
-                putchar((mask & v) ? "1" : "0");
+                putchar((mask & v) ? '1' : '0');
             }
         }
     };
