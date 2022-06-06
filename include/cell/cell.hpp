@@ -38,27 +38,26 @@ namespace reseune {
         }
 
         constexpr value_type type() const {
-            return type() >> 1; 
+            return flag() >> 62; 
         }
         
         void describe() const {
-            print_uint64_t_bits("Bits:  ", _value);
-            print_uint64_t_bits("VMask  ", MASK_VALUE, false);
-            print_uint64_t_bits("FMask: ", MASK_FLAG, false);
-            print_uint64_t_bits("VBits  ", value());
-            print_uint64_t_bits("FBits: ", flag());
-            // print_uint64_t_bits("Type:  ", type());
-            //printf("Type:  %u", type());
+            print_bits("VMask  ", MASK_VALUE, false);
+            print_bits("FMask: ", MASK_FLAG, false);
+            print_bits("Bits:  ", _value);
+            print_bits("VBits  ", value());
+            print_bits("FBits: ", flag());
+            print_bits("Type:  ", type());
         }
         
     private:
-        //template <typename T>
-        static void print_uint64_t_bits(char const * descr, uintptr_t const & v, bool const & print_int = true) {
+        template <typename T>
+        static void print_bits(char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
             uint8_t ix = 0;
             
-            for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul);
+            for (T mask = reinterpret_cast<T>(0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul);
                  mask;
                  mask >>= 1) {
                 putchar((mask & v) ? '1' : '0');
