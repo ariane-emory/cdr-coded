@@ -34,17 +34,16 @@ namespace reseune {
             return reinterpret_cast<value_type>(_value);
         }
 
-        static void print_uint64_t_bits(uintptr_t const & v) {
+        static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
+            printf("%s", descr);
+
             for (uintptr_t mask = reinterpret_cast<uintptr_t>(0b10000000'00000000'00000000'000000ul);
                  mask;
                  mask >>=1) {
                 putchar((mask & v) ? '1' : '0');
             }
+
             putchar('\n');
-        }
-        static void print_uint64_t_bits(char const * descr, uintptr_t const & v) {
-            printf("%s", descr);
-            print_uint64_t_bits(v);
         }
         
         void describe() const {
