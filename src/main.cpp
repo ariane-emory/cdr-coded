@@ -14,8 +14,8 @@ int main() {
 
     if (true) {
         reseune::cellu64 acell(33);
-        printf("Value: %llu\n", acell.value());
-        acell.print_bits();
+        printf("Value:  %lu\n", acell.value());
+        acell.describe();
     }
 
 }
