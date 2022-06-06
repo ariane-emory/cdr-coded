@@ -13,9 +13,10 @@ namespace reseune {
 
         static constexpr uint8_t   FLAG_BITS       = 2;
         static constexpr uint8_t   VALUE_BITS      = 64-FLAG_BITS;
-        static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
-        static constexpr uintptr_t FLAG_LAST_VALUE = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
-        static constexpr uintptr_t FLAG_REST       = 0b11000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
+        //        static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
+        static constexpr uintptr_t FLAG_VALUE      = 1ul << VALUE_BITS;
+        static constexpr uintptr_t FLAG_LAST_VALUE = 2ul << VALUE_BITS;
+        static constexpr uintptr_t FLAG_REST       = 3ul << VALUE_BITS;
         static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
         static constexpr uintptr_t MASK_FLAG       = ~MASK_VALUE;
         
