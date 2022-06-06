@@ -24,7 +24,8 @@ namespace reseune {
 
         void * _value;
 
-        constexpr cell(value_type const & v) : _value(reinterpret_cast<void *>(v)) {}
+        constexpr cell(value_type const & v, cell_type const & type = cell_type::value)
+            : _value(reinterpret_cast<void *>(v)) {}
 
         constexpr value_type value() const {
             return reinterpret_cast<value_type>(_value);
