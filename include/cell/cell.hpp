@@ -11,7 +11,8 @@ namespace reseune {
     public:
         typedef uintptr_t value_type;
 
-        static constexpr uint8_t   FLAG_BITS       = 3;
+        static constexpr uint8_t   FLAG_BITS       = 2;
+        static constexpr uint8_t   VALUE_BITS      = 64-FLAG_BITS;
         static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
         static constexpr uintptr_t FLAG_LAST_VALUE = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
         static constexpr uintptr_t FLAG_REST       = 0b11000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
@@ -43,6 +44,8 @@ namespace reseune {
         }
         
         void describe() const {
+            print_bits("FB:    ", FLAG_BITS);
+            print_bits("VB:    ", VALUE_BITS);
             print_bits("VMask  ", MASK_VALUE, false);
             print_bits("FMask: ", MASK_FLAG, false);
             print_bits("Bits:  ", _value);
@@ -50,7 +53,6 @@ namespace reseune {
             print_bits("FBits: ", flag());
             print_bits("Type:  ", type());
             // print("FB:     ", FLAG_BITS);
-            print_bits("FB:      ", FLAG_BITS);
         }
         
     private:
