@@ -22,7 +22,8 @@ namespace reseune {
 
         static constexpr uint8_t   FLAG_BITS            = 2;
         static constexpr uint8_t   VALUE_BITS           = 64 - FLAG_BITS;
-        static constexpr uintptr_t MASK_VALUE           = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
+        static constexpr uintptr_t MASK_VALUE           = (1ul << VALUE_BITS) - 1;
+
         static constexpr uintptr_t MASK_FLAG            = ~MASK_VALUE;
         static constexpr uintptr_t FLAG_MASK_VALUE      = cell_type_to_mask(cell_type::element);
         static constexpr uintptr_t FLAG_MASK_LAST_VALUE = cell_type_to_mask(cell_type::last_element);
