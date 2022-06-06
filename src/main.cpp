@@ -12,9 +12,11 @@ int main() {
     printf("Size of unsigned long = %zu\n", sizeof(unsigned long));
     printf("Size of unsigned long long = %zu\n", sizeof(unsigned long long));
     printf("\n");
+
     
     if (true) {
-        reseune::cell acell(33);
+        reseune::cell<char> acell(33);
+
         acell.describe();
     }
 

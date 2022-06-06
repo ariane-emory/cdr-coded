@@ -5,8 +5,7 @@
 #include <stdio.h>
 
 namespace reseune {
-    // Presently T is expected to be some integer where sizeof(T) == sizeof(void *).
-    
+    template<typename TT>
     class cell {
     public:
         typedef uintptr_t value_type;
@@ -17,7 +16,7 @@ namespace reseune {
             rest         = 3
         };
 
-        inline constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
+        inline static constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
             return ct << VALUE_BITS;
         }
 
