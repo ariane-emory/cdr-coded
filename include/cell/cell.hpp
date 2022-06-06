@@ -11,20 +11,21 @@ namespace reseune {
     public:
         typedef uintptr_t value_type;
 
+        enum cell_type : uintptr_t {
+            element      = 1,
+            last_element = 2,
+            rest         = 3
+        };
+
         static constexpr uint8_t   FLAG_BITS       = 2;
         static constexpr uint8_t   VALUE_BITS      = 64-FLAG_BITS;
         //        static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
-        static constexpr uintptr_t FLAG_VALUE      = 1ul << VALUE_BITS;
-        static constexpr uintptr_t FLAG_LAST_VALUE = 2ul << VALUE_BITS;
-        static constexpr uintptr_t FLAG_REST       = 3ul << VALUE_BITS;
+        static constexpr uintptr_t FLAG_VALUE      = cell_type::element      << VALUE_BITS;
+        static constexpr uintptr_t FLAG_LAST_VALUE = cell_type::last_element << VALUE_BITS;
+        static constexpr uintptr_t FLAG_REST       = cell_type::rest         << VALUE_BITS;
         static constexpr uintptr_t MASK_VALUE      = 0b00111111'11111111'11111111'11111111'11111111'11111111'11111111'11111111ul;
         static constexpr uintptr_t MASK_FLAG       = ~MASK_VALUE;
         
-        enum cell_type : uintptr_t {
-            element      = FLAG_VALUE,
-            last_element = FLAG_LAST_VALUE,
-            rest         = FLAG_REST            
-        };
 
         uintptr_t _value;
 
