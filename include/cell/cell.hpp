@@ -10,7 +10,8 @@ namespace reseune {
     class cell {
     public:
         typedef uintptr_t value_type;
-        
+
+        static constexpr uint8_t   FLAG_BITS       = 3;
         static constexpr uintptr_t FLAG_VALUE      = 0b01000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
         static constexpr uintptr_t FLAG_LAST_VALUE = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
         static constexpr uintptr_t FLAG_REST       = 0b11000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
@@ -75,6 +76,10 @@ namespace reseune {
                 printf(" = %lu\n", v);
             else
                 putchar('\n');
+        }
+
+        static void print(char const * descr, uint8_t const & v) {
+            printf("%s%u\n", descr v);
         }
     };
 }
