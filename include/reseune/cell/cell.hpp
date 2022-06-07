@@ -43,8 +43,8 @@ namespace reseune {
       : data(v | static_cast<value_type>(ct)) {}
 
     constexpr
-    cell(cell * const v, tag_t const & ct = tag_t::link) 
-      : data(std::bit_cast<value_type>(v) | static_cast<value_type>(ct)) {}
+    cell(cell const * v, tag_t const & ct = tag_t::link) 
+      : data(reinterpret_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
     constexpr
     cell() 
