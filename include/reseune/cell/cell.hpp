@@ -33,13 +33,13 @@ namespace reseune {
       }
     }
 
-    static constexpr uchar_type FLAG_BITS_COUNT      { 2 };
-    static constexpr uchar_type VALUE_BITS_COUNT     { (sizeof(value_type) << 3) - FLAG_BITS_COUNT };
+    static constexpr uchar_type TAG_BITS_COUNT      { 2 };
+    static constexpr uchar_type VALUE_BITS_COUNT     { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
     static constexpr value_type MASK_VALUE           { (1ul << VALUE_BITS_COUNT) - 1 };
-    static constexpr value_type MASK_FLAG            { ~MASK_VALUE };
-    static constexpr value_type FLAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
-//    static constexpr value_type FLAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
-    static constexpr value_type FLAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
+    static constexpr value_type MASK_TAG            { ~MASK_VALUE };
+    static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
+//    static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+    static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
 
     value_type data;
 
@@ -95,7 +95,7 @@ namespace reseune {
         
     constexpr
     value_type flag() const {
-      return data & MASK_FLAG;
+      return data & MASK_TAG;
     }
 
     constexpr
@@ -118,12 +118,12 @@ namespace reseune {
     static
     void describe_class() {
       print("VALUE_BITS_COUNT:          ", VALUE_BITS_COUNT);
-      print("FLAG_BITS_COUNT:           ", FLAG_BITS_COUNT);
-      print_bits("MASK_FLAGS:                ", MASK_VALUE, false);
-      print_bits("MASK_VALUE:                ", MASK_FLAG, false);
-      print_bits("FLAG_MASK_VALUE:           ", FLAG_MASK_VALUE, false);
-      //      print_bits("FLAG_MASK_LAST_VALUE:      ", FLAG_MASK_LAST_VALUE, false);
-      print_bits("FLAG_MASK_LINK:            ", FLAG_MASK_LINK, false);
+      print("TAG_BITS_COUNT:           ", TAG_BITS_COUNT);
+      print_bits("MASK_TAGS:                ", MASK_VALUE, false);
+      print_bits("MASK_VALUE:                ", MASK_TAG, false);
+      print_bits("TAG_MASK_VALUE:           ", TAG_MASK_VALUE, false);
+      //      print_bits("TAG_MASK_LAST_VALUE:      ", TAG_MASK_LAST_VALUE, false);
+      print_bits("TAG_MASK_LINK:            ", TAG_MASK_LINK, false);
       putchar('\n');
     }
         
