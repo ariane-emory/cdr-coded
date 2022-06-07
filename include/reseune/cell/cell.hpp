@@ -124,14 +124,12 @@ namespace reseune {
     }
 
     constexpr
-    bool
-    operator == (cell const & that) {
+    bool operator == (cell const & that) {
       return data == that.data;
     }
 
     constexpr
-    bool
-    operator != (cell const & that) {
+    bool operator != (cell const & that) {
       return !operator==(that);
     }
 
