@@ -25,7 +25,7 @@ namespace reseune {
     static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
 
-    enum class tag : uintptr_t {
+    enum class tag_t : uintptr_t {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       last_element,
 #endif
@@ -33,26 +33,26 @@ namespace reseune {
       element = 1ul << VALUE_BITS_COUNT,
     };
 
-//     static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
+//     static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag_t::element)      << VALUE_BITS_COUNT };
 // #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-//     static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+//     static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag_t::last_element) << VALUE_BITS_COUNT };
 // #endif
-//     static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
+//     static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag_t::link)         << VALUE_BITS_COUNT };
 
     value_type data;
 
     constexpr
-    cell(value_type const & v, tag const & ct = tag::element
+    cell(value_type const & v, tag_t const & ct = tag_t::element
          ) 
       : data(v | static_cast<value_type>(ct)) {}
 
     constexpr
-    cell(cell * const v, tag const & ct = tag::link) 
+    cell(cell * const v, tag_t const & ct = tag_t::link) 
       : data(std::bit_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
     constexpr
     cell() 
-      : data(0 | static_cast<value_type>(tag::link)) {}
+      : data(0 | static_cast<value_type>(tag_t::link)) {}
     
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name : public std::logic_error {                                      \
@@ -72,8 +72,8 @@ namespace reseune {
       }                                                                         \
     }
     
-    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, tag::link != type())
-    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   tag::link == type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, tag_t::link != type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   tag_t::link == type())
 
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
@@ -98,23 +98,23 @@ namespace reseune {
     }
 
     constexpr
-    tag type() const {
-      return static_cast<tag>(flag()); 
+    tag_t type() const {
+      return static_cast<tag_t>(flag()); 
     }
 
     constexpr
-    bool is_type(tag const & ct) const {
+    bool is_type(tag_t const & ct) const {
       return type() == ct; 
     }
 
     constexpr
     bool is_element() const {
-      return is_type(tag::element);
+      return is_type(tag_t::element);
     }
 
     constexpr
     bool is_link() const {
-      return is_type(tag::link);
+      return is_type(tag_t::link);
     }
 
     constexpr
@@ -139,15 +139,15 @@ namespace reseune {
     
     static constexpr
     char const * const
-    tag_c_str(tag const & ct) {
+    tag_c_str(tag_t const & ct) {
       switch (ct) {
       default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;
-        CASE(tag::element);
+        CASE(tag_t::element);
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        CASE(tag::last_element);
+        CASE(tag_t::last_element);
 #endif
-        CASE(tag::link);
+        CASE(tag_t::link);
 #undef CASE
       }
     }
@@ -173,7 +173,7 @@ namespace reseune {
       print_bits("cell.flag():               ", flag());
       print_bits("cell.type():               ", type());
       printf("cell.type() as c_str:       %s\n", tag_c_str(type()));
-      if (is_type(tag::link))
+      if (is_type(tag_t::link))
         print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
       else
         print_bits("cell.value()               ", value());
@@ -189,7 +189,7 @@ namespace reseune {
 
     // static constexpr
     // value_type
-    // tag_to_flag_mask(tag const & ct) {
+    // tag_to_flag_mask(tag_t const & ct) {
     //   return value_to_flag_mask(static_cast<value_type>(ct));
     // }
     
@@ -242,7 +242,7 @@ namespace reseune {
   static constinit
   cell nil {};
   // 0ul,
-  //   reseune::cell::tag::link
+  //   reseune::cell::tag_t::link
   // };
 
   // static constinit
@@ -254,15 +254,15 @@ namespace reseune {
     
     // constexpr
     // cons(cell::value_type const & car_, cell * const cdr_ = nil)
-    //   : car(car_, cell::tag::element), cdr(cdr_, cell::tag::link) {}
+    //   : car(car_, cell::tag_t::element), cdr(cdr_, cell::tag_t::link) {}
 
     constexpr
     cons(cell::value_type const & car_, cell & cdr_)
-      : car(car_, cell::tag::element), cdr(&cdr_, cell::tag::link) {}
+      : car(car_, cell::tag_t::element), cdr(&cdr_, cell::tag_t::link) {}
 
     constexpr
     cons(cell::value_type const & car_, cons & cdr_)
-      : car(car_, cell::tag::element), cdr(&cdr_.car, cell::tag::link) {}
+      : car(car_, cell::tag_t::element), cdr(&cdr_.car, cell::tag_t::link) {}
 
     constexpr
     void prepend(cell::value_type const & new_car) {
