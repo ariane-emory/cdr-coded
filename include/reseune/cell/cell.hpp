@@ -304,27 +304,7 @@ namespace reseune {
     }
   };
 
-  static constinit
-  cell nil { };
-
-#ifdef RESEUNE_CONS
-  struct cons {
-    cell car, cdr;
-    
-    constexpr
-    cons(cell::value_type const & car_, cell & cdr_)
-      : car(car_, cell::tag_t::element), cdr(&cdr_, cell::tag_t::link) {}
-
-    constexpr
-    cons(cell::value_type const & car_, cons & cdr_)
-      : car(car_, cell::tag_t::element), cdr(&cdr_.car, cell::tag_t::link) {}
-
-    constexpr
-    void prepend(cell::value_type const & new_car) {
-      cdr = car;
-      car = new_car;
-    }
-  };
-#endif
+  // static constinit
+  // cell nil { };
 }
 #endif

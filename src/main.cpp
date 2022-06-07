@@ -39,21 +39,21 @@ constexpr size_t MEMORY_SIZE = 1<<10; // 1024 cells, 8k memory
     /*  3 */ &cells[7],
     /*  4 */ 89, 
     /*  5 */ &cells[13],
-    /*  6 */ nil,
+    /*  6 */ nullptr,
     /*  7 */ 88,
     /*  8 */ 88,
     /*  9 */ &cells[11],
-    /* 10 */ nil,
+    /* 10 */ nullptr,
     /* 11 */ { 88, cell::tag_t::last_element },
-    /* 12 */ nil,
+    /* 12 */ nullptr,
     /* 13 */ { 89, cell::tag_t::last_element },
     /* 14 */ 89,
     /* 15 */ &cells[17],
-    /* 16 */ nil,
+    /* 16 */ nullptr,
     /* 17 */ 89,
-    /* 18 */ nil,
-    /* 19 */ nil,
-    /* 20 */ nil    
+    /* 18 */ nullptr,
+    /* 19 */ nullptr,
+    /* 20 */ nullptr    
   };
 
 int main() {
@@ -110,7 +110,7 @@ if (true) {
       else if (cell.is_element())
         putchar(static_cast<char>(cell.value()));
       else if (cell.is_last_element())
-        putchar(static_cast<char>(cell.value()+32));
+        putchar(static_cast<char>(cell.value()));
       else if (cell.is_link()) {
         if (cell.link() > &cell)
           putchar('<');
