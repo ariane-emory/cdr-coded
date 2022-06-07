@@ -42,7 +42,7 @@ namespace reseune {
     cell() 
       : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
-#define LOGIC_ERROR(name, expr)                                                 \
+#define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name   : public std::logic_error {                                    \
     public:                                                                     \
     name() : std::logic_error(# name) {};                                       \
@@ -58,8 +58,10 @@ namespace reseune {
         }                                                                       \
 }
     
-    LOGIC_ERROR(cannot_be_a_rest, cell_type::rest != type())
-    LOGIC_ERROR(must_be_a_rest,   cell_type::rest == type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_rest, cell_type::rest != type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_rest,   cell_type::rest == type())
+
+#undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
     inline constexpr
     value_type value() const  {
