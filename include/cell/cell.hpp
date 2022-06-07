@@ -8,28 +8,37 @@
 #include <stdexcept>
 
 namespace reseune {
+
+  static constexpr bool THROW =
+#ifdef RESEUNE_THROW
+    true
+#else
+    false
+#endiff
+    ;
+
   class cell {
-  public:
-    typedef uintptr_t value_type;
-    typedef uint8_t uchar_type;
+    public:
+      typedef uintptr_t value_type;
+      typedef uint8_t uchar_type;
 
-    enum class cell_type : uintptr_t {
-      element = 1,
-      last_element,
-      rest
-    };
+      enum class cell_type : uintptr_t {
+        element = 1,
+        last_element,
+        rest
+      };
 
-    static constexpr uchar_type FLAG_BITS_COUNT      = 2;
-    static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
-    static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
-    static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
-    static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
+      static constexpr uchar_type FLAG_BITS_COUNT      = 2;
+      static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
+      static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
+      static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
+      static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
+      static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
+      static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
 
-    value_type data;
+      value_type data;
 
-    inline constexpr
+      inline constexpr
     cell(value_type const & v, cell_type const & ct) 
       : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
       // if (cell_type::rest == ct)
