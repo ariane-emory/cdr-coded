@@ -42,6 +42,10 @@ int main() {
     
     i.describe_instance();
   }
+
+  cell * cursor = cell;
+
+
 }
 
 
