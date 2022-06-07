@@ -97,7 +97,7 @@ namespace reseune {
         }
 
         template <typename T>
-        static void print_bits(
+        static inline void print_bits(
             char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
@@ -123,7 +123,7 @@ namespace reseune {
                 putchar('\n');
         }
 
-        static void print(char const * descr, uint8_t const & v) {
+        static inline void print(char const * descr, uint8_t const & v) {
             printf("%s %u\n", descr, v);
         }
     };
