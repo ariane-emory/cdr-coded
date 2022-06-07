@@ -62,7 +62,8 @@ namespace reseune {
     name() : std::logic_error(# name) {};                                       \
     };                                                                          \
     inline constexpr                                                            \
-    void assert_ ## name() const {                                              \
+    void                                                                        \
+    assert_ ## name() const {                                                   \
       if constexpr(THROW) {                                                     \
         if (! (expr))                                                           \
           throw name {};                                                        \
@@ -79,14 +80,15 @@ namespace reseune {
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
     inline constexpr
-    value_type value() const  {
+    value_type value() const {
       assert_cannot_be_a_rest();
 
       return get_value();
     }
 
     inline constexpr
-    cell const * rest() const  {
+    cell const *
+    rest() const {
       assert_must_be_a_rest();
       
       return get_rest();
@@ -108,35 +110,36 @@ namespace reseune {
     }
 
     inline constexpr
-    value_type const &
+    cell const &
     operator*(){
       assert_must_be_a_rest();
+      return *rest();
     }
     
     static inline
     void describe_class() {
-      print("VB:                   ", VALUE_BITS_COUNT);
-      print("FB:                   ", FLAG_BITS_COUNT);
-      print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
-      print_bits("MASK_VALUE:           ", MASK_FLAG, false);
-      print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
-      print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
-      print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
+      print("VALUE_BITS_COUNT:          ", VALUE_BITS_COUNT);
+      print("FLAG_BITS_COUNT:           ", FLAG_BITS_COUNT);
+      print_bits("MASK_FLAGS:                ", MASK_VALUE, false);
+      print_bits("MASK_VALUE:                ", MASK_FLAG, false);
+      print_bits("FLAG_MASK_VALUE:           ", FLAG_MASK_VALUE, false);
+      print_bits("FLAG_MASK_LAST_VALUE:      ", FLAG_MASK_LAST_VALUE, false);
+      print_bits("FLAG_MASK_REST:            ", FLAG_MASK_REST, false);
       putchar('\n');
     }
         
     inline
     void describe_instance() const {
       // printf("Cell at:                                                                                           %018p\n", this);
-      print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
-      print_bits("cell.data:            ", data);
-      print_bits("cell.flag():          ", flag());
-      print_bits("cell.type():          ", type());
-      printf("cell.type() as c_str:  %s\n", cell_type_as_c_str(type()));
+      print_bits("cell @                     ", reinterpret_cast<uintptr_t>(this));
+      print_bits("cell.data:                 ", data);
+      print_bits("cell.flag():               ", flag());
+      print_bits("cell.type():               ", type());
+      printf("cell.type() as c_str:       %s\n", cell_type_as_c_str(type()));
       if (is_type(cell_type::rest))
-        print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
+        print_bits("cell.rest():               ", reinterpret_cast<uintptr_t>(rest()));
       else
-        print_bits("cell.value()          ", value());
+        print_bits("cell.value()               ", value());
       putchar('\n');
     }
         
@@ -147,7 +150,8 @@ namespace reseune {
     }
 
     inline constexpr
-    cell const * get_rest() const {
+    cell const *
+    get_rest() const {
       return std::bit_cast<cell const *>(get_value());
     }
 
@@ -168,6 +172,7 @@ namespace reseune {
           putchar((mask & tmp) ? '1' : '0');
 
           ++ix %= 8;
+
           if (0 == ix && mask > 1)
             putchar('\'');
         }
@@ -190,8 +195,8 @@ namespace reseune {
   struct conspair {
     cell car, cdr;
 
-    inline constexpr
-    conspair() {}
+    // inline constexpr
+    // conspair() {}
   };
 }
 
