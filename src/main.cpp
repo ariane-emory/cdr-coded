@@ -27,18 +27,18 @@ int main() {
   // (*bcell).describe_instance();
   
   cell cells[] = {
-    /*  0 */ { 10, cell::tag::element },
-    /*  1 */ { 20, cell::tag::element },
-    /*  2 */ { 30, cell::tag::element },
-    /*  3 */ { &cells[6], cell::tag::element },
+    /*  0 */ { 10 },
+    /*  1 */ { 20 },
+    /*  2 */ { 30 },
+    /*  3 */ { &cells[6] },
     /*  4 */ nil, 
     /*  5 */ nil,
-    /*  6 */ { 40, cell::tag::element },
-    /*  7 */ { 50, cell::tag::element },
-    /*  8 */ { 60, cell::tag::element },
-    /*  9 */ { &cells[11], cell::tag::element },
+    /*  6 */ { 40 },
+    /*  7 */ { 50 },
+    /*  8 */ { 60 },
+    /*  9 */ { &cells[11] },
     /* 10 */ nil,
-    /* 11 */ { 70, cell::tag::element },
+    /* 11 */ { 70 },
     /* 12 */ nil
   };
 
