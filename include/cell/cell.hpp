@@ -30,23 +30,16 @@ namespace reseune {
     value_type data;
 
     inline constexpr
-    cell(value_type const & v, cell_type const & ct) {
-      // assert(ct != cell_type::rest);
-            
-      data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
-    }
+    cell(value_type const & v, cell_type const & ct)
+      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
         
     inline constexpr
-    cell(cell * const v, cell_type const & ct) {
-      // assert(ct == cell_type::rest);
-            
-      data = std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
-    }
+    cell(cell * const v, cell_type const & ct)
+      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
 
     inline constexpr
-    cell() {
-      data = 0 | (static_cast<value_type>(cell_type::invalid) << VALUE_BITS_COUNT);
-    }
+    cell()
+      : data(0 | (static_cast<value_type>(cell_type::invalid) << VALUE_BITS_COUNT)) {}
         
 
     inline constexpr
