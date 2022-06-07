@@ -6,26 +6,19 @@
 
 using namespace reseune;
 
-enum cell_type : uintptr_t {
-    element = 1,
-    last_element,
-    rest 
-};
-
 int main() {
     printf("Size of void * = %zu\n", sizeof(void *));
     printf("Size of uintptr_t = %zu\n", sizeof(uintptr_t));
     printf("Size of unsigned long = %zu\n", sizeof(unsigned long));
     printf("Size of unsigned long long = %zu\n", sizeof(unsigned long long));
     printf("\n");
-
     
     if (true) {
-        reseune::cell<cell_type, 2> acell(33);
+        reseune::cell<2> acell(33);
 
         acell.describe();
         printf("%s\n",
-               acell.type_is(cell_type::element)
+               acell.type_is(cell<2>::cell_type::element)
                ? "Yes"
                : "No");
     }

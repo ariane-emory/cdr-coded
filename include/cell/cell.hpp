@@ -5,13 +5,18 @@
 #include <stdio.h>
 
 namespace reseune {
-    template<typename ENUM_T, uint8_t FBC>
+    template<uint8_t FBC>
     class cell {
     public:
         static constexpr uint8_t    FLAG_BITS_COUNT      = FBC;
 
         typedef uintptr_t value_type;
-        typedef ENUM_T cell_type;
+
+        enum cell_type : uintptr_t {
+            element = 1,
+            last_element,
+            rest 
+        };
 
         inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
             return ct << VALUE_BITS_COUNT;
