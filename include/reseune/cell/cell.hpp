@@ -15,9 +15,9 @@ namespace reseune {
     typedef uint8_t uchar_type;
 
     enum class cell_type : uintptr_t {
-      element = 1,
       //      last_element,
-      link
+      link,
+      element
     };
 
     static constexpr
@@ -43,24 +43,30 @@ namespace reseune {
 
     value_type data;
 
+    static constexpr
+    value_type
+    cell_type_to_flag_mask(cell_type const & ct) {
+      return static_cast<value_type>(ct) << VALUE_BITS_COUNT;
+    }
+    
     constexpr
     cell(value_type const & v, cell_type const & ct) 
-      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
+      : data(v | cell_type_to_flag_mask(ct)) {}
 
     constexpr
-    cell(cell * const v, cell_type const & ct) 
-      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
+      cell(cell * const v, cell_type const & ct) 
+      : data(std::bit_cast<value_type>(v) | cell_type_to_flag_mask(ct)) {}
 
     constexpr
     cell() 
-      : data(0 | (static_cast<value_type>(cell_type::link) << VALUE_BITS_COUNT)) {}
+      : data(0 | cell_type_to_flag_mask(cell_type::link)) {}
     
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
-    class name : public std::logic_error {                                    \
+    class name : public std::logic_error {                                      \
     public:                                                                     \
     name() : std::logic_error(# name) {};                                       \
     };                                                                          \
-    constexpr                                                            \
+    constexpr                                                                   \
     void                                                                        \
     assert_ ## name() const {                                                   \
       if constexpr(THROW) {                                                     \
@@ -162,7 +168,7 @@ namespace reseune {
       value_type tmp { static_cast<value_type>(v) };
             
       {
-        uchar_type ix;
+        uchar_type ix { 0 };
             
         for (value_type mask { 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul };
              mask;
@@ -189,10 +195,10 @@ namespace reseune {
   };
 
   static constinit
-  cell nil {
-    0ul,
-    reseune::cell::cell_type::link
-  };
+  cell nil {};
+  // 0ul,
+  //   reseune::cell::cell_type::link
+  // };
 
   // static constinit
   // cell * nil = &_nil;

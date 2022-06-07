@@ -26,14 +26,14 @@ int main() {
   // bcell.describe_instance();
   // (*bcell).describe_instance();
 
-  cell cells[] = {
+  cell cells[8] = {
     { 10, cell::cell_type::element },
     { 20, cell::cell_type::element },
     { 30, cell::cell_type::element },
     nil
   };
 
-  for (cell i : cells) {
+  for (cell & i : cells) {
     i.describe_instance();
   }
 }
