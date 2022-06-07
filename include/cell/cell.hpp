@@ -22,7 +22,7 @@ namespace reseune {
             return ct << VALUE_BITS_COUNT;
         }
 
-        static constexpr uint8_t    VALUE_BITS_COUNT     = 64 - FLAG_BITS_COUNT;
+        static constexpr uint8_t    VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
         static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
         static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
         static constexpr value_type FLAG_MASK_VALUE      = cell_type_to_mask(cell_type::element);
