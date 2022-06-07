@@ -26,6 +26,8 @@ int main() {
   (*bcell).describe_instance();
 
 
+  cons dumb_list(1, nil);
+  
 // bcell.value();
   // bcell.rest();
 }
