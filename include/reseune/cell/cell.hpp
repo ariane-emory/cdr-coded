@@ -177,6 +177,14 @@ namespace reseune {
       pointer_to_cell m_ptr;
     };
     
+    iterator begin() const {
+      return iterator { this };
+    }
+
+    iterator end() const {
+      return iterator { nullptr };
+    }
+
     static constexpr
     char const * const
     tag_t_as_c_str(tag_t const & ct) {
