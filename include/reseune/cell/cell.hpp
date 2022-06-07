@@ -156,8 +156,6 @@ namespace reseune {
       void next() {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
         if (m_ptr->is_last_element()) {
-          printf("EARLY STOP!\n");
-          
           m_ptr = nullptr;
         }
         else
