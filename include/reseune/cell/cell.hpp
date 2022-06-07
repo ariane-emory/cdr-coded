@@ -182,8 +182,14 @@ namespace reseune {
   private:
     static constexpr
     value_type
+    value_to_flag_mask(value_type const & vt) {
+      return vt << VALUE_BITS_COUNT;
+    }
+
+    static constexpr
+    value_type
     tag_to_flag_mask(tag const & ct) {
-      return static_cast<value_type>(ct) << VALUE_BITS_COUNT;
+      return value_to_flag_mask(static_cast<value_type>(ct));
     }
     
     constexpr
