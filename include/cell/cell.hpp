@@ -14,7 +14,7 @@ namespace reseune {
     true
 #else
     false
-#endiff
+#endif
     ;
 
   class cell {
@@ -38,19 +38,13 @@ namespace reseune {
 
       value_type data;
 
-      inline constexpr
+    inline constexpr
     cell(value_type const & v, cell_type const & ct) 
-      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
-      // if (cell_type::rest == ct)
-      //   throw assert_failure("ct == rest");
-    }
-    
+      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
+
     inline constexpr
     cell(cell * const v, cell_type const & ct) 
-      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
-      // if (cell_type::rest != ct)
-      //   throw assert_failure("ct != rest");
-    }
+      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
 
     inline constexpr
     cell() 
@@ -63,8 +57,9 @@ namespace reseune {
     };                                                                          \
     inline constexpr                                                            \
     void assert_ ## name() const {                                              \
-      if (! (expr))                                                             \
-        throw name {};                                                          \
+      if constexpr (THROW)                                                      \
+        if (! (expr))                                                           \
+          throw name {};                                                        \
     }
     
     LOGIC_ERROR(cannot_be_a_rest, cell_type::rest != type())
