@@ -6,6 +6,12 @@
 
 using namespace reseune;
 
+enum cell_type : uintptr_t {
+    element = 1,
+    last_element,
+    rest 
+};
+
 int main() {
     printf("Size of void * = %zu\n", sizeof(void *));
     printf("Size of uintptr_t = %zu\n", sizeof(uintptr_t));
@@ -15,7 +21,7 @@ int main() {
 
     
     if (true) {
-        reseune::cell<2>acell(33);
+        reseune::cell<2, cell_type> acell(33);
 
         acell.describe();
     }
