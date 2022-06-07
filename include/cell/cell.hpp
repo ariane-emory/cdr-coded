@@ -28,15 +28,19 @@ namespace reseune {
         value_type data;
 
         inline constexpr cell(value_type const & v, cell_type const & ct) {
+            assert(ct != cell_type::rest);
+            
             data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
         inline constexpr cell(cell * const v, cell_type const & ct) {
+            assert(ct == cell_type::rest);
+            
             data = std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
         inline constexpr value_type value() const {
-            assert(is_type(cell_type::element) || is_type(cell_type::last_element));
+            assert(! is_type(cell_type::rest));
             
             return get_value();
         }
