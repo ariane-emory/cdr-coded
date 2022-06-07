@@ -139,23 +139,42 @@ namespace reseune {
     {
       using iterator_category = std::forward_iterator_tag;
       using difference_type   = std::ptrdiff_t;
-      using value_type        = cell::value_type;
-      using pointer           = value_type*;  // or also value_type*
-      using reference         = value_type&;
+      using value_type        = cell;
+      using pointer           = const cell *;  // or also value_type*
+      using reference         = const cell &;
 
-      iterator(pointer ptr): m_ptr(ptr) {}
+      typedef pointer   pointer_to_cell;
+      typedef reference reference_to_cell;
       
-      reference operator * () const { return *m_ptr; }
-      pointer operator -> () { return m_ptr; }
+      iterator(pointer_to_cell ptr): m_ptr(ptr) {}
+      
+      reference_to_cell operator *  () const { return *m_ptr; }
+      pointer_to_cell   operator -> () { return m_ptr; }
 
-      iterator & operator ++ () { m_ptr++; return *this; } // prefix
-      iterator operator ++ (int) { iterator tmp = *this; ++(*this); return tmp; }  // postfix
+      void next() {
+        if (m_ptr->is_link())
+          m_ptr = m_ptr->link();
+        else
+          m_ptr++;
+      }
+      
+      iterator & operator ++ () {
+        next();
+
+        return *this;
+      } // prefix
+
+      iterator operator ++ (int) {
+        iterator tmp = *this;
+        ++(*this);
+        return tmp;
+      }  // postfix
 
       friend bool operator == (const iterator& a, const iterator& b) { return a.m_ptr == b.m_ptr; };
       friend bool operator != (const iterator& a, const iterator& b) { return a.m_ptr != b.m_ptr; };     
 
     private:
-      pointer m_ptr;
+      pointer_to_cell m_ptr;
     };
     
     static constexpr
