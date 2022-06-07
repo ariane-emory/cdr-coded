@@ -119,7 +119,7 @@ namespace reseune {
     void describe_class() {
       print("VALUE_BITS_COUNT:          ", VALUE_BITS_COUNT);
       print("TAG_BITS_COUNT:           ", TAG_BITS_COUNT);
-      print_bits("MASK_TAGS:                ", MASK_VALUE, false);
+      print_bits("MASK_TAG:                ", MASK_VALUE, false);
       print_bits("MASK_VALUE:                ", MASK_TAG, false);
       print_bits("TAG_MASK_VALUE:           ", TAG_MASK_VALUE, false);
       //      print_bits("TAG_MASK_LAST_VALUE:      ", TAG_MASK_LAST_VALUE, false);
