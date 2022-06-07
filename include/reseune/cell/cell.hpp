@@ -34,13 +34,13 @@ namespace reseune {
       }
     }
 
-    static constexpr uchar_type FLAG_BITS_COUNT      = 2;
-    static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
-    static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
-    static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
-    static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
+    static constexpr uchar_type FLAG_BITS_COUNT      { 2 };
+    static constexpr uchar_type VALUE_BITS_COUNT     { (sizeof(value_type) << 3) - FLAG_BITS_COUNT };
+    static constexpr value_type MASK_VALUE           { (1ul << VALUE_BITS_COUNT) - 1 };
+    static constexpr value_type MASK_FLAG            { ~MASK_VALUE };
+    static constexpr value_type FLAG_MASK_VALUE      { static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT };
+    static constexpr value_type FLAG_MASK_LAST_VALUE { static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT };
+    static constexpr value_type FLAG_MASK_REST       { static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT };
 
     value_type data;
 
@@ -161,12 +161,12 @@ namespace reseune {
       char const * descr, T const & v, bool const & print_int = true) {
       printf("%s 0b", descr);
 
-      value_type tmp = static_cast<value_type>(v);
+      value_type tmp { static_cast<value_type>(v) };
             
       {
-        uchar_type ix{0};
+        uchar_type ix;
             
-        for (value_type mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
+        for (value_type mask { 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul };
              mask;
              mask >>= 1) {
           putchar((mask & tmp) ? '1' : '0');
