@@ -1,5 +1,5 @@
 CXX      = g++
-CXXLAGS  = -std=gnu++20 -Iinclude -O0 -flto -g
+CXXLAGS  = -std=gnu++20 -Iinclude -O0 -flto -g -DRESEUNE_THROW
 GDB      = gdb
 
 SRC      = $(shell find src -name "*.cpp")
@@ -20,7 +20,7 @@ clean:
 
 test: clean all
 	./$(BIN)
-
+ 
 debug: clean all
 	$(GDB) ./$(BIN)
 
