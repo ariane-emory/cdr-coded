@@ -113,7 +113,7 @@ namespace reseune {
 
     constexpr
     tag type() const {
-      return static_cast<tag>(flag() >> 62); 
+      return static_cast<tag>(flag() >> VALUE_BITS_COUNT); 
     }
 
     constexpr
