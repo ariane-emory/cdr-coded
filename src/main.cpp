@@ -58,7 +58,7 @@ int main() {
       // printf("NIL:\n");
       // nil.describe_instance();
       if (cursor->is_link()) {
-        printf("JUMP!\n");
+        printf("JUMP!\n\n");
         cursor = cursor->link();
       }
       else
