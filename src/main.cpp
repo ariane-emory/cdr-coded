@@ -88,8 +88,8 @@ int main() {
   }
 
   if (true) {
-    for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 7); line++) {
-      for (size_t col = 0; col < 128; col++, ix++)
+    for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 6); line++) {
+      for (size_t col = 0; col < 64; col++, ix++)
       {
         // printf("%zu %zu %zu\n", ix, line, col);
 
