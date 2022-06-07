@@ -15,7 +15,9 @@ namespace reseune {
     typedef uint8_t uchar_type;
 
     enum class tag : uintptr_t {
-      //      last_element,
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+      last_element,
+#endif
       link,
       element,
     };
@@ -27,24 +29,29 @@ namespace reseune {
       default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;        
         CASE(tag::element);
-//        CASE(tag::last_element);
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+        CASE(tag::last_element);
+#endif
         CASE(tag::link);
 #undef CASE
       }
     }
 
     static constexpr uchar_type TAG_BITS_COUNT      { 2 };
-    static constexpr uchar_type VALUE_BITS_COUNT     { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
-    static constexpr value_type MASK_VALUE           { (1ul << VALUE_BITS_COUNT) - 1 };
+    static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
+    static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
     static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
-//    static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+    static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+#endif
     static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
 
     value_type data;
 
     constexpr
-    cell(value_type const & v, tag const & ct = tag::element) 
+    cell(value_type const & v, tag const & ct = tag::element
+         ) 
       : data(v | tag_to_flag_mask(ct)) {}
 
     constexpr
@@ -122,7 +129,9 @@ namespace reseune {
       print_bits("MASK_TAG:                ", MASK_VALUE, false);
       print_bits("MASK_VALUE:                ", MASK_TAG, false);
       print_bits("TAG_MASK_VALUE:           ", TAG_MASK_VALUE, false);
-      //      print_bits("TAG_MASK_LAST_VALUE:      ", TAG_MASK_LAST_VALUE, false);
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+      print_bits("TAG_MASK_LAST_VALUE:      ", TAG_MASK_LAST_VALUE, false);
+#endif
       print_bits("TAG_MASK_LINK:            ", TAG_MASK_LINK, false);
       putchar('\n');
     }
