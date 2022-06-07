@@ -85,14 +85,14 @@ namespace reseune {
         inline
         void describe_instance() const {
             // printf("Cell at:                                                                                           %018p\n", this);
-            print_bits("Cell at:              ", reinterpret_cast<uintptr_t>(this));
-            print_bits("C.data:               ", data);
-            print_bits("C.flag():             ", flag());
-            print_bits("C.type():             ", type());
+            print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
+            print_bits("cell.data:            ", data);
+            print_bits("cell.flag():          ", flag());
+            print_bits("cell.type():          ", type());
             if (is_type(cell_type::rest))
-                print_bits("C.rest():             ", reinterpret_cast<uintptr_t>(rest()));
+                print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
             else
-                print_bits("C.value()             ", value());
+                print_bits("cell.value()          ", value());
             putchar('\n');
         }
         
