@@ -195,9 +195,14 @@ namespace reseune {
       return const_iterator { this };
     }
 
+    static const_iterator nil_iter() {
+      static const_iterator value { nullptr };
+
+      return value;
+    }
+    
     const_iterator end() const {
-      static const_iterator nil_iter { nullptr };
-      return nil_iter;
+      return nil_iter();
     }
 
     static constexpr
