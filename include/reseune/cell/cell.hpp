@@ -20,18 +20,31 @@ namespace reseune {
       rest
     };
 
-    static constexpr uchar_type FLAG_BITS_COUNT      = 2;
-    static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
-    static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
-    static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
-    static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
-    static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
+    static inline constexpr
+    char const *
+    cell_type_as_c_str(cell_type const & ct) {
+      switch (ct) {
+#define CASE(enum_val) case enum_val: return # enum_val;        
+        CASE(cell_type::element);
+        CASE(cell_type::last_element);
+        CASE(cell_type::rest);
+#undef CASE
+             default: return "ERROR";
+             }
+      }
 
-    value_type data;
+      static constexpr uchar_type FLAG_BITS_COUNT      = 2;
+      static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
+      static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
+      static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
+      static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
+      static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
+      static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
 
-    inline constexpr
-    cell(value_type const & v, cell_type const & ct) 
+      value_type data;
+
+      inline constexpr
+        cell(value_type const & v, cell_type const & ct) 
       : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
 
     inline constexpr
@@ -52,11 +65,11 @@ namespace reseune {
       if constexpr(THROW) {                                                     \
         if (! (expr))                                                           \
           throw name {};                                                        \
-      }                                                                       \
-      else if (WARN) {                                                  \
+      }                                                                         \
+      else if (WARN) {                                                          \
         if (! (expr))                                                           \
           printf("WARNING: " # name  "\n");                                     \
-      }                                                                       \
+      }                                                                         \
     }
     
     DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_rest, cell_type::rest != type())
@@ -112,6 +125,7 @@ namespace reseune {
       print_bits("cell.data:            ", data);
       print_bits("cell.flag():          ", flag());
       print_bits("cell.type():          ", type());
+      printf("cell.type() as c_str:  %s\n", cell_type_as_c_str(type()));
       if (is_type(cell_type::rest))
         print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
       else
