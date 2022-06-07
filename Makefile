@@ -7,8 +7,9 @@ CXXLAGS  = \
 	-fno-exceptions \
 	-funroll-loops \
   -Wno-terminate \
-	-DRESEUNE_WARN #-DRESEUNE_THROW #-DNDEBUG
-# -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
+	-DRESEUNE_WARN \
+  -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+  #-DRESEUNE_THROW #-DNDEBUG
 
 GDB      = gdb
 OBJDUMP  = objdump
@@ -35,8 +36,7 @@ debug: clean all
 	$(GDB) ./$(BIN)
 
 dump: clean tmp/main.o
-	gobjdump -t -d tmp/main.o
-#	objdump --section-headers --line-numbers --disassemble -t -C -d -S tmp/main.o
+	$(GOBJDUMP) -t -d tmp/main.o
 
 blah:
 	echo $(UNAME)

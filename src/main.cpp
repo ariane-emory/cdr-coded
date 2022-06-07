@@ -62,9 +62,9 @@ int main() {
   cell::describe_class();
   
 
-#define LINE printf("=================================================================================================================================================\n")
+#define LINE printf("=================================================================================================================================================\n\n")
 
-  if (false)
+if (false)
   {
     uint8_t ix { 0 };
   
@@ -77,45 +77,55 @@ int main() {
     LINE;
   }
 
-  if (true) {
-    uint8_t ix { 0 };
+if (true) {
+  uint8_t ix { 0 };
     
-    for (cell const & c : cells[0]) {
-      LINE;
-      printf("cell #%u\n", ix++);
-      c.describe_instance();
-    }
+  for (cell const & c : cells[0]) {
+    LINE;
+    printf("cell #%u\n", ix++);
+    c.describe_instance();
   }
+}
 
-  if (true) {
-    for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 6); line++) {
-      for (size_t col = 0; col < 64; col++, ix++)
-      {
-        // printf("%zu %zu %zu\n", ix, line, col);
+if (true) {
+  uint8_t ix { 0 };
+    
+  for (cell const & c : cells[4]) {
+    LINE;
+    printf("cell #%u\n", ix++);
+    c.describe_instance();
+  }
+}
 
-        auto cell = cells[ix];
+if (true) {
+  for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 6); line++) {
+    for (size_t col = 0; col < 64; col++, ix++)
+    {
+      // printf("%zu %zu %zu\n", ix, line, col);
+
+      auto cell = cells[ix];
         
-        if (cell.is_element())
-          putchar(static_cast<char>(cell.value()));
-        else if (cell.is_nil())
-          putchar('.');
-        else if (cell.is_link()) {
-          if (cell.link() > &cell)
-            putchar('<');
-          else if (cell.link() < &cell)
-            putchar('>');
-          else
-            putchar('x');
-        }
+      if (cell.is_element())
+        putchar(static_cast<char>(cell.value()));
+      else if (cell.is_nil())
+        putchar('.');
+      else if (cell.is_link()) {
+        if (cell.link() > &cell)
+          putchar('<');
+        else if (cell.link() < &cell)
+          putchar('>');
         else
-          putchar('?');
-
-        // else if (cell.is_nil())
-        //   putchar('.');
-        // else
-        //   putchar('?');
+          putchar('x');
       }
-      putchar('\n');
+      else
+        putchar('?');
+
+      // else if (cell.is_nil())
+      //   putchar('.');
+      // else
+      //   putchar('?');
     }
+    putchar('\n');
   }
+}
 }
