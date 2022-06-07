@@ -10,7 +10,7 @@ CXXLAGS  = \
 # -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 
 GDB      = gdb
-OBJDUMP  = gobjdump
+OBJDUMP  = objdump
 SRC      = $(shell find src -name "*.cpp")
 OBJ      = $(patsubst src/%.cpp, tmp/%.o, $(SRC))
 BIN      = cdr-coded
@@ -34,7 +34,8 @@ debug: clean all
 	$(GDB) ./$(BIN)
 
 dump: clean tmp/main.o
-	objdump --section-headers --line-numbers --disassemble -t -C -d -S tmp/main.o
+	gobjdump -t -d tmp/main.o
+#	objdump --section-headers --line-numbers --disassemble -t -C -d -S tmp/main.o
 
 blah:
 	echo $(UNAME)
