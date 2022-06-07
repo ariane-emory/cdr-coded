@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <bit>
+#include <cassert>
 
 namespace reseune {
   class cell {
@@ -29,16 +30,20 @@ namespace reseune {
 
     inline constexpr
     cell(value_type const & v, cell_type const & ct)
-      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
-        
+      : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
+      assert(cell_type::rest != ct);
+    }
+    
     inline constexpr
     cell(cell * const v, cell_type const & ct)
-      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
+      : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
+      assert(cell_type::rest == ct);
+    }
 
     inline constexpr
     cell()
       : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
-        
+    
 
     inline constexpr
     value_type value() const {
