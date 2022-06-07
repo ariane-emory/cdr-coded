@@ -71,7 +71,7 @@ namespace reseune {
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-            printf("Cell at:                                                                                           %018p\n", this);
+            // printf("Cell at:                                                                                           %018p\n", this);
             print_bits("Cell at:              ", reinterpret_cast<uintptr_t>(this));
             print_bits("C.data:               ", data);
             print_bits("C.flag():             ", flag());
@@ -94,7 +94,8 @@ namespace reseune {
         }
 
         template <typename T>
-        static void print_bits(char const * descr, T const & v, bool const & print_int = true) {
+        static void print_bits(
+            char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
             value_type tmp = static_cast<value_type>(v);
