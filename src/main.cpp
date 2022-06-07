@@ -58,11 +58,13 @@ int main() {
       cursor->describe_instance();
       // printf("NIL:\n");
       // nil.describe_instance();
-      if (cursor->is_link()) {
+
+      if (cursor->is_link()) [[unlikely]] {
         cursor = &**cursor;
       }
-      else
+      else [[likely]] {
         cursor++;
+      }
     }
   }
 }

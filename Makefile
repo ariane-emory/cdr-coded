@@ -2,7 +2,7 @@ CXX      = g++-11
 CXXLAGS  = \
 	-std=gnu++20 \
 	-Iinclude \
-	-O0 \
+	-O1 \
 	-flto \
 	-g \
 	-Wno-terminate \
@@ -33,3 +33,5 @@ test: clean all
 debug: clean all
 	$(GDB) ./$(BIN)
 
+dump: clean tmp/main.o
+	objdump --section-headers --line-numbers --disassemble -t -C -d -S tmp/main.o
