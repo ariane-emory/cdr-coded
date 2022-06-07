@@ -4,7 +4,6 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <bit>
-#include <cassert>
 
 namespace reseune {
   class cell {
@@ -43,15 +42,11 @@ namespace reseune {
 
     inline constexpr
     value_type value() const {
-      assert(! is_type(cell_type::rest));
-            
       return get_value();
     }
 
     inline constexpr
     cell const * rest() const {
-      assert(is_type(cell_type::rest));
-            
       return get_rest();
     }
         
