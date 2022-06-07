@@ -47,7 +47,7 @@ int main() {
 
   printf("================================================================================\n");
 
-  if (true)
+  while (true)
   {
     uint8_t ix { 0 };
   
@@ -60,7 +60,7 @@ int main() {
       // nil.describe_instance();
 
       if (cursor->is_link()) [[unlikely]] {
-        cursor = &**cursor;
+        cursor = cursor->link();
       }
       else [[likely]] {
         cursor++;
