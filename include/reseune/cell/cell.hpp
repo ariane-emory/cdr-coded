@@ -229,7 +229,12 @@ namespace reseune {
         print_bits("cell.value()               ", value());
       putchar('\n');
     }
-        
+
+    constexpr
+    bool is_nil() const {
+      return *this == cell {};
+    }
+    
   private:
     constexpr
     value_type get_value() const {

@@ -14,26 +14,27 @@ void describe_some_sizes() {
   printf("\n");
 }
 
+cell cells[1 << 12] = { // 4096 cells, 32k memory
+  /*  0 */ 10,
+  /*  1 */ 20,
+  /*  2 */ 30,
+  /*  3 */ &cells[6],
+  /*  4 */ nil, 
+  /*  5 */ nil,
+  /*  6 */ 40,
+  /*  7 */ 50,
+  /*  8 */ 60,
+  /*  9 */ &cells[11],
+  /* 10 */ nil,
+  /* 11 */ 70,
+  /* 12 */ nil
+};
+
 int main() {
   describe_some_sizes();
     
   cell::describe_class();
   
-  cell cells[1024] = {
-    /*  0 */ 10,
-    /*  1 */ 20,
-    /*  2 */ 30,
-    /*  3 */ &cells[6],
-    /*  4 */ nil, 
-    /*  5 */ nil,
-    /*  6 */ 40,
-    /*  7 */ 50,
-    /*  8 */ 60,
-    /*  9 */ &cells[11],
-    /* 10 */ nil,
-    /* 11 */ 70,
-    /* 12 */ nil
-  };
 
 #define LINE printf("=================================================================================================================================================\n")
 
@@ -53,10 +54,34 @@ int main() {
   if (true) {
     uint8_t ix { 0 };
     
-    for (cell c : cells[0]) {
+    for (cell const & c : cells[0]) {
       LINE;
       printf("cell #%u\n", ix++);
       c.describe_instance();
+    }
+  }
+
+  if (true) {
+    for (size_t ix = 0, line = 0; line < 32; line++) {
+      for (size_t col = 0; col < 128; col++, ix++)
+      {
+        // printf("%zu %zu %zu\n", ix, line, col);
+
+        auto cell = cells[ix];
+        
+        if (cell.is_element())
+          putchar('e');
+        else if (cell.is_nil())
+          putchar('.');
+        else
+          putchar('l');
+
+        // else if (cell.is_nil())
+        //   putchar('.');
+        // else
+        //   putchar('?');
+      }
+      putchar('\n');
     }
   }
 }
