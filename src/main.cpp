@@ -35,17 +35,30 @@ int main() {
     /* 12 */ nil
   };
 
-  uint8_t ix { 0 };
+  // {
+  //   uint8_t ix { 0 };
   
-  for (cell & i : cells) {
-    printf("cell # %u\n", ix++);
+  //   for (cell & i : cells) {
+  //     printf("cell # %u\n", ix++);
     
-    i.describe_instance();
-  }
-
-  cell * cursor = cells;
-  while (cursor != nil) {
-    cursor->describe_instance();
+  //     i.describe_instance();
+  //   }
+  // }
+  {
+    uint8_t ix { 0 };
+  
+    cell * cursor = cells;
+  
+    while (*cursor != nil) {
+      printf("cell # %u\n", ix++);
+      cursor->describe_instance();
+      // printf("NIL:\n");
+      // nil.describe_instance();
+      if (cursor->is_link())
+        cursor = &*cursor;
+      else
+        cursor++;
+    }
   }
 }
 
