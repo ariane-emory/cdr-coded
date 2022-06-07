@@ -15,21 +15,38 @@ void describe_some_sizes() {
 }
 
 constexpr size_t MEMORY_SIZE = 1<<12; // 4096 cells, 32k memory
-cell cells[MEMORY_SIZE] = { 
-  /*  0 */ 10,
-  /*  1 */ 20,
-  /*  2 */ 30,
-  /*  3 */ &cells[6],
-  /*  4 */ nil, 
-  /*  5 */ nil,
-  /*  6 */ 40,
-  /*  7 */ 50,
-  /*  8 */ 60,
-  /*  9 */ &cells[11],
-  /* 10 */ nil,
-  /* 11 */ 70,
-  /* 12 */ nil
-};
+
+// cell cells[MEMORY_SIZE] = { 
+//   /*  0 */ 10,
+//   /*  1 */ 20,
+//   /*  2 */ 30,
+//   /*  3 */ &cells[6],
+//   /*  4 */ nil, 
+              //   /*  5 */ nil,
+              //   /*  6 */ 40,
+              //   /*  7 */ 50,
+              //   /*  8 */ 60,
+              //   /*  9 */ &cells[11],
+              //   /* 10 */ nil,
+              //   /* 11 */ 70,
+              //   /* 12 */ nil
+              // };
+
+  cell cells[MEMORY_SIZE] = { 
+    /*  0 */ 88,
+    /*  1 */ 88,
+    /*  2 */ 88,
+    /*  3 */ &cells[6],
+    /*  4 */ nil, 
+    /*  5 */ nil,
+    /*  6 */ 88,
+    /*  7 */ 88,
+    /*  8 */ 88,
+    /*  9 */ &cells[11],
+    /* 10 */ nil,
+    /* 11 */ 88,
+    /* 12 */ nil
+  };
 
 int main() {
   describe_some_sizes();
