@@ -4,7 +4,8 @@ CXXLAGS  = \
 	-Iinclude \
 	-O1 \
 	-g \
-	-Wno-terminate \
+	-fno-exceptions \
+  -Wno-terminate \
 	-DRESEUNE_WARN #-DRESEUNE_THROW #-DNDEBUG
 # -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 

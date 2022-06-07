@@ -48,6 +48,7 @@ namespace reseune {
     cell() 
       : data(0 | static_cast<value_type>(tag_t::link)) {}
     
+#ifdef RESEUNE_THROW
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name : public std::logic_error {                                      \
     public:                                                                     \
@@ -56,15 +57,22 @@ namespace reseune {
     constexpr                                                                   \
     void                                                                        \
     ASSERT_ ## name() const {                                                   \
-      if constexpr(THROW) {                                                     \
-        if (! (expr)) [[unlikely]]                                              \
-          throw name {};                                                        \
-      }                                                                         \
-      else if (WARN) {                                                          \
-        if (! (expr)) [[unlikely]]                                              \
-          printf("WARNING: " # name  "\n");                                     \
-      }                                                                         \
+      if (! (expr)) [[unlikely]]                                                \
+        throw name {};                                                          \
     }
+#else
+#define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
+    class name : public std::logic_error {                                      \
+    public:                                                                     \
+    name() : std::logic_error(# name) {};                                       \
+    };                                                                          \
+    constexpr                                                                   \
+    void                                                                        \
+    ASSERT_ ## name() const {                                                   \
+      if (! (expr)) [[unlikely]]                                                \
+        printf("WARNING: " # name  "\n");                                       \
+    }
+#endif
     
     DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_t::link != tag())
     DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_t::link == tag())

@@ -56,8 +56,6 @@ int main() {
    while (*cursor != nil) {
      printf("cell # %u\n", ix++);
      cursor->describe_instance();
-     // printf("NIL:\n");
-     // nil.describe_instance();
 
      if (cursor->is_link()) [[unlikely]] {
        cursor = cursor->link();
