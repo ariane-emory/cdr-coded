@@ -47,6 +47,7 @@ namespace reseune {
             data = 0 | (static_cast<value_type>(cell_type::invalid) << VALUE_BITS_COUNT);
         }
         
+
         inline constexpr
         value_type value() const {
             assert(! is_type(cell_type::rest));
@@ -54,53 +55,53 @@ namespace reseune {
             return get_value();
         }
 
-        inline constexpr
-        cell const * rest() const {
-            assert(is_type(cell_type::rest));
+            inline constexpr
+                cell const * rest() const {
+                assert(is_type(cell_type::rest));
             
-            return get_rest();
-        }
+                return get_rest();
+            }
         
-        inline constexpr
-        value_type flag() const {
-            return data & MASK_FLAG;
-        }
+            inline constexpr
+                value_type flag() const {
+                return data & MASK_FLAG;
+            }
 
-        inline constexpr
-        cell_type type() const {
-            return static_cast<cell_type>(flag() >> 62); 
-        }
+            inline constexpr
+                cell_type type() const {
+                return static_cast<cell_type>(flag() >> 62); 
+            }
 
-        inline constexpr
-        bool is_type(cell_type const & ct) const {
-            return type() == ct; 
-        }
+            inline constexpr
+                bool is_type(cell_type const & ct) const {
+                return type() == ct; 
+            }
         
-        static inline
-        void describe_class() {
-            print("VB:                   ", VALUE_BITS_COUNT);
-            print("FB:                   ", FLAG_BITS_COUNT);
-            print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
-            print_bits("MASK_VALUE:           ", MASK_FLAG, false);
-            print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
-            print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
-            print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-            putchar('\n');
-        }
+            static inline
+                void describe_class() {
+                print("VB:                   ", VALUE_BITS_COUNT);
+                print("FB:                   ", FLAG_BITS_COUNT);
+                print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
+                print_bits("MASK_VALUE:           ", MASK_FLAG, false);
+                print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
+                print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
+                print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
+                putchar('\n');
+            }
         
-        inline
-        void describe_instance() const {
-            // printf("Cell at:                                                                                           %018p\n", this);
-            print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
-            print_bits("cell.data:            ", data);
-            print_bits("cell.flag():          ", flag());
-            print_bits("cell.type():          ", type());
-            if (is_type(cell_type::rest))
-                print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
-            else
-                print_bits("cell.value()          ", value());
-            putchar('\n');
-        }
+            inline
+                void describe_instance() const {
+                // printf("Cell at:                                                                                           %018p\n", this);
+                print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
+                print_bits("cell.data:            ", data);
+                print_bits("cell.flag():          ", flag());
+                print_bits("cell.type():          ", type());
+                if (is_type(cell_type::rest))
+                    print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
+                else
+                    print_bits("cell.value()          ", value());
+                putchar('\n');
+            }
         
     private:
         inline constexpr
@@ -155,4 +156,7 @@ namespace reseune {
         conspair() {}
     };
 }
+
+//static constexpr reseune::cell nil { 0, reseune::cell::cell_type::rest };
+
 #endif
