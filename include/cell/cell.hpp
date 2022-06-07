@@ -15,8 +15,7 @@ namespace reseune {
     enum class cell_type : uintptr_t {
       element = 1,
       last_element,
-      rest,
-      invalid
+      rest
     };
 
     static constexpr uchar_type FLAG_BITS_COUNT      = 2;
