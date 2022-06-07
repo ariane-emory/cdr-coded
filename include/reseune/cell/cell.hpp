@@ -33,12 +33,6 @@ namespace reseune {
       element = 1ul << VALUE_BITS_COUNT,
     };
 
-//     static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag_t::element)      << VALUE_BITS_COUNT };
-// #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-//     static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag_t::last_element) << VALUE_BITS_COUNT };
-// #endif
-//     static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag_t::link)         << VALUE_BITS_COUNT };
-
     value_type data;
 
     constexpr
@@ -152,16 +146,10 @@ namespace reseune {
       print("TAG_BITS_COUNT:            ", TAG_BITS_COUNT);
       print_bits("MASK_TAG:                  ", MASK_VALUE, false);
       print_bits("MASK_VALUE:                ", MASK_TAG, false);
-//       print_bits("TAG_MASK_VALUE:            ", TAG_MASK_VALUE, false);
-// #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-//       print_bits("TAG_MASK_LAST_VALUE:       ", TAG_MASK_LAST_VALUE, false);
-// #endif
-//       print_bits("TAG_MASK_LINK:             ", TAG_MASK_LINK, false);
       putchar('\n');
     }
         
     void describe_instance() const {
-      // printf("Cell at:                                                                                           %018p\n", this);
       print_bits("cell @                     ", reinterpret_cast<uintptr_t>(this));
       print_bits("cell.data:                 ", data);
       print_bits("cell.tag():                ", tag());
@@ -174,18 +162,6 @@ namespace reseune {
     }
         
   private:
-    // static constexpr
-    // value_type
-    // value_to_flag_mask(value_type const & vt) {
-    //   return vt << VALUE_BITS_COUNT;
-    // }
-
-    // static constexpr
-    // value_type
-    // tag_to_flag_mask(tag_t const & ct) {
-    //   return value_to_flag_mask(static_cast<value_type>(ct));
-    // }
-    
     constexpr
     value_type get_value() const {
       return data & MASK_VALUE;
@@ -234,21 +210,11 @@ namespace reseune {
 
   static constinit
   cell nil {};
-  // 0ul,
-  //   reseune::cell::tag_t::link
-  // };
-
-  // static constinit
-  // cell * nil = &_nil;
 
 #ifdef RESEUNE_CONS
   struct cons {
     cell car, cdr;
     
-    // constexpr
-    // cons(cell::value_type const & car_, cell * const cdr_ = nil)
-    //   : car(car_, cell::tag_t::element), cdr(cdr_, cell::tag_t::link) {}
-
     constexpr
     cons(cell::value_type const & car_, cell & cdr_)
       : car(car_, cell::tag_t::element), cdr(&cdr_, cell::tag_t::link) {}
