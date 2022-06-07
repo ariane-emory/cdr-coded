@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <exception>
+#include <bit>
 
 namespace reseune {
     class cell {
@@ -34,8 +35,8 @@ namespace reseune {
             return data & MASK_VALUE;
         }
 
-        inline cell const * rest() const {
-            return reinterpret_cast<cell const *>(value());
+        inline constexpr cell const * rest() const {
+            return std::bit_cast<cell const *>(value());
         }
         
         inline constexpr value_type flag() const {
@@ -62,6 +63,7 @@ namespace reseune {
             print_bits("C.flag():             ", flag());
             print_bits("C.value()             ", value());
             print_bits("C.type():             ", type());
+            print_bits("C.rest():             ", reinterpret_cast<uintptr_t>(rest()));
             // print("FB:          ", FLAG_BITS_COUNT);
         }
         
