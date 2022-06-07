@@ -26,10 +26,10 @@ namespace reseune {
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
 
     enum class tag_t : uintptr_t {
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      last_element,
-#endif
       link,
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+      last_element = 1ul << VALUE_BITS_COUNT + 1,
+#endif
       element = 1ul << VALUE_BITS_COUNT,
     };
 
