@@ -48,14 +48,21 @@ namespace reseune {
     : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
 
+#define LOGIC_ERROR(name)                                                       \
+    class must_be_a_rest   : public std::logic_error {                          \
+    public:                                                                     \
+    must_be_a_rest() : std::logic_error("must_be_a_rest") {};                   \
+    };                                                                          \ 
+                                                                                \
+    inline constexpr                                                            \
+    void assert_must_be_a_rest() const {                                        \
+      if (cell_type::rest != type())                                            \
+        throw new must_be_a_rest();                                             \
+    }
+    
     class must_be_a_rest   : public std::logic_error {
     public:
       must_be_a_rest() : std::logic_error("must_be_a_rest") {};
-    };
-
-    class cannot_be_a_rest : public std::logic_error {
-    public:
-      cannot_be_a_rest() : std::logic_error("cannot_be_a_rest") {};
     };
 
     inline constexpr
@@ -63,6 +70,11 @@ namespace reseune {
       if (cell_type::rest != type())
         throw new must_be_a_rest();
     }
+
+    class cannot_be_a_rest : public std::logic_error {
+    public:
+      cannot_be_a_rest() : std::logic_error("cannot_be_a_rest") {};
+    };
 
     inline constexpr
     void assert_cannot_be_a_rest() const {
