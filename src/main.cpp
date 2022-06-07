@@ -27,10 +27,19 @@ int main() {
   // (*bcell).describe_instance();
 
   cell cells[] = {
-    { 10, cell::cell_type::element },
-    { 20, cell::cell_type::element },
-    { 30, cell::cell_type::element },
-    nil
+    /*  0 */ { 10, cell::cell_type::element },
+    /*  1 */ { 20, cell::cell_type::element },
+    /*  2 */ { 30, cell::cell_type::element },
+    /*  3 */ nil,
+    /*  4 */ nil, 
+    /*  5 */ nil,
+    /*  6 */ { 40, cell::cell_type::element },
+    /*  7 */ { 50, cell::cell_type::element },
+    /*  8 */ { 60, cell::cell_type::element },
+    /*  9 */ nil,
+    /* 10 */ nil,
+    /* 11 */ { 70, cell::cell_type::element },
+    /* 12 */ nil
   };
 
   for (cell & i : cells) {

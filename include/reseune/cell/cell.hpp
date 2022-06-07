@@ -16,13 +16,13 @@ namespace reseune {
 
     enum class cell_type : uintptr_t {
       //      last_element,
+      element,
       link,
-      element
     };
 
     static constexpr
     char const * const
-    cell_type_as_c_str(cell_type const & ct) {
+    cell_type_c_str(cell_type const & ct) {
       switch (ct) {
       default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;        
@@ -43,14 +43,8 @@ namespace reseune {
 
     value_type data;
 
-    static constexpr
-    value_type
-    cell_type_to_flag_mask(cell_type const & ct) {
-      return static_cast<value_type>(ct) << VALUE_BITS_COUNT;
-    }
-    
     constexpr
-    cell(value_type const & v, cell_type const & ct) 
+    cell(value_type const & v, cell_type const & ct = cell_type::element) 
       : data(v | cell_type_to_flag_mask(ct)) {}
 
     constexpr
@@ -139,7 +133,7 @@ namespace reseune {
       print_bits("cell.data:                 ", data);
       print_bits("cell.flag():               ", flag());
       print_bits("cell.type():               ", type());
-      printf("cell.type() as c_str:       %s\n", cell_type_as_c_str(type()));
+      printf("cell.type() as c_str:       %s\n", cell_type_c_str(type()));
       if (is_type(cell_type::link))
         print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
       else
@@ -148,6 +142,12 @@ namespace reseune {
     }
         
   private:
+    static constexpr
+    value_type
+    cell_type_to_flag_mask(cell_type const & ct) {
+      return static_cast<value_type>(ct) << VALUE_BITS_COUNT;
+    }
+    
     constexpr
     value_type get_value() const {
       return data & MASK_VALUE;
