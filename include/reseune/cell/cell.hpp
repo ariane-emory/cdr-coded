@@ -190,7 +190,8 @@ namespace reseune {
     }
   };
 
-  static constinit cell nil {
+  static constinit
+  cell nil {
     static_cast<reseune::cell::value_type>(0),
     reseune::cell::cell_type::rest
   };
