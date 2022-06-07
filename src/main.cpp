@@ -42,7 +42,11 @@ int main() {
     /* 12 */ nil
   };
 
+  uint8_t ix { 0 };
+  
   for (cell & i : cells) {
+    printf("cell # %u\n", ix++);
+    
     i.describe_instance();
   }
 }
