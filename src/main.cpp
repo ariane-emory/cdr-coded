@@ -36,16 +36,24 @@ constexpr size_t MEMORY_SIZE = 1<<12; // 4096 cells, 32k memory
     /*  0 */ 88,
     /*  1 */ 88,
     /*  2 */ 88,
-    /*  3 */ &cells[6],
-    /*  4 */ nil, 
-    /*  5 */ nil,
-    /*  6 */ 88,
+    /*  3 */ &cells[7],
+    /*  4 */ 89, 
+    /*  5 */ &cells[13],
+    /*  6 */ nil,
     /*  7 */ 88,
     /*  8 */ 88,
     /*  9 */ &cells[11],
     /* 10 */ nil,
     /* 11 */ 88,
-    /* 12 */ nil
+    /* 12 */ nil,
+    /* 13 */ 89,
+    /* 14 */ 89,
+    /* 15 */ &cells[17],
+    /* 16 */ nil,
+    /* 17 */ 89,
+    /* 18 */ nil,
+    /* 19 */ nil,
+    /* 20 */ nil    
   };
 
 int main() {
@@ -88,7 +96,7 @@ int main() {
         auto cell = cells[ix];
         
         if (cell.is_element())
-          putchar('e');
+          putchar(static_cast<char>(cell.value()));
         else if (cell.is_nil())
           putchar('.');
         else if (cell.is_link()) {
