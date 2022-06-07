@@ -3,7 +3,6 @@
 
 #include <inttypes.h>
 #include <stdio.h>
-#include <exception>
 #include <bit>
 #include <cassert>
 
@@ -33,30 +32,13 @@ namespace reseune {
         }
         
         inline constexpr value_type value() const {
-#define MSG "WARNING: Cell is not an element or last_element.\n"
-#ifdef NDEBUG
-            printf(MSG);
-#if RESEUNE_THROW
-            throw new std::logic_error(MSG);
-#elif NDEBUG
-#else
             assert(type_is(cell_type::element) || type_is(cell_type::last_element));
-#endif
-#undef MSG
             
             return get_value();
         }
 
         inline constexpr cell const * rest() const {
-#define MSG "WARNING: Cell is not a rest.\n"
-#if RESEUNE_THROW
-            throw new std::logic_error(MSG);
-#elif NDEBUG
-            printf(MSG);
-#else
             assert(type_is(cell_type::rest));
-#endif
-#undef MSG
             
             return get_rest();
         }
