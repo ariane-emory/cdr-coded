@@ -73,8 +73,10 @@ int main() {
           putchar('e');
         else if (cell.is_nil())
           putchar('.');
-        else
+        else if (cell.is_link())
           putchar('l');
+        else
+          putchar('?');
 
         // else if (cell.is_nil())
         //   putchar('.');
