@@ -152,10 +152,14 @@ namespace reseune {
       pointer_to_cell   operator -> () { return m_ptr; }
 
       void next() {
-        if (m_ptr->is_link())
+        if (m_ptr->is_link()) {
+          printf("Jumping!\n");
           m_ptr = m_ptr->link();
-        else
+        }
+        else {
+          printf("Stepping!\n");
           m_ptr++;
+        }
       }
       
       iterator & operator ++ () {
@@ -269,7 +273,7 @@ namespace reseune {
   };
 
   static constinit
-  cell nil {};
+  cell nil { };
 
 #ifdef RESEUNE_CONS
   struct cons {

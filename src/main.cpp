@@ -35,6 +35,9 @@ int main() {
     /* 12 */ nil
   };
 
+#define LINE printf("================================================================================\n")
+
+  if (false)
   {
     uint8_t ix { 0 };
   
@@ -43,26 +46,37 @@ int main() {
     
       i.describe_instance();
     }
+
+    LINE;
+  }
+  
+  if  (false)
+  {
+    uint8_t ix { 0 };
+  
+    const cell * cursor = cells;
+  
+    while (*cursor != nil) {
+      printf("cell # %u\n", ix++);
+      cursor->describe_instance();
+
+      if (cursor->is_link()) [[unlikely]] {
+        cursor = cursor->link();
+      }
+      else [[likely]] {
+        cursor++;
+      }
+    }
+
+    LINE;
   }
 
-  printf("================================================================================\n");
-
-  if  (true)
-  {
-   uint8_t ix { 0 };
-  
-   const cell * cursor = cells;
-  
-   while (*cursor != nil) {
-     printf("cell # %u\n", ix++);
-     cursor->describe_instance();
-
-     if (cursor->is_link()) [[unlikely]] {
-       cursor = cursor->link();
-     }
-     else [[likely]] {
-       cursor++;
-     }
-   }
- }
+  if (true) {
+    uint8_t ix { 0 };
+    
+    for (cell c : cells[0]) {
+      printf("cell # %u\n", ix++);
+      c.describe_instance();
+    }
+  }
 }
