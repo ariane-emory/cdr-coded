@@ -12,15 +12,28 @@ int main() {
     printf("Size of unsigned long = %zu\n", sizeof(unsigned long));
     printf("Size of unsigned long long = %zu\n", sizeof(unsigned long long));
     printf("\n");
+
+
     
     if (true) {
-        reseune::cell acell(33);
+        reseune::cell acell(33, cell::cell_type::element);
 
         acell.describe();
         printf("%s\n",
                acell.type_is(cell::cell_type::element)
                ? "Yes"
                : "No");
+
+        reseune::cell bcell(33, cell::cell_type::rest);
+
+        printf("\n");
+        
+        bcell.describe();
+        printf("%s\n",
+               bcell.type_is(cell::cell_type::element)
+               ? "Yes"
+               : "No");
+
     }
 }
 

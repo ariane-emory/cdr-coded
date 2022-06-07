@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <exception>
 #include <bit>
+#include <cassert>
 
 namespace reseune {
     class cell {
@@ -27,16 +28,36 @@ namespace reseune {
 
         value_type data;
 
-        inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
+        inline constexpr cell(value_type const & v, cell_type const & ct) {
             data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
         inline constexpr value_type value() const {
-            return data & MASK_VALUE;
+#define MSG "WARNING: Cell is not an element or last_element.\n"
+#ifdef NDEBUG
+            printf(MSG);
+#elif RESEUNE_THROW
+            throw new std::logic_error(MSG);
+#else
+            assert(type_is(cell_type::element) || type_is(cell_type::last_element));
+#endif
+#undef MSG
+            
+            return get_value();
         }
 
         inline constexpr cell const * rest() const {
-            return std::bit_cast<cell const *>(value());
+#define MSG "WARNING: Cell is not a rest.\n"
+#ifdef NDEBUG
+            printf(MSG);
+#elif RESEUNE_THROW
+            throw new std::logic_error(MSG);
+#else
+            assert(type_is(cell_type::rest));
+#endif
+#undef MSG
+            
+            return get_rest();
         }
         
         inline constexpr value_type flag() const {
@@ -68,6 +89,14 @@ namespace reseune {
         }
         
     private:
+        inline constexpr value_type get_value() const {
+            return data & MASK_VALUE;
+        }
+
+        inline constexpr cell const * get_rest() const {
+            return std::bit_cast<cell const *>(get_value());
+        }
+
         template <typename T>
         static void print_bits(char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
