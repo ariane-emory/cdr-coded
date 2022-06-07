@@ -133,8 +133,9 @@ namespace reseune {
 
     constexpr
     cell const &
-    operator*(){
+    operator*() const {
       assert_must_be_a_link();
+      printf("DEREF!\n\n");
       return *link();
     }
 
