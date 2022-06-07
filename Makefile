@@ -3,8 +3,9 @@ CXXLAGS  = \
 	-std=c++20 \
 	-Iinclude \
 	-O1 \
-	-g \
+	-ggdb \
 	-fno-exceptions \
+	-funroll-loops \
   -Wno-terminate \
 	-DRESEUNE_WARN #-DRESEUNE_THROW #-DNDEBUG
 # -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
