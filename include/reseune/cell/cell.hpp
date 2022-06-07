@@ -219,9 +219,9 @@ namespace reseune {
     }
         
     void describe_instance() const {
-      print_bits("cell @                     ", reinterpret_cast<uintptr_t>(this));
-      print_bits("cell.data:                 ", data);
-      print_bits("cell.tag():                ", tag());
+      print_bits("cell is at                 ", reinterpret_cast<uintptr_t>(this), true, false);
+      // print_bits("cell.data:                 ", data);
+      // print_bits("cell.tag():                ", tag());
       printf("cell.tag() as c_str:        %s\n", tag_t_as_c_str(tag()));
       if (is_type(tag_t::link))
         print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
@@ -245,8 +245,16 @@ namespace reseune {
     template <typename T>
     static
     void print_bits(
-      char const * descr, T const & v, bool const & print_int = true) {
-      printf("%s 0b", descr);
+      char const * descr,
+      T const & v,
+      bool const & show_int = true,
+      bool const & show_bits = true) {
+
+      printf(
+        show_bits
+        ? "%s 0b"
+        : "%s   ",
+        descr);
 
       value_type tmp { static_cast<value_type>(v) };
             
@@ -256,17 +264,26 @@ namespace reseune {
         for (value_type mask { 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul };
              mask;
              mask >>= 1) {
-          putchar((mask & tmp) ? '1' : '0');
+          if (show_bits)
+            putchar((mask & tmp) ? '1' : '0');
+          else
+            putchar(' ');
 
           ++ix %= 8;
 
           if (0 == ix && mask > 1) [[unlikely]]
-            putchar('\'');
+            putchar(show_bits
+                    ? '\''
+                    : ' ');
         }
       }
             
-      if (print_int) [[likely]]
-        printf(" = 0x%016lx = % 20lu\n", tmp, tmp);
+      if (show_int) [[likely]]
+        printf(show_bits
+               ? " = 0x%016lx = % 20lu\n"
+               : "   0x%016lx = % 20lu\n",
+               tmp,
+               tmp);
       else [[unlikely]]
         putchar('\n');
     }

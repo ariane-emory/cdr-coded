@@ -54,7 +54,7 @@ int main() {
     uint8_t ix { 0 };
     
     for (cell c : cells[0]) {
-      printf("cell # %u\n", ix++);
+      printf("cell #%u\n", ix++);
       c.describe_instance();
     }
   }
