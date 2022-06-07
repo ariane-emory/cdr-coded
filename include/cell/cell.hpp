@@ -10,7 +10,7 @@ namespace reseune {
     public:
         typedef uintptr_t value_type;
 
-        enum cell_type : uintptr_t {
+        enum class cell_type : uintptr_t {
             element = 1,
             last_element,
             rest 
@@ -20,20 +20,24 @@ namespace reseune {
         static constexpr uint8_t    VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
         static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
         static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
-        static constexpr value_type FLAG_MASK_VALUE      = cell_type::element      << VALUE_BITS_COUNT;
-        static constexpr value_type FLAG_MASK_LAST_VALUE = cell_type::last_element << VALUE_BITS_COUNT;
-        static constexpr value_type FLAG_MASK_REST       = cell_type::rest         << VALUE_BITS_COUNT;
+        static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
+        static constexpr value_type FLAG_MASK_LAST_VALUE = static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT;
+        static constexpr value_type FLAG_MASK_REST       = static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT;
 
         value_type data;
 
         inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
-            data = v | (ct << VALUE_BITS_COUNT);
+            data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
         inline constexpr value_type value() const {
             return data & MASK_VALUE;
         }
 
+        inline cell const * rest() const {
+            return reinterpret_cast<cell const *>(value());
+        }
+        
         inline constexpr value_type flag() const {
             return data & MASK_FLAG;
         }
