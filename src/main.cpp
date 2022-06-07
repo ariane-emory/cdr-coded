@@ -14,11 +14,11 @@ int main() {
     printf("\n");
     
     if (true) {
-        reseune::cell<2> acell(33);
+        reseune::cell acell(33);
 
         acell.describe();
         printf("%s\n",
-               acell.type_is(cell<2>::cell_type::element)
+               acell.type_is(cell::cell_type::element)
                ? "Yes"
                : "No");
     }
