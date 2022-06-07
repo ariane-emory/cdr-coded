@@ -136,14 +136,17 @@ namespace reseune {
     }
   };
 
+  static constexpr cell nil { static_cast<reseune::cell::value_type>(0), reseune::cell::cell_type::rest };
   struct conspair {
     cell car, cdr;
 
     inline constexpr
     conspair() {}
   };
+
 }
 
-static constexpr reseune::cell nil { static_cast<reseune::cell::value_type>(0), reseune::cell::cell_type::rest };
+
+
 
 #endif
