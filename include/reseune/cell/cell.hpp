@@ -156,6 +156,8 @@ namespace reseune {
       void next() {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
         if (m_ptr->is_last_element()) {
+          printf("EARLY STOP!\n");
+          
           m_ptr = nullptr;
         }
         else
@@ -195,14 +197,8 @@ namespace reseune {
       return const_iterator { this };
     }
 
-    static const_iterator nil_iter() {
-      static const_iterator value { nullptr };
-
-      return value;
-    }
-    
     const_iterator end() const {
-      return nil_iter();
+      return const_iterator { nullptr };
     }
 
     static constexpr

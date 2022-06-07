@@ -44,9 +44,9 @@ constexpr size_t MEMORY_SIZE = 1<<10; // 1024 cells, 8k memory
     /*  8 */ 88,
     /*  9 */ &cells[11],
     /* 10 */ nil,
-    /* 11 */ 88,
+    /* 11 */ { 88, cell::tag_t::last_element },
     /* 12 */ nil,
-    /* 13 */ 89,
+    /* 13 */ { 89, cell::tag_t::last_element },
     /* 14 */ 89,
     /* 15 */ &cells[17],
     /* 16 */ nil,
@@ -105,10 +105,12 @@ if (true) {
 
       auto cell = cells[ix];
         
-      if (cell.is_element())
-        putchar(static_cast<char>(cell.value()));
-      else if (cell.is_nil())
+      if (cell.is_nil())
         putchar('.');
+      else if (cell.is_element())
+        putchar(static_cast<char>(cell.value()));
+      else if (cell.is_last_element())
+        putchar(static_cast<char>(cell.value()+32));
       else if (cell.is_link()) {
         if (cell.link() > &cell)
           putchar('<');
