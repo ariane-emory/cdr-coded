@@ -136,10 +136,10 @@ namespace reseune {
     struct const_iterator
     {
       typedef std::forward_iterator_tag iterator_category;
-      typedef std::ptrdiff_t difference_type  ;
-      typedef cell value_type       ;
-      typedef const cell * pointer_type     ;  // or also value_type*
-      typedef const cell & reference_type   ;
+      typedef std::ptrdiff_t            difference_type ;
+      typedef cell                      value_type;
+      typedef cell const *              pointer_type; 
+      typedef cell const &              reference_type;
       
       const_iterator(pointer_type ptr): m_ptr(ptr) {}
       
