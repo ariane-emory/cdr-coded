@@ -63,7 +63,7 @@ namespace reseune {
             return type() == ct; 
         }
         
-        static inline constexpr void describe() const {
+        static inline void describe_class() {
             print("VB:                   ", VALUE_BITS_COUNT);
             print("FB:                   ", FLAG_BITS_COUNT);
             print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
@@ -71,9 +71,10 @@ namespace reseune {
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
+            putchar('\n');
         }
         
-        inline void describe() const {
+        inline void describe_instance() const {
             // printf("Cell at:                                                                                           %018p\n", this);
             print_bits("Cell at:              ", reinterpret_cast<uintptr_t>(this));
             print_bits("C.data:               ", data);
@@ -83,8 +84,7 @@ namespace reseune {
                 print_bits("C.rest():             ", reinterpret_cast<uintptr_t>(rest()));
             else
                 print_bits("C.value()             ", value());
-
-            // print("FB:          ", FLAG_BITS_COUNT);
+            putchar('\n');
         }
         
     private:
