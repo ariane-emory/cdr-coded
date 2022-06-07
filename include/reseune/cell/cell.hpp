@@ -63,11 +63,11 @@ namespace reseune {
     void                                                                        \
     ASSERT_ ## name() const {                                                   \
       if constexpr(THROW) {                                                     \
-        if (! (expr))                                                           \
+        if (! (expr)) [[unlikely]]                                              \
           throw name {};                                                        \
       }                                                                         \
       else if (WARN) {                                                          \
-        if (! (expr))                                                           \
+        if (! (expr)) [[unlikely]]                                              \
           printf("WARNING: " # name  "\n");                                     \
       }                                                                         \
     }
@@ -215,14 +215,14 @@ namespace reseune {
 
           ++ix %= 8;
 
-          if (0 == ix && mask > 1)
+          if (0 == ix && mask > 1) [[unlikely]]
             putchar('\'');
         }
       }
             
-      if (print_int)
+      if (print_int) [[likely]]
         printf(" = 0x%016lx = % 20lu\n", tmp, tmp);
-      else
+      else [[unlikely]]
         putchar('\n');
     }
 

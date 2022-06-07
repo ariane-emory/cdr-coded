@@ -3,7 +3,6 @@ CXXLAGS  = \
 	-std=gnu++20 \
 	-Iinclude \
 	-O1 \
-	-flto \
 	-g \
 	-Wno-terminate \
 	-DRESEUNE_WARN #-DRESEUNE_THROW #-DNDEBUG
