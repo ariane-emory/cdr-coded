@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <inttypes.h>
+#include <stdexcept>
 
 #include "thing/thing.hpp"
 #include "cell/cell.hpp"
@@ -24,7 +25,9 @@ int main() {
   acell.describe_instance();
   bcell.describe_instance();
   bcell.value();
+  bcell.rest();
 }
+
 
 
 
