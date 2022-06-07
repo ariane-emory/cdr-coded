@@ -1,5 +1,5 @@
 CXX      = g++-11
-CXXLAGS  = -std=gnu++20 -Iinclude -O0 -flto -g -DRESEUNE_THROW #-DNDEBUG
+CXXLAGS  = -std=gnu++20 -Iinclude -O0 -flto -g -DRESEUNE_THROW -Wno-terminate #-DNDEBUG
 GDB      = gdb
 
 SRC      = $(shell find src -name "*.cpp")

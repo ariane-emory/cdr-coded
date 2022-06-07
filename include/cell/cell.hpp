@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <bit>
 #include <cassert>
+#include <stdexcept>
 
 namespace reseune {
   class cell {
@@ -29,15 +30,17 @@ namespace reseune {
     value_type data;
 
     inline constexpr
-    cell(value_type const & v, cell_type const & ct)
+    cell(value_type const & v, cell_type const & ct) noexcept
       : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
-      assert(cell_type::rest != ct);
+      // if (cell_type::rest == ct)
+      //   throw assert_failure("ct == rest");
     }
     
     inline constexpr
-    cell(cell * const v, cell_type const & ct)
+    cell(cell * const v, cell_type const & ct) noexcept
       : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {
-      assert(cell_type::rest == ct);
+      // if (cell_type::rest != ct)
+      //   throw assert_failure("ct != rest");
     }
 
     inline constexpr
@@ -46,12 +49,18 @@ namespace reseune {
     
 
     inline constexpr
-    value_type value() const {
+    value_type value() const noexcept {
+      if (cell_type::rest == type())
+        throw new std::logic_error("rest == type()");
+
       return get_value();
     }
 
     inline constexpr
-    cell const * rest() const {
+    cell const * rest() const noexcept {
+      if (cell_type::rest != type())
+        throw new std::logic_error("rest != type()");
+
       return get_rest();
     }
         
