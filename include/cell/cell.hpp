@@ -12,8 +12,8 @@ namespace reseune {
 
         enum cell_type : value_type {
             element      = 1,
-            last_element = 2,
-            rest         = 3
+            last_element,
+            rest        
         };
 
         inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
