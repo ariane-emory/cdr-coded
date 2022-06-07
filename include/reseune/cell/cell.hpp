@@ -116,8 +116,6 @@ namespace reseune {
     cell const &
     operator*() const {
       ASSERT_MUST_BE_A_LINK();
-      
-      printf("DEREF!\n\n");
       return *link();
     }
 
