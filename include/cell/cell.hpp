@@ -63,7 +63,7 @@ namespace reseune {
             print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
             print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-            printf("Cell at:  0x%p", this);
+            printf("Cell at:               %p\n", this);
             print_bits("C.data:               ", data);
             print_bits("C.flag():             ", flag());
             print_bits("C.type():             ", type());
@@ -105,7 +105,7 @@ namespace reseune {
             }
             
             if (print_int)
-                printf(" = %lu\n", tmp);
+                printf(" = 0x%016lx = %lu\n", tmp, tmp);
             else
                 putchar('\n');
         }
