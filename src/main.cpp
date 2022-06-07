@@ -110,7 +110,7 @@ if (true) {
       else if (cell.is_element())
         putchar(static_cast<char>(cell.value()));
       else if (cell.is_last_element())
-        putchar(static_cast<char>(cell.value()));
+        putchar(static_cast<char>(cell.value() + 32));
       else if (cell.is_link()) {
         if (cell.link() > &cell)
           putchar('<');
