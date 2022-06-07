@@ -72,8 +72,8 @@ namespace reseune {
       }                                                                         \
     }
     
-    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, tag_t::link != type())
-    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   tag_t::link == type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, tag_t::link != tag())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   tag_t::link == tag())
 
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
@@ -93,18 +93,13 @@ namespace reseune {
     }
         
     constexpr
-    value_type flag() const {
-      return data & MASK_TAG;
-    }
-
-    constexpr
-    tag_t type() const {
-      return static_cast<tag_t>(flag()); 
+    tag_t tag() const {
+      return static_cast<tag_t>(data & MASK_TAG); 
     }
 
     constexpr
     bool is_type(tag_t const & ct) const {
-      return type() == ct; 
+      return tag() == ct; 
     }
 
     constexpr
@@ -139,7 +134,7 @@ namespace reseune {
     
     static constexpr
     char const * const
-    tag_c_str(tag_t const & ct) {
+    tag_t_as_c_str(tag_t const & ct) {
       switch (ct) {
       default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;
@@ -170,9 +165,8 @@ namespace reseune {
       // printf("Cell at:                                                                                           %018p\n", this);
       print_bits("cell @                     ", reinterpret_cast<uintptr_t>(this));
       print_bits("cell.data:                 ", data);
-      print_bits("cell.flag():               ", flag());
-      print_bits("cell.type():               ", type());
-      printf("cell.type() as c_str:       %s\n", tag_c_str(type()));
+      print_bits("cell.tag():                ", tag());
+      printf("cell.tag() as c_str:        %s\n", tag_t_as_c_str(tag()));
       if (is_type(tag_t::link))
         print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
       else
