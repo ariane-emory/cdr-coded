@@ -8,8 +8,6 @@ namespace reseune {
     template<uint8_t FBC>
     class cell {
     public:
-        static constexpr uint8_t    FLAG_BITS_COUNT      = FBC;
-
         typedef uintptr_t value_type;
 
         enum cell_type : uintptr_t {
@@ -21,7 +19,8 @@ namespace reseune {
         inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
             return ct << VALUE_BITS_COUNT;
         }
-
+        
+        static constexpr uint8_t    FLAG_BITS_COUNT      = 2;
         static constexpr uint8_t    VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
         static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
         static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
