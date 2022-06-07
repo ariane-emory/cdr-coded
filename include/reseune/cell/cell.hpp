@@ -49,13 +49,14 @@ namespace reseune {
     };                                                                          \
     inline constexpr                                                            \
     void assert_ ## name() const {                                              \
-      if (! (expr))                                                             \
-        if constexpr(THROW) {                                                   \
+      if constexpr(THROW) {                                                     \
+        if (! (expr))                                                           \
           throw name {};                                                        \
-        }                                                                       \
-        else {                                                                  \
+      }                                                                       \
+      else if (WARN) {                                                  \
+        if (! (expr))                                                           \
           printf("WARNING: " # name  "\n");                                     \
-        }                                                                       \
+      }                                                                       \
     }
     
     DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_rest, cell_type::rest != type())
