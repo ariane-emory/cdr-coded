@@ -14,7 +14,8 @@ void describe_some_sizes() {
   printf("\n");
 }
 
-cell cells[1 << 12] = { // 4096 cells, 32k memory
+constexpr size_t MEMORY_SIZE = 1<<12; // 4096 cells, 32k memory
+cell cells[MEMORY_SIZE] = { 
   /*  0 */ 10,
   /*  1 */ 20,
   /*  2 */ 30,
@@ -62,7 +63,7 @@ int main() {
   }
 
   if (true) {
-    for (size_t ix = 0, line = 0; line < 32; line++) {
+    for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 7); line++) {
       for (size_t col = 0; col < 128; col++, ix++)
       {
         // printf("%zu %zu %zu\n", ix, line, col);
@@ -73,8 +74,14 @@ int main() {
           putchar('e');
         else if (cell.is_nil())
           putchar('.');
-        else if (cell.is_link())
-          putchar('l');
+        else if (cell.is_link()) {
+          if (cell.link() > &cell)
+            putchar('<');
+          else if (cell.link() < &cell)
+            putchar('>');
+          else
+            putchar('x');
+        }
         else
           putchar('?');
 
