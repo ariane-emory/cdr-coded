@@ -32,13 +32,13 @@ namespace reseune {
         }
         
         inline constexpr value_type value() const {
-            assert(type_is(cell_type::element) || type_is(cell_type::last_element));
+            assert(is_type(cell_type::element) || is_type(cell_type::last_element));
             
             return get_value();
         }
 
         inline constexpr cell const * rest() const {
-            assert(type_is(cell_type::rest));
+            assert(is_type(cell_type::rest));
             
             return get_rest();
         }
@@ -51,7 +51,7 @@ namespace reseune {
             return static_cast<cell_type>(flag() >> 62); 
         }
 
-        inline constexpr bool type_is(cell_type const & ct) const {
+        inline constexpr bool is_type(cell_type const & ct) const {
             return type() == ct; 
         }
         
@@ -65,9 +65,12 @@ namespace reseune {
             print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
             print_bits("C.data:               ", data);
             print_bits("C.flag():             ", flag());
-            print_bits("C.value()             ", value());
             print_bits("C.type():             ", type());
-            print_bits("C.rest():             ", reinterpret_cast<uintptr_t>(rest()));
+            if (is_type(cell_type::rest))
+                print_bits("C.rest():             ", reinterpret_cast<uintptr_t>(rest()));
+            else
+                print_bits("C.value()             ", value());
+
             // print("FB:          ", FLAG_BITS_COUNT);
         }
         

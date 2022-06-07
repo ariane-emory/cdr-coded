@@ -20,7 +20,7 @@ int main() {
 
         acell.describe();
         printf("%s\n",
-               acell.type_is(cell::cell_type::element)
+               acell.is_type(cell::cell_type::element)
                ? "Yes"
                : "No");
 
@@ -30,7 +30,7 @@ int main() {
         
         bcell.describe();
         printf("%s\n",
-               bcell.type_is(cell::cell_type::element)
+               bcell.is_type(cell::cell_type::element)
                ? "Yes"
                : "No");
 
