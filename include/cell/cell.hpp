@@ -44,8 +44,8 @@ namespace reseune {
     }
 
     inline constexpr
-    cell()
-      : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
+    cell() noexcept
+    : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
 
     inline constexpr
