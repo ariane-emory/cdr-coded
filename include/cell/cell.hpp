@@ -14,7 +14,8 @@ namespace reseune {
         enum class cell_type : uintptr_t {
             element = 1,
             last_element,
-            rest 
+            rest,
+            invalid
         };
 
         static constexpr uint8_t    FLAG_BITS_COUNT      = 2;
@@ -39,6 +40,11 @@ namespace reseune {
             assert(ct == cell_type::rest);
             
             data = std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
+        }
+
+        inline constexpr
+        cell() {
+            data = 0 | (static_cast<value_type>(cell_type::invalid) << VALUE_BITS_COUNT);
         }
         
         inline constexpr
@@ -140,6 +146,13 @@ namespace reseune {
             printf("%s %u\n", descr, v);
         }
     };
-}
 
+    class conspair {
+    private:
+        cell car, cdr;
+    public:
+        inline constexpr
+        conspair() {}
+    };
+}
 #endif
