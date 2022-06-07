@@ -1,22 +1,14 @@
-#ifndef RESEUNE_CELL
-#define RESEUNE_CELL
+#ifndef RESEUNE_CELL_HPP
+#define RESEUNE_CELL_HPP
 
 #include <inttypes.h>
 #include <stdio.h>
 #include <bit>
 #include <cassert>
 #include <stdexcept>
+#include "reseune/reseune.hpp"
 
 namespace reseune {
-
-  static constexpr bool THROW =
-#ifdef RESEUNE_THROW
-    true
-#else
-    false
-#endif
-    ;
-
   class cell {
     public:
       typedef uintptr_t value_type;
@@ -57,10 +49,14 @@ namespace reseune {
     };                                                                          \
     inline constexpr                                                            \
     void assert_ ## name() const {                                              \
-      if constexpr (THROW)                                                      \
-        if (! (expr))                                                           \
+      if (! (expr))                                                             \
+        if constexpr (THROW) {                                                  \
           throw name {};                                                        \
-    }
+        }                                                                       \
+        else {                                                                  \
+          printf("WARNING: " # name  "\n");                                     \
+        }                                                                       \
+}
     
     LOGIC_ERROR(cannot_be_a_rest, cell_type::rest != type())
     LOGIC_ERROR(must_be_a_rest,   cell_type::rest == type())
