@@ -37,7 +37,13 @@ namespace reseune {
       }
     }
 
-    static constexpr uchar_type TAG_BITS_COUNT      { 2 };
+    static constexpr uchar_type TAG_BITS_COUNT      {
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+      2
+#else
+      1
+#endif
+    };
     static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
     static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
