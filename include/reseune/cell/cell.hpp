@@ -24,8 +24,7 @@ namespace reseune {
     char const * const
     cell_type_as_c_str(cell_type const & ct) {
       switch (ct) {
-      default:
-        return "ERROR";
+      default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;        
         CASE(cell_type::element);
         CASE(cell_type::last_element);
@@ -195,11 +194,12 @@ namespace reseune {
     reseune::cell::cell_type::rest
   };
 
-  struct cons_pair {
+  struct cons {
     cell car, cdr;
-
-     constexpr
-     cons_pair() {}
+    
+    constexpr
+    cons(cell::value_type const & car_, cell * const cdr_)
+      : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::rest) {}
   };
 }
 
