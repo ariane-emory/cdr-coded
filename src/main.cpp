@@ -24,7 +24,7 @@ int main() {
                ? "Yes"
                : "No");
 
-        reseune::cell bcell(33, cell::cell_type::rest);
+        reseune::cell bcell(&acell, cell::cell_type::rest);
 
         printf("\n");
         

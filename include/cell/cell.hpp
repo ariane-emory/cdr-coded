@@ -31,6 +31,10 @@ namespace reseune {
             data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
+        inline constexpr cell(cell * const v, cell_type const & ct) {
+            data = std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
+        }
+        
         inline constexpr value_type value() const {
             assert(is_type(cell_type::element) || is_type(cell_type::last_element));
             
@@ -106,7 +110,7 @@ namespace reseune {
             }
             
             if (print_int)
-                printf(" = 0x%016lx = % 22lu\n", tmp, tmp);
+                printf(" = 0x%016lx = % 24lu\n", tmp, tmp);
             else
                 putchar('\n');
         }
