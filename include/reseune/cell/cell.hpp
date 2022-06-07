@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <bit>
 #include <cassert>
+#include <cstddef>
 #include <stdexcept>
+#include <iterator>
 #include "reseune/reseune.hpp"
 
 namespace reseune {
@@ -116,22 +118,45 @@ namespace reseune {
 
     constexpr
     cell const &
-    operator*() const {
+    operator  * () const {
       ASSERT_MUST_BE_A_LINK();
       return *link();
     }
 
     constexpr
     bool
-    operator==(cell const & that) {
+    operator == (cell const & that) {
       return data == that.data;
     }
 
     constexpr
     bool
-    operator!=(cell const & that) {
+    operator != (cell const & that) {
       return !operator==(that);
     }
+
+    struct iterator
+    {
+      using iterator_category = std::forward_iterator_tag;
+      using difference_type   = std::ptrdiff_t;
+      using value_type        = cell::value_type;
+      using pointer           = value_type*;  // or also value_type*
+      using reference         = value_type&;
+
+      iterator(pointer ptr): m_ptr(ptr) {}
+      
+      reference operator * () const { return *m_ptr; }
+      pointer operator -> () { return m_ptr; }
+
+      iterator & operator ++ () { m_ptr++; return *this; } // prefix
+      iterator operator ++ (int) { iterator tmp = *this; ++(*this); return tmp; }  // postfix
+
+      friend bool operator == (const iterator& a, const iterator& b) { return a.m_ptr == b.m_ptr; };
+      friend bool operator != (const iterator& a, const iterator& b) { return a.m_ptr != b.m_ptr; };     
+
+    private:
+      pointer m_ptr;
+    };
     
     static constexpr
     char const * const
