@@ -206,7 +206,7 @@ namespace reseune {
 
     constexpr
     cons(cell::value_type const & car_, cell & const cdr_ = nil)
-      : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::rest) {}
+      : car(car_, cell::cell_type::element), cdr(&cdr_, cell::cell_type::rest) {}
   };
 }
 
