@@ -158,6 +158,6 @@ namespace reseune {
     };
 }
 
-// static constexpr reseune::cell nil { static_cast<reseune::cell::value_type>(0), reseune::cell::cell_type::rest };
+static constexpr reseune::cell nil { static_cast<reseune::cell::value_type>(0), reseune::cell::cell_type::rest };
 
 #endif
