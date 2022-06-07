@@ -46,7 +46,8 @@ int main() {
   }
 
   printf("================================================================================\n");
-  
+
+  if (true)
   {
     uint8_t ix { 0 };
   
@@ -58,7 +59,6 @@ int main() {
       // printf("NIL:\n");
       // nil.describe_instance();
       if (cursor->is_link()) {
-        printf("JUMP!\n\n");
         cursor = &**cursor;
       }
       else

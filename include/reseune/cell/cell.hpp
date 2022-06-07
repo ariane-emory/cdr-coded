@@ -14,29 +14,6 @@ namespace reseune {
     typedef uintptr_t value_type;
     typedef uint8_t uchar_type;
 
-    enum class tag : uintptr_t {
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      last_element,
-#endif
-      link,
-      element,
-    };
-
-    static constexpr
-    char const * const
-    tag_c_str(tag const & ct) {
-      switch (ct) {
-      default: return "ERROR";
-#define CASE(enum_val) case enum_val: return # enum_val;        
-        CASE(tag::element);
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        CASE(tag::last_element);
-#endif
-        CASE(tag::link);
-#undef CASE
-      }
-    }
-
     static constexpr uchar_type TAG_BITS_COUNT      {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       2
@@ -47,26 +24,35 @@ namespace reseune {
     static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
     static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
-    static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
+
+    enum class tag : uintptr_t {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-    static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+      last_element,
 #endif
-    static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
+      link,
+      element = 1ul << VALUE_BITS_COUNT,
+    };
+
+//     static constexpr value_type TAG_MASK_VALUE      { static_cast<value_type>(tag::element)      << VALUE_BITS_COUNT };
+// #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+//     static constexpr value_type TAG_MASK_LAST_VALUE { static_cast<value_type>(tag::last_element) << VALUE_BITS_COUNT };
+// #endif
+//     static constexpr value_type TAG_MASK_LINK       { static_cast<value_type>(tag::link)         << VALUE_BITS_COUNT };
 
     value_type data;
 
     constexpr
     cell(value_type const & v, tag const & ct = tag::element
          ) 
-      : data(v | tag_to_flag_mask(ct)) {}
+      : data(v | static_cast<value_type>(ct)) {}
 
     constexpr
     cell(cell * const v, tag const & ct = tag::link) 
-      : data(std::bit_cast<value_type>(v) | tag_to_flag_mask(ct)) {}
+      : data(std::bit_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
     constexpr
     cell() 
-      : data(0 | tag_to_flag_mask(tag::link)) {}
+      : data(0 | static_cast<value_type>(tag::link)) {}
     
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name : public std::logic_error {                                      \
@@ -151,17 +137,32 @@ namespace reseune {
       return !operator==(that);
     }
     
+    static constexpr
+    char const * const
+    tag_c_str(tag const & ct) {
+      switch (ct) {
+      default: return "ERROR";
+#define CASE(enum_val) case enum_val: return # enum_val;
+        CASE(tag::element);
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+        CASE(tag::last_element);
+#endif
+        CASE(tag::link);
+#undef CASE
+      }
+    }
+
     static
     void describe_class() {
       print("VALUE_BITS_COUNT:          ", VALUE_BITS_COUNT);
       print("TAG_BITS_COUNT:            ", TAG_BITS_COUNT);
       print_bits("MASK_TAG:                  ", MASK_VALUE, false);
       print_bits("MASK_VALUE:                ", MASK_TAG, false);
-      print_bits("TAG_MASK_VALUE:            ", TAG_MASK_VALUE, false);
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      print_bits("TAG_MASK_LAST_VALUE:       ", TAG_MASK_LAST_VALUE, false);
-#endif
-      print_bits("TAG_MASK_LINK:             ", TAG_MASK_LINK, false);
+//       print_bits("TAG_MASK_VALUE:            ", TAG_MASK_VALUE, false);
+// #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+//       print_bits("TAG_MASK_LAST_VALUE:       ", TAG_MASK_LAST_VALUE, false);
+// #endif
+//       print_bits("TAG_MASK_LINK:             ", TAG_MASK_LINK, false);
       putchar('\n');
     }
         
@@ -180,17 +181,17 @@ namespace reseune {
     }
         
   private:
-    static constexpr
-    value_type
-    value_to_flag_mask(value_type const & vt) {
-      return vt << VALUE_BITS_COUNT;
-    }
+    // static constexpr
+    // value_type
+    // value_to_flag_mask(value_type const & vt) {
+    //   return vt << VALUE_BITS_COUNT;
+    // }
 
-    static constexpr
-    value_type
-    tag_to_flag_mask(tag const & ct) {
-      return value_to_flag_mask(static_cast<value_type>(ct));
-    }
+    // static constexpr
+    // value_type
+    // tag_to_flag_mask(tag const & ct) {
+    //   return value_to_flag_mask(static_cast<value_type>(ct));
+    // }
     
     constexpr
     value_type get_value() const {
