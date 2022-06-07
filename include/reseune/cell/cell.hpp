@@ -57,7 +57,7 @@ namespace reseune {
       : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
-    class name   : public std::logic_error {                                    \
+    class name : public std::logic_error {                                    \
     public:                                                                     \
     name() : std::logic_error(# name) {};                                       \
     };                                                                          \
@@ -106,7 +106,13 @@ namespace reseune {
     bool is_type(cell_type const & ct) const {
       return type() == ct; 
     }
-        
+
+    inline constexpr
+    value_type const &
+    operator*(){
+      assert_must_be_a_rest();
+    }
+    
     static inline
     void describe_class() {
       print("VB:                   ", VALUE_BITS_COUNT);
@@ -187,7 +193,6 @@ namespace reseune {
     inline constexpr
     conspair() {}
   };
-
 }
 
 #endif
