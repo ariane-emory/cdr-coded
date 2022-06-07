@@ -26,7 +26,7 @@ int main() {
   // bcell.describe_instance();
   // (*bcell).describe_instance();
 
-  cell cells[8] = {
+  cell cells[] = {
     { 10, cell::cell_type::element },
     { 20, cell::cell_type::element },
     { 30, cell::cell_type::element },
