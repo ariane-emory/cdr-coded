@@ -106,13 +106,13 @@ namespace reseune {
             }
             
             if (print_int)
-                printf(" = 0x%016lx = %lu\n", tmp, tmp);
+                printf(" = 0x%016lx = % 22lu\n", tmp, tmp);
             else
                 putchar('\n');
         }
 
         static void print(char const * descr, uint8_t const & v) {
-            printf("%s % 16u\n", descr, v);
+            printf("%s %u\n", descr, v);
         }
     };
 }
