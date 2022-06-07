@@ -49,27 +49,6 @@ int main() {
 
     LINE;
   }
-  
-  if  (false)
-  {
-    uint8_t ix { 0 };
-  
-    const cell * cursor = cells;
-  
-    while (*cursor != nil) {
-      printf("cell # %u\n", ix++);
-      cursor->describe_instance();
-
-      if (cursor->is_link()) [[unlikely]] {
-        cursor = cursor->link();
-      }
-      else [[likely]] {
-        cursor++;
-      }
-    }
-
-    LINE;
-  }
 
   if (true) {
     uint8_t ix { 0 };

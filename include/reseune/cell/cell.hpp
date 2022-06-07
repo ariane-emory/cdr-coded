@@ -135,7 +135,7 @@ namespace reseune {
       return !operator==(that);
     }
 
-    struct iterator
+    struct const_iterator
     {
       using iterator_category = std::forward_iterator_tag;
       using difference_type   = std::ptrdiff_t;
@@ -146,47 +146,52 @@ namespace reseune {
       typedef pointer   pointer_to_cell;
       typedef reference reference_to_cell;
       
-      iterator(pointer_to_cell ptr): m_ptr(ptr) {}
+      const_iterator(pointer_to_cell ptr): m_ptr(ptr) {}
       
       reference_to_cell operator *  () const { return *m_ptr; }
       pointer_to_cell   operator -> () { return m_ptr; }
 
       void next() {
         if (m_ptr->is_link()) {
-          printf("Jumping!\n");
+          // printf("Jumping!\n\n");
           m_ptr = m_ptr->link();
         }
         else {
-          printf("Stepping!\n");
+          // printf("Stepping!\n\n");
           m_ptr++;
+
+          if (m_ptr->is_link()) {
+            // printf("Skipping!\n\n");
+            m_ptr = m_ptr->link();
+          }
         }
       }
       
-      iterator & operator ++ () {
+      const_iterator & operator ++ () {
         next();
 
         return *this;
       } // prefix
 
-      iterator operator ++ (int) {
-        iterator tmp = *this;
+      const_iterator operator ++ (int) {
+        const_iterator tmp = *this;
         ++(*this);
         return tmp;
       }  // postfix
 
-      friend bool operator == (const iterator& a, const iterator& b) { return a.m_ptr == b.m_ptr; };
-      friend bool operator != (const iterator& a, const iterator& b) { return a.m_ptr != b.m_ptr; };     
+      friend bool operator == (const const_iterator& a, const const_iterator& b) { return a.m_ptr == b.m_ptr; };
+      friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
 
     private:
       pointer_to_cell m_ptr;
     };
     
-    iterator begin() const {
-      return iterator { this };
+    const_iterator begin() const {
+      return const_iterator { this };
     }
 
-    iterator end() const {
-      return iterator { nullptr };
+    const_iterator end() const {
+      return const_iterator { nullptr };
     }
 
     static constexpr
