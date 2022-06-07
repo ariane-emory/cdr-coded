@@ -14,7 +14,7 @@ namespace reseune {
         typedef ENUM_T cell_type;
 
         inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
-            return ct + 1 << VALUE_BITS_COUNT;
+            return ct << VALUE_BITS_COUNT;
         }
 
         static constexpr uint8_t    VALUE_BITS_COUNT     = 64 - FLAG_BITS_COUNT;
@@ -39,7 +39,11 @@ namespace reseune {
         }
 
         inline constexpr cell_type type() const {
-            return static_cast<cell_type>(flag() > 62); 
+            return static_cast<cell_type>(flag() >> 62); 
+        }
+
+        inline constexpr bool type_is(cell_type const & ct) const {
+            return type() == ct; 
         }
         
         inline void describe() const {

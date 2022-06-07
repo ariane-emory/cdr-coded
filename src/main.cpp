@@ -7,7 +7,7 @@
 using namespace reseune;
 
 enum cell_type : uintptr_t {
-    element,
+    element = 1,
     last_element,
     rest 
 };
@@ -24,8 +24,11 @@ int main() {
         reseune::cell<2, cell_type> acell(33);
 
         acell.describe();
+        printf("%s\n",
+               acell.type_is(cell_type::element)
+               ? "Yes"
+               : "No");
     }
-
 }
 
 
