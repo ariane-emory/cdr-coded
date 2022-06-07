@@ -20,7 +20,7 @@ namespace reseune {
       rest
     };
 
-    static inline constexpr
+    static constexpr
     char const * const
     cell_type_as_c_str(cell_type const & ct) {
       switch (ct) {
@@ -44,15 +44,15 @@ namespace reseune {
 
     value_type data;
 
-    inline constexpr
+    constexpr
     cell(value_type const & v, cell_type const & ct) 
       : data(v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
 
-    inline constexpr
+    constexpr
     cell(cell * const v, cell_type const & ct) 
       : data(std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT)) {}
 
-    inline constexpr
+    constexpr
     cell() 
       : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
@@ -61,7 +61,7 @@ namespace reseune {
     public:                                                                     \
     name() : std::logic_error(# name) {};                                       \
     };                                                                          \
-    inline constexpr                                                            \
+    constexpr                                                            \
     void                                                                        \
     assert_ ## name() const {                                                   \
       if constexpr(THROW) {                                                     \
@@ -79,14 +79,14 @@ namespace reseune {
 
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
-    inline constexpr
+    constexpr
     value_type value() const {
       assert_cannot_be_a_rest();
 
       return get_value();
     }
 
-    inline constexpr
+    constexpr
     cell const *
     rest() const {
       assert_must_be_a_rest();
@@ -94,29 +94,29 @@ namespace reseune {
       return get_rest();
     }
         
-    inline constexpr
+    constexpr
     value_type flag() const {
       return data & MASK_FLAG;
     }
 
-    inline constexpr
+    constexpr
     cell_type type() const {
       return static_cast<cell_type>(flag() >> 62); 
     }
 
-    inline constexpr
+    constexpr
     bool is_type(cell_type const & ct) const {
       return type() == ct; 
     }
 
-    inline constexpr
+    constexpr
     cell const &
     operator*(){
       assert_must_be_a_rest();
       return *rest();
     }
     
-    static inline
+    static
     void describe_class() {
       print("VALUE_BITS_COUNT:          ", VALUE_BITS_COUNT);
       print("FLAG_BITS_COUNT:           ", FLAG_BITS_COUNT);
@@ -128,7 +128,6 @@ namespace reseune {
       putchar('\n');
     }
         
-    inline
     void describe_instance() const {
       // printf("Cell at:                                                                                           %018p\n", this);
       print_bits("cell @                     ", reinterpret_cast<uintptr_t>(this));
@@ -144,19 +143,19 @@ namespace reseune {
     }
         
   private:
-    inline constexpr
+    constexpr
     value_type get_value() const {
       return data & MASK_VALUE;
     }
 
-    inline constexpr
+    constexpr
     cell const *
     get_rest() const {
       return std::bit_cast<cell const *>(get_value());
     }
 
     template <typename T>
-    static inline
+    static
     void print_bits(
       char const * descr, T const & v, bool const & print_int = true) {
       printf("%s 0b", descr);
@@ -184,23 +183,24 @@ namespace reseune {
         putchar('\n');
     }
 
-    static inline
+    static
     void print(char const * descr, uchar_type const & v) {
       printf("%s %u\n", descr, v);
     }
   };
 
   static constinit
+
   cell nil {
     static_cast<reseune::cell::value_type>(0),
     reseune::cell::cell_type::rest
   };
 
-  struct conspair {
+  struct cons_pair {
     cell car, cdr;
 
-    // inline constexpr
-    // conspair() {}
+     constexpr
+     cons_pair() {}
   };
 }
 
