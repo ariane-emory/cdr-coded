@@ -19,7 +19,7 @@ int main() {
     
   cell::describe_class();
   
-  cell cells[] = {
+  cell cells[1024] = {
     /*  0 */ 10,
     /*  1 */ 20,
     /*  2 */ 30,
