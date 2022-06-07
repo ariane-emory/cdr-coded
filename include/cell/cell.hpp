@@ -27,43 +27,51 @@ namespace reseune {
 
         value_type data;
 
-        inline constexpr cell(value_type const & v, cell_type const & ct) {
+        inline constexpr
+        cell(value_type const & v, cell_type const & ct) {
             assert(ct != cell_type::rest);
             
             data = v | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
-        inline constexpr cell(cell * const v, cell_type const & ct) {
+        inline constexpr
+        cell(cell * const v, cell_type const & ct) {
             assert(ct == cell_type::rest);
             
             data = std::bit_cast<value_type>(v) | (static_cast<value_type>(ct) << VALUE_BITS_COUNT);
         }
         
-        inline constexpr value_type value() const {
+        inline constexpr
+        value_type value() const {
             assert(! is_type(cell_type::rest));
             
             return get_value();
         }
 
-        inline constexpr cell const * rest() const {
+        inline constexpr
+        cell const * rest() const {
             assert(is_type(cell_type::rest));
             
             return get_rest();
         }
         
-        inline constexpr value_type flag() const {
+        inline constexpr
+        value_type flag() const {
             return data & MASK_FLAG;
         }
 
-        inline constexpr cell_type type() const {
+        inline constexpr
+        cell_type type() const {
             return static_cast<cell_type>(flag() >> 62); 
         }
 
-        inline constexpr bool is_type(cell_type const & ct) const {
+        inline constexpr
+        bool is_type(cell_type const & ct) const {
             return type() == ct; 
         }
         
-        static inline void describe_class() {
+        static inline
+        void describe_class() {
             print("VB:                   ", VALUE_BITS_COUNT);
             print("FB:                   ", FLAG_BITS_COUNT);
             print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
@@ -74,7 +82,8 @@ namespace reseune {
             putchar('\n');
         }
         
-        inline void describe_instance() const {
+        inline
+        void describe_instance() const {
             // printf("Cell at:                                                                                           %018p\n", this);
             print_bits("Cell at:              ", reinterpret_cast<uintptr_t>(this));
             print_bits("C.data:               ", data);
@@ -88,16 +97,19 @@ namespace reseune {
         }
         
     private:
-        inline constexpr value_type get_value() const {
+        inline constexpr
+        value_type get_value() const {
             return data & MASK_VALUE;
         }
 
-        inline constexpr cell const * get_rest() const {
+        inline constexpr
+        cell const * get_rest() const {
             return std::bit_cast<cell const *>(get_value());
         }
 
         template <typename T>
-        static inline void print_bits(
+        static inline
+        void print_bits(
             char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
@@ -123,7 +135,8 @@ namespace reseune {
                 putchar('\n');
         }
 
-        static inline void print(char const * descr, uint8_t const & v) {
+        static inline
+        void print(char const * descr, uint8_t const & v) {
             printf("%s %u\n", descr, v);
         }
     };
