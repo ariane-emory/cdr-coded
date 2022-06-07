@@ -48,7 +48,7 @@ namespace reseune {
       : data(v | tag_to_flag_mask(ct)) {}
 
     constexpr
-      cell(cell * const v, tag const & ct) 
+    cell(cell * const v, tag const & ct = tag::link) 
       : data(std::bit_cast<value_type>(v) | tag_to_flag_mask(ct)) {}
 
     constexpr
