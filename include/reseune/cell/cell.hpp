@@ -24,15 +24,15 @@ namespace reseune {
     char const * const
     cell_type_as_c_str(cell_type const & ct) {
       switch (ct) {
+      default:
+        return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;        
         CASE(cell_type::element);
         CASE(cell_type::last_element);
         CASE(cell_type::rest);
 #undef CASE
-             default:
-             return "ERROR";
              }
-      }
+    }
 
       static constexpr uchar_type FLAG_BITS_COUNT      = 2;
       static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
