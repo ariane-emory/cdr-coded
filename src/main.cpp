@@ -17,16 +17,21 @@ void describe_some_sizes() {
 int main() {
   describe_some_sizes();
     
-  cell acell { 33, cell::cell_type::element };
-  cell bcell { &acell, cell::cell_type::rest };
+  cell acell { 30, cell::cell_type::element };
+  cell bcell { &acell, cell::cell_type::link };
+
+  cell cells[] = {
+    { 10, cell::cell_type::element },
+    { 20, cell::cell_type::element },
+    { 20, cell::cell_type::element }
+  };
+
 
   cell::describe_class();
   acell.describe_instance();
   bcell.describe_instance();
   (*bcell).describe_instance();
-  
-// bcell.value();
-  // bcell.rest();
+
 }
 
 

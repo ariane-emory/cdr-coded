@@ -16,8 +16,8 @@ namespace reseune {
 
     enum class cell_type : uintptr_t {
       element = 1,
-      last_element,
-      rest
+      //      last_element,
+      link
     };
 
     static constexpr
@@ -27,8 +27,8 @@ namespace reseune {
       default: return "ERROR";
 #define CASE(enum_val) case enum_val: return # enum_val;        
         CASE(cell_type::element);
-        CASE(cell_type::last_element);
-        CASE(cell_type::rest);
+//        CASE(cell_type::last_element);
+        CASE(cell_type::link);
 #undef CASE
       }
     }
@@ -38,8 +38,8 @@ namespace reseune {
     static constexpr value_type MASK_VALUE           { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_FLAG            { ~MASK_VALUE };
     static constexpr value_type FLAG_MASK_VALUE      { static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT };
-    static constexpr value_type FLAG_MASK_LAST_VALUE { static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT };
-    static constexpr value_type FLAG_MASK_REST       { static_cast<value_type>(cell_type::rest)         << VALUE_BITS_COUNT };
+//    static constexpr value_type FLAG_MASK_LAST_VALUE { static_cast<value_type>(cell_type::last_element) << VALUE_BITS_COUNT };
+    static constexpr value_type FLAG_MASK_LINK       { static_cast<value_type>(cell_type::link)         << VALUE_BITS_COUNT };
 
     value_type data;
 
@@ -53,7 +53,7 @@ namespace reseune {
 
     constexpr
     cell() 
-      : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
+      : data(0 | (static_cast<value_type>(cell_type::link) << VALUE_BITS_COUNT)) {}
     
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name : public std::logic_error {                                    \
@@ -73,24 +73,24 @@ namespace reseune {
       }                                                                         \
     }
     
-    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_rest, cell_type::rest != type())
-    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_rest,   cell_type::rest == type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, cell_type::link != type())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   cell_type::link == type())
 
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
     constexpr
     value_type value() const {
-      assert_cannot_be_a_rest();
+      assert_cannot_be_a_link();
 
       return get_value();
     }
 
     constexpr
     cell const *
-    rest() const {
-      assert_must_be_a_rest();
+    link() const {
+      assert_must_be_a_link();
       
-      return get_rest();
+      return get_link();
     }
         
     constexpr
@@ -111,8 +111,8 @@ namespace reseune {
     constexpr
     cell const &
     operator*(){
-      assert_must_be_a_rest();
-      return *rest();
+      assert_must_be_a_link();
+      return *link();
     }
     
     static
@@ -122,8 +122,8 @@ namespace reseune {
       print_bits("MASK_FLAGS:                ", MASK_VALUE, false);
       print_bits("MASK_VALUE:                ", MASK_FLAG, false);
       print_bits("FLAG_MASK_VALUE:           ", FLAG_MASK_VALUE, false);
-      print_bits("FLAG_MASK_LAST_VALUE:      ", FLAG_MASK_LAST_VALUE, false);
-      print_bits("FLAG_MASK_REST:            ", FLAG_MASK_REST, false);
+      //      print_bits("FLAG_MASK_LAST_VALUE:      ", FLAG_MASK_LAST_VALUE, false);
+      print_bits("FLAG_MASK_LINK:            ", FLAG_MASK_LINK, false);
       putchar('\n');
     }
         
@@ -134,8 +134,8 @@ namespace reseune {
       print_bits("cell.flag():               ", flag());
       print_bits("cell.type():               ", type());
       printf("cell.type() as c_str:       %s\n", cell_type_as_c_str(type()));
-      if (is_type(cell_type::rest))
-        print_bits("cell.rest():               ", reinterpret_cast<uintptr_t>(rest()));
+      if (is_type(cell_type::link))
+        print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
       else
         print_bits("cell.value()               ", value());
       putchar('\n');
@@ -149,7 +149,7 @@ namespace reseune {
 
     constexpr
     cell const *
-    get_rest() const {
+    get_link() const {
       return std::bit_cast<cell const *>(get_value());
     }
 
@@ -191,7 +191,7 @@ namespace reseune {
   static constinit
   cell nil {
     static_cast<reseune::cell::value_type>(0),
-    reseune::cell::cell_type::rest
+      reseune::cell::cell_type::link
   };
 
   // static constinit
@@ -203,15 +203,15 @@ namespace reseune {
     
     // constexpr
     // cons(cell::value_type const & car_, cell * const cdr_ = nil)
-    //   : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::rest) {}
+    //   : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::link) {}
 
     constexpr
     cons(cell::value_type const & car_, cell & cdr_)
-      : car(car_, cell::cell_type::element), cdr(&cdr_, cell::cell_type::rest) {}
+      : car(car_, cell::cell_type::element), cdr(&cdr_, cell::cell_type::link) {}
 
     constexpr
     cons(cell::value_type const & car_, cons & cdr_)
-      : car(car_, cell::cell_type::element), cdr(&cdr_.car, cell::cell_type::rest) {}
+      : car(car_, cell::cell_type::element), cdr(&cdr_.car, cell::cell_type::link) {}
 
     constexpr
     void prepend(cell::value_type const & new_car) {
