@@ -21,7 +21,7 @@ int main() {
 
     
     if (true) {
-        reseune::cell<2, cell_type> acell(33);
+        reseune::cell<cell_type, 2> acell(33);
 
         acell.describe();
         printf("%s\n",

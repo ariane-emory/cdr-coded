@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 namespace reseune {
-    template<uint8_t FBC, typename ENUM_T>
+    template<typename ENUM_T, uint8_t FBC>
     class cell {
     public:
         static constexpr uint8_t    FLAG_BITS_COUNT      = FBC;
