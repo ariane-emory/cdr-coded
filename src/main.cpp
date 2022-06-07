@@ -7,7 +7,7 @@
 using namespace reseune;
 
 enum cell_type : uintptr_t {
-    element = 1,
+    element,
     last_element,
     rest 
 };

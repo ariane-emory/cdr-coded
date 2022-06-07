@@ -12,9 +12,9 @@ namespace reseune {
 
         typedef uintptr_t value_type;
         typedef ENUM_T cell_type;
-        
+
         inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
-            return ct << VALUE_BITS_COUNT;
+            return ct + 1 << VALUE_BITS_COUNT;
         }
 
         static constexpr uint8_t    VALUE_BITS_COUNT     = 64 - FLAG_BITS_COUNT;
