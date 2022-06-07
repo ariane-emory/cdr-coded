@@ -15,7 +15,7 @@ int main() {
 
     
     if (true) {
-        reseune::cell<char> acell(33);
+        reseune::cell<2>acell(33);
 
         acell.describe();
     }

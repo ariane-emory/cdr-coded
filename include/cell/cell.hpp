@@ -5,30 +5,30 @@
 #include <stdio.h>
 
 namespace reseune {
-    template<typename TT>
+    template<uint8_t FBC>
     class cell {
     public:
         typedef uintptr_t value_type;
 
-        enum cell_type : uintptr_t {
+        enum cell_type : value_type {
             element      = 1,
             last_element = 2,
             rest         = 3
         };
 
-        inline static constexpr uintptr_t cell_type_to_mask(cell_type const & ct) {
+        inline static constexpr value_type cell_type_to_mask(cell_type const & ct) {
             return ct << VALUE_BITS_COUNT;
         }
 
-        static constexpr uint8_t   FLAG_BITS_COUNT      = 2;
-        static constexpr uint8_t   VALUE_BITS_COUNT     = 64 - FLAG_BITS_COUNT;
-        static constexpr uintptr_t MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
-        static constexpr uintptr_t MASK_FLAG            = ~MASK_VALUE;
-        static constexpr uintptr_t FLAG_MASK_VALUE      = cell_type_to_mask(cell_type::element);
-        static constexpr uintptr_t FLAG_MASK_LAST_VALUE = cell_type_to_mask(cell_type::last_element);
-        static constexpr uintptr_t FLAG_MASK_REST       = cell_type_to_mask(cell_type::rest);
+        static constexpr uint8_t    FLAG_BITS_COUNT      = FBC;
+        static constexpr uint8_t    VALUE_BITS_COUNT     = 64 - FLAG_BITS_COUNT;
+        static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
+        static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
+        static constexpr value_type FLAG_MASK_VALUE      = cell_type_to_mask(cell_type::element);
+        static constexpr value_type FLAG_MASK_LAST_VALUE = cell_type_to_mask(cell_type::last_element);
+        static constexpr value_type FLAG_MASK_REST       = cell_type_to_mask(cell_type::rest);
 
-        uintptr_t data;
+        value_type data;
 
         inline constexpr cell(value_type const & v, cell_type const & ct = cell_type::element) {
             data = v | cell_type_to_mask(ct);
@@ -66,12 +66,12 @@ namespace reseune {
         static void print_bits(char const * descr, T const & v, bool const & print_int = true) {
             printf("%s 0b", descr);
 
-            uintptr_t tmp = static_cast<uintptr_t>(v);
+            value_type tmp = static_cast<value_type>(v);
             
             {
                 uint8_t ix = 0;
             
-                for (uintptr_t mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
+                for (value_type mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
                      mask;
                      mask >>= 1) {
                     putchar((mask & tmp) ? '1' : '0');
