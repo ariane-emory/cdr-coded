@@ -17,28 +17,28 @@ void describe_some_sizes() {
 int main() {
   describe_some_sizes();
     
-  // cell acell { 30, cell::cell_type::element };
-  // cell bcell { &acell, cell::cell_type::link };
+  // cell acell { 30, cell::tag::element };
+  // cell bcell { &acell, cell::tag::link };
 
   cell::describe_class();
 
   // acell.describe_instance();
   // bcell.describe_instance();
   // (*bcell).describe_instance();
-
+  
   cell cells[] = {
-    /*  0 */ { 10, cell::cell_type::element },
-    /*  1 */ { 20, cell::cell_type::element },
-    /*  2 */ { 30, cell::cell_type::element },
-    /*  3 */ nil,
+    /*  0 */ { 10, cell::tag::element },
+    /*  1 */ { 20, cell::tag::element },
+    /*  2 */ { 30, cell::tag::element },
+    /*  3 */ { &cells[6], cell::tag::element },
     /*  4 */ nil, 
     /*  5 */ nil,
-    /*  6 */ { 40, cell::cell_type::element },
-    /*  7 */ { 50, cell::cell_type::element },
-    /*  8 */ { 60, cell::cell_type::element },
-    /*  9 */ nil,
+    /*  6 */ { 40, cell::tag::element },
+    /*  7 */ { 50, cell::tag::element },
+    /*  8 */ { 60, cell::tag::element },
+    /*  9 */ { &cells[11], cell::tag::element },
     /* 10 */ nil,
-    /* 11 */ { 70, cell::cell_type::element },
+    /* 11 */ { 70, cell::tag::element },
     /* 12 */ nil
   };
 
