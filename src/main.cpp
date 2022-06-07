@@ -47,26 +47,26 @@ int main() {
 
   printf("================================================================================\n");
 
-  while (true)
+  if  (true)
   {
-    uint8_t ix { 0 };
+   uint8_t ix { 0 };
   
-    const cell * cursor = cells;
+   const cell * cursor = cells;
   
-    while (*cursor != nil) {
-      printf("cell # %u\n", ix++);
-      cursor->describe_instance();
-      // printf("NIL:\n");
-      // nil.describe_instance();
+   while (*cursor != nil) {
+     printf("cell # %u\n", ix++);
+     cursor->describe_instance();
+     // printf("NIL:\n");
+     // nil.describe_instance();
 
-      if (cursor->is_link()) [[unlikely]] {
-        cursor = cursor->link();
-      }
-      else [[likely]] {
-        cursor++;
-      }
-    }
-  }
+     if (cursor->is_link()) [[unlikely]] {
+       cursor = cursor->link();
+     }
+     else [[likely]] {
+       cursor++;
+     }
+   }
+ }
 }
 
 
