@@ -19,9 +19,9 @@ namespace reseune {
         static constexpr uint8_t    VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
         static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
         static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
-        static constexpr value_type FLAG_MASK_VALUE      = (cell_type::element) << VALUE_BITS_COUNT;
-        static constexpr value_type FLAG_MASK_LAST_VALUE = (cell_type::last_element);
-        static constexpr value_type FLAG_MASK_REST       = (cell_type::rest);
+        static constexpr value_type FLAG_MASK_VALUE      = cell_type::element << VALUE_BITS_COUNT;
+        static constexpr value_type FLAG_MASK_LAST_VALUE = cell_type::last_element << VALUE_BITS_COUNT;
+        static constexpr value_type FLAG_MASK_REST       = cell_type::rest << VALUE_BITS_COUNT;
 
         value_type data;
 
