@@ -112,7 +112,7 @@ namespace reseune {
         }
 
         static void print(char const * descr, uint8_t const & v) {
-            printf("%s %u\n", descr, v);
+            printf("%s % 16u\n", descr, v);
         }
     };
 }
