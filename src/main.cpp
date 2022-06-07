@@ -17,28 +17,21 @@ void describe_some_sizes() {
 int main() {
   describe_some_sizes();
     
-  // cell acell { 30, cell::tag::element };
-  // cell bcell { &acell, cell::tag::link };
-
   cell::describe_class();
-
-  // acell.describe_instance();
-  // bcell.describe_instance();
-  // (*bcell).describe_instance();
   
   cell cells[] = {
-    /*  0 */ { 10 },
-    /*  1 */ { 20 },
-    /*  2 */ { 30 },
-    /*  3 */ { &cells[6] },
+    /*  0 */ 10,
+    /*  1 */ 20,
+    /*  2 */ 30,
+    /*  3 */ &cells[6],
     /*  4 */ nil, 
     /*  5 */ nil,
-    /*  6 */ { 40 },
-    /*  7 */ { 50 },
-    /*  8 */ { 60 },
-    /*  9 */ { &cells[11], cell::tag::link },
+    /*  6 */ 40,
+    /*  7 */ 50,
+    /*  8 */ 60,
+    /*  9 */ &cells[11],
     /* 10 */ nil,
-    /* 11 */ { 70 },
+    /* 11 */ 70,
     /* 12 */ nil
   };
 
