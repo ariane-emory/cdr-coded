@@ -189,11 +189,14 @@ namespace reseune {
   };
 
   static constinit
-  cell nil {
+  cell _nil {
     static_cast<reseune::cell::value_type>(0),
     reseune::cell::cell_type::rest
   };
 
+  static constinit
+  cell * nil = &_nil;
+  
   struct cons {
     cell car, cdr;
     
