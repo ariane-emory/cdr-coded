@@ -122,10 +122,32 @@ namespace reseune {
     }
 
     constexpr
+    bool is_element() const {
+      return is_type(tag::element);
+    }
+
+    constexpr
+    bool is_link() const {
+      return is_type(tag::link);
+    }
+
+    constexpr
     cell const &
     operator*(){
       assert_must_be_a_link();
       return *link();
+    }
+
+    constexpr
+    bool
+    operator==(cell const & that) {
+      return data == that.data;
+    }
+
+    constexpr
+    bool
+    operator!=(cell const & that) {
+      return !operator==(that);
     }
     
     static

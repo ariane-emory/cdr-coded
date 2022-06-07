@@ -43,9 +43,10 @@ int main() {
     i.describe_instance();
   }
 
-  cell * cursor = cell;
-
-
+  cell * cursor = cells;
+  while (cursor != nil) {
+    cursor->describe_instance();
+  }
 }
 
 
