@@ -21,7 +21,7 @@ namespace reseune {
     };
 
     static inline constexpr
-    char const *
+    char const * const
     cell_type_as_c_str(cell_type const & ct) {
       switch (ct) {
 #define CASE(enum_val) case enum_val: return # enum_val;        
