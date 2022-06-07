@@ -151,15 +151,12 @@ namespace reseune {
 
       void next() {
         if (m_ptr->is_link()) {
-          // printf("Jumping!\n\n");
           m_ptr = m_ptr->link();
         }
         else {
-          // printf("Stepping!\n\n");
           m_ptr++;
 
           if (m_ptr->is_link()) {
-            // printf("Skipping!\n\n");
             m_ptr = m_ptr->link();
           }
         }

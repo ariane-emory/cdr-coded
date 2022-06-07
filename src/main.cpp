@@ -14,7 +14,7 @@ void describe_some_sizes() {
   printf("\n");
 }
 
-constexpr size_t MEMORY_SIZE = 1<<12; // 4096 cells, 32k memory
+constexpr size_t MEMORY_SIZE = 1<<10; // 1024 cells, 8k memory
 
 // cell cells[MEMORY_SIZE] = { 
 //   /*  0 */ 10,
