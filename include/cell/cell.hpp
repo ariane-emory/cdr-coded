@@ -10,6 +10,7 @@ namespace reseune {
     class cell {
     public:
         typedef uintptr_t value_type;
+        typedef uint8_t uchar_type;
 
         enum class cell_type : uintptr_t {
             element = 1,
@@ -18,8 +19,8 @@ namespace reseune {
             invalid
         };
 
-        static constexpr uint8_t    FLAG_BITS_COUNT      = 2;
-        static constexpr uint8_t    VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
+        static constexpr uchar_type FLAG_BITS_COUNT      = 2;
+        static constexpr uchar_type VALUE_BITS_COUNT     = (sizeof(value_type) << 3) - FLAG_BITS_COUNT;
         static constexpr value_type MASK_VALUE           = (1ul << VALUE_BITS_COUNT) - 1;
         static constexpr value_type MASK_FLAG            = ~MASK_VALUE;
         static constexpr value_type FLAG_MASK_VALUE      = static_cast<value_type>(cell_type::element)      << VALUE_BITS_COUNT;
@@ -55,53 +56,53 @@ namespace reseune {
             return get_value();
         }
 
-            inline constexpr
-                cell const * rest() const {
-                assert(is_type(cell_type::rest));
+        inline constexpr
+        cell const * rest() const {
+            assert(is_type(cell_type::rest));
             
-                return get_rest();
-            }
+            return get_rest();
+        }
         
-            inline constexpr
-                value_type flag() const {
-                return data & MASK_FLAG;
-            }
+        inline constexpr
+        value_type flag() const {
+            return data & MASK_FLAG;
+        }
 
-            inline constexpr
-                cell_type type() const {
-                return static_cast<cell_type>(flag() >> 62); 
-            }
+        inline constexpr
+        cell_type type() const {
+            return static_cast<cell_type>(flag() >> 62); 
+        }
 
-            inline constexpr
-                bool is_type(cell_type const & ct) const {
-                return type() == ct; 
-            }
+        inline constexpr
+        bool is_type(cell_type const & ct) const {
+            return type() == ct; 
+        }
         
-            static inline
-                void describe_class() {
-                print("VB:                   ", VALUE_BITS_COUNT);
-                print("FB:                   ", FLAG_BITS_COUNT);
-                print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
-                print_bits("MASK_VALUE:           ", MASK_FLAG, false);
-                print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
-                print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
-                print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
-                putchar('\n');
-            }
+        static inline
+        void describe_class() {
+            print("VB:                   ", VALUE_BITS_COUNT);
+            print("FB:                   ", FLAG_BITS_COUNT);
+            print_bits("MASK_FLAGS:           ", MASK_VALUE, false);
+            print_bits("MASK_VALUE:           ", MASK_FLAG, false);
+            print_bits("FLAG_MASK_VALUE:      ", FLAG_MASK_VALUE, false);
+            print_bits("FLAG_MASK_LAST_VALUE: ", FLAG_MASK_LAST_VALUE, false);
+            print_bits("FLAG_MASK_REST:       ", FLAG_MASK_REST, false);
+            putchar('\n');
+        }
         
-            inline
-                void describe_instance() const {
-                // printf("Cell at:                                                                                           %018p\n", this);
-                print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
-                print_bits("cell.data:            ", data);
-                print_bits("cell.flag():          ", flag());
-                print_bits("cell.type():          ", type());
-                if (is_type(cell_type::rest))
-                    print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
-                else
-                    print_bits("cell.value()          ", value());
-                putchar('\n');
-            }
+        inline
+        void describe_instance() const {
+            // printf("Cell at:                                                                                           %018p\n", this);
+            print_bits("cell @                ", reinterpret_cast<uintptr_t>(this));
+            print_bits("cell.data:            ", data);
+            print_bits("cell.flag():          ", flag());
+            print_bits("cell.type():          ", type());
+            if (is_type(cell_type::rest))
+                print_bits("cell.rest():          ", reinterpret_cast<uintptr_t>(rest()));
+            else
+                print_bits("cell.value()          ", value());
+            putchar('\n');
+        }
         
     private:
         inline constexpr
@@ -123,7 +124,7 @@ namespace reseune {
             value_type tmp = static_cast<value_type>(v);
             
             {
-                uint8_t ix = 0;
+                uchar_type ix = 0;
             
                 for (value_type mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
                      mask;
@@ -143,7 +144,7 @@ namespace reseune {
         }
 
         static inline
-        void print(char const * descr, uint8_t const & v) {
+        void print(char const * descr, uchar_type const & v) {
             printf("%s %u\n", descr, v);
         }
     };
@@ -157,6 +158,6 @@ namespace reseune {
     };
 }
 
-//static constexpr reseune::cell nil { 0, reseune::cell::cell_type::rest };
+// static constexpr reseune::cell nil { static_cast<reseune::cell::value_type>(0), reseune::cell::cell_type::rest };
 
 #endif
