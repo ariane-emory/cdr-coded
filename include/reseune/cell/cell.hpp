@@ -61,7 +61,7 @@ namespace reseune {
     };                                                                          \
     constexpr                                                                   \
     void                                                                        \
-    assert_ ## name() const {                                                   \
+    ASSERT_ ## name() const {                                                   \
       if constexpr(THROW) {                                                     \
         if (! (expr))                                                           \
           throw name {};                                                        \
@@ -72,14 +72,14 @@ namespace reseune {
       }                                                                         \
     }
     
-    DEFINE_LOGIC_ERROR_AND_ASSERT(cannot_be_a_link, tag_t::link != tag())
-    DEFINE_LOGIC_ERROR_AND_ASSERT(must_be_a_link,   tag_t::link == tag())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_t::link != tag())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_t::link == tag())
 
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
     constexpr
     value_type value() const {
-      assert_cannot_be_a_link();
+      ASSERT_CANNOT_BE_A_LINK();
 
       return get_value();
     }
@@ -87,7 +87,7 @@ namespace reseune {
     constexpr
     cell const *
     link() const {
-      assert_must_be_a_link();
+      ASSERT_MUST_BE_A_LINK();
       
       return get_link();
     }
@@ -115,7 +115,8 @@ namespace reseune {
     constexpr
     cell const &
     operator*() const {
-      assert_must_be_a_link();
+      ASSERT_MUST_BE_A_LINK();
+      
       printf("DEREF!\n\n");
       return *link();
     }
