@@ -2,8 +2,7 @@
 #include <inttypes.h>
 #include <stdexcept>
 
-#include "thing/thing.hpp"
-#include "cell/cell.hpp"
+#include "reseune/cell/cell.hpp"
 
 using namespace reseune;
 
