@@ -189,25 +189,36 @@ namespace reseune {
   };
 
   static constinit
-  cell _nil {
+  cell nil {
     static_cast<reseune::cell::value_type>(0),
     reseune::cell::cell_type::rest
   };
 
-  static constinit
-  cell * nil = &_nil;
-  
+  // static constinit
+  // cell * nil = &_nil;
+
+#ifdef RESEUNE_CONS
   struct cons {
     cell car, cdr;
     
-    constexpr
-    cons(cell::value_type const & car_, cell * const cdr_ = nil)
-      : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::rest) {}
+    // constexpr
+    // cons(cell::value_type const & car_, cell * const cdr_ = nil)
+    //   : car(car_, cell::cell_type::element), cdr(cdr_, cell::cell_type::rest) {}
 
     constexpr
-    cons(cell::value_type const & car_, cell & const cdr_ = nil)
+    cons(cell::value_type const & car_, cell & cdr_)
       : car(car_, cell::cell_type::element), cdr(&cdr_, cell::cell_type::rest) {}
-  };
-}
 
+    constexpr
+    cons(cell::value_type const & car_, cons & cdr_)
+      : car(car_, cell::cell_type::element), cdr(&cdr_.car, cell::cell_type::rest) {}
+
+    constexpr
+    void prepend(cell::value_type const & new_car) {
+      cdr = car;
+      car = new_car;
+    }
+  };
+#endif
+}
 #endif

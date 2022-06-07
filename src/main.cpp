@@ -24,9 +24,6 @@ int main() {
   acell.describe_instance();
   bcell.describe_instance();
   (*bcell).describe_instance();
-
-
-  cons dumb_list(3);
   
 // bcell.value();
   // bcell.rest();
