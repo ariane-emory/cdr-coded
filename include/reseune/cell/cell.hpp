@@ -164,7 +164,7 @@ namespace reseune {
       value_type tmp = static_cast<value_type>(v);
             
       {
-        uchar_type ix = 0;
+        uchar_type ix{0};
             
         for (value_type mask = 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul;
              mask;
