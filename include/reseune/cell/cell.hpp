@@ -138,12 +138,12 @@ namespace reseune {
     tag_t_as_c_str(tag_t const & ct) {
       switch (ct) {
       default: return "ERROR";
-#define CASE(enum_val) case enum_val: return # enum_val;
-        CASE(tag_t::element);
+#define CASE(enum_val) case tag_t::enum_val: return # enum_val;
+        CASE(element);
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        CASE(tag_t::last_element);
+        CASE(last_element);
 #endif
-        CASE(tag_t::link);
+        CASE(link);
 #undef CASE
       }
     }

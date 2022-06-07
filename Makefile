@@ -6,8 +6,9 @@ CXXLAGS  = \
 	-flto \
 	-g \
 	-Wno-terminate \
-  -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 	-DRESEUNE_WARN #-DRESEUNE_THROW #-DNDEBUG
+# -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
+
 GDB      = gdb
 
 SRC      = $(shell find src -name "*.cpp")
