@@ -111,6 +111,13 @@ namespace reseune {
       return is_type(tag_t::element);
     }
 
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+    constexpr
+    bool is_last_element() const {
+      return is_type(tag_t::last_element);
+    }
+#endif
+
     constexpr
     bool is_link() const {
       return is_type(tag_t::link);
@@ -147,6 +154,12 @@ namespace reseune {
       pointer_type   operator -> () { return m_ptr; }
 
       void next() {
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+        if (m_ptr->is_last_element()) {
+          m_ptr = nullptr;
+        }
+        else
+#endif
         if (m_ptr->is_link()) {
           m_ptr = m_ptr->link();
         }
@@ -183,7 +196,8 @@ namespace reseune {
     }
 
     const_iterator end() const {
-      return const_iterator { nullptr };
+      static const_iterator nil_iter { nullptr };
+      return nil_iter;
     }
 
     static constexpr
