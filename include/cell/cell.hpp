@@ -48,19 +48,39 @@ namespace reseune {
     : data(0 | (static_cast<value_type>(cell_type::rest) << VALUE_BITS_COUNT)) {}
     
 
+    class must_be_a_rest   : public std::logic_error {
+    public:
+      must_be_a_rest() : std::logic_error("must_be_a_rest") {};
+    };
+
+    class cannot_be_a_rest : public std::logic_error {
+    public:
+      cannot_be_a_rest() : std::logic_error("cannot_be_a_rest") {};
+    };
+
+    inline constexpr
+    void assert_must_be_a_rest() const {
+      if (cell_type::rest != type())
+        throw new must_be_a_rest();
+    }
+
+    inline constexpr
+    void assert_cannot_be_a_rest() const {
+      if (cell_type::rest == type())
+        throw new cannot_be_a_rest();
+    }
+    
     inline constexpr
     value_type value() const noexcept {
-      if (cell_type::rest == type())
-        throw new std::logic_error("rest == type()");
+      assert_cannot_be_a_rest();
 
       return get_value();
     }
 
     inline constexpr
     cell const * rest() const noexcept {
-      if (cell_type::rest != type())
-        throw new std::logic_error("rest != type()");
-
+      assert_must_be_a_rest();
+      
       return get_rest();
     }
         

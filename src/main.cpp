@@ -23,7 +23,7 @@ int main() {
   cell::describe_class();
   acell.describe_instance();
   bcell.describe_instance();
-    
+  bcell.value();
 }
 
 
