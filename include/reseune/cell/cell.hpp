@@ -138,16 +138,14 @@ namespace reseune {
       // using iterator_category = std::forward_iterator_tag;
       // using difference_type   = std::ptrdiff_t;
       using value_type        = cell;
-      using pointer           = const cell *;  // or also value_type*
-      using reference         = const cell &;
+      using pointer_type      = const cell *;  // or also value_type*
+      using reference_type    = const cell &;
 
-      typedef pointer   pointer_to_cell;
-      typedef reference reference_to_cell;
       
-      const_iterator(pointer_to_cell ptr): m_ptr(ptr) {}
+      const_iterator(pointer_type ptr): m_ptr(ptr) {}
       
-      reference_to_cell operator *  () const { return *m_ptr; }
-      pointer_to_cell   operator -> () { return m_ptr; }
+      reference_type operator *  () const { return *m_ptr; }
+      pointer_type   operator -> () { return m_ptr; }
 
       void next() {
         if (m_ptr->is_link()) {
@@ -178,7 +176,7 @@ namespace reseune {
       friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
 
     private:
-      pointer_to_cell m_ptr;
+      pointer_type m_ptr;
     };
     
     const_iterator begin() const {
