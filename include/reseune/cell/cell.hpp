@@ -183,7 +183,7 @@ namespace reseune {
       }
             
       if (print_int)
-        printf(" = 0x%016lx = % 24lu\n", tmp, tmp);
+        printf(" = 0x%016lx = % 20lu\n", tmp, tmp);
       else
         putchar('\n');
     }
