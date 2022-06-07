@@ -1,6 +1,6 @@
 CXX = g++-11
 CXXLAGS  = \
-	-std=gnu++20 \
+	-std=c++20 \
 	-Iinclude \
 	-O1 \
 	-g \
