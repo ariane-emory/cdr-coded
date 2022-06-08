@@ -175,16 +175,14 @@ namespace reseune {
 
     struct const_iterator
     {
-      using iterator_category = std::forward_iterator_tag;
-      using difference_type   = std::ptrdiff_t;
       using value_type        = cell;
-      using pointer_type      = cell const *;
-      using reference_type    = cell const &;
+      using difference_type   = std::ptrdiff_t;
+      using iterator_category = std::forward_iterator_tag;
       
-      const_iterator(pointer_type ptr): m_ptr(ptr) {}
+      const_iterator(value_type const * ptr): m_ptr(ptr) {}
       
-      reference_type operator *  () const { return *m_ptr; }
-      pointer_type   operator -> () { return m_ptr; }
+      value_type const & operator *  () const { return *m_ptr; }
+      value_type const *       operator -> () { return m_ptr; }
 
       void next() {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
@@ -223,7 +221,7 @@ namespace reseune {
       friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
 
     private:
-      pointer_type m_ptr;
+      value_type const * m_ptr;
     };
     
     const_iterator begin() const {
