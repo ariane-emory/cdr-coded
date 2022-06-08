@@ -9,7 +9,7 @@ CXXLAGS  = \
   -Wno-terminate \
 	-DRESEUNE_WARN \
   -DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-  #-DRESEUNE_THROW #-DNDEBUG
+	 #-DNDEBUG
 
 GDB      = gdb
 OBJDUMP  = objdump

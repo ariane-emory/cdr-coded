@@ -50,12 +50,13 @@ namespace reseune {
     cell() 
       : data(0 | static_cast<value_type>(tag_t::link)) {}
     
-#ifdef RESEUNE_THROW
+#ifdef __EXCEPTIONS
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
     class name : public std::logic_error {                                      \
     public:                                                                     \
     name() : std::logic_error(# name) {};                                       \
     };                                                                          \
+                                                                                \
     constexpr                                                                   \
     void                                                                        \
     ASSERT_ ## name() const {                                                   \
@@ -64,10 +65,6 @@ namespace reseune {
     }
 #else
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
-    class name : public std::logic_error {                                      \
-    public:                                                                     \
-    name() : std::logic_error(# name) {};                                       \
-    };                                                                          \
     constexpr                                                                   \
     void                                                                        \
     ASSERT_ ## name() const {                                                   \
