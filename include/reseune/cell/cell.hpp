@@ -6,12 +6,17 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <bit>
-#include <cassert>
-#include <cstddef>
-#include <stdexcept>
+
 #include <iterator>
-#include <compare>
 #include "reseune/reseune.hpp"
+
+#ifdef __EXCEPTIONS
+#include <stdexcept>
+#endif
+
+#ifndef RESEUNE_CELL_WITHOUT_SPACESHIP
+#include <compare>
+#endif
 
 namespace reseune {
   class cell {
