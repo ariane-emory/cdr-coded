@@ -1,4 +1,4 @@
-CXX = g++-11
+CXX = g++-12
 CXXLAGS  = \
 	-std=gnu++23 \
 	-Iinclude \

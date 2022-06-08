@@ -5,6 +5,10 @@
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
 
+// ---------------------------------------------------------------------------------------------------------------------
+
+#define LINE printf("=================================================================================================================================================\n\n")
+
 constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
 #ifdef WITH_RESEUNE_POOL
@@ -36,6 +40,15 @@ constexpr reseune::cell POOL[POOL_SIZE]
   /* 20 */ nullptr    
 };
 
+
+#ifdef WITH_RESEUNE_POOL
+#define DATA (POOL.data)
+#else
+#define DATA (POOL)
+#endif
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 void describe_some_sizes() {
   auto pool_size = POOL_SIZE*sizeof(reseune::cell);
   printf("POOL total size:            %zu bytes", pool_size);
@@ -49,6 +62,8 @@ void describe_some_sizes() {
   printf("\n");
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+
 int main() {
   describe_some_sizes();
     
@@ -58,19 +73,12 @@ int main() {
   {
     uint8_t ix { 0 };
 
-#ifdef WITH_RESEUNE_POOL
-#define DATA (POOL.data)
-#else
-#define DATA (POOL)
-#endif
     for (reseune::cell const & i : DATA) {
       printf("cell # %u\n", ix++);
     
       i.describe_instance();
     }
 
-
-#define LINE printf("=================================================================================================================================================\n\n")
     LINE;
   }
 
