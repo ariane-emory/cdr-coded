@@ -75,6 +75,54 @@ void describe_every_cell()
   LINE;
 }
 
+void describe_list(reseune::cell const & head) {
+  uint8_t ix { 0 };
+    
+  for (reseune::cell const & c : head) {
+    LINE;
+    printf("cell #%u\n", ix++);
+    c.describe_instance();
+  }
+}
+
+void draw_the_pool() {
+  for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
+    for (size_t col = 0; col < 64; col++, ix++)
+    {
+      // printf("%zu %zu %zu\n", ix, line, col);
+
+      auto cell = POOL[ix];
+        
+      if (cell.is_nil()) {
+        putchar('.');
+      }
+      else if (cell.is_element()) {
+        putchar(static_cast<char>(cell.value()));
+      }
+      else if (cell.is_last_element()) {
+        putchar(static_cast<char>(cell.value() + 32));
+      }
+      else if (cell.is_link()) {
+        if (cell.link() > &cell)
+          putchar('<');
+        else if (cell.link() < &cell)
+          putchar('>');
+        else
+          putchar('x');
+      }
+      else {
+        putchar('?');
+      }
+
+      // else if (cell.is_nil())
+      //   putchar('.');
+      // else
+      //   putchar('?');
+    }
+    putchar('\n');
+  }
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 int main() {
@@ -82,64 +130,10 @@ int main() {
     
   reseune::cell::describe_class();
 
-
   // describe_every_cell();
-  
-  if (true) {
-    uint8_t ix { 0 };
-    
-    for (reseune::cell const & c : POOL[0]) {
-      LINE;
-      printf("cell #%u\n", ix++);
-      c.describe_instance();
-    }
-  }
 
-  if (true) {
-    uint8_t ix { 0 };
-    
-    for (reseune::cell const & c : POOL[4]) {
-      LINE;
-      printf("cell #%u\n", ix++);
-      c.describe_instance();
-    }
-  }
+  describe_list(POOL[0]); // list of Xs.
+  describe_list(POOL[4]); // list of Ys.
 
-  if (true) {
-    for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
-      for (size_t col = 0; col < 64; col++, ix++)
-      {
-        // printf("%zu %zu %zu\n", ix, line, col);
-
-        auto cell = POOL[ix];
-        
-        if (cell.is_nil()) {
-          putchar('.');
-        }
-        else if (cell.is_element()) {
-          putchar(static_cast<char>(cell.value()));
-        }
-        else if (cell.is_last_element()) {
-          putchar(static_cast<char>(cell.value() + 32));
-        }
-        else if (cell.is_link()) {
-          if (cell.link() > &cell)
-            putchar('<');
-          else if (cell.link() < &cell)
-            putchar('>');
-          else
-            putchar('x');
-        }
-        else {
-          putchar('?');
-        }
-
-        // else if (cell.is_nil())
-        //   putchar('.');
-        // else
-        //   putchar('?');
-      }
-      putchar('\n');
-    }
-  }
+  draw_the_pool();
 }
