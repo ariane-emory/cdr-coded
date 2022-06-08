@@ -21,20 +21,33 @@
 namespace reseune {
   class cell {
   public:
+
+// =====================================================================================================================
+// Typedefs
+// =====================================================================================================================
+    
     using value_type = uintptr_t;
     using uchar_type = uint8_t;
 
+// =====================================================================================================================
+// Static constants
+// =====================================================================================================================
+    
     static constexpr uchar_type TAG_BITS_COUNT      {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       2
 #else
-        1
+      1
 #endif
     };
     static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
     static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
 
+// =====================================================================================================================
+// tag_t enum class
+// =====================================================================================================================
+    
     enum class tag_t : uintptr_t {
       link,
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
@@ -43,7 +56,19 @@ namespace reseune {
       element = 1ul << VALUE_BITS_COUNT,
     };
 
+// =====================================================================================================================
+// Member field
+// =====================================================================================================================
+
     value_type data;
+        
+// =====================================================================================================================
+// Constructors
+// =====================================================================================================================
+
+    constexpr
+    cell() 
+      : data(0 | static_cast<value_type>(tag_t::link)) {}
 
     constexpr
     cell(value_type const & v, tag_t const & ct = tag_t::element
@@ -54,9 +79,9 @@ namespace reseune {
     cell(cell const * v, tag_t const & ct = tag_t::link) 
       : data(reinterpret_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
-    constexpr
-    cell() 
-      : data(0 | static_cast<value_type>(tag_t::link)) {}
+// =====================================================================================================================
+// DEFINE_LOGIC_EROR_AND_ASSERT
+// =====================================================================================================================
     
 #ifdef __EXCEPTIONS
 #define DEFINE_LOGIC_ERROR_AND_ASSERT(name, expr)                               \
@@ -84,6 +109,10 @@ namespace reseune {
     DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_t::link != tag())
     DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_t::link == tag())
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
+
+    // =====================================================================================================================
+    // Accessor member functions
+    // =====================================================================================================================
     
     constexpr
     value_type value() const {
@@ -105,6 +134,10 @@ namespace reseune {
       return static_cast<tag_t>(data & MASK_TAG); 
     }
 
+    // =====================================================================================================================
+    // Predicate member functions
+    // =====================================================================================================================
+    
     constexpr
     bool is_element() const {
       return is_type(tag_t::element);
@@ -127,15 +160,10 @@ namespace reseune {
       return *this == cell {};
     }
 
-#ifdef RESEUNE_CELL_WITH_DEREFERENCE_OPERATOR
-    constexpr
-    cell const &
-    operator  * () const {
-      ASSERT_MUST_BE_A_LINK();
-      return *link();
-    }
-#endif
-
+    // =====================================================================================================================
+    // Operator member functions
+    // =====================================================================================================================
+    
 #ifdef RESEUNE_CELL_WITHOUT_SPACESHIP
     constexpr
     bool operator == (cell const & that) {
@@ -149,6 +177,19 @@ namespace reseune {
 #else
     auto operator <=> (cell const  &) const = default;
 #endif
+    
+#ifdef RESEUNE_CELL_WITH_DEREFERENCE_OPERATOR
+    constexpr
+    cell const &
+    operator  * () const {
+      ASSERT_MUST_BE_A_LINK();
+      return *link();
+    }
+#endif
+
+    // =====================================================================================================================
+    // Printing-related member functions
+    // =====================================================================================================================
     
     static constexpr
     char const * const
@@ -186,6 +227,10 @@ namespace reseune {
       putchar('\n');
     }
 
+    // =====================================================================================================================
+    // cell::const_iterator class
+    // =====================================================================================================================
+    
     struct const_iterator
     {
       using value_type        = cell;
@@ -243,21 +288,24 @@ namespace reseune {
       return const_iterator { nullptr };
     }
 
+  // ===================================================================================================================
   private:
+  // ===================================================================================================================
+    
     constexpr
     value_type get_value() const {
       return data & MASK_VALUE;
     }
 
     constexpr
-    bool is_type(tag_t const & ct) const {
-      return tag() == ct; 
-    }
-
-    constexpr
     cell const *
     get_link() const {
       return std::bit_cast<cell const *>(get_value());
+    }
+
+    constexpr
+    bool is_type(tag_t const & ct) const {
+      return tag() == ct; 
     }
 
     template <typename T>
