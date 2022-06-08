@@ -13,8 +13,8 @@
 namespace reseune {
   class cell {
   public:
-    typedef uintptr_t value_type;
-    typedef uint8_t uchar_type;
+    using value_type = uintptr_t;
+    using uchar_type = uint8_t;
 
     static constexpr uchar_type TAG_BITS_COUNT      {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
@@ -139,11 +139,11 @@ namespace reseune {
 
     struct const_iterator
     {
-      typedef std::forward_iterator_tag iterator_category;
-      typedef std::ptrdiff_t            difference_type ;
-      typedef cell                      value_type;
-      typedef cell const *              pointer_type; 
-      typedef cell const &              reference_type;
+      using iterator_category = std::forward_iterator_tag;
+      using difference_type   = std::ptrdiff_t;
+      using value_type        = cell;
+      using pointer_type      = cell const *;
+      using reference_type    = cell const &;
       
       const_iterator(pointer_type ptr): m_ptr(ptr) {}
       
