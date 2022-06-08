@@ -14,25 +14,25 @@ void describe_some_sizes() {
   printf("\n");
 }
 
-constexpr size_t MEMORY_SIZE = 1<<10; // 1024 cells, 8k memory
+constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
-constexpr cell cells[MEMORY_SIZE] = { 
+constexpr cell POOL[POOL_SIZE] = { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
-  /*  3 */ &cells[6],
+  /*  3 */ &POOL[6],
   /*  4 */ 89, 
-  /*  5 */ &cells[12],
+  /*  5 */ &POOL[12],
   /*  6 */ 88,
   /*  7 */ 88,
   /*  8 */ 88,
-  /*  9 */ &cells[11],
+  /*  9 */ &POOL[11],
   /* 10 */ nullptr,
   /* 11 */ { 88, cell::tag_t::last_element },
   /* 12 */ 89,
   /* 13 */ 89,
   /* 14 */ 89,
-  /* 15 */ &cells[17],
+  /* 15 */ &POOL[17],
   /* 16 */ nullptr,
   /* 17 */ { 89, cell::tag_t::last_element },
   /* 18 */ nullptr,
@@ -52,7 +52,7 @@ int main() {
   {
     uint8_t ix { 0 };
   
-    for (cell const & i : cells) {
+    for (cell const & i : POOL) {
       printf("cell # %u\n", ix++);
     
       i.describe_instance();
@@ -64,7 +64,7 @@ int main() {
   if (true) {
     uint8_t ix { 0 };
     
-    for (cell const & c : cells[0]) {
+    for (cell const & c : POOL[0]) {
       LINE;
       printf("cell #%u\n", ix++);
       c.describe_instance();
@@ -74,7 +74,7 @@ int main() {
   if (true) {
     uint8_t ix { 0 };
     
-    for (cell const & c : cells[4]) {
+    for (cell const & c : POOL[4]) {
       LINE;
       printf("cell #%u\n", ix++);
       c.describe_instance();
@@ -82,12 +82,12 @@ int main() {
   }
 
   if (true) {
-    for (size_t ix = 0, line = 0; line < (MEMORY_SIZE >> 6); line++) {
+    for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
       for (size_t col = 0; col < 64; col++, ix++)
       {
         // printf("%zu %zu %zu\n", ix, line, col);
 
-        auto cell = cells[ix];
+        auto cell = POOL[ix];
         
         if (cell.is_nil()) {
           putchar('.');
