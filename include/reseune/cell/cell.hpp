@@ -242,32 +242,27 @@ namespace reseune {
       const_iterator(value_type const * ptr): m_ptr(ptr) {}
       
       value_type const & operator *  () const { return *m_ptr; }
-      value_type const *       operator -> () { return m_ptr; }
+      value_type const * operator -> () const { return m_ptr; }
 
       void next() {
         m_ptr->ASSERT_CANNOT_BE_A_LINK();
         
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        if (m_ptr->is_last_element()) {
+        if (m_ptr++->is_last_element()) { // Note post-increment!
           m_ptr = nullptr;
         }
 #else
-        if (false) {}
-#endif
-        // else if (m_ptr->is_link()) {
-        //   do {
-        //     m_ptr = m_ptr->link();
-        //   } while (m_ptr->is_link());
-        // }
-        else if ((++m_ptr)->is_nil()) {
+        if ((++m_ptr)->is_nil()) { // Note pre-increment!
           m_ptr = nullptr;
         }
+#endif
         else if (m_ptr->is_link()) {
           do {
             m_ptr = m_ptr->link();
           } while (m_ptr->is_link());
         }
-        // else (i.e, if m_ptr->is_element()), it's value was already incremented in the prior case's test.
+        // else (i.e, if m_ptr->is_element()), it's pointer was already
+        // pre or post incremented in the prior case's test.
       }
 
       // prefix
