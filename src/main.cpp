@@ -6,9 +6,32 @@
 
 using namespace reseune;
 
+#ifdef RESEUNE_POOL
+template <typename T, size_t S>
+class pool {
+public:
+  using value_type = T;
+  
+  static constexpr size_t SIZE = S;
+
+  value_type data[SIZE];
+  
+  constexpr cell const & operator [] (size_t const & ix) const {
+    return data[ix];
+  }
+};
+#endif
+
 constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
-constexpr cell POOL[POOL_SIZE] = { 
+// constexpr pool<cell, POOL_SIZE> POOL2 {};
+
+#ifdef RESEUNE_POOL
+constexpr pool<cell, POOL_SIZE> POOL
+#else
+constexpr cell POOL[POOL_SIZE]
+#endif
+= { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
@@ -57,7 +80,7 @@ int main() {
   {
     uint8_t ix { 0 };
   
-    for (cell const & i : POOL) {
+    for (cell const & i : POOL.data) {
       printf("cell # %u\n", ix++);
     
       i.describe_instance();
