@@ -243,6 +243,8 @@ namespace reseune {
       value_type const *       operator -> () { return m_ptr; }
 
       void next() {
+        m_ptr->ASSERT_CANNOT_BE_A_LINK();
+        
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
         if (m_ptr->is_last_element()) {
           m_ptr = nullptr;
