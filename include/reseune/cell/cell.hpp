@@ -76,7 +76,6 @@ namespace reseune {
     
     DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_t::link != tag())
     DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_t::link == tag())
-
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
     
     constexpr
