@@ -192,30 +192,27 @@ namespace reseune {
 #else
         if (false) 
 #endif
-        else
-          if (m_ptr->is_link()) {
-            m_ptr = m_ptr->link();
-          }
-          else {
-            m_ptr++;
-
-            if (m_ptr->is_link()) {
-              m_ptr = m_ptr->link();
-            }
-          }
+        else if (m_ptr->is_link()) {
+          m_ptr = m_ptr->link();
+        }
+        else if ((++m_ptr)->is_link()) {
+          m_ptr = m_ptr->link();
+        }
       }
-      
+
+      // prefix
       const_iterator & operator ++ () {
         next();
 
         return *this;
-      } // prefix
+      }
 
+      // postfix: untested 
       const_iterator operator ++ (int) {
         const_iterator tmp = *this;
-        ++(*this);
+        next();
         return tmp;
-      }  // postfix
+      } 
 
       friend bool operator == (const const_iterator& a, const const_iterator& b) { return a.m_ptr == b.m_ptr; };
       friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
