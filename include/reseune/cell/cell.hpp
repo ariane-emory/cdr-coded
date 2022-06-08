@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <iterator>
+#include <compare>
 #include "reseune/reseune.hpp"
 
 namespace reseune {
@@ -30,7 +31,7 @@ namespace reseune {
     enum class tag_t : uintptr_t {
       link,
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      last_element = 1ul << VALUE_BITS_COUNT + 1,
+      last_element = 1ul << (VALUE_BITS_COUNT + 1),
 #endif
       element = 1ul << VALUE_BITS_COUNT,
     };
@@ -119,14 +120,17 @@ namespace reseune {
     bool is_nil() const {
       return *this == cell {};
     }
-    
+
+#ifdef RESEUNE_CELL_WITH_DEREFERENCE_OPERATOR
     constexpr
     cell const &
     operator  * () const {
       ASSERT_MUST_BE_A_LINK();
       return *link();
     }
+#endif
 
+#ifdef RESEUNE_CELL_WITHOUT_SPACESHIP
     constexpr
     bool operator == (cell const & that) {
       return data == that.data;
@@ -136,7 +140,10 @@ namespace reseune {
     bool operator != (cell const & that) {
       return !operator==(that);
     }
-
+#else
+    auto operator <=> (cell const  &) const = default;
+#endif
+    
     static constexpr
     char const * const
     tag_t_as_c_str(tag_t const & ct) {
