@@ -99,11 +99,6 @@ namespace reseune {
     }
 
     constexpr
-    bool is_type(tag_t const & ct) const {
-      return tag() == ct; 
-    }
-
-    constexpr
     bool is_element() const {
       return is_type(tag_t::element);
     }
@@ -121,6 +116,11 @@ namespace reseune {
     }
 
     constexpr
+    bool is_nil() const {
+      return *this == cell {};
+    }
+    
+    constexpr
     cell const &
     operator  * () const {
       ASSERT_MUST_BE_A_LINK();
@@ -135,65 +135,6 @@ namespace reseune {
     constexpr
     bool operator != (cell const & that) {
       return !operator==(that);
-    }
-
-    struct const_iterator
-    {
-      using iterator_category = std::forward_iterator_tag;
-      using difference_type   = std::ptrdiff_t;
-      using value_type        = cell;
-      using pointer_type      = cell const *;
-      using reference_type    = cell const &;
-      
-      const_iterator(pointer_type ptr): m_ptr(ptr) {}
-      
-      reference_type operator *  () const { return *m_ptr; }
-      pointer_type   operator -> () { return m_ptr; }
-
-      void next() {
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        if (m_ptr->is_last_element()) {
-          m_ptr = nullptr;
-        }
-        else
-#endif
-        if (m_ptr->is_link()) {
-          m_ptr = m_ptr->link();
-        }
-        else {
-          m_ptr++;
-
-          if (m_ptr->is_link()) {
-            m_ptr = m_ptr->link();
-          }
-        }
-      }
-      
-      const_iterator & operator ++ () {
-        next();
-
-        return *this;
-      } // prefix
-
-      const_iterator operator ++ (int) {
-        const_iterator tmp = *this;
-        ++(*this);
-        return tmp;
-      }  // postfix
-
-      friend bool operator == (const const_iterator& a, const const_iterator& b) { return a.m_ptr == b.m_ptr; };
-      friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
-
-    private:
-      pointer_type m_ptr;
-    };
-    
-    const_iterator begin() const {
-      return const_iterator { this };
-    }
-
-    const_iterator end() const {
-      return const_iterator { nullptr };
     }
 
     static constexpr
@@ -232,15 +173,74 @@ namespace reseune {
       putchar('\n');
     }
 
-    constexpr
-    bool is_nil() const {
-      return *this == cell {};
-    }
+    struct const_iterator
+    {
+      using iterator_category = std::forward_iterator_tag;
+      using difference_type   = std::ptrdiff_t;
+      using value_type        = cell;
+      using pointer_type      = cell const *;
+      using reference_type    = cell const &;
+      
+      const_iterator(pointer_type ptr): m_ptr(ptr) {}
+      
+      reference_type operator *  () const { return *m_ptr; }
+      pointer_type   operator -> () { return m_ptr; }
+
+      void next() {
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+        if (m_ptr->is_last_element()) {
+          m_ptr = nullptr;
+        }
+        else
+#endif
+          if (m_ptr->is_link()) {
+            m_ptr = m_ptr->link();
+          }
+          else {
+            m_ptr++;
+
+            if (m_ptr->is_link()) {
+              m_ptr = m_ptr->link();
+            }
+          }
+      }
+      
+      const_iterator & operator ++ () {
+        next();
+
+        return *this;
+      } // prefix
+
+      const_iterator operator ++ (int) {
+        const_iterator tmp = *this;
+        ++(*this);
+        return tmp;
+      }  // postfix
+
+      friend bool operator == (const const_iterator& a, const const_iterator& b) { return a.m_ptr == b.m_ptr; };
+      friend bool operator != (const const_iterator& a, const const_iterator& b) { return a.m_ptr != b.m_ptr; };     
+
+    private:
+      pointer_type m_ptr;
+    };
     
+    const_iterator begin() const {
+      return const_iterator { this };
+    }
+
+    const_iterator end() const {
+      return const_iterator { nullptr };
+    }
+
   private:
     constexpr
     value_type get_value() const {
       return data & MASK_VALUE;
+    }
+
+    constexpr
+    bool is_type(tag_t const & ct) const {
+      return tag() == ct; 
     }
 
     constexpr
