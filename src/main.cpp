@@ -62,26 +62,29 @@ void describe_some_sizes() {
   printf("\n");
 }
 
+void describe_every_cell()   
+{
+  uint8_t ix { 0 };
+
+  for (reseune::cell const & i : DATA) {
+    printf("cell # %u\n", ix++);
+    
+    i.describe_instance();
+  }
+
+  LINE;
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 
 int main() {
   describe_some_sizes();
     
   reseune::cell::describe_class();
+
+
+  // describe_every_cell();
   
-  if (false)
-  {
-    uint8_t ix { 0 };
-
-    for (reseune::cell const & i : DATA) {
-      printf("cell # %u\n", ix++);
-    
-      i.describe_instance();
-    }
-
-    LINE;
-  }
-
   if (true) {
     uint8_t ix { 0 };
     
