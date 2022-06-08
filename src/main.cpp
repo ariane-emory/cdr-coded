@@ -132,8 +132,8 @@ int main() {
 
   // describe_every_cell();
 
-  describe_list(POOL[0]); // list of Xs.
-  // describe_list(POOL[4]); // list of Ys.
+  describe_list(POOL[0]); // list of 88 / Xs.
+  describe_list(POOL[4]); // list of 89 / Ys.
 
   draw_the_pool();
 }
