@@ -1,3 +1,5 @@
+// -*- c-backslash-column: 120; fill-column: 120 -*-
+
 #ifndef RESEUNE_CELL_HPP
 #define RESEUNE_CELL_HPP
 
@@ -21,7 +23,7 @@ namespace reseune {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       2
 #else
-      1
+        1
 #endif
     };
     static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };

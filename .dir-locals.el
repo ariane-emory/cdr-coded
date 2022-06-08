@@ -1,3 +1,6 @@
-( (c-mode   . ((c-basic-offset . 2)))
-  (c++-mode . ((c-basic-offset . 2))))
-
+( (c-mode   . ( (c-basic-offset . 2)
+                (c-backslash-column . 120)
+                (fill-column . 120)))
+  (c++-mode . ( (c-basic-offset . 2)
+                (c-backslash-column . 120)
+                (fill-column . 120))))
