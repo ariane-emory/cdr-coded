@@ -5,14 +5,12 @@
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
 
-using namespace reseune;
-
 constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
 #ifdef WITH_RESEUNE_POOL
-constexpr pool<cell, POOL_SIZE> POOL
+constexpr reseune::pool<reseune::cell, POOL_SIZE> POOL
 #else
-constexpr cell POOL[POOL_SIZE]
+constexpr reseune::cell POOL[POOL_SIZE]
 #endif
 = { 
   /*  0 */ 88,
@@ -26,20 +24,20 @@ constexpr cell POOL[POOL_SIZE]
   /*  8 */ 88,
   /*  9 */ &POOL[11],
   /* 10 */ nullptr,
-  /* 11 */ { 88, cell::tag_t::last_element },
+  /* 11 */ { 88, reseune::cell::tag_t::last_element },
   /* 12 */ 89,
   /* 13 */ 89,
   /* 14 */ 89,
   /* 15 */ &POOL[17],
   /* 16 */ nullptr,
-  /* 17 */ { 89, cell::tag_t::last_element },
+  /* 17 */ { 89, reseune::cell::tag_t::last_element },
   /* 18 */ nullptr,
   /* 19 */ nullptr,
   /* 20 */ nullptr    
 };
 
 void describe_some_sizes() {
-  auto pool_size = POOL_SIZE*sizeof(cell);
+  auto pool_size = POOL_SIZE*sizeof(reseune::cell);
   printf("POOL total size:            %zu bytes", pool_size);
   if (pool_size > 1<<10)
     printf(" (%zu kilobytes)", pool_size >> 10);
@@ -54,18 +52,18 @@ void describe_some_sizes() {
 int main() {
   describe_some_sizes();
     
-  cell::describe_class();
+  reseune::cell::describe_class();
   
   if (false)
   {
     uint8_t ix { 0 };
 
 #ifdef WITH_RESEUNE_POOL
-#define DATA (reseune.pool)
+#define DATA (POOL.data)
 #else
 #define DATA (POOL)
 #endif
-    for (cell const & i : POOL.data) {
+    for (reseune::cell const & i : DATA) {
       printf("cell # %u\n", ix++);
     
       i.describe_instance();
@@ -79,7 +77,7 @@ int main() {
   if (true) {
     uint8_t ix { 0 };
     
-    for (cell const & c : POOL[0]) {
+    for (reseune::cell const & c : POOL[0]) {
       LINE;
       printf("cell #%u\n", ix++);
       c.describe_instance();
@@ -89,7 +87,7 @@ int main() {
   if (true) {
     uint8_t ix { 0 };
     
-    for (cell const & c : POOL[4]) {
+    for (reseune::cell const & c : POOL[4]) {
       LINE;
       printf("cell #%u\n", ix++);
       c.describe_instance();
