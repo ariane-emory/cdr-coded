@@ -191,8 +191,10 @@ namespace reseune {
         if (m_ptr->is_last_element()) {
           m_ptr = nullptr;
         }
-        else
+#else
+        if (false) 
 #endif
+        else
           if (m_ptr->is_link()) {
             m_ptr = m_ptr->link();
           }
