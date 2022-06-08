@@ -5,7 +5,7 @@
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
 
-// ---------------------------------------------------------------------------------------------------------------------
+// =====================================================================================================================
 
 #define LINE printf("=================================================================================================================================================\n\n")
 
@@ -28,13 +28,21 @@ constexpr reseune::cell POOL[POOL_SIZE]
   /*  8 */ 88,
   /*  9 */ &POOL[10],
   /* 10 */ &POOL[11],
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
   /* 11 */ { 88, reseune::cell::tag_t::last_element },
+#else
+  /* 11 */ 88,
+#endif
   /* 12 */ nullptr,
   /* 13 */ 89,
   /* 14 */ 89,
   /* 15 */ &POOL[17],
   /* 16 */ nullptr,
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
   /* 17 */ { 89, reseune::cell::tag_t::last_element },
+#else
+  /* 17 */ 89,
+#endif
   /* 18 */ nullptr,
   /* 19 */ nullptr,
   /* 20 */ nullptr    
@@ -47,7 +55,7 @@ constexpr reseune::cell POOL[POOL_SIZE]
 #define DATA (POOL)
 #endif
 
-// ---------------------------------------------------------------------------------------------------------------------
+// =====================================================================================================================
 
 void describe_some_sizes() {
   auto pool_size = POOL_SIZE*sizeof(reseune::cell);
@@ -99,9 +107,11 @@ void draw_the_pool() {
       else if (cell.is_element()) {
         putchar(static_cast<char>(cell.value()));
       }
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       else if (cell.is_last_element()) {
         putchar(static_cast<char>(cell.value() + 32));
       }
+#endif
       else if (cell.is_link()) {
         if (cell.link() > &cell)
           putchar('<');
@@ -110,9 +120,9 @@ void draw_the_pool() {
         else
           putchar('x');
       }
-      else {
-        putchar('?');
-      }
+  else {
+    putchar('?');
+  }
 
       // else if (cell.is_nil())
       //   putchar('.');
@@ -123,17 +133,13 @@ void draw_the_pool() {
   }
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
+// =====================================================================================================================
 
 int main() {
   describe_some_sizes();
-    
   reseune::cell::describe_class();
-
   // describe_every_cell();
-
-  // describe_list(POOL[0]); // list of 88 / Xs.
-  describe_list(POOL[4]); // list of 89 / Ys.
-
   draw_the_pool();
+  describe_list(POOL[0]); // list of 88 / Xs.
+  // describe_list(POOL[4]); // list of 89 / Ys.
 }

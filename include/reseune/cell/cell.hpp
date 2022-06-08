@@ -6,8 +6,8 @@
 #include <inttypes.h>
 #include <stdio.h>
 #include <bit>
-
 #include <iterator>
+
 #include "reseune/reseune.hpp"
 
 #ifdef __EXCEPTIONS
@@ -252,14 +252,17 @@ namespace reseune {
           m_ptr = nullptr;
         }
 #else
-        if (false) 
+        if (false) {}
 #endif
-          // else if (m_ptr->is_link()) {
-          //   do {
-          //     m_ptr = m_ptr->link();
-          //   } while (m_ptr->is_link());
-          // }
-        else if ((++m_ptr)->is_link()) {
+        // else if (m_ptr->is_link()) {
+        //   do {
+        //     m_ptr = m_ptr->link();
+        //   } while (m_ptr->is_link());
+        // }
+        else if ((++m_ptr)->is_nil()) {
+          m_ptr = nullptr;
+        }
+        else if (m_ptr->is_link()) {
           do {
             m_ptr = m_ptr->link();
           } while (m_ptr->is_link());
