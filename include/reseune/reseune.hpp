@@ -10,13 +10,13 @@ namespace reseune {
 // #endif
 //     ;
 
-  static constexpr bool WARN =
-#ifdef RESEUNE_WARN
-    true
-#else
-    false
-#endif
-    ;
+//   static constexpr bool WARN =
+// #ifdef RESEUNE_WARN
+//     true
+// #else
+//     false
+// #endif
+//     ;
 }
 
 #endif

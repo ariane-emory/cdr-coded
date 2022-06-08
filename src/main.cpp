@@ -89,12 +89,15 @@ int main() {
 
         auto cell = cells[ix];
         
-        if (cell.is_nil())
+        if (cell.is_nil()) {
           putchar('.');
-        else if (cell.is_element())
+        }
+        else if (cell.is_element()) {
           putchar(static_cast<char>(cell.value()));
-        else if (cell.is_last_element())
+        }
+        else if (cell.is_last_element()) {
           putchar(static_cast<char>(cell.value() + 32));
+        }
         else if (cell.is_link()) {
           if (cell.link() > &cell)
             putchar('<');
@@ -103,8 +106,9 @@ int main() {
           else
             putchar('x');
         }
-        else
+        else {
           putchar('?');
+        }
 
         // else if (cell.is_nil())
         //   putchar('.');
