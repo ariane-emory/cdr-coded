@@ -198,6 +198,7 @@ namespace reseune {
         else if ((++m_ptr)->is_link()) {
           m_ptr = m_ptr->link();
         }
+        // else (i.e, if m_ptr->is_element()), it's value has already been incremented in the prior case.
       }
 
       // prefix
