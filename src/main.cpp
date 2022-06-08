@@ -26,8 +26,8 @@ constexpr reseune::cell POOL[POOL_SIZE]
   /*  6 */ 88,
   /*  7 */ 88,
   /*  8 */ 88,
-  /*  9 */ &POOL[11],
-  /* 10 */ nullptr,
+  /*  9 */ &POOL[10],
+  /* 10 */ &POOL[11],
   /* 11 */ { 88, reseune::cell::tag_t::last_element },
   /* 12 */ 89,
   /* 13 */ 89,
@@ -133,7 +133,7 @@ int main() {
   // describe_every_cell();
 
   describe_list(POOL[0]); // list of Xs.
-  describe_list(POOL[4]); // list of Ys.
+  // describe_list(POOL[4]); // list of Ys.
 
   draw_the_pool();
 }

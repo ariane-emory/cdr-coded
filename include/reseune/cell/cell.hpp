@@ -250,11 +250,15 @@ namespace reseune {
 #else
         if (false) 
 #endif
-        else if (m_ptr->is_link()) {
-          m_ptr = m_ptr->link();
-        }
+          // else if (m_ptr->is_link()) {
+          //   do {
+          //     m_ptr = m_ptr->link();
+          //   } while (m_ptr->is_link());
+          // }
         else if ((++m_ptr)->is_link()) {
-          m_ptr = m_ptr->link();
+          do {
+            m_ptr = m_ptr->link();
+          } while (m_ptr->is_link());
         }
         // else (i.e, if m_ptr->is_element()), it's value was already incremented in the prior case's test.
       }
