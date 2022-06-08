@@ -6,14 +6,6 @@
 
 using namespace reseune;
 
-void describe_some_sizes() {
-  printf("sizeof(void *):             %zu\n", sizeof(void *));
-  printf("sizeof(uintptr_t):          %zu\n", sizeof(uintptr_t));
-  printf("sizeof(unsigned long):      %zu\n", sizeof(unsigned long));
-  printf("sizeof(unsigned long long): %zu\n", sizeof(unsigned long long));
-  printf("\n");
-}
-
 constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
 constexpr cell POOL[POOL_SIZE] = { 
@@ -39,6 +31,19 @@ constexpr cell POOL[POOL_SIZE] = {
   /* 19 */ nullptr,
   /* 20 */ nullptr    
 };
+
+void describe_some_sizes() {
+  auto pool_size = POOL_SIZE*sizeof(cell);
+  printf("POOL total size:            %zu bytes", pool_size);
+  if (pool_size > 1<<10)
+    printf(" (%zu kilobytes)", pool_size >> 10);
+  putchar('\n');
+  printf("sizeof(void *):             %zu\n", sizeof(void *));
+  printf("sizeof(uintptr_t):          %zu\n", sizeof(uintptr_t));
+  printf("sizeof(unsigned long):      %zu\n", sizeof(unsigned long));
+  printf("sizeof(unsigned long long): %zu\n", sizeof(unsigned long long));
+  printf("\n");
+}
 
 int main() {
   describe_some_sizes();
