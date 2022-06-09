@@ -8,7 +8,8 @@
 
 // =====================================================================================================================
 
-#define LINE { size_t line_ix { 0 }; while (line_ix++ < 120) putchar('='); putchar('\n'); putchar('\n'); }
+#define LINE { size_t line_ix { 0 }; while (line_ix++ < 131) putchar('='); putchar('\n'); }
+
 constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
 using cell = reseune::cell;
@@ -56,83 +57,94 @@ constexpr pool POOL= {
 // =====================================================================================================================
 
 void describe_some_sizes() {
+  LINE;
+  
   auto pool_size = POOL_SIZE*sizeof(cell);
+
   printf("POOL total size:            %zu bytes", pool_size);
+
   if (pool_size > 1<<10)
     printf(" (%zu kilobytes)", pool_size >> 10);
+
   putchar('\n');
   printf("sizeof(void *):             %zu\n", sizeof(void *));
   printf("sizeof(uintptr_t):          %zu\n", sizeof(uintptr_t));
   printf("sizeof(unsigned long):      %zu\n", sizeof(unsigned long));
   printf("sizeof(unsigned long long): %zu\n", sizeof(unsigned long long));
-  printf("\n");
-}
-
-void describe_every_cell()   
-{
-  uint8_t ix { 0 };
-
-  for (cell const & i : POOL) {
-    printf("cell # %u\n", ix++);
-    
-    i.describe_instance();
-  }
 
   LINE;
 }
 
-void describe_list(cell const & head) {
-  uint8_t ix { 0 };
+    void describe_every_cell()   
+  {
+    uint8_t ix { 0 };
+
+    for (cell const & i : POOL) {
+      printf("cell # %u\n", ix++);
     
-  for (cell const & c : head) {
-    LINE;
-    printf("cell #%u\n", ix++);
-    c.describe_instance();
-  }
-}
-
-void draw_the_pool() {
-  for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
-    for (size_t col = 0; col < 64; col++, ix++)
-    {
-      // printf("%zu %zu %zu\n", ix, line, col);
-
-      auto c = POOL[ix];
-        
-      if (c.is_nil()) {
-        putchar('.');
-      }
-      else if (c.is_element()) {
-        putchar(static_cast<char>(c.value()));
-      }
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      else if (c.is_last_element()) {
-        putchar(static_cast<char>(c.value() + 32));
-      }
-#endif
-      else if (c.is_link()) {
-        if (c.link() > &c)
-          putchar('<');
-        else if (c.link() < &c)
-          putchar('>');
-        else
-          putchar('x');
-      }
-      else {
-        putchar('?');
-      }
+      i.describe_instance();
     }
-    putchar('\n');
+
+    LINE;
   }
-}
+
+  void describe_list(cell const & head) {
+    uint8_t ix { 0 };
+    
+    for (cell const & c : head) {
+      LINE;
+      printf("cell #%u\n", ix++);
+      c.describe_instance();
+    }
+  }
+
+  void draw_the_pool() {
+    LINE;
+    
+    for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
+      for (size_t col = 0; col < 64; col++, ix++)
+      {
+        // printf("%zu %zu %zu\n", ix, line, col);
+
+        auto c = POOL[ix];
+        
+        if (c.is_nil()) {
+          putchar('.');
+        }
+        else if (c.is_element()) {
+          putchar(static_cast<char>(c.value()));
+        }
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+        else if (c.is_last_element()) {
+          putchar(static_cast<char>(c.value() + 32));
+        }
+#endif
+        else if (c.is_link()) {
+          if (c.link() > &c)
+            putchar('<');
+          else if (c.link() < &c)
+            putchar('>');
+          else
+            putchar('x');
+        }
+        else {
+          putchar('?');
+        }
+      }
+      putchar('\n');
+    }
+  }
 
 // =====================================================================================================================
 
-int main() {
-  describe_some_sizes();
-  cell::describe_class();
-  // describe_every_cell();
-  describe_list(POOL[0]); // list of 88s / Xs.
-  describe_list(POOL[4]); // list of 89s / Ys.
-  draw_the_pool();
-}
+  int main() {
+    describe_some_sizes();
+    cell::describe_class();
+    // describe_every_cell();
+    describe_list(POOL[0]); // list of 88s / Xs.
+    describe_list(POOL[4]); // list of 89s / Ys.
+    draw_the_pool();
+  }
+
+
+

@@ -48,8 +48,8 @@ namespace reseune {
 
     if (show_int) [[likely]]
       printf(show_bits
-             ? " = 0x%016lx = % 20lu\n"
-             : "   0x%016lx = % 20lu\n",
+             ? " = 0x%016lx = % 12lu\n"
+             : "   0x%016lx = % 12lu\n",
              (uintptr_t)v,
              (uintptr_t)v);
     else [[unlikely]]

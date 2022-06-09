@@ -211,7 +211,6 @@ namespace reseune {
       print("TAG_BITS_COUNT", TAG_BITS_COUNT);
       print_bits("MASK_TAG", MASK_VALUE, false);
       print_bits("MASK_VALUE", MASK_TAG, false);
-      putchar('\n');
     }
         
     void describe_instance() const {
@@ -225,8 +224,6 @@ namespace reseune {
       print_bits("cell.value()", value());
 
       printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));
-      
-      putchar('\n');
     }
 
     // =================================================================================================================
