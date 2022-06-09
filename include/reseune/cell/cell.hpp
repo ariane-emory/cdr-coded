@@ -161,7 +161,7 @@ namespace reseune {
 
     constexpr
     bool is_nil() const {
-      return *this == cell {};
+      return *this == nullptr;
     }
 
     // =================================================================================================================
