@@ -12,7 +12,34 @@ namespace reseune {
 
     using value_type = T;
 
-    struct const_iterator;
+    // =================================================================================================================
+    
+    template <typename TT>
+    struct array_const_iterator : public const_iterator_base<TT>
+    {
+      using value_type = TT;
+      using base_type  = const_iterator_base<value_type>;
+      
+      constexpr array_const_iterator(value_type const * ptr): base_type(ptr) {}
+      
+      // prefix
+      inline array_const_iterator & operator ++ () {
+        base_type::m_value++;
+
+        return *this;
+      }
+
+      // postfix: untested 
+      inline array_const_iterator operator ++ (int) {
+        array_const_iterator tmp = *this;
+
+        ++(*this);
+
+        return tmp; 
+      } 
+    };
+
+    using const_iterator = array_const_iterator<value_type>;
     
     // =================================================================================================================
     // Static constants
@@ -45,33 +72,6 @@ namespace reseune {
     inline const_iterator end() const {
       return const_iterator { &data[SIZE] };
     }
-    
-    // =================================================================================================================
-    // pool<T, S>::const_iterator class
-    // =================================================================================================================
-    
-    struct const_iterator : public const_iterator_base<value_type>
-    {
-      using base_type = const_iterator_base<value_type>;
-      
-      constexpr const_iterator(value_type const * ptr): base_type(ptr) {}
-      
-      // prefix
-      inline const_iterator & operator ++ () {
-        base_type::m_value++;
-
-        return *this;
-      }
-
-      // postfix: untested 
-      inline const_iterator operator ++ (int) {
-        const_iterator tmp = *this;
-
-        ++(*this);
-
-        return tmp; 
-      } 
-    };
     
     // =================================================================================================================
   };
