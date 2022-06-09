@@ -5,10 +5,8 @@ namespace reseune {
   template <typename T>
   struct linked_list_forward_const_iterator : public const_iterator_base<T>
   {
-    using base_type         = const_iterator_base<T>;
-    using value_type        = T;
-    using difference_type   = std::ptrdiff_t;
-    using iterator_category = std::input_iterator_tag;
+    using base_type  = const_iterator_base<T>;
+    using value_type = T;
 
     constexpr linked_list_forward_const_iterator(value_type const * ptr): base_type(ptr) {}
 

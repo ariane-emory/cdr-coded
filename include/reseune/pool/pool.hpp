@@ -50,19 +50,15 @@ namespace reseune {
     // pool<T, S>::const_iterator class
     // =================================================================================================================
     
-    struct const_iterator
+    struct const_iterator : public const_iterator_base<value_type>
     {
-      using difference_type   = std::ptrdiff_t;
-      using iterator_category = std::input_iterator_tag;
+      using base_type = const_iterator_base<value_type>;
       
-      const_iterator(value_type const * ptr): m_ptr(ptr) {}
+      constexpr const_iterator(value_type const * ptr): base_type(ptr) {}
       
-      value_type const & operator *  () const { return *m_ptr; }
-      value_type const * operator -> () const { return m_ptr; }
-
       // prefix
       const_iterator & operator ++ () {
-        m_ptr++;
+        base_type::m_value++;
 
         return *this;
       }
@@ -75,12 +71,6 @@ namespace reseune {
 
         return tmp; 
       } 
-
-      friend bool operator == (const const_iterator & a, const const_iterator & b) { return a.m_ptr == b.m_ptr; };
-      friend bool operator != (const const_iterator & a, const const_iterator & b) { return a.m_ptr != b.m_ptr; };     
-
-    private:
-      value_type const * m_ptr;
     };
     
     // =================================================================================================================

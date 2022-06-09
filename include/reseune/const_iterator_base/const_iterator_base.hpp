@@ -9,7 +9,7 @@ namespace reseune {
     using difference_type   = std::ptrdiff_t;
     using iterator_category = std::input_iterator_tag;
 
-    inline const_iterator_base(value_type const * ptr): m_value(ptr) {}
+    constexpr const_iterator_base(value_type const * ptr): m_value(ptr) {}
 
     inline const value_type & operator *  () const { return *m_value; }
     inline const value_type * operator -> () const { return m_value; }
