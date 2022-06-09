@@ -141,24 +141,20 @@ namespace reseune {
     // =================================================================================================================
     // Predicate member functions
     // =================================================================================================================
-    
-    constexpr
-    bool is_element() const {
-      return is_type(tag_type::element);
+
+#define DEFINE_TAG_PREDICATE(name)                                              \
+    constexpr                                                                   \
+    bool is_ ## name() const {                                                  \
+      return is_type(tag_type::name);                                           \
     }
 
+    DEFINE_TAG_PREDICATE(element);
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-    constexpr
-    bool is_last_element() const {
-      return is_type(tag_type::last_element);
-    }
-#endif
-
-    constexpr
-    bool is_link() const {
-      return is_type(tag_type::link);
-    }
-
+    DEFINE_TAG_PREDICATE(last_element);
+#endif    
+    DEFINE_TAG_PREDICATE(link);
+#undef DEFINE_TAG_PREDICATE
+    
     constexpr
     bool is_nil() const {
       return *this == nullptr;
