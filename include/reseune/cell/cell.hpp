@@ -225,8 +225,6 @@ namespace reseune {
       else
         print_bits("cell.value()", value());
 
-      print_bits("something", 8u);
-      
       putchar('\n');
     }
 
