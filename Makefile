@@ -1,7 +1,7 @@
 UNAME_S = $(shell uname -s)
 
 CXXLAGS  = \
-	-std=gnu++23 \
+	-std=c++23 \
 	-Iinclude \
 	-O1 \
 	-ggdb \

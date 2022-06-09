@@ -67,16 +67,12 @@ namespace reseune {
     // Constructors
     // =================================================================================================================
 
-    constexpr
-    cell() 
-      : data(0 | static_cast<value_type>(tag_type::link)) {}
+    constexpr cell() : data(0 | static_cast<value_type>(tag_type::link)) {}
 
-    constexpr
-    cell(value_type const & v, tag_type const & ct = tag_type::element) 
+    constexpr cell(value_type const & v, tag_type const & ct = tag_type::element) 
       : data(v | static_cast<value_type>(ct)) {}
 
-    constexpr
-    cell(cell const * v, tag_type const & ct = tag_type::link) 
+    constexpr cell(cell const * v, tag_type const & ct = tag_type::link) 
       : data(reinterpret_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
 // =====================================================================================================================
