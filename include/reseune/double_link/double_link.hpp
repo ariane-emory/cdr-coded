@@ -76,54 +76,49 @@ namespace reseune {
       CONNECT(prev, next);
       CONNECT(next, prev);
 #undef CONNECT
-      // if (nullptr == new_prev) {
-      //   prev = nullptr;
-      // }
-      // else {
-      //   prev = new_prev;
-      //   new_prev->next = this;
-      // }
-     
-      // if (nullptr == new_next) {
-      //   next = nullptr;
-      // }
-      // else {
-      //   next = new_next;
-      //   new_next->prev = this;
-      // }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    inline void insert_before(reference new_next) {
-      insert_before(&new_next);
-    }
-    inline void insert_after(reference new_prev) {
-      insert_after(&new_prev);
+#define INSERT_WITH_REFERENCE(position)                                         \
+    inline void insert_ ## position(reference node) {                           \
+      insert_ ## position(&node);                                               \
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
+INSERT_WITH_REFERENCE(before);
+INSERT_WITH_REFERENCE(after);
 
-    inline void remove() {
-      if (nullptr != next) next->prev = prev;
-      if (nullptr != prev) prev->next = next;
+#undef INSERT_WITH_REFERENCE
 
-      next = prev = nullptr;
-    }
+// inline void insert_before(reference new_next) {
+//   insert_before(&new_next);
+// }
+// inline void insert_after(reference new_prev) {
+//   insert_after(&new_prev);
+// }
 
-    // =================================================================================================================
-    // Iterator-related member functions
-    // =================================================================================================================
+// -----------------------------------------------------------------------------------------------------------------
+
+inline void remove() {
+  if (nullptr != next) next->prev = prev;
+  if (nullptr != prev) prev->next = next;
+
+  next = prev = nullptr;
+}
+
+// =================================================================================================================
+// Iterator-related member functions
+// =================================================================================================================
     
-    auto begin() const {
-      return const_iterator::begin(this);
-    }
+auto begin() const {
+  return const_iterator::begin(this);
+}
 
-    auto end() const {
-      return const_iterator::end();
-    }
+auto end() const {
+  return const_iterator::end();
+}
 
-    // =================================================================================================================
+// =================================================================================================================
   };
 }
 
