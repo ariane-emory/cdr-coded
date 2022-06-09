@@ -10,7 +10,7 @@ namespace reseune {
     using difference_type   = std::ptrdiff_t;
     using iterator_category = std::input_iterator_tag;
 
-    inline linked_list_forward_const_iterator(value_type const * ptr): base_type(ptr) {}
+    constexpr linked_list_forward_const_iterator(value_type const * ptr): base_type(ptr) {}
 
     inline auto operator ++ () { // prefix
       base_type::m_value = base_type::m_value->next;

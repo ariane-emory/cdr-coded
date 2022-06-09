@@ -53,11 +53,11 @@ namespace reseune {
     // Iterator-related member functions
     // =================================================================================================================
     
-    auto begin() const {
+    inline auto begin() const {
       return const_iterator::begin(this);
     }
 
-    auto end() const {
+    inline auto end() const {
       return const_iterator::end();
     }
     
