@@ -38,7 +38,7 @@ namespace reseune {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       2
 #else
-        1
+      1
 #endif
     };
     static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
@@ -209,9 +209,9 @@ namespace reseune {
       // print_bits("cell.tag():                ", tag());
 
       if (is_type(tag_type::link))
-      print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
+        print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
       else
-      print_bits("cell.value()", value());
+        print_bits("cell.value()", value());
 
       printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));
     }
