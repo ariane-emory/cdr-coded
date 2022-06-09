@@ -19,10 +19,10 @@ namespace reseune {
     }
 
     inline void connect(pointer next_, pointer prev_) {
-      next_->prev = this;
+      if (nullptr != prev) next_->prev = this;
       next        = next_;
       prev        = prev_;
-      prev->next  = this;      
+      if (nullptr != prev) prev->next  = this;      
     }
 
     inline void insert_before(pointer next_) {
@@ -37,7 +37,7 @@ namespace reseune {
       assert(nullptr != prev_);
       prev = prev_;
       next = prev_->next;
-      if (nullptr != prev) next->prev = this;
+      if (nullptr != next) next->prev = this;
       prev->next = this;
     }
 
