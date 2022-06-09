@@ -14,19 +14,19 @@ namespace reseune {
     size_t size;
     char * block;
 
-    link free_list;
+    static link free_list;
     
-    inline alloc_block(): node({}), size(0), block(nullptr), free_list({}) {}
+    inline alloc_block(): node({}), size(0), block(nullptr) {}
 
-    void malloc_add_block(void * addr, size_t _size) {
+    static void malloc_add_block(void * addr, size_t size) {
       alloc_block * blk;
       
       // align the start addr of our block to the next pointer aligned addr
       blk = reinterpret_cast<alloc_block *>(align_up((uintptr_t)addr, sizeof(void*)));
 
       // calculate actual size - mgmt overhead
-      blk->size = (uintptr_t) addr + _size - (uintptr_t) blk 
-        - ALLOC_HEADER_SZ;
+      blk->size = (uintptr_t) addr + size - (uintptr_t) blk 
+     - ALLOC_HEADER_SZ;
 
       //and now our giant block of memory is added to the list!
       blk->node.connect(&free_list);
