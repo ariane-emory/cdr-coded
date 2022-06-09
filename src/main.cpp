@@ -11,13 +11,16 @@
 
 constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
+using cell = reseune::cell;
+using tag = cell::tag_t;
+
 using pool =
 #ifdef WITH_RESEUNE_POOL
 #define DATA (POOL)
-  reseune::pool<reseune::cell, POOL_SIZE>
+  reseune::pool<cell, POOL_SIZE>
 #else
 #define DATA (POOL)
-  reseune::cell[POOL_SIZE]
+  cell[POOL_SIZE]
 #endif
   ;
 
@@ -34,7 +37,7 @@ constexpr pool POOL= {
   /*  9 */ &POOL[10],
   /* 10 */ &POOL[11],
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-  /* 11 */ { 88, reseune::cell::tag_t::last_element },
+  /* 11 */ { 88, tag::last_element },
 #else
   /* 11 */ 88,
 #endif
@@ -44,7 +47,7 @@ constexpr pool POOL= {
   /* 15 */ &POOL[17],
   /* 16 */ nullptr,
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-  /* 17 */ { 89, reseune::cell::tag_t::last_element },
+  /* 17 */ { 89, tag::last_element },
 #else
   /* 17 */ 89,
 #endif
@@ -56,7 +59,7 @@ constexpr pool POOL= {
 // =====================================================================================================================
 
 void describe_some_sizes() {
-  auto pool_size = POOL_SIZE*sizeof(reseune::cell);
+  auto pool_size = POOL_SIZE*sizeof(cell);
   printf("POOL total size:            %zu bytes", pool_size);
   if (pool_size > 1<<10)
     printf(" (%zu kilobytes)", pool_size >> 10);
@@ -72,7 +75,7 @@ void describe_every_cell()
 {
   uint8_t ix { 0 };
 
-  for (reseune::cell const & i : DATA) {
+  for (cell const & i : DATA) {
     printf("cell # %u\n", ix++);
     
     i.describe_instance();
@@ -81,10 +84,10 @@ void describe_every_cell()
   LINE;
 }
 
-void describe_list(reseune::cell const & head) {
+void describe_list(cell const & head) {
   uint8_t ix { 0 };
     
-  for (reseune::cell const & c : head) {
+  for (cell const & c : head) {
     LINE;
     printf("cell #%u\n", ix++);
     c.describe_instance();
@@ -135,7 +138,7 @@ void draw_the_pool() {
 
 int main() {
   describe_some_sizes();
-  reseune::cell::describe_class();
+  cell::describe_class();
   describe_every_cell();
   describe_list(POOL[0]); // list of 88 / Xs.
   describe_list(POOL[4]); // list of 89 / Ys.
