@@ -43,23 +43,23 @@ namespace reseune {
     // Other member functions
     // =================================================================================================================
     
-    inline void insert_before(pointer next_) {
-      assert(nullptr != next_);
-
+    inline void insert_before(pointer next_) {      
       next = next_;
-      prev = next_->prev;
-      next->prev = this;
-      if (nullptr != prev) prev->next = this;
+      if (nullptr != next) prev = next->prev;
+
+      if (nullptr != next) next->prev = this;
+      if (nullptr != prev) prev->next = this;      
     }
 
     inline void insert_after(pointer prev_) {
-      assert(nullptr != prev_);
-
       prev = prev_;
-      next = prev_->next;
+      if (nullptr != prev) next = prev->next;
+      
       if (nullptr != next) next->prev = this;
-      prev->next = this;
+      if (nullptr != prev) prev->next = this;      
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     inline void insert_before(reference next_) {
       insert_before(&next_);
