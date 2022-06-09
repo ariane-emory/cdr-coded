@@ -11,8 +11,8 @@ namespace reseune {
     // Typedefs
     // =================================================================================================================
     
-    using pointer   = link *;
-    using reference = link &;
+    using pointer        = link *;
+    using reference      = link &;
     using const_iterator = linked_list_forward_const_iterator<link>;
     
     // =================================================================================================================
@@ -44,6 +44,7 @@ namespace reseune {
     inline void insert_before(pointer next_) {
       next = next_;
     }
+    
     inline void insert_before(reference next_) {
       insert_before(&next_);
     }
