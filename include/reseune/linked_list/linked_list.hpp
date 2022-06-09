@@ -48,6 +48,9 @@ namespace reseune {
       if (nullptr != next) next->prev = this;
       prev->next = this;
     }
+    inline void insert_after(reference prev_) {
+      insert_after(&prev_);
+    }
 
     inline void remove() {
       if (nullptr != next) next->prev = prev;

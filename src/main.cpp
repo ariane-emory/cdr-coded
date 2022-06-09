@@ -148,7 +148,7 @@ int main() {
   // o.describe_instance();
   m.insert_before(l);
   n.insert_before(m);
-  o.insert_before(n);
+  o.insert_after(n);
   l.describe_instance();
   m.describe_instance();
   n.describe_instance();
