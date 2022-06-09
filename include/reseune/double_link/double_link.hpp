@@ -114,6 +114,8 @@ namespace reseune {
 
       // prefix
       auto operator ++ () {
+        m_value = m_value->next;
+        return *this;
       }
 
       // postfix: untested 

@@ -256,8 +256,8 @@ namespace reseune {
       
       const_iterator(value_type const * ptr): m_cell(ptr) {}
       
-      value_type const & operator *  () const { return *m_cell; }
-      value_type const * operator -> () const { return m_cell; }
+      const value_type & operator *  () const { return *m_cell; }
+      const value_type * operator -> () const { return m_cell; }
 
       void next() {
         m_cell->ASSERT_CANNOT_BE_A_LINK();
