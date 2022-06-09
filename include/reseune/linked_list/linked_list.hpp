@@ -19,8 +19,14 @@ namespace reseune {
       next_->prev = this;
       next        = next_;
       prev        = prev_;
-      prev->next  = this;
-      
+      prev->next  = this;      
+    }
+
+    void remove() {
+      if (nullptr != next)
+        next->prev = prev;
+      if (nullptr != prev)
+        prev->next = next;
     }
   };
 }
