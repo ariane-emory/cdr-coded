@@ -9,10 +9,10 @@ namespace reseune {
     using difference_type   = std::ptrdiff_t;
     using iterator_category = std::input_iterator_tag;
 
-    const_iterator_base(value_type const * ptr): m_value(ptr) {}
+    inline const_iterator_base(value_type const * ptr): m_value(ptr) {}
 
-    const value_type & operator *  () const { return *m_value; }
-    const value_type * operator -> () const { return m_value; }
+    inline const value_type & operator *  () const { return *m_value; }
+    inline const value_type * operator -> () const { return m_value; }
 
     // auto operator ++ () { // prefix
     //   m_value = m_value->next;
@@ -25,10 +25,10 @@ namespace reseune {
     //   return tmp;
     // } 
 
-    friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
+    inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
       { return a.m_value == b.m_value; };
 
-    friend auto operator != (const const_iterator_base & a, const const_iterator_base & b)
+    inline friend auto operator != (const const_iterator_base & a, const const_iterator_base & b)
       { return a.m_value != b.m_value; };     
 
     // static auto begin(value_type const * v) {
