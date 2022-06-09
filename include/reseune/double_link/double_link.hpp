@@ -43,20 +43,24 @@ namespace reseune {
     // Other member functions
     // =================================================================================================================
     
-    inline void insert_before(pointer next_) {      
-      next = next_;
-      if (nullptr != next) prev = next->prev;
+    inline void insert_before(pointer new_next) {      
+      // next = new_next;
+      // if (nullptr != next) prev = next->prev;
 
-      if (nullptr != next) next->prev = this;
-      if (nullptr != prev) prev->next = this;      
+      // if (nullptr != next) next->prev = this;
+      // if (nullptr != prev) prev->next = this;
+
+      insert_between(new_next->prev, new_next);
     }
 
-    inline void insert_after(pointer prev_) {
-      prev = prev_;
-      if (nullptr != prev) next = prev->next;
+    inline void insert_after(pointer new_prev) {
+      // prev = new_prev;
+      // if (nullptr != prev) next = prev->next;
       
-      if (nullptr != next) next->prev = this;
-      if (nullptr != prev) prev->next = this;      
+      // if (nullptr != next) next->prev = this;
+      // if (nullptr != prev) prev->next = this;
+
+      insert_between(new_prev->next, new_prev);
     }
 
     inline void insert_between(pointer new_prev, pointer new_next) {
@@ -79,12 +83,14 @@ namespace reseune {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    inline void insert_before(reference next_) {
-      insert_before(&next_);
+    inline void insert_before(reference new_next) {
+      insert_before(&new_next);
     }
-    inline void insert_after(reference prev_) {
-      insert_after(&prev_);
+    inline void insert_after(reference new_prev) {
+      insert_after(&new_prev);
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
 
     inline void remove() {
       if (nullptr != next) next->prev = prev;
