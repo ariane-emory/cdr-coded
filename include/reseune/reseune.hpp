@@ -61,10 +61,17 @@ namespace reseune {
     if (show_int) [[likely]] {      
       printf(show_bits
              ? " ="
-             : "  "); 
-      printf(" 0x%016lx = % 12lu\n",
-             (uintptr_t)v,
-             (uintptr_t)v);
+             : "  ");
+
+      const char * tmp = " 0x%%0%ulx = %% 12lu\n";
+      char buf[64] {0};
+
+      for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
+        putchar(' ');
+      
+      sprintf(buf, tmp, sizeof(T) << 1);
+      
+      printf(buf, (uintptr_t)v, (uintptr_t)v);
     }
     else [[unlikely]] {
       putchar('\n');
