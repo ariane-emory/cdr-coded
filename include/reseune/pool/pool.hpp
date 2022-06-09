@@ -30,7 +30,7 @@ namespace reseune {
     // Operator member functions
     // =================================================================================================================
     
-    constexpr value_type const & operator [] (size_t const & ix) const {
+    constexpr const value_type & operator [] (size_t const & ix) const {
       return data[ix];
     }
 
