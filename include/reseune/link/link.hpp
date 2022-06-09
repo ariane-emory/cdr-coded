@@ -60,8 +60,8 @@ namespace reseune {
       
       const_iterator(value_type const * ptr): m_value(ptr) {}
       
-      value_type const & operator *  () const { return *m_value; }
-      value_type const * operator -> () const { return m_value; }
+      const value_type & operator *  () const { return *m_value; }
+      const value_type * operator -> () const { return m_value; }
 
       // prefix
       auto operator ++ () {
