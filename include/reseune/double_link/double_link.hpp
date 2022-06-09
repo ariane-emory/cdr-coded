@@ -11,10 +11,9 @@ namespace reseune {
     // Typedefs
     // =================================================================================================================
     
-    using pointer   = double_link *;
-    using reference = double_link &;
-
-    struct const_iterator;
+    using pointer        = double_link *;
+    using reference      = double_link &;
+    using const_iterator = linked_list_forward_const_iterator<double_link>;
     
     // =================================================================================================================
     // Member fields
@@ -84,49 +83,6 @@ namespace reseune {
 
       next = prev = nullptr;
     }
-
-    // =================================================================================================================
-    // const_iterator class
-    // =================================================================================================================
-    
-    struct const_iterator
-    {
-      using value_type        = double_link;
-      using difference_type   = std::ptrdiff_t;
-      using iterator_category = std::input_iterator_tag;
-      
-      const_iterator(value_type const * ptr): m_value(ptr) {}
-      
-      const value_type & operator *  () const { return *m_value; }
-      const value_type * operator -> () const { return m_value; }
-
-      // prefix
-      auto operator ++ () {
-        m_value = m_value->next;
-        return *this;
-      }
-
-      // postfix: untested 
-      auto operator ++ (int) {
-        const_iterator tmp = *this;
-        m_value = m_value->next;
-        return tmp;
-      } 
-
-      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_value == b.m_value; };
-      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_value != b.m_value; };     
-
-      static auto begin(value_type const * v) {
-        return const_iterator { v };
-      }
-
-      static auto end() {
-        return const_iterator { nullptr };
-      }
-      
-    private:
-      value_type const * m_value;
-    };    
 
     // =================================================================================================================
     // Iterator-related member functions

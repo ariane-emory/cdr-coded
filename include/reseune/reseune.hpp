@@ -1,3 +1,4 @@
+
 #ifndef RESEUNE_HPP
 #define RESEUNE_HPP
 
@@ -83,6 +84,7 @@ namespace reseune {
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
 #include "reseune/mempool/mempool.hpp"
+#include "reseune/linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
 #include "reseune/link/link.hpp"
 #include "reseune/double_link/double_link.hpp"
 #include "reseune/alloc_block/alloc_block.hpp"
