@@ -293,14 +293,14 @@ namespace reseune {
       }
 
       // postfix: untested 
-      const_iterator operator ++ (int) {
+      auto operator ++ (int) {
         const_iterator tmp = *this;
         next();
         return tmp;
       } 
 
-      friend bool operator == (const const_iterator & a, const const_iterator & b) { return a.m_ptr == b.m_ptr; };
-      friend bool operator != (const const_iterator & a, const const_iterator & b) { return a.m_ptr != b.m_ptr; };     
+      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_ptr == b.m_ptr; };
+      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_ptr != b.m_ptr; };     
 
     private:
       value_type const * m_ptr;
