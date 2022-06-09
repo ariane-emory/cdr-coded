@@ -21,8 +21,6 @@ namespace reseune {
     char             buff[width]   { 0 };
     size_t           buffix        { 0 };
 
-    
-    //#define PUTCHAR(x) putchar(x)
 #define PUTCHAR(x) buff[buffix++] = x
     
     for (T mask { static_cast<T>(1) << ((sizeof(T) << 3) - 1) };
@@ -41,10 +39,9 @@ namespace reseune {
                 : ' ');
     }
 
-
-
-
     while (buffix < width - 1) PUTCHAR(' ');
+
+#undef PUTCHAR
     
     printf("%s", buff);
 
