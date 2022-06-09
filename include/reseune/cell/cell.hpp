@@ -34,16 +34,16 @@ namespace reseune {
     // Static constants
     // =================================================================================================================
     
-    static constexpr uchar_type TAG_BITS_COUNT      {
+    static constexpr uchar_type TAG_BITS_COUNT   {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       2
 #else
       1
 #endif
     };
-    static constexpr uchar_type VALUE_BITS_COUNT    { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
-    static constexpr value_type MASK_VALUE          { (1ul << VALUE_BITS_COUNT) - 1 };
-    static constexpr value_type MASK_TAG            { ~MASK_VALUE };
+    static constexpr uchar_type VALUE_BITS_COUNT { (sizeof(value_type) << 3) - TAG_BITS_COUNT };
+    static constexpr value_type MASK_VALUE       { (1ul << VALUE_BITS_COUNT) - 1 };
+    static constexpr value_type MASK_TAG         { ~MASK_VALUE };
 
     // =================================================================================================================
     // tag_type enum class
@@ -54,7 +54,7 @@ namespace reseune {
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       last_element = 1ul << (VALUE_BITS_COUNT + 1),
 #endif
-      element = 1ul << VALUE_BITS_COUNT,
+      element      = 1ul << VALUE_BITS_COUNT,
     };
 
     // =================================================================================================================
@@ -72,8 +72,7 @@ namespace reseune {
       : data(0 | static_cast<value_type>(tag_type::link)) {}
 
     constexpr
-    cell(value_type const & v, tag_type const & ct = tag_type::element
-         ) 
+    cell(value_type const & v, tag_type const & ct = tag_type::element) 
       : data(v | static_cast<value_type>(ct)) {}
 
     constexpr
@@ -205,14 +204,11 @@ namespace reseune {
         
     void describe_instance() const {
       print_bits("cell is at", reinterpret_cast<uintptr_t>(this), true, false);
-      // print_bits("cell.data:                 ", data);
-      // print_bits("cell.tag():                ", tag());
-
       if (is_type(tag_type::link))
         print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
       else
         print_bits("cell.value()", value());
-
+      print_bits("whatever", (unsigned short)8);
       printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));
     }
 

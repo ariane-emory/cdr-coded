@@ -1,6 +1,8 @@
 #ifndef RESEUNE_HPP
 #define RESEUNE_HPP
 
+#include <type_traits>
+
 namespace reseune {
   static void print_line() {
     size_t line_ix { 0 };
@@ -16,6 +18,8 @@ namespace reseune {
     bool const & show_int  = true,
     bool const & show_bits = true) {
 
+    static_assert(std::is_unsigned<T>::value, "Does not handle signed types yet.");
+    
     printf(
       show_bits
       ? "%-20s: 0b"
