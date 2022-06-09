@@ -1,9 +1,5 @@
 UNAME_S = $(shell uname -s)
 
-ifeq ($(UNAME_S),Darwin)
-	CXX = g++-11
-endif
-
 CXXLAGS  = \
 	-std=c++20 \
 	-Iinclude \
@@ -22,6 +18,12 @@ CXXLAGS  = \
 	-DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 	-DWITH_RESEUNE_POOL
 	#-DNDEBUG
+
+ifeq ($(UNAME_S),Darwin)
+	CXX = g++-12
+else
+	CXX = g++-11
+endif
 
 GDB      = gdb
 OBJDUMP  = objdump
