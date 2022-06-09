@@ -149,7 +149,7 @@ int main() {
  m.insert_before(l);
  n.insert_before(m);
  o.insert_before(n);
- // m.remove();
+ m.remove();
 
  // l.describe_instance();
  // m.describe_instance();
@@ -157,7 +157,7 @@ int main() {
  // o.describe_instance();
 
  for (const link & i : o) {
-  i.describe_instance();
+   i.describe_instance();
  }
 }
 

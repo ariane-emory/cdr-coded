@@ -64,21 +64,33 @@ namespace reseune {
     }
 
     inline void insert_between(pointer new_prev, pointer new_next) {
-      if (nullptr == new_prev) {
-        prev = nullptr;
-      }
-      else {
-        prev = new_prev;
-        new_prev->next = this;
-      }
+#define CONNECT(A, B)                                                           \
+      if (nullptr == new_ ## A) {                                               \
+        A = nullptr;                                                            \
+      }                                                                         \
+      else {                                                                    \
+        A = new_ ## A;                                                          \
+        new_ ## A->B = this;                                                    \
+      }                                                                         \
      
-      if (nullptr == new_next) {
-        next = nullptr;
-      }
-      else {
-        next = new_next;
-        new_next->prev = this;
-      }
+      CONNECT(prev, next);
+      CONNECT(next, prev);
+#undef CONNECT
+      // if (nullptr == new_prev) {
+      //   prev = nullptr;
+      // }
+      // else {
+      //   prev = new_prev;
+      //   new_prev->next = this;
+      // }
+     
+      // if (nullptr == new_next) {
+      //   next = nullptr;
+      // }
+      // else {
+      //   next = new_next;
+      //   new_next->prev = this;
+      // }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
