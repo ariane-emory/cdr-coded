@@ -14,11 +14,7 @@ namespace reseune {
   }
 
   template <bool show_int = true, bool show_bits = true, typename T>
-  static void print_bits(
-    char const * const descr,
-    T    const &       v
-                         ) {
-
+  static void print_bits(char const * const descr, T const & v) {    
     static_assert(std::is_unsigned<T>::value, "Does not handle signed Ts yet.");
     static_assert(sizeof(T) <= 8, "Doesn't handle Ts of size > 8 yet.");
     
