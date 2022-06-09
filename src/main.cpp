@@ -11,7 +11,7 @@
 
 constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
-using pool_type =
+using pool =
 #ifdef WITH_RESEUNE_POOL
 #define DATA (POOL)
   reseune::pool<reseune::cell, POOL_SIZE>
@@ -21,7 +21,7 @@ using pool_type =
 #endif
   ;
 
-constexpr pool_type POOL= { 
+constexpr pool POOL= { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
@@ -137,7 +137,7 @@ int main() {
   describe_some_sizes();
   reseune::cell::describe_class();
   describe_every_cell();
-  draw_the_pool();
   describe_list(POOL[0]); // list of 88 / Xs.
-  // describe_list(POOL[4]); // list of 89 / Ys.
+  describe_list(POOL[4]); // list of 89 / Ys.
+  draw_the_pool();
 }
