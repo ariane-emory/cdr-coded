@@ -12,8 +12,7 @@
 constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
 using cell = reseune::cell;
-using tag = cell::tag_type;
-
+using tag  = cell::tag_type;
 using pool =
 #ifdef WITH_RESEUNE_POOL
   reseune::pool<cell, POOL_SIZE>
