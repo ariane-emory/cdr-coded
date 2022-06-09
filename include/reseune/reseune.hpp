@@ -26,16 +26,17 @@ namespace reseune {
       : "%-20s: ",
       descr);
 
-    size_t           ix          { 0  };
     constexpr size_t width       { 72 };
     char             buff[width] { 0  };
     size_t           buffix      { 0  };
+    size_t           sepix       { 0  };
 
 #define PUTCHAR(x) buff[buffix++] = x
 
     for (size_t iix = 0; iix < (8 - sizeof(T)) * 9; ++iix)
       PUTCHAR(' ');
     
+
     for (T mask { static_cast<T>(1) << ((sizeof(T) << 3) - 1) };
          mask;
          mask >>= 1) {
@@ -46,9 +47,9 @@ namespace reseune {
       else
         PUTCHAR(' ');
 
-      ++ix %= 8;
+      ++sepix %= 8;
 
-      if (0 == ix && mask > 1) [[unlikely]]
+      if (0 == sepix && mask > 1) [[unlikely]]
         PUTCHAR(show_bits
                 ? '\''
                 : ' ');
