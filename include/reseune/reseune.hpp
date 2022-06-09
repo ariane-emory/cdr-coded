@@ -2,12 +2,18 @@
 #define RESEUNE_HPP
 
 namespace reseune {
+  static void print_line() {
+    size_t line_ix { 0 };
+    while (line_ix++ < 131)
+      putchar('=');
+    putchar('\n');
+  }
+
   template <typename T>
-  static
-  void print_bits(
+  static void print_bits(
     char const * descr,
-    T const & v,
-    bool const & show_int = true,
+    T    const & v,
+    bool const & show_int  = true,
     bool const & show_bits = true) {
 
     printf(
@@ -27,7 +33,9 @@ namespace reseune {
          mask;
          mask >>= 1) {
       if (show_bits)
-        PUTCHAR((mask & v) ? '1' : '0');
+        PUTCHAR((mask & v)
+                ? '1'
+                : '0');
       else
         PUTCHAR(' ');
 

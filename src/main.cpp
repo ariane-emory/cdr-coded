@@ -8,7 +8,7 @@
 
 // =====================================================================================================================
 
-#define LINE { size_t line_ix { 0 }; while (line_ix++ < 131) putchar('='); putchar('\n'); }
+#define LINE reseune::print_line()
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
