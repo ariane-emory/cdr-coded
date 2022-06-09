@@ -237,7 +237,7 @@ namespace reseune {
     {
       using value_type        = cell;
       using difference_type   = std::ptrdiff_t;
-      using iterator_category = std::forward_iterator_tag;
+      using iterator_category = std::input_iterator_tag;
       
       const_iterator(value_type const * ptr): m_ptr(ptr) {}
       
