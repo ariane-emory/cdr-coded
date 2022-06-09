@@ -6,17 +6,17 @@
 namespace reseune {
   static void print_line() {
     size_t line_ix { 0 };
+
     while (line_ix++ < 131)
       putchar('=');
+
     putchar('\n');
   }
 
-  template <typename T>
+  template <bool show_int = true, bool show_bits = true, typename T>
   static void print_bits(
     char const * const descr,
-    T    const &       v,
-    bool const &       show_int  = true,
-    bool const &       show_bits = true) {
+    T    const &       v) {
 
     static_assert(std::is_unsigned<T>::value, "Does not handle signed Ts yet.");
     static_assert(sizeof(T) <= 8, "Doesn't handle Ts of size > 8 yet.");
@@ -59,7 +59,7 @@ namespace reseune {
     
     printf("%s", buff);
 
-    if (show_int) [[likely]] {      
+    if constexpr(show_int) [[likely]] {      
       printf(show_bits
              ? " ="
              : "  ");

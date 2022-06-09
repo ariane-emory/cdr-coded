@@ -198,12 +198,12 @@ namespace reseune {
     static void describe_class() {
       print("VALUE_BITS_COUNT    :", VALUE_BITS_COUNT);
       print("TAG_BITS_COUNT      :", TAG_BITS_COUNT);
-      print_bits("MASK_TAG", MASK_VALUE, false);
-      print_bits("MASK_VALUE", MASK_TAG, false);
+      print_bits<false>("MASK_TAG", MASK_VALUE);
+      print_bits<false>("MASK_VALUE", MASK_TAG);
     }
         
     void describe_instance() const {
-      print_bits("cell is at", reinterpret_cast<uintptr_t>(this), true, false);
+      print_bits<true, false>("cell is at", reinterpret_cast<uintptr_t>(this));
       if (is_type(tag_type::link))
         print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
       else
