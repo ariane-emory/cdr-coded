@@ -17,9 +17,9 @@ using pool_type =
   reseune::pool<reseune::cell, POOL_SIZE>
 #else
 #define DATA (POOL)
-   reseune::cell[POOL_SIZE]
+  reseune::cell[POOL_SIZE]
 #endif
-;
+  ;
 
 constexpr pool_type POOL= { 
   /*  0 */ 88,
@@ -118,9 +118,9 @@ void draw_the_pool() {
         else
           putchar('x');
       }
-  else {
-    putchar('?');
-  }
+      else {
+        putchar('?');
+      }
 
       // else if (cell.is_nil())
       //   putchar('.');
