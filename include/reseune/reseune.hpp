@@ -39,6 +39,7 @@ namespace reseune {
          mask >>= 1) {
       if constexpr (show_bits)
         PUTCHAR((mask & v)
+
                 ? '1'
                 : '0');
       else
@@ -56,12 +57,12 @@ namespace reseune {
     
     printf("%s", buff);
 
-    if constexpr(show_int) [[likely]] {      
+    if constexpr(show_int) {
       printf(show_bits
              ? " ="
              : "  ");
 
-      const char * const tmp = " 0x%%0%ulx = %% 12lu\n";
+      constexpr const char * tmp = " 0x%%0%ulx = %% 12lu\n";
       char buf[64] {0};
 
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
@@ -71,7 +72,7 @@ namespace reseune {
       
       printf(buf, (uintptr_t)v, (uintptr_t)v);
     }
-    else [[unlikely]] {
+    else { 
       putchar('\n');
     }
   }
