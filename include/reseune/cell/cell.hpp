@@ -259,29 +259,29 @@ namespace reseune {
       using difference_type   = std::ptrdiff_t;
       using iterator_category = std::input_iterator_tag;
       
-      const_iterator(value_type const * ptr): m_ptr(ptr) {}
+      const_iterator(value_type const * ptr): cell(ptr) {}
       
-      value_type const & operator *  () const { return *m_ptr; }
-      value_type const * operator -> () const { return m_ptr; }
+      value_type const & operator *  () const { return *cell; }
+      value_type const * operator -> () const { return cell; }
 
       void next() {
-        m_ptr->ASSERT_CANNOT_BE_A_LINK();
+        cell->ASSERT_CANNOT_BE_A_LINK();
         
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        if (m_ptr++->is_last_element()) { // Note post-increment!
-          m_ptr = nullptr;
+        if (cell++->is_last_element()) { // Note post-increment!
+          cell = nullptr;
         }
 #else
-        if ((++m_ptr)->is_nil()) { // Note pre-increment!
-          m_ptr = nullptr;
+        if ((++cell)->is_nil()) { // Note pre-increment!
+          cell = nullptr;
         }
 #endif
-        else if (m_ptr->is_link()) {
+        else if (cell->is_link()) {
           do {
-            m_ptr = m_ptr->link();
-          } while (m_ptr->is_link());
+            cell = cell->link();
+          } while (cell->is_link());
         }
-        // else (i.e, if m_ptr->is_element()), it's pointer was already
+        // else (i.e, if cell->is_element()), it's pointer was already
         // pre or post incremented in the prior case's test.
       }
 
@@ -299,11 +299,11 @@ namespace reseune {
         return tmp;
       } 
 
-      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_ptr == b.m_ptr; };
-      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_ptr != b.m_ptr; };     
+      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.cell == b.cell; };
+      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.cell != b.cell; };     
 
     private:
-      value_type const * m_ptr;
+      value_type const * cell;
     };    
 
     // =================================================================================================================
