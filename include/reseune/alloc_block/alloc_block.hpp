@@ -29,7 +29,7 @@ namespace reseune {
      - ALLOC_HEADER_SZ;
 
       //and now our giant block of memory is added to the list!
-      blk->node.connect(&free_list);
+      blk->node.insert_before(&free_list);
     }
   };
 }
