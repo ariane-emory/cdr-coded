@@ -16,10 +16,8 @@ using tag = cell::tag_type;
 
 using pool =
 #ifdef WITH_RESEUNE_POOL
-#define DATA (POOL)
   reseune::pool<cell, POOL_SIZE>
 #else
-#define DATA (POOL)
   cell[POOL_SIZE]
 #endif
   ;
@@ -75,7 +73,7 @@ void describe_every_cell()
 {
   uint8_t ix { 0 };
 
-  for (cell const & i : DATA) {
+  for (cell const & i : POOL) {
     printf("cell # %u\n", ix++);
     
     i.describe_instance();
