@@ -80,4 +80,9 @@ namespace reseune {
   }
 }
 
+#include "reseune/cell/cell.hpp"
+#include "reseune/pool/pool.hpp"
+#include "reseune/linked_list/linked_list.hpp"
+#include "reseune/mempool/mempool.hpp"
+
 #endif
