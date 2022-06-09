@@ -9,11 +9,11 @@
 
 #define LINE printf("=================================================================================================================================================\n\n")
 
-constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
+constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
 using pool_type =
 #ifdef WITH_RESEUNE_POOL
-#define DATA (POOL.data)
+#define DATA (POOL)
   reseune::pool<reseune::cell, POOL_SIZE>
 #else
 #define DATA (POOL)
@@ -136,7 +136,7 @@ void draw_the_pool() {
 int main() {
   describe_some_sizes();
   reseune::cell::describe_class();
-  // describe_every_cell();
+  describe_every_cell();
   draw_the_pool();
   describe_list(POOL[0]); // list of 88 / Xs.
   // describe_list(POOL[4]); // list of 89 / Ys.
