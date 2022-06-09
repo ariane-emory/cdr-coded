@@ -16,10 +16,10 @@ namespace reseune {
       : "%-20s:   ",
       descr);
 
-    size_t           ix            { 0 };
+    size_t           ix            { 0  };
     constexpr size_t width         { 75 };
-    char             buff[width]   { 0 };
-    size_t           buffix        { 0 };
+    char             buff[width]   { 0  };
+    size_t           buffix        { 0  };
 
 #define PUTCHAR(x) buff[buffix++] = x
     
