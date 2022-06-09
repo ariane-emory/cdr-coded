@@ -197,8 +197,8 @@ namespace reseune {
     }
 
     static void describe_class() {
-      print("VALUE_BITS_COUNT", VALUE_BITS_COUNT);
-      print("TAG_BITS_COUNT", TAG_BITS_COUNT);
+      print("VALUE_BITS_COUNT    :", VALUE_BITS_COUNT);
+      print("TAG_BITS_COUNT      :", TAG_BITS_COUNT);
       print_bits("MASK_TAG", MASK_VALUE, false);
       print_bits("MASK_VALUE", MASK_TAG, false);
     }
