@@ -45,10 +45,10 @@ namespace reseune {
     static constexpr value_type MASK_TAG            { ~MASK_VALUE };
 
 // =====================================================================================================================
-// tag_t enum class
+// tag_type enum class
 // =====================================================================================================================
     
-    enum class tag_t : uintptr_t {
+    enum class tag_type : uintptr_t {
       link,
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
       last_element = 1ul << (VALUE_BITS_COUNT + 1),
@@ -68,15 +68,15 @@ namespace reseune {
 
     constexpr
     cell() 
-      : data(0 | static_cast<value_type>(tag_t::link)) {}
+      : data(0 | static_cast<value_type>(tag_type::link)) {}
 
     constexpr
-    cell(value_type const & v, tag_t const & ct = tag_t::element
+    cell(value_type const & v, tag_type const & ct = tag_type::element
          ) 
       : data(v | static_cast<value_type>(ct)) {}
 
     constexpr
-    cell(cell const * v, tag_t const & ct = tag_t::link) 
+    cell(cell const * v, tag_type const & ct = tag_type::link) 
       : data(reinterpret_cast<value_type>(v) | static_cast<value_type>(ct)) {}
 
 // =====================================================================================================================
@@ -106,8 +106,8 @@ namespace reseune {
     }
 #endif
   private:
-    DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_t::link != tag())
-    DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_t::link == tag())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(CANNOT_BE_A_LINK, tag_type::link != tag())
+    DEFINE_LOGIC_ERROR_AND_ASSERT(MUST_BE_A_LINK,   tag_type::link == tag())
 #undef DEFINE_LOGIC_ERROR_AND_ASSERT
 
     public:
@@ -132,8 +132,8 @@ namespace reseune {
     }
         
     constexpr
-    tag_t tag() const {
-      return static_cast<tag_t>(data & MASK_TAG); 
+    tag_type tag() const {
+      return static_cast<tag_type>(data & MASK_TAG); 
     }
 
     // =================================================================================================================
@@ -142,19 +142,19 @@ namespace reseune {
     
     constexpr
     bool is_element() const {
-      return is_type(tag_t::element);
+      return is_type(tag_type::element);
     }
 
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
     constexpr
     bool is_last_element() const {
-      return is_type(tag_t::last_element);
+      return is_type(tag_type::last_element);
     }
 #endif
 
     constexpr
     bool is_link() const {
-      return is_type(tag_t::link);
+      return is_type(tag_type::link);
     }
 
     constexpr
@@ -195,10 +195,10 @@ namespace reseune {
     
     static constexpr
     char const * const
-    tag_t_as_c_str(tag_t const & ct) {
+    tag_type_as_c_str(tag_type const & ct) {
       switch (ct) {
       default: return "ERROR";
-#define CASE(enum_val) case tag_t::enum_val: return # enum_val;
+#define CASE(enum_val) case tag_type::enum_val: return # enum_val;
         CASE(element);
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
         CASE(last_element);
@@ -221,8 +221,8 @@ namespace reseune {
       print_bits("cell is at                 ", reinterpret_cast<uintptr_t>(this), true, false);
       // print_bits("cell.data:                 ", data);
       // print_bits("cell.tag():                ", tag());
-      printf("cell.tag() as c_str:        %s\n", tag_t_as_c_str(tag()));
-      if (is_type(tag_t::link))
+      printf("cell.tag() as c_str:        %s\n", tag_type_as_c_str(tag()));
+      if (is_type(tag_type::link))
         print_bits("cell.link():               ", reinterpret_cast<uintptr_t>(link()));
       else
         print_bits("cell.value()               ", value());
@@ -310,7 +310,7 @@ namespace reseune {
     }
 
     constexpr
-    bool is_type(tag_t const & ct) const {
+    bool is_type(tag_type const & ct) const {
       return tag() == ct; 
     }
 

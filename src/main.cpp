@@ -12,7 +12,7 @@
 constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
 
 using cell = reseune::cell;
-using tag = cell::tag_t;
+using tag = cell::tag_type;
 
 using pool =
 #ifdef WITH_RESEUNE_POOL
@@ -124,11 +124,6 @@ void draw_the_pool() {
       else {
         putchar('?');
       }
-
-      // else if (cell.is_nil())
-      //   putchar('.');
-      // else
-      //   putchar('?');
     }
     putchar('\n');
   }
@@ -139,8 +134,8 @@ void draw_the_pool() {
 int main() {
   describe_some_sizes();
   cell::describe_class();
-  describe_every_cell();
-  describe_list(POOL[0]); // list of 88 / Xs.
-  describe_list(POOL[4]); // list of 89 / Ys.
+  // describe_every_cell();
+  describe_list(POOL[0]); // list of 88s / Xs.
+  describe_list(POOL[4]); // list of 89s / Ys.
   draw_the_pool();
 }
