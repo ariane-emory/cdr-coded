@@ -4,6 +4,7 @@
 
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
+#include "reseune/mempool/mempool.hpp"
 
 // =====================================================================================================================
 
@@ -15,7 +16,7 @@ using cell = reseune::cell;
 using tag  = cell::tag_type;
 using pool =
 #ifdef WITH_RESEUNE_POOL
-  reseune::pool<cell, POOL_SIZE>
+  reseune::mempool<cell, POOL_SIZE>
 #else
   cell[POOL_SIZE]
 #endif
