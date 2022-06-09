@@ -10,6 +10,7 @@
 namespace reseune {
   template <typename T, size_t S>
   class mempool : public pool<T, S> {
+  public:
     using base_type  = pool<T, S>;
     using value_type = base_type::value_type;
 
