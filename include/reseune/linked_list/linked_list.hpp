@@ -12,7 +12,7 @@ namespace reseune {
     pointer prev;
     pointer next;
 
-    link(): prev(nullptr), next(nullptr) {}
+    inline link(): prev(nullptr), next(nullptr) {}
     
     inline void describe_instance() {
       print_line();
