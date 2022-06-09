@@ -32,6 +32,9 @@ namespace reseune {
     size_t           buffix        { 0  };
 
 #define PUTCHAR(x) buff[buffix++] = x
+
+    while (size_t iix = 0; iix < 20)
+      PUTCHAR(' ');
     
     for (T mask { static_cast<T>(1) << ((sizeof(T) << 3) - 1) };
          mask;
