@@ -17,7 +17,7 @@ using pool_type =
   reseune::pool<reseune::cell, POOL_SIZE>
 #else
 #define DATA (POOL)
-  reseune::cell[POOL_SIZE]
+   reseune::cell[POOL_SIZE]
 #endif
 ;
 
