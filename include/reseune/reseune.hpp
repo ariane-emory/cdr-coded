@@ -7,8 +7,8 @@ namespace reseune {
   static void print_line() {
     size_t line_ix { 0 };
 
-    while (line_ix++ < 131)
-    putchar('=');
+    while (line_ix++ < 129)
+      putchar('=');
 
     putchar('\n');
   }
