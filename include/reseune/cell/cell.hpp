@@ -236,14 +236,11 @@ namespace reseune {
       return data & MASK_VALUE;
     }
 
-    constexpr
-    cell const *
-    get_link() const {
+    constexpr cell const * get_link() const {
       return reinterpret_cast<cell const *>(get_value());
     }
 
-    constexpr
-    bool is_type(tag_type const & ct) const {
+    constexpr bool is_type(tag_type const & ct) const {
       return tag() == ct; 
     }
 
