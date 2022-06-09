@@ -117,23 +117,19 @@ namespace reseune {
     // Accessor member functions
     // =================================================================================================================
     
-    constexpr
-    value_type value() const {
+    constexpr auto value() const {
       ASSERT_CANNOT_BE_A_LINK();
 
       return get_value();
     }
 
-    constexpr
-    cell const *
-    link() const {
+    constexpr auto link() const {
       ASSERT_MUST_BE_A_LINK();
       
       return get_link();
     }
         
-    constexpr
-    tag_type tag() const {
+    constexpr tag_type tag() const {
       return static_cast<tag_type>(data & MASK_TAG); 
     }
 
@@ -142,8 +138,7 @@ namespace reseune {
     // =================================================================================================================
 
 #define DEFINE_TAG_PREDICATE(name)                                              \
-    constexpr                                                                   \
-    bool is_ ## name() const {                                                  \
+    constexpr auto is_ ## name() const {                                        \
       return is_type(tag_type::name);                                           \
     }
 
@@ -154,8 +149,7 @@ namespace reseune {
     DEFINE_TAG_PREDICATE(link);
 #undef DEFINE_TAG_PREDICATE
     
-    constexpr
-    bool is_nil() const {
+    constexpr auto is_nil() const {
       return *this == nullptr;
     }
 
@@ -164,13 +158,11 @@ namespace reseune {
     // =================================================================================================================
     
 #ifdef RESEUNE_CELL_WITHOUT_SPACESHIP
-    constexpr
-    bool operator == (cell const & that) {
+    constexpr auto operator == (cell const & that) {
       return data == that.data;
     }
 
-    constexpr
-    bool operator != (cell const & that) {
+    constexpr auto operator != (cell const & that) {
       return !operator==(that);
     }
 #else
@@ -178,10 +170,11 @@ namespace reseune {
 #endif
     
 #ifdef RESEUNE_CELL_WITH_DEREFERENCE_OPERATOR
-    constexpr
+    constexpr 
     cell const &
     operator  * () const {
       ASSERT_MUST_BE_A_LINK();
+      
       return *link();
     }
 #endif
@@ -190,9 +183,7 @@ namespace reseune {
     // Printing-related member functions
     // =================================================================================================================
     
-    static constexpr
-    char const * 
-    tag_type_as_c_str(tag_type const & ct) {
+    static constexpr auto tag_type_as_c_str(tag_type const & ct) {
       switch (ct) {
       default: return "ERROR";
 #define CASE(enum_val) case tag_type::enum_val: return # enum_val;
@@ -205,8 +196,7 @@ namespace reseune {
       }
     }
 
-    static
-    void describe_class() {
+    static void describe_class() {
       print("VALUE_BITS_COUNT", VALUE_BITS_COUNT);
       print("TAG_BITS_COUNT", TAG_BITS_COUNT);
       print_bits("MASK_TAG", MASK_VALUE, false);
@@ -230,11 +220,11 @@ namespace reseune {
     // Iterator-related member functions
     // =================================================================================================================
     
-    const_iterator begin() const {
+    auto begin() const {
       return const_iterator { this };
     }
 
-    const_iterator end() const {
+    auto end() const {
       return const_iterator { nullptr };
     }
     
@@ -242,8 +232,7 @@ namespace reseune {
   private:
     // =================================================================================================================
     
-    constexpr
-    value_type get_value() const {
+    constexpr value_type get_value() const {
       return data & MASK_VALUE;
     }
 
