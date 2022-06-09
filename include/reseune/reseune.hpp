@@ -12,8 +12,8 @@ namespace reseune {
 
     printf(
       show_bits
-      ? "%s: 0b"
-      : "%s:   ",
+      ? "%-20s: 0b"
+      : "%-20s:   ",
       descr);
 
     size_t ix { 0 };

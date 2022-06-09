@@ -218,7 +218,7 @@ namespace reseune {
       print_bits("cell is at", reinterpret_cast<uintptr_t>(this), true, false);
       // print_bits("cell.data:                 ", data);
       // print_bits("cell.tag():                ", tag());
-      printf("cell.tag() as c_str        %s\n", tag_type_as_c_str(tag()));
+      printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));
 
       if (is_type(tag_type::link))
         print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
