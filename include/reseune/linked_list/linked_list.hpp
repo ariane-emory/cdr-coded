@@ -5,6 +5,7 @@ namespace reseune {
   class link {
   public:
     using pointer = link *;
+
     pointer next;
     pointer prev;
 
@@ -27,6 +28,7 @@ namespace reseune {
         next->prev = prev;
       if (nullptr != prev)
         prev->next = next;
+      nnext = prev = nullptr;
     }
   };
 }
