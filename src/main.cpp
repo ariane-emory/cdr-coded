@@ -12,7 +12,7 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using cell = reseune::cell;
 using tag  = cell::tag_type;
-using double_link = reseune::double_link;
+using link = reseune::double_link;
 using pool = std::conditional<WITH_RESEUNE_POOL, reseune::mempool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
 
 constexpr pool POOL { 
@@ -72,7 +72,7 @@ void describe_every_cell()
 {
   uint8_t ix { 0 };
 
-  for (cell const & i : POOL) {
+  for (const cell & i : POOL) {
     printf("cell # %u\n", ix++);
     
     i.describe_instance();
@@ -81,7 +81,7 @@ void describe_every_cell()
   LINE;
 }
 
-void describe_list(cell const & head) {
+void describe_list(const cell & head) {
   uint8_t ix { 0 };
     
   for (cell const & c : head) {
@@ -138,10 +138,10 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
 
-  double_link l;
-  double_link m;
-  double_link n;
-  double_link o;
+  link l;
+  link m;
+  link n;
+  link o;
   // l.describe_instance();
   // m.describe_instance();
   // n.describe_instance();
@@ -151,12 +151,14 @@ int main() {
   o.insert_after(n);
   // m.remove();
 
-  l.describe_instance();
-  m.describe_instance();
-  n.describe_instance();
-  o.describe_instance();
+  // l.describe_instance();
+  // m.describe_instance();
+  // n.describe_instance();
+  // o.describe_instance();
 
+  for (const link & i : o) {
+    i.describe_instance();
+  }
 }
-
 
 
