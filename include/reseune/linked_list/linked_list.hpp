@@ -14,6 +14,14 @@ namespace reseune {
       print_bits("next", reinterpret_cast<uintptr_t>(next));
       print_bits("prev", reinterpret_cast<uintptr_t>(prev));
     }
+
+    void connect(link * next_, link * prev_) {
+      next_->prev = this;
+      next        = next_;
+      prev        = prev_;
+      prev->next  = this;
+      
+    }
   };
 }
 
