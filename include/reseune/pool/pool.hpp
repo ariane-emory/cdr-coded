@@ -57,14 +57,14 @@ namespace reseune {
       constexpr const_iterator(value_type const * ptr): base_type(ptr) {}
       
       // prefix
-      const_iterator & operator ++ () {
+      inline const_iterator & operator ++ () {
         base_type::m_value++;
 
         return *this;
       }
 
       // postfix: untested 
-      const_iterator operator ++ (int) {
+      inline const_iterator operator ++ (int) {
         const_iterator tmp = *this;
 
         ++(*this);
