@@ -1,4 +1,9 @@
-CXX = g++-12
+UNAME_S = $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+	CXX = g++-12
+endif
+
 CXXLAGS  = \
 	-std=gnu++23 \
 	-Iinclude \
@@ -38,7 +43,7 @@ clean:
 
 test: clean all
 	./$(BIN)
- 
+
 debug: clean all
 	$(GDB) ./$(BIN)
 
