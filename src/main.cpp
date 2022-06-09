@@ -4,6 +4,7 @@
 
 #include "reseune/cell/cell.hpp"
 #include "reseune/pool/pool.hpp"
+#include "reseune/linked_list/linked_list.hpp"
 #include "reseune/mempool/mempool.hpp"
 
 // =====================================================================================================================
@@ -14,6 +15,7 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using cell = reseune::cell;
 using tag  = cell::tag_type;
+using link = reseune::link;
 using pool = std::conditional<WITH_RESEUNE_POOL, reseune::mempool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
 
 constexpr pool POOL { 
@@ -132,12 +134,17 @@ void draw_the_pool() {
 // =====================================================================================================================
 
 int main() {
-  describe_some_sizes();
-  cell::describe_class();
-  // describe_every_cell();
-  describe_list(POOL[0]); // list of 88s / Xs.
-  describe_list(POOL[4]); // list of 89s / Ys.
-  draw_the_pool();
+  // describe_some_sizes();
+  // cell::describe_class();
+  // // describe_every_cell();
+  // describe_list(POOL[0]); // list of 88s / Xs.
+  // describe_list(POOL[4]); // list of 89s / Ys.
+  // draw_the_pool();
+
+  link l { 
+    (link::pointer)1, nullptr };
+  l.describe_instance();
+  
 }
 
 

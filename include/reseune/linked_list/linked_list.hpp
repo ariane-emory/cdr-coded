@@ -1,9 +1,19 @@
 #ifndef RESEUNE_LINKED_LIST_H
+#define RESEUNE_LINKED_LIST_H
+
 namespace reseune {
-  class linked_list {
+  class link {
   public:
-    linked_list * next;
-    linked_list * prev;
+    using pointer = link *;
+    pointer next;
+    pointer prev;
+
+    void describe_instance() {
+      print_bits<true, false>("link is at", reinterpret_cast<uintptr_t>(this));
+      print_bits("next", reinterpret_cast<uintptr_t>(next));
+      print_bits("prev", reinterpret_cast<uintptr_t>(prev));
+    }
   };
 }
-#define 
+
+#endif
