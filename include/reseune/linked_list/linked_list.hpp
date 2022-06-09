@@ -12,7 +12,7 @@ namespace reseune {
     pointer prev;
     pointer next;
 
-    inline link(): prev(nullptr), next(nullptr) {}
+    constexpr link(): prev(nullptr), next(nullptr) {}
     
     inline void describe_instance() {
       print_line();
@@ -27,7 +27,10 @@ namespace reseune {
       prev        = prev_;
       if (nullptr != prev) prev->next  = this;      
     }
-
+    inline void connect(pointer head) {
+      connect(head, head->next);
+    }
+                        
     inline void insert_before(pointer next_) {
       assert(nullptr != next_);
 
