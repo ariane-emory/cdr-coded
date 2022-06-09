@@ -11,12 +11,15 @@
 
 constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
+using pool_type =
 #ifdef WITH_RESEUNE_POOL
-constexpr reseune::pool<reseune::cell, POOL_SIZE> POOL
+  reseune::pool<reseune::cell, POOL_SIZE>
 #else
-constexpr reseune::cell POOL[POOL_SIZE]
+  reseune::cell[POOL_SIZE]
 #endif
-= { 
+;
+
+constexpr pool_type POOL= { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
