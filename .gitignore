@@ -32,3 +32,4 @@
 *.app
 cdr-coded
 cdr-coded.dSYM
+.DS_Store
