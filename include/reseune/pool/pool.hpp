@@ -10,36 +10,8 @@ namespace reseune {
     // Typedefs
     // =================================================================================================================
 
-    using value_type = T;
-
-    // =================================================================================================================
-    
-    template <typename TT>
-    struct array_const_iterator : public const_iterator_base<TT>
-    {
-      using value_type = TT;
-      using base_type  = const_iterator_base<value_type>;
-      
-      constexpr array_const_iterator(value_type const * ptr): base_type(ptr) {}
-      
-      // prefix
-      inline array_const_iterator & operator ++ () {
-        base_type::m_value++;
-
-        return *this;
-      }
-
-      // postfix: untested 
-      inline array_const_iterator operator ++ (int) {
-        array_const_iterator tmp = *this;
-
-        ++(*this);
-
-        return tmp; 
-      } 
-    };
-
-    using const_iterator = array_const_iterator<value_type>;
+    using value_type     = T;
+    using const_iterator = array_forward_const_iterator<value_type>;
     
     // =================================================================================================================
     // Static constants

@@ -83,6 +83,7 @@ namespace reseune {
 
 #include "reseune/const_iterator_base/const_iterator_base.hpp"
 #include "reseune/cell/cell.hpp"
+#include "reseune/array_forward_const_iterator/array_forward_const_iterator.hpp"
 #include "reseune/pool/pool.hpp"
 #include "reseune/mempool/mempool.hpp"
 #include "reseune/linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
