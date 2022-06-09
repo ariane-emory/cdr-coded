@@ -24,7 +24,21 @@ namespace reseune {
       T *    block;
     };
 
-    void malloc_addblock(void *addr, size_t size)
+    static inline void list_add_(ll_t * n, ll_t * prev, ll_t * next)
+      {
+        next->prev = n;
+        n->next = next;
+        n->prev = prev;
+        prev->next = n;
+      }
+
+
+    static inline void list_add(ll_t * n, ll_t * head)
+      {
+        list_add_(n, head, head->next);
+      }
+
+    void malloc_addblock(void * addr, const size_t &size)
       {
         alloc_node_t *blk;
 
