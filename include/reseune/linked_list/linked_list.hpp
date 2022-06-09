@@ -28,7 +28,7 @@ namespace reseune {
         next->prev = prev;
       if (nullptr != prev)
         prev->next = next;
-      nnext = prev = nullptr;
+      next = prev = nullptr;
     }
   };
 }
