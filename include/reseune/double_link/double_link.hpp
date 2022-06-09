@@ -86,18 +86,6 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    // Iterator-related member functions
-    // =================================================================================================================
-    
-    auto begin() const {
-      return const_iterator { this };
-    }
-
-    auto end() const {
-      return const_iterator { nullptr };
-    }
-
-    // =================================================================================================================
     // cell::const_iterator class
     // =================================================================================================================
     
@@ -120,16 +108,38 @@ namespace reseune {
 
       // postfix: untested 
       auto operator ++ (int) {
+        const_iterator tmp = *this;
+        m_value = m_value->next;
+        return tmp;
       } 
 
       friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_value == b.m_value; };
       friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_value != b.m_value; };     
 
+      static auto begin(value_type const * v) {
+        return const_iterator { v };
+      }
+
+      static auto end() {
+        return const_iterator { nullptr };
+      }
+      
     private:
       value_type const * m_value;
     };    
 
     // =================================================================================================================
+    // Iterator-related member functions
+    // =================================================================================================================
+    
+    auto begin() const {
+      return const_iterator::begin(this);
+    }
+
+    auto end() const {
+      return const_iterator::end();
+    }
+// =================================================================================================================
   };
 }
 
