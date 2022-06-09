@@ -15,6 +15,16 @@ namespace reseune {
       return data[ix];
     }
 
+    struct const_iterator;
+    
+    inline const_iterator begin() const {
+      return const_iterator { &data[0] };
+    }
+
+    inline const_iterator end() const {
+      return const_iterator { &data[SIZE] };
+    }
+    
     // =================================================================================================================
     // pool<T, S>::const_iterator class
     // =================================================================================================================
@@ -52,13 +62,7 @@ namespace reseune {
       value_type const * m_ptr;
     };
     
-    const_iterator begin() const {
-      return const_iterator { &data[0] };
-    }
-
-    const_iterator end() const {
-      return const_iterator { &data[SIZE] };
-    }
+    // =================================================================================================================
   };
 };
 
