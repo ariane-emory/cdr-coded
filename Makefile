@@ -29,7 +29,7 @@ SRC      = $(shell find src -name "*.cpp")
 OBJ      = $(patsubst src/%.cpp, tmp/%.o, $(SRC))
 BIN      = cdr-coded
 
-all: $(BIN)
+all:: $(BIN) 
 
 tmp/%.o: src/%.cpp
 	mkdir -p $(dir $@)
@@ -38,7 +38,7 @@ tmp/%.o: src/%.cpp
 $(BIN): $(OBJ)
 	$(CXX) -o $@ $^ $(CXXLAGS)
 
-clean:
+clean::
 	rm -rf $(BIN) tmp
 
 test: clean all
