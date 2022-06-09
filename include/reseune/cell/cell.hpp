@@ -244,8 +244,7 @@ namespace reseune {
       return tag() == ct; 
     }
 
-    static
-    void print(char const * descr, uchar_type const & v) {
+    static void print(char const * descr, uchar_type const & v) {
       printf("%s %u\n", descr, v);
     }
     
@@ -287,7 +286,7 @@ namespace reseune {
       }
 
       // prefix
-      const_iterator & operator ++ () {
+      auto operator ++ () {
         next();
 
         return *this;
