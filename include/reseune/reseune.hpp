@@ -8,13 +8,15 @@ namespace reseune {
     size_t line_ix { 0 };
 
     while (line_ix++ < 131)
-      putchar('=');
+    putchar('=');
 
     putchar('\n');
   }
 
   template <bool show_int = true, bool show_bits = true, typename T>
   static void print_bits(char const * const descr, T const & v) {    
+
+    static_assert(std::is_integral<T>::value, "Does not handle non-integral Ts yet.");
     static_assert(std::is_unsigned<T>::value, "Does not handle signed Ts yet.");
     static_assert(sizeof(T) <= 8, "Doesn't handle Ts of size > 8 yet.");
     
@@ -24,10 +26,10 @@ namespace reseune {
       : "%-20s: ",
       descr);
 
-    size_t           ix            { 0  };
-    constexpr size_t width         { 72 };
-    char             buff[width]   { 0  };
-    size_t           buffix        { 0  };
+    size_t           ix          { 0  };
+    constexpr size_t width       { 72 };
+    char             buff[width] { 0  };
+    size_t           buffix      { 0  };
 
 #define PUTCHAR(x) buff[buffix++] = x
 
@@ -39,7 +41,6 @@ namespace reseune {
          mask >>= 1) {
       if constexpr (show_bits)
         PUTCHAR((mask & v)
-
                 ? '1'
                 : '0');
       else
