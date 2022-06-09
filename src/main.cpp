@@ -131,12 +131,12 @@ void draw_the_pool() {
 // =====================================================================================================================
 
 int main() {
-  // describe_some_sizes();
-  // cell::describe_class();
-  // // describe_every_cell();
-  // describe_list(POOL[0]); // list of 88s / Xs.
-  // describe_list(POOL[4]); // list of 89s / Ys.
-  // draw_the_pool();
+  describe_some_sizes();
+  cell::describe_class();
+  // describe_every_cell();
+  describe_list(POOL[0]); // list of 88s / Xs.
+  describe_list(POOL[4]); // list of 89s / Ys.
+  draw_the_pool();
 
   link l;
   link m;
