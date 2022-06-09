@@ -85,8 +85,8 @@ namespace reseune {
       insert_ ## position(&node);                                               \
     }
 
-INSERT_WITH_REFERENCE(before);
-INSERT_WITH_REFERENCE(after);
+    INSERT_WITH_REFERENCE(before);
+    INSERT_WITH_REFERENCE(after);
 
 #undef INSERT_WITH_REFERENCE
 
@@ -99,24 +99,24 @@ INSERT_WITH_REFERENCE(after);
 
 // -----------------------------------------------------------------------------------------------------------------
 
-inline void remove() {
-  if (nullptr != next) next->prev = prev;
-  if (nullptr != prev) prev->next = next;
+    inline void remove() {
+      if (nullptr != next) next->prev = prev;
+      if (nullptr != prev) prev->next = next;
 
-  next = prev = nullptr;
-}
+      next = prev = nullptr;
+    }
 
 // =================================================================================================================
 // Iterator-related member functions
 // =================================================================================================================
     
-auto begin() const {
-  return const_iterator::begin(this);
-}
+    inline auto begin() const {
+      return const_iterator::begin(this);
+    }
 
-auto end() const {
-  return const_iterator::end();
-}
+    inline auto end() const {
+      return const_iterator::end();
+    }
 
 // =================================================================================================================
   };
