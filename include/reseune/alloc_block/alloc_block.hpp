@@ -10,11 +10,11 @@
 namespace reseune {
   class alloc_block {
   public:
-    link   node;
-    size_t size;
-    char * block;
+    double_link node;
+    size_t      size;
+    char *      block;
 
-    static link free_list;
+    static double_link free_list;
     
     constexpr alloc_block(): node({}), size(0), block(nullptr) {}
 
