@@ -75,76 +75,76 @@ void describe_some_sizes() {
   LINE;
 }
 
-    void describe_every_cell()   
-  {
-    uint8_t ix { 0 };
+void describe_every_cell()   
+{
+  uint8_t ix { 0 };
 
-    for (cell const & i : POOL) {
-      printf("cell # %u\n", ix++);
+  for (cell const & i : POOL) {
+    printf("cell # %u\n", ix++);
     
-      i.describe_instance();
-    }
-
-    LINE;
+    i.describe_instance();
   }
 
-  void describe_list(cell const & head) {
-    uint8_t ix { 0 };
-    
-    for (cell const & c : head) {
-      LINE;
-      printf("cell #%u\n", ix++);
-      c.describe_instance();
-    }
-  }
+  LINE;
+}
 
-  void draw_the_pool() {
+void describe_list(cell const & head) {
+  uint8_t ix { 0 };
+    
+  for (cell const & c : head) {
     LINE;
-    
-    for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
-      for (size_t col = 0; col < 64; col++, ix++)
-      {
-        // printf("%zu %zu %zu\n", ix, line, col);
+    printf("cell #%u in this list: \n", ix++);
+    c.describe_instance();
+  }
+}
 
-        auto c = POOL[ix];
+void draw_the_pool() {
+  LINE;
+    
+  for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
+    for (size_t col = 0; col < 64; col++, ix++)
+    {
+      // printf("%zu %zu %zu\n", ix, line, col);
+
+      auto c = POOL[ix];
         
-        if (c.is_nil()) {
-          putchar('.');
-        }
-        else if (c.is_element()) {
-          putchar(static_cast<char>(c.value()));
-        }
-#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        else if (c.is_last_element()) {
-          putchar(static_cast<char>(c.value() + 32));
-        }
-#endif
-        else if (c.is_link()) {
-          if (c.link() > &c)
-            putchar('<');
-          else if (c.link() < &c)
-            putchar('>');
-          else
-            putchar('x');
-        }
-        else {
-          putchar('?');
-        }
+      if (c.is_nil()) {
+        putchar('.');
       }
-      putchar('\n');
+      else if (c.is_element()) {
+        putchar(static_cast<char>(c.value()));
+      }
+#ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
+      else if (c.is_last_element()) {
+        putchar(static_cast<char>(c.value() + 32));
+      }
+#endif
+      else if (c.is_link()) {
+        if (c.link() > &c)
+          putchar('<');
+        else if (c.link() < &c)
+          putchar('>');
+        else
+          putchar('x');
+      }
+      else {
+        putchar('?');
+      }
     }
+    putchar('\n');
   }
+}
 
 // =====================================================================================================================
 
-  int main() {
-    describe_some_sizes();
-    cell::describe_class();
-    // describe_every_cell();
-    describe_list(POOL[0]); // list of 88s / Xs.
-    describe_list(POOL[4]); // list of 89s / Ys.
-    draw_the_pool();
-  }
+int main() {
+  describe_some_sizes();
+  cell::describe_class();
+  // describe_every_cell();
+  describe_list(POOL[0]); // list of 88s / Xs.
+  describe_list(POOL[4]); // list of 89s / Ys.
+  draw_the_pool();
+}
 
 
 
