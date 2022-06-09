@@ -155,6 +155,13 @@ int main() {
   m.describe_instance();
   n.describe_instance();
   o.describe_instance();
+
+#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
+
+  for (size_t ix = 0; ix < 20; ix++) {
+    printf("% 2zu ", ix);
+    reseune::print_bits("Aligned:", align_up(ix, sizeof(void*)));
+  }
 }
 
 

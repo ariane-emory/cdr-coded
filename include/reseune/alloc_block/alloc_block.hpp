@@ -16,7 +16,7 @@ namespace reseune {
 
     static link free_list;
     
-    inline alloc_block(): node({}), size(0), block(nullptr) {}
+    constexpr alloc_block(): node({}), size(0), block(nullptr) {}
 
     static void malloc_add_block(void * addr, size_t size) {
       alloc_block * blk;
