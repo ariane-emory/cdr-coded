@@ -10,7 +10,7 @@
 
 #define LINE { size_t line_ix { 0 }; while (line_ix++ < 131) putchar('='); putchar('\n'); }
 
-constexpr size_t POOL_SIZE = 1<<8; // 256 cells, 8k memory
+constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using cell = reseune::cell;
 using tag  = cell::tag_type;
@@ -22,7 +22,7 @@ using pool =
 #endif
   ;
 
-constexpr pool POOL= { 
+constexpr pool POOL { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
@@ -59,7 +59,7 @@ constexpr pool POOL= {
 void describe_some_sizes() {
   LINE;
   
-  auto pool_size = POOL_SIZE*sizeof(cell);
+  auto pool_size { POOL_SIZE*sizeof(cell) };
 
   printf("POOL total size:            %zu bytes", pool_size);
 
@@ -101,12 +101,12 @@ void describe_list(cell const & head) {
 void draw_the_pool() {
   LINE;
     
-  for (size_t ix = 0, line = 0; line < (POOL_SIZE >> 6); line++) {
-    for (size_t col = 0; col < 64; col++, ix++)
+  for (size_t ix { 0 }, line { 0 }; line < (POOL_SIZE >> 6); line++) {
+    for (size_t col { 0 }; col < 64; col++, ix++)
     {
       // printf("%zu %zu %zu\n", ix, line, col);
 
-      auto c = POOL[ix];
+      auto c { POOL[ix] };
         
       if (c.is_nil()) {
         putchar('.');
