@@ -12,9 +12,6 @@ namespace reseune {
 
     linked_list_forward_const_iterator(value_type const * ptr): base_type(ptr) {}
 
-    const value_type & operator *  () const { return *base_type::m_value; }
-    const value_type * operator -> () const { return base_type::m_value; }
-
     auto operator ++ () { // prefix
       base_type::m_value = base_type::m_value->next;
       return *this;
@@ -26,10 +23,10 @@ namespace reseune {
       return tmp;
     } 
 
-    friend auto operator == (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
-      { return a.base_type::m_value == b.base_type::m_value; };
-    friend auto operator != (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
-      { return a.base_type::m_value != b.base_type::m_value; };     
+    // friend auto operator == (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
+    //   { return a.base_type::m_value == b.base_type::m_value; };
+    // friend auto operator != (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
+    //   { return a.base_type::m_value != b.base_type::m_value; };     
 
     static auto begin(value_type const * v) {
       return linked_list_forward_const_iterator { v };

@@ -14,16 +14,16 @@ namespace reseune {
     const value_type & operator *  () const { return *m_value; }
     const value_type * operator -> () const { return m_value; }
 
-    auto operator ++ () { // prefix
-      m_value = m_value->next;
-      return *this;
-    }
+    // auto operator ++ () { // prefix
+    //   m_value = m_value->next;
+    //   return *this;
+    // }
     
-    auto operator ++ (int) { // postfix: untested
-      const_iterator_base tmp = *this;
-      m_value = m_value->next;
-      return tmp;
-    } 
+    // auto operator ++ (int) { // postfix: untested
+    //   const_iterator_base tmp = *this;
+    //   m_value = m_value->next;
+    //   return tmp;
+    // } 
 
     friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
       { return a.m_value == b.m_value; };
