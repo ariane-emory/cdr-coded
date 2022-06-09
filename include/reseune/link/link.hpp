@@ -13,7 +13,6 @@ namespace reseune {
     
     using pointer   = link *;
     using reference = link &;
-
     using const_iterator = linked_list_forward_const_iterator<link>;
     
     // =================================================================================================================
