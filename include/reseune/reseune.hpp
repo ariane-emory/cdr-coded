@@ -17,7 +17,9 @@ namespace reseune {
       descr);
 
     size_t ix { 0 };
-            
+
+#define PUTCHAR(x) putchar(x)
+    
     for (T mask { static_cast<T>(1) << ((sizeof(T) << 3) - 1) };
          mask;
          mask >>= 1) {
