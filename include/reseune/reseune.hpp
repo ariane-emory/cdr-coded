@@ -22,8 +22,8 @@ namespace reseune {
     
     printf(
       show_bits
-      ? "%-20s: 0b"
-      : "%-20s:   ",
+      ? "%-20s: "
+      : "%-20s: ",
       descr);
 
     size_t           ix            { 0  };
@@ -33,7 +33,7 @@ namespace reseune {
 
 #define PUTCHAR(x) buff[buffix++] = x
 
-    while (size_t iix = 0; iix < 20)
+    for (size_t iix = 0; iix < (8 - sizeof(T)) * 9; ++iix)
       PUTCHAR(' ');
     
     for (T mask { static_cast<T>(1) << ((sizeof(T) << 3) - 1) };
@@ -53,9 +53,6 @@ namespace reseune {
                 ? '\''
                 : ' ');
     }
-
-    while (buffix < width - 1)
-      PUTCHAR(' ');
 
 #undef PUTCHAR
     
