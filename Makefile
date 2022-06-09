@@ -9,6 +9,10 @@ CXXLAGS  = \
   -Wno-terminate \
 	-Wno-format \
 	-Wall \
+	-Wextra \
+	-Wshadow \
+	-Wpedantic \
+  -Wconversion \
 	-DRESEUNE_WARN \
 	-DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 	-DWITH_RESEUNE_POOL

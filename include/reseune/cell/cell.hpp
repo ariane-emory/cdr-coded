@@ -196,7 +196,7 @@ namespace reseune {
     // =================================================================================================================
     
     static constexpr
-    char const * const
+    char const * 
     tag_type_as_c_str(tag_type const & ct) {
       switch (ct) {
       default: return "ERROR";

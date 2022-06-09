@@ -98,23 +98,23 @@ void draw_the_pool() {
     {
       // printf("%zu %zu %zu\n", ix, line, col);
 
-      auto cell = POOL[ix];
+      auto c = POOL[ix];
         
-      if (cell.is_nil()) {
+      if (c.is_nil()) {
         putchar('.');
       }
-      else if (cell.is_element()) {
-        putchar(static_cast<char>(cell.value()));
+      else if (c.is_element()) {
+        putchar(static_cast<char>(c.value()));
       }
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-      else if (cell.is_last_element()) {
-        putchar(static_cast<char>(cell.value() + 32));
+      else if (c.is_last_element()) {
+        putchar(static_cast<char>(c.value() + 32));
       }
 #endif
-      else if (cell.is_link()) {
-        if (cell.link() > &cell)
+      else if (c.is_link()) {
+        if (c.link() > &c)
           putchar('<');
-        else if (cell.link() < &cell)
+        else if (c.link() < &c)
           putchar('>');
         else
           putchar('x');
