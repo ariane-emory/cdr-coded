@@ -5,7 +5,6 @@
 
 #include <inttypes.h>
 #include <stdio.h>
-#include <bit>
 #include <iterator>
 
 #include "reseune/reseune.hpp"
@@ -255,7 +254,7 @@ namespace reseune {
     constexpr
     cell const *
     get_link() const {
-      return std::bit_cast<cell const *>(get_value());
+      return reinterpret_cast<cell const *>(get_value());
     }
 
     constexpr
