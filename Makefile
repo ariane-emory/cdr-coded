@@ -1,11 +1,11 @@
 UNAME_S = $(shell uname -s)
 
 ifeq ($(UNAME_S),Darwin)
-	CXX = g++-12
+	CXX = g++-11
 endif
 
 CXXLAGS  = \
-	-std=gnu++23 \
+	-std=c++20 \
 	-Iinclude \
 	-O1 \
 	-ggdb \
