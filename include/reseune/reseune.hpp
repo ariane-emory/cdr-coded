@@ -17,7 +17,7 @@ namespace reseune {
       descr);
 
     size_t           ix            { 0  };
-    constexpr size_t width         { 75 };
+    constexpr size_t width         { 72 };
     char             buff[width]   { 0  };
     size_t           buffix        { 0  };
 
@@ -39,7 +39,8 @@ namespace reseune {
                 : ' ');
     }
 
-    while (buffix < width - 1) PUTCHAR(' ');
+    while (buffix < width - 1)
+      PUTCHAR(' ');
 
 #undef PUTCHAR
     
