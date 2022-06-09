@@ -58,14 +58,17 @@ namespace reseune {
     
     printf("%s", buff);
 
-    if (show_int) [[likely]]
+    if (show_int) [[likely]] {      
       printf(show_bits
-             ? " = 0x%016lx = % 12lu\n"
-             : "   0x%016lx = % 12lu\n",
+             ? " ="
+             : "  "); 
+      printf(" 0x%016lx = % 12lu\n",
              (uintptr_t)v,
              (uintptr_t)v);
-    else [[unlikely]]
+    }
+    else [[unlikely]] {
       putchar('\n');
+    }
   }
 }
 
