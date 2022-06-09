@@ -277,12 +277,12 @@ namespace reseune {
         : "%s   ",
         descr);
 
-      value_type tmp { static_cast<value_type>(v) };
+      T tmp { static_cast<T>(v) };
             
       {
         uchar_type ix { 0 };
             
-        for (value_type mask { 0b10000000'00000000'00000000'00000000'00000000'00000000'00000000'00000000ul };
+        for (T mask { 1ul << ((sizeof(T) << 3) - 1) };
              mask;
              mask >>= 1) {
           if (show_bits)
