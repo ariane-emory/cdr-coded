@@ -13,8 +13,10 @@ constexpr size_t POOL_SIZE = 1<<10; // 1024 cells, 8k memory
 
 using pool_type =
 #ifdef WITH_RESEUNE_POOL
+#define DATA (POOL.data)
   reseune::pool<reseune::cell, POOL_SIZE>
 #else
+#define DATA (POOL)
   reseune::cell[POOL_SIZE]
 #endif
 ;
@@ -50,13 +52,6 @@ constexpr pool_type POOL= {
   /* 19 */ nullptr,
   /* 20 */ nullptr    
 };
-
-
-#ifdef WITH_RESEUNE_POOL
-#define DATA (POOL.data)
-#else
-#define DATA (POOL)
-#endif
 
 // =====================================================================================================================
 
