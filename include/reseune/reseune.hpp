@@ -18,7 +18,7 @@ namespace reseune {
     bool const & show_int  = true,
     bool const & show_bits = true) {
 
-    static_assert(std::is_unsigned<T>::value, "Does not handle signed types yet.");
+    static_assert(std::is_unsigned<T>::value, "Does not handle signed Ts yet.");
     static_assert(sizeof(T) <= 8, "Doesn't handle Ts of size > 8 yet.");
     
     printf(
