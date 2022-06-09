@@ -208,7 +208,6 @@ namespace reseune {
         print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
       else
         print_bits("cell.value()", value());
-      print_bits("whatever", (unsigned short)8);
       printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));
     }
 

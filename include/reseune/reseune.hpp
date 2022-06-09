@@ -19,6 +19,7 @@ namespace reseune {
     bool const & show_bits = true) {
 
     static_assert(std::is_unsigned<T>::value, "Does not handle signed types yet.");
+    static_assert(sizeof(T) <= 8, "Doesn't handle Ts of size > 8 yet.");
     
     printf(
       show_bits
@@ -63,7 +64,7 @@ namespace reseune {
              ? " ="
              : "  ");
 
-      const char * tmp = " 0x%%0%ulx = %% 12lu\n";
+      const char * const tmp = " 0x%%0%ulx = %% 12lu\n";
       char buf[64] {0};
 
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
