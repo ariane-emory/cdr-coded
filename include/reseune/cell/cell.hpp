@@ -175,7 +175,7 @@ namespace reseune {
       return !operator==(that);
     }
 #else
-    auto operator <=> (cell const  &) const = default;
+    auto operator <=> (cell const &) const = default;
 #endif
     
 #ifdef RESEUNE_CELL_WITH_DEREFERENCE_OPERATOR
