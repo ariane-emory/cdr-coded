@@ -89,14 +89,44 @@ namespace reseune {
     // Iterator-related member functions
     // =================================================================================================================
     
-    // auto begin() const {
-    //   return const_iterator { this };
-    // }
+    auto begin() const {
+      return const_iterator { this };
+    }
 
-    // auto end() const {
-    //   return const_iterator { nullptr };
-    // }
+    auto end() const {
+      return const_iterator { nullptr };
+    }
+
+    // =================================================================================================================
+    // cell::const_iterator class
+    // =================================================================================================================
     
+    struct const_iterator
+    {
+      using value_type        = double_link;
+      using difference_type   = std::ptrdiff_t;
+      using iterator_category = std::input_iterator_tag;
+      
+      const_iterator(value_type const * ptr): m_value(ptr) {}
+      
+      value_type const & operator *  () const { return *m_value; }
+      value_type const * operator -> () const { return m_value; }
+
+      // prefix
+      auto operator ++ () {
+      }
+
+      // postfix: untested 
+      auto operator ++ (int) {
+      } 
+
+      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_value == b.m_value; };
+      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_value != b.m_value; };     
+
+    private:
+      value_type const * m_value;
+    };    
+
     // =================================================================================================================
   };
 }
