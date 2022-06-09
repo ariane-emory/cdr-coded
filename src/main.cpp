@@ -141,9 +141,21 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
 
-  link l { (link::pointer)1, nullptr };
+  link l;
+  link m;
+  link n;
+  link o;
+  // l.describe_instance();
+  // m.describe_instance();
+  // n.describe_instance();
+  // o.describe_instance();
+  m.insert_before(l);
+  n.insert_before(m);
+  o.insert_before(n);
   l.describe_instance();
-  
+  m.describe_instance();
+  n.describe_instance();
+  o.describe_instance();
 }
 
 
