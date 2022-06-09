@@ -38,11 +38,11 @@ namespace reseune {
 
       // postfix: untested 
       const_iterator operator ++ (int) {
-        const_iterator tmp = *this; ++(*this); return tmp; 
-        
-        // const_iterator tmp = *this;
-        // ++m_ptr;
-        // return tmp;
+        const_iterator tmp = *this;
+
+        ++(*this);
+
+        return tmp; 
       } 
 
       friend bool operator == (const const_iterator& a, const const_iterator& b) { return a.m_ptr == b.m_ptr; };
