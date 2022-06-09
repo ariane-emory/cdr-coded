@@ -150,7 +150,7 @@ int main() {
   n.insert_before(m);
   o.insert_after(n);
   m.remove();
-  l.remove();
+
   l.describe_instance();
   m.describe_instance();
   n.describe_instance();
