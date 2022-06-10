@@ -7,10 +7,10 @@ namespace reseune {
     
     char * const memory[MEMORY_WORDS << 3] = { 0 };
     
-    static doubly_linked<alloc_block> free_list {};
+    static doubly_linked<alloc_block> free_list { &free_list, &free_list };
     
-    // static void malloc_add_block(void * addr, size_t size) {
-    //   alloc_block * blk;
+     static void malloc_add_block(void * addr, size_t size) {
+       //   alloc_block * blk;
       
     //   // align the start addr of our block to the next pointer aligned addr
     //   blk = reinterpret_cast<alloc_block *>(align_up((uintptr_t)addr, sizeof(void*)));
@@ -21,7 +21,7 @@ namespace reseune {
 
          //   //and now our giant block of memory is added to the list!
          //   blk->node.insert_before(&free_list);
-         // }
+         }
   }
 }
 #endif
