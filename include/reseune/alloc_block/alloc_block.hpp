@@ -3,10 +3,6 @@
 
 #define ALLOC_HEADER_SZ offsetof(alloc_block, block)
 
-#ifndef align_up
-#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
-#endif
-
 namespace reseune {
   class alloc_block {
   public:

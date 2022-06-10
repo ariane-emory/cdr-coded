@@ -160,11 +160,7 @@ int main() {
    i.describe_instance();
  }
 
-#ifndef align_up
-#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
-#endif
-
  for (size_t ix { 0 }; ix < 40; ix++)
-   reseune::print_bits<true, true>("Align up", align_up(ix, sizeof(void *)));
+   reseune::print_bits<true, true>("Align up", reseune::align_up(ix, sizeof(void *)));
 }
 
