@@ -4,8 +4,9 @@
 namespace reseune {
   namespace base_one {
     constexpr size_t MEMORY_WORDS { 1024 };
+    constexpr size_t MEMORY_BYTES { MEMORY_WORDS << 3 };
     
-    char * const memory[MEMORY_WORDS << 3] = { 0 };
+    char * const memory[MEMORY_BYTES] = { 0 };
     
     static doubly_linked<alloc_block> free_list { &free_list, &free_list };
     
