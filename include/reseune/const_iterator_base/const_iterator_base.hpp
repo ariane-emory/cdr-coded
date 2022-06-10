@@ -11,7 +11,7 @@ namespace reseune {
 
     constexpr const_iterator_base(value_type const * ptr): m_data(ptr) {}
 
-    inline const value_type & operator *  () const { return *m_data; }
+    virtual inline const value_type & operator *  () const { return *m_data; }
     inline const value_type * operator -> () const { return m_data; }
 
     // auto operator ++ () { // prefix
