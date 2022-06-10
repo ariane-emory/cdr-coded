@@ -159,6 +159,12 @@ int main() {
  for (const link & i : o) {
    i.describe_instance();
  }
-}
 
+#ifndef align_up
+#define align_up(num, align) (((num) + ((align)-1)) & ~((align)-1))
+#endif
+
+ for (size_t ix { 0 }; ix < 40; ix++)
+   reseune::print_bits<true, true>("Align up", align_up(ix, sizeof(void *)));
+}
 

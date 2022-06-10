@@ -15,7 +15,12 @@ namespace reseune {
   }
 
   template <bool show_int = true, bool show_bits = true, typename T>
-  static void print_bits(char const * const descr, T const & v) {    
+  static void print_bits(const T & v) {
+    print_bits<show_int, show_bits>(static_cast<const char *>("(no desc)"), v);
+  }
+  
+  template <bool show_int = true, bool show_bits = true, typename T>
+  static void print_bits(const char * descr, const T & v) {    
 
     static_assert(std::is_integral<T>::value, "Does not handle non-integral Ts yet.");
     static_assert(std::is_unsigned<T>::value, "Does not handle signed Ts yet.");
