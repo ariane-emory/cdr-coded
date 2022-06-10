@@ -24,13 +24,12 @@ namespace reseune {
     pointer    prev;
     pointer    next;
     value_type data;
+    
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
 
-    // constexpr doubly_linked(): prev(nullptr), next(nullptr) {}
     constexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
-    constexpr doubly_linked(T & t): prev(nullptr), next(nullptr), data{} {}
     
     // =================================================================================================================
     // Accessor member functions
