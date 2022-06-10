@@ -6,12 +6,15 @@ namespace reseune {
     constexpr size_t MEMORY_WORDS { 1024 };
     constexpr size_t MEMORY_BYTES { MEMORY_WORDS << 3 };
     
-    char * const memory[MEMORY_BYTES] = { 0 };
+    char * memory[MEMORY_BYTES] = { 0 };
     
     static doubly_linked<alloc_block> free_list { &free_list, &free_list };
     
-     static void malloc_add_block(void * addr, size_t size) {
-       //   alloc_block * blk;
+    static void malloc_add_block(char * addr, size_t size) {
+      alloc_block { addr, size };
+
+      
+      //   alloc_block * blk;
       
     //   // align the start addr of our block to the next pointer aligned addr
     //   blk = reinterpret_cast<alloc_block *>(align_up((uintptr_t)addr, sizeof(void*)));

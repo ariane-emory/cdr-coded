@@ -162,9 +162,9 @@ int main() {
  }
 
  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
- constexpr reseune::alloc_block blk {};
 
-
- reseune::base_one::malloc_add_block(reseune::base_one::memory, reseune::base_one::MEMORY_BYTES);
+ reseune::base_one::malloc_add_block(
+   reseune::base_one::memory[0],
+   reseune::base_one::MEMORY_BYTES);
 }
 

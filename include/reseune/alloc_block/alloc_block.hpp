@@ -6,10 +6,10 @@
 namespace reseune {
   class alloc_block {
   public:
-    size_t      size;
     char *      block;
+    size_t      size;
 
-    constexpr alloc_block(): size(0), block(nullptr) {}
+    // constexpr alloc_block(): size(0), block(nullptr) {}
   };
 }
 
