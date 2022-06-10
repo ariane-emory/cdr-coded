@@ -244,35 +244,31 @@ namespace reseune {
     // cell::const_iterator class
     // =================================================================================================================
     
-    struct const_iterator
+    struct const_iterator : const_iterator_base<cell>
     {
+      using base_type         = const_iterator_base<cell>;
       using value_type        = cell;
-      using difference_type   = std::ptrdiff_t;
-      using iterator_category = std::input_iterator_tag;
       
-      const_iterator(value_type const * ptr): m_cell(ptr) {}
+      const_iterator(value_type const * ptr) : base_type(ptr) {}
       
-      const value_type & operator *  () const { return *m_cell; }
-      const value_type * operator -> () const { return m_cell; }
-
       void next() {
-        m_cell->ASSERT_CANNOT_BE_A_LINK();
+        base_type::m_data->ASSERT_CANNOT_BE_A_LINK();
         
 #ifdef RESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION
-        if (m_cell++->is_last_element()) { // Note post-increment!
-          m_cell = nullptr;
+        if (base_type::m_data++->is_last_element()) { // Note post-increment!
+          base_type::m_data = nullptr;
         }
 #else
-        if ((++m_cell)->is_nil()) { // Note pre-increment!
-          m_cell = nullptr;
+        if ((++base_type::m_data)->is_nil()) { // Note pre-increment!
+          base_type::m_data = nullptr;
         }
 #endif
-        else if (m_cell->is_link()) {
+        else if (base_type::m_data->is_link()) {
           do {
-            m_cell = m_cell->link();
-          } while (m_cell->is_link());
+            base_type::m_data = base_type::m_data->link();
+          } while (base_type::m_data->is_link());
         }
-        // else (i.e, if m_cell->is_element()), it's pointer was already
+        // else (i.e, if base_type::m_data->is_element()), it's pointer was already
         // pre or post incremented in the prior case's test.
       }
 
@@ -290,13 +286,7 @@ namespace reseune {
         return tmp;
       } 
 
-      friend auto operator == (const const_iterator & a, const const_iterator & b) { return a.m_cell == b.m_cell; };
-      friend auto operator != (const const_iterator & a, const const_iterator & b) { return a.m_cell != b.m_cell; };     
-
-    private:
-      value_type const * m_cell;
     };    
-
     // =================================================================================================================
   };
 }

@@ -11,20 +11,20 @@ namespace reseune {
     constexpr linked_list_forward_const_iterator(value_type const * ptr): base_type(ptr) {}
 
     inline auto operator ++ () { // prefix
-      base_type::m_value = base_type::m_value->next;
+      base_type::m_data = base_type::m_data->next;
       return *this;
     }
     
     inline auto operator ++ (int) { // postfix: untested
       linked_list_forward_const_iterator tmp = *this;
-      base_type::m_value = base_type::m_value->next;
+      base_type::m_data = base_type::m_data->next;
       return tmp;
     } 
 
     // friend auto operator == (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
-    //   { return a.base_type::m_value == b.base_type::m_value; };
+    //   { return a.base_type::m_data == b.base_type::m_data; };
     // friend auto operator != (const linked_list_forward_const_iterator & a, const linked_list_forward_const_iterator & b)
-    //   { return a.base_type::m_value != b.base_type::m_value; };     
+    //   { return a.base_type::m_data != b.base_type::m_data; };     
 
     inline static auto begin(value_type const * v) {
       return linked_list_forward_const_iterator { v };

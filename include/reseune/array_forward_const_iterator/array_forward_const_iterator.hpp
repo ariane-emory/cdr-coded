@@ -12,7 +12,7 @@ namespace reseune {
       
     // prefix
     inline array_forward_const_iterator & operator ++ () {
-      base_type::m_value++;
+      base_type::m_data++;
 
       return *this;
     }

@@ -9,27 +9,27 @@ namespace reseune {
     using difference_type   = std::ptrdiff_t;
     using iterator_category = std::input_iterator_tag;
 
-    constexpr const_iterator_base(value_type const * ptr): m_value(ptr) {}
+    constexpr const_iterator_base(value_type const * ptr): m_data(ptr) {}
 
-    inline const value_type & operator *  () const { return *m_value; }
-    inline const value_type * operator -> () const { return m_value; }
+    inline const value_type & operator *  () const { return *m_data; }
+    inline const value_type * operator -> () const { return m_data; }
 
     // auto operator ++ () { // prefix
-    //   m_value = m_value->next;
+    //   m_data = m_data->next;
     //   return *this;
     // }
     
     // auto operator ++ (int) { // postfix: untested
     //   const_iterator_base tmp = *this;
-    //   m_value = m_value->next;
+    //   m_data = m_data->next;
     //   return tmp;
     // } 
 
     inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
-      { return a.m_value == b.m_value; };
+      { return a.m_data == b.m_data; };
 
     inline friend auto operator != (const const_iterator_base & a, const const_iterator_base & b)
-      { return a.m_value != b.m_value; };     
+      { return a.m_data != b.m_data; };     
 
     // static auto begin(value_type const * v) {
     //   return const_iterator_base { v };
@@ -40,7 +40,7 @@ namespace reseune {
     // }
 
   protected:
-    value_type const * m_value;
+    value_type const * m_data;
   };    
 }
 #endif 
