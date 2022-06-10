@@ -1,4 +1,3 @@
-
 #ifndef RESEUNE_HPP
 #define RESEUNE_HPP
 
@@ -20,4 +19,5 @@
 
 #include "reseune/alloc_block/alloc_block.hpp"
 
+#include "reseune/base_one/base_one.hpp"
 #endif
