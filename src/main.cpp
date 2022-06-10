@@ -160,5 +160,7 @@ int main() {
    i.describe_instance();
  }
 
+ constexpr char * memory[8 * 1024] { 0 }; // 8 kb
+ constexpr reseune::alloc_block blk {};
 }
 
