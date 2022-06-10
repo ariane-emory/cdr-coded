@@ -3,8 +3,12 @@
 
 namespace reseune {
   namespace base_one {
-    static doubly_linked<alloc_block> free_list;
-
+    constexpr size_t MEMORY_WORDS { 1024 };
+    
+    char * const memory[MEMORY_WORDS << 3] = { 0 };
+    
+    static doubly_linked<alloc_block> free_list {};
+    
     // static void malloc_add_block(void * addr, size_t size) {
     //   alloc_block * blk;
       
