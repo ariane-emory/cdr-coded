@@ -13,7 +13,7 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 using cell = reseune::cell;
 using tag  = cell::tag_type;
 // using link = reseune::double_link;
-using link = reseune::doubly_linked<char>;
+using link = reseune::singly_linked<char>;
 using pool = std::conditional<WITH_RESEUNE_POOL, reseune::pool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
 
 constexpr pool POOL { 
@@ -150,7 +150,7 @@ int main() {
  m.insert_before(l);
  n.insert_before(m);
  o.insert_before(n);
- m.remove();
+ //  m.remove();
 
  // l.describe_instance();
  // m.describe_instance();

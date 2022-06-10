@@ -101,6 +101,7 @@ namespace reseune {
 
 #include "reseune/link/link.hpp"
 #include "reseune/double_link/double_link.hpp"
+#include "reseune/singly_linked/singly_linked.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 
 #include "reseune/alloc_block/alloc_block.hpp"
