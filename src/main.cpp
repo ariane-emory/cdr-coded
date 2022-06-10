@@ -160,7 +160,10 @@ int main() {
    i.describe_instance();
  }
 
- for (size_t ix { 0 }; ix < 40; ix++)
-   reseune::print_bits<true, true>("Align up", reseune::align_up(ix, sizeof(void *)));
+ for (size_t ix { 0 }; ix < 40; ix++) {
+   char buff[15] { 0 };
+   sprintf(buff, "Align up %2zu", ix); 
+   reseune::print_bits<true, true>(buff, reseune::align_up(ix, sizeof(void *)));
+ }
 }
 
