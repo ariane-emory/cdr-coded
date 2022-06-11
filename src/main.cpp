@@ -171,7 +171,7 @@ void test_links() {
   n.insert_after(m);
   o.insert_after(n);
 
-  m.remove();
+  // m.remove();
 
 #define PRINT(x) x.describe_instance(); printf("Value: %c\n", x.data);
 
