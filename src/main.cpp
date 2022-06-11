@@ -4,7 +4,7 @@
 
 #include "reseune/reseune.hpp"
 
-// =====================================================================================================================
+// ===============================================================================================================
 
 #define LINE reseune::print_line()
 
@@ -12,8 +12,7 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using cell = reseune::cell;
 using tag  = cell::tag_type;
-// using link = reseune::double_link;
-// using link = reseune::doubly_linked<char>;
+using link = reseune::doubly_linked<char>;
 using pool = std::conditional<WITH_RESEUNE_POOL, reseune::pool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
 
 constexpr pool POOL { 
@@ -48,7 +47,7 @@ constexpr pool POOL {
   /* 20 */ nullptr    
 };
 
-// =====================================================================================================================
+// ===============================================================================================================
 
 void describe_some_sizes() {
   LINE;
@@ -69,6 +68,8 @@ void describe_some_sizes() {
   LINE;
 }
 
+// ===============================================================================================================
+
 void describe_every_cell()   
 {
   uint8_t ix { 0 };
@@ -82,6 +83,8 @@ void describe_every_cell()
   LINE;
 }
 
+// ===============================================================================================================
+
 void describe_list(const cell & head) {
   uint8_t ix { 0 };
     
@@ -91,6 +94,8 @@ void describe_list(const cell & head) {
     c.describe_instance();
   }
 }
+
+// ===============================================================================================================
 
 void draw_the_pool() {
   LINE;
@@ -129,38 +134,9 @@ void draw_the_pool() {
   }
 }
 
-// =====================================================================================================================
+// ===============================================================================================================
 
-
-int main() {
-  describe_some_sizes();
-  cell::describe_class();
-  // describe_every_cell();
-  describe_list(POOL[0]); // list of 88s / Xs.
-  describe_list(POOL[4]); // list of 89s / Ys.
-  draw_the_pool();
-
-  // link l;
-  // link m;
-  // link n;
-  // link o;
-  // // l.describe_instance();
-  // // m.describe_instance();
-  // // n.describe_instance();
-  // // o.describe_instance();
-  // m.insert_before(l);
-  // n.insert_before(m);
-  // o.insert_before(n);
-  // //  m.remove();
-  // l.describe_instance();
-  // m.describe_instance();
-  // n.describe_instance();
-  // o.describe_instance();
-  // for (const link & i : o) {
-  //   i.describe_instance();
-  // }
-  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
-
+void test_base_one() {
   using namespace reseune::base_one;
   
   malloc_add_block(
@@ -178,6 +154,39 @@ int main() {
     x.describe_instance();
     x.data.describe_instance('-');
   }
-  
+}
+
+// ===============================================================================================================
+
+int main() {
+  describe_some_sizes();
+  cell::describe_class();
+  // describe_every_cell();
+  describe_list(POOL[0]); // list of 88s / Xs.
+  describe_list(POOL[4]); // list of 89s / Ys.
+  draw_the_pool();
+
+  link l;
+  link m;
+  link n;
+  link o;
+  l.describe_instance();
+  m.describe_instance();
+  n.describe_instance();
+  o.describe_instance();
+  // m.insert_before(l);
+  // n.insert_before(m);
+  // o.insert_before(n);
+  // //  m.remove();
+  // l.describe_instance();
+  // m.describe_instance();
+  // n.describe_instance();
+  // o.describe_instance();
+  // for (const link & i : o) {
+  //   i.describe_instance();
+  // }
+  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
+
+  test_base_one();
 }
 
