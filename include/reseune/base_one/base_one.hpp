@@ -114,7 +114,7 @@ namespace reseune {
 
           PRINT("Selected block at", uintptr(pointer));
           HLINE;
-          PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
+          // PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
           blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
@@ -140,7 +140,7 @@ namespace reseune {
         HLINE;
         new_blk->describe_instance();
         new_blk->data.describe_instance();
-        LINE;
+        HLINE;
         
         new_blk->insert_before(blk);
 
@@ -152,6 +152,7 @@ namespace reseune {
       // list_del(&blk->node);
 
       PRINT("Gave pointer to", uintptr(pointer));
+      LINE;
       
       return pointer;
     }
