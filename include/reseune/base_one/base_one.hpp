@@ -14,7 +14,7 @@ namespace reseune {
     // ===========================================================================================================
 
     using            alloc_node = doubly_linked<alloc_info>;    
-    constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block)};
+    constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start_pointer)};
     constexpr        size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
@@ -87,7 +87,7 @@ namespace reseune {
       PRINT("Bytes requested: ", size);
       
       void *       ptr {nullptr};
-      // alloc_node * blk {nullptr};
+      alloc_node * blk {nullptr};
 
       assert(size > 0);
       
@@ -96,34 +96,32 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       for (auto & b : FREE_LIST)
-      {
         if (b.data.size >= size)
         {
-          ptr = &b.data.block;
+          blk = &b;
+          ptr = &b.data.block_start_pointer;
           break;
         }
-      }
 
       PRINT("Selected block at", uintptr(ptr));
+      PRINT("Selected block at", uintptr(blk->data.block_start_pointer));
       
-      // we found something
-      if(ptr)
+      if (nullptr == ptr)
+        goto exit;
+
+      // Can we split the block?
+      if ((blk->data.size - size) >= MIN_ALLOC_SZ)
       {
-        // Can we split the block?
-        if((blk->size - size) >= MIN_ALLOC_SZ)
-        {
-          alloc_node_t* new_blk;
-          new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
-          new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
-          blk->size = size;
-          list_add_(&new_blk->node, &blk->node, blk->node.next);
-        }
+        //   alloc_node_t* new_blk;
+      //   new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
+      //   new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
+      //   blk->size = size;
+      //   list_add_(&new_blk->node, &blk->node, blk->node.next);
+       }
 
-        list_del(&blk->node);
-      }
-
-      // else NULL
-
+      // list_del(&blk->node);
+      
+    exit:
       LINE;
       
       return ptr;
