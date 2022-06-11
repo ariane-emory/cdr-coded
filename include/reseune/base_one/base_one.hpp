@@ -100,13 +100,20 @@ namespace reseune {
         {
           blk = &b;
           ptr = &b.data.block_start_pointer;
+
+          LINE;
+          printf("Selecting this block:\n");
+          blk->describe_instance();
+          blk->data.describe_instance('-');
+          LINE;
+          
           break;
         }
 
-      PRINT("Selected block at", uintptr(ptr));
-      PRINT("Selected block at", uintptr(blk->data.block_start_pointer));
+      // PRINT("Selected block at", uintptr(ptr));
+      PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
       
-      if (nullptr == ptr)
+      if (nullptr == blk)
         goto exit;
 
       // Can we split the block?
