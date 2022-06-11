@@ -15,7 +15,7 @@ using tag  = cell::tag_type;
 using link = reseune::doubly_linked<char>;
 using pool = std::conditional<WITH_RESEUNE_POOL, reseune::pool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
 
-constexpr pool POOL { 
+pool POOL { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,

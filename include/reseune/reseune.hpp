@@ -7,7 +7,10 @@
 
 #include "reseune/iterator_base/iterator_base.hpp"
 #include "reseune/const_iterator_base/const_iterator_base.hpp"
+
+#include "reseune/array_forward_iterator/array_forward_iterator.hpp"
 #include "reseune/array_forward_const_iterator/array_forward_const_iterator.hpp"
+
 #include "reseune/linked_list_forward_iterator/linked_list_forward_iterator.hpp"
 #include "reseune/linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
 
