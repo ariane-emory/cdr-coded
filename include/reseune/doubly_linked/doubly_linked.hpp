@@ -35,8 +35,8 @@ namespace reseune {
     // Printing-related member functions
     // =================================================================================================================
     
-    inline void describe_instance() const {
-      print_line();
+    inline void describe_instance(char c = '=') const {
+      print_line(c);
       print_bits<true, false>("linked list is at", reinterpret_cast<uintptr_t>(this));
       print_bits<true, false>("prev",       reinterpret_cast<uintptr_t>(prev));
       print_bits<true, false>("next",       reinterpret_cast<uintptr_t>(next));
