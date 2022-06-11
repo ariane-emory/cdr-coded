@@ -18,7 +18,7 @@ namespace reseune {
     constexpr        size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
-    static           char *       MEMORY[MEMORY_BYTES] {0};
+    static           char         MEMORY[MEMORY_BYTES] {0};
     static           alloc_node   FREE_LIST {nullptr,nullptr};
 
     // ===========================================================================================================
@@ -26,7 +26,7 @@ namespace reseune {
 #define PRINT(x,y) print_bits<true,false>((x), (y))
 #define LINE print_line()
 #define HLINE print_line('-')
-
+#define PROFFSET(x) PRINT("With offset", uintptr(&x) - uintptr(MEMORY))
     // ===========================================================================================================
 
     inline static void alloc_add_block(void * const addr, size_t size) {
@@ -79,6 +79,7 @@ namespace reseune {
       for (const auto & x : *FREE_LIST.next) {
         printf("Node                : #%u\n", ++ix);
         PRINT("Node is at", uintptr(&x));
+        PROFFSET(x);
         HLINE;
         x.describe_instance();
         x.data.describe_instance('-');
@@ -113,8 +114,8 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           PRINT("Selected block at", uintptr(pointer));
+          PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
           HLINE;
-          // PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
           blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
@@ -131,12 +132,13 @@ namespace reseune {
       if ((blk->data.size - size) >= MIN_ALLOC_SZ)
       {
         alloc_node * new_blk;
-        new_blk = (alloc_node*)  uintptr(uintptr(pointer) + size);
+        new_blk = reinterpret_cast<alloc_node *>((uintptr(pointer) + size));
         
         new_blk->data.size = blk->data.size - size - ALLOC_HEADER_SZ;
         blk->data.size = size;
 
         PRINT("Created new block at", uintptr(&new_blk));
+        PRINT("With offset", uintptr(&new_blk) - uintptr(MEMORY));
         HLINE;
         new_blk->describe_instance();
         new_blk->data.describe_instance();
