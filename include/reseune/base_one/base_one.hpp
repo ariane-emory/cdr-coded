@@ -11,12 +11,12 @@ namespace reseune {
     static    char *        MEMORY[MEMORY_BYTES] { 0 };
     static    alloc_block   FREE_LIST            { &FREE_LIST, &FREE_LIST };
     
-    static void malloc_add_block(char * addr, size_t size) {
+    static void malloc_add_block(void * addr, size_t size) {
       print_line();
       print_bits<true,false>("Block size", sizeof(alloc_block));
       
       alloc_block * blk;
-      blk = align_up(reinterpret_cast<uintptr_t>(addr, sizeof(void *)));
+      blk = reinterpret_cast<alloc_block *>(align_up(reinterpret_cast<uintptr_t>(addr), sizeof(void *)));
         
       print_bits<true,false>("Block is at", reinterpret_cast<uintptr_t>(blk));
       
