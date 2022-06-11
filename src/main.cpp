@@ -158,6 +158,32 @@ void test_base_one() {
 
 // ===============================================================================================================
 
+void test_links() {
+  link l;
+  link m;
+  link n;
+  link o;
+  // l.describe_instance();
+  // m.describe_instance();
+  // n.describe_instance();
+  // o.describe_instance();
+  m.insert_before(l);
+  n.insert_before(m);
+  o.insert_before(n);
+  // m.remove();
+  o.describe_instance();
+  n.describe_instance();
+  m.describe_instance();
+  l.describe_instance();
+
+  // for (const link & i : o) {
+  //   i.describe_instance();
+  // }
+  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
+}
+
+// ===============================================================================================================
+
 int main() {
   describe_some_sizes();
   cell::describe_class();
@@ -165,28 +191,7 @@ int main() {
   describe_list(POOL[0]); // list of 88s / Xs.
   describe_list(POOL[4]); // list of 89s / Ys.
   draw_the_pool();
-
-  link l;
-  link m;
-  link n;
-  link o;
-  l.describe_instance();
-  m.describe_instance();
-  n.describe_instance();
-  o.describe_instance();
-  // m.insert_before(l);
-  // n.insert_before(m);
-  // o.insert_before(n);
-  // //  m.remove();
-  // l.describe_instance();
-  // m.describe_instance();
-  // n.describe_instance();
-  // o.describe_instance();
-  // for (const link & i : o) {
-  //   i.describe_instance();
-  // }
-  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
-
+  test_links();
   // test_base_one();
 }
 
