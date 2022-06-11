@@ -180,7 +180,10 @@ void test_base_one() {
   // reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
   describe_free_list();
+  
   alloc(1024);
+
+  describe_free_list();
 }
 
 // ===============================================================================================================
