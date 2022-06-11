@@ -12,7 +12,7 @@ namespace reseune {
     void describe_instance() const {
       print_line('-');
       print_bits<true, false>("alloc_info is at", reinterpret_cast<uintptr_t>(this));
-      print_bits<true, false>("size",       reinterpret_cast<uintptr_t>(size));
+      print_bits<true, false>("size",       size);
       print_bits<true, false>("block",       reinterpret_cast<uintptr_t>(block));
     }
   };
