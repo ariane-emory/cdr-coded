@@ -105,7 +105,7 @@ namespace reseune {
         }
       }
 
-      
+      PRINT("Selected block at", uintptr(ptr));
       
       // // we found something
       // if(ptr)
