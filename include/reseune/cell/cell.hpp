@@ -266,7 +266,8 @@ namespace reseune {
         next();
         return tmp;
       }
-
+      
+    private:
       void next() {
         base_type::m_data->ASSERT_CANNOT_BE_A_LINK();
         
