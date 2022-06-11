@@ -10,7 +10,7 @@ namespace reseune {
     constexpr size_t       MEMORY_WORDS         {1024};
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static    char *       MEMORY[MEMORY_BYTES] {0};
-    static    alloc_node   FREE_LIST            {};
+    static    alloc_node   FREE_LIST            {nullptr, nullptr};
     
     static void malloc_add_block(void * const addr, size_t size) {
       print_line();

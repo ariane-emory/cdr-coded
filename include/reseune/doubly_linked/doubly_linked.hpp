@@ -29,7 +29,7 @@ namespace reseune {
     // Constructors
     // ===========================================================================================================
 
-    constexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
+    constexpr doubly_linked(pointer p = nullptr, pointer n = nullptr): prev(p), next(n), data{} {}
     
     // ===========================================================================================================
     // Printing-related member functions
@@ -37,7 +37,7 @@ namespace reseune {
     
     inline void describe_instance(char c = '=') const {
       print_line(c);
-      print_bits<true, false>("linked list is at", uintptr(this));
+      print_bits<true, false>("doubly_linked is at", uintptr(this));
       print_bits<true, false>("prev",       uintptr(prev));
       print_bits<true, false>("next",       uintptr(next));
     }
