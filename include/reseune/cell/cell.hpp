@@ -245,13 +245,28 @@ namespace reseune {
     // cell::const_iterator class
     // ===========================================================================================================
     
-    struct const_iterator : const_iterator_base<cell>
+    class const_iterator : public const_iterator_base<cell>
     {
+    public:
       using base_type         = const_iterator_base<cell>;
       using value_type        = cell;
       
       const_iterator(value_type const * ptr) : base_type(ptr) {}
       
+      // prefix
+      auto operator ++ () {
+        next();
+
+        return *this;
+      }
+
+      // postfix: untested 
+      auto operator ++ (int) {
+        const_iterator tmp = *this;
+        next();
+        return tmp;
+      }
+
       void next() {
         base_type::m_data->ASSERT_CANNOT_BE_A_LINK();
         
@@ -272,20 +287,6 @@ namespace reseune {
         // else (i.e, if base_type::m_data->is_element()), it's pointer was already
         // pre or post incremented in the prior case's test.
       }
-
-      // prefix
-      auto operator ++ () {
-        next();
-
-        return *this;
-      }
-
-      // postfix: untested 
-      auto operator ++ (int) {
-        const_iterator tmp = *this;
-        next();
-        return tmp;
-      } 
     };    
     // ===========================================================================================================
   };

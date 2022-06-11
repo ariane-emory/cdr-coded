@@ -26,7 +26,7 @@ namespace reseune {
     //   return tmp;
     // } 
 
-      inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
+    inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
       { return a.m_data == b.m_data; };
 
     inline friend auto operator != (const const_iterator_base & a, const const_iterator_base & b)
