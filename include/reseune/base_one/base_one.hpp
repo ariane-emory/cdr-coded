@@ -115,7 +115,7 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           PRINT("Selected block at", uintptr(&b));
-          PRINT("With block start at", uintptr(pointer));
+          PRINT("With block start at", uintptr(&b));
           PROFFSET(pointer);
           HLINE;
       blk->describe_instance();
