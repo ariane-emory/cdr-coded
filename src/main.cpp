@@ -186,7 +186,7 @@ void test_base_one() {
   putchar('\n');
   describe_free_list();
   release(buffer);
-  
+  describe_free_list();
 }
 
 // ===============================================================================================================

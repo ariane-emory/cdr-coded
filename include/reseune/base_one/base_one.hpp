@@ -178,40 +178,42 @@ namespace reseune {
       printf("RELEASING 0x%lx!\n", uintptr(pointer));
       LINE;
 
-      // alloc_node *blk, *free_blk;
+      alloc_node * blk;
+      // alloc_node * free_blk;
+
+      blk = reinterpret_cast<alloc_node *>(uintptr(pointer) - ALLOC_HEADER_SZ);
+      PRINT("It's node is", blk);
       
-      // // Don't free a NULL pointer..
-      // if(pointer)
+      // Let's put it back in the proper spot
+      // list_for_each_entry(free_blk, &free_list, node)
       // {
-      //   // we take the pointer and use container_of to get the corresponding alloc block
-      //   blk = container_of(pointer, alloc_node_t, block);
-
-      //   // Let's put it back in the proper spot
-      //   list_for_each_entry(free_blk, &free_list, node)
+      //   if(free_blk > blk)
       //   {
-      //     if(free_blk > blk)
-      //     {
-      //       list_add_(&blk->node, free_blk->node.prev, &free_blk->node);
-      //       goto blockadded;
-      //     }
+      //     list_add_(&blk->node, free_blk->node.prev, &free_blk->node);
+      //     goto blockadded;
       //   }
-      //   list_add_tail(&blk->node, &free_list);
-
-      // blockadded:
-      //   // Let's see if we can combine any memory
-      //   defrag_free_list();
       // }
-
+      // list_add_tail(&blk->node, &free_list);
+ 
+      for (auto & free_blk : *FREE_LIST.next) {
+        if (&free_blk > blk) {
+          blk->insert_before(free_blk);
+        }
+      }
+      
+      // blockadded:
+      //     // Let's see if we can combine any memory
+      //     defrag_free_list();
     }
+  }
+}
 
-    // ===========================================================================================================
+// ===========================================================================================================
     
 #undef PRINT
 #undef PROFFSET
 #undef PRINTWOFFSET
 #undef LINE
 #undef HLINE
-  }
-}
 
 #endif
