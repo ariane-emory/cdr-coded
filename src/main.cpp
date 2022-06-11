@@ -179,12 +179,12 @@ void test_links() {
   PRINT(m);
   PRINT(n);
   PRINT(o);
-#undef PRINT
+
+  putchar('\n');
   
-  // for (const link & i : o) {
-  //   i.describe_instance();
-  // }
-  // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
+  for (const link & i : o) PRINT(i);
+  
+#undef PRINT
 }
 
 // ===============================================================================================================
