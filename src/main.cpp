@@ -152,6 +152,7 @@ void test_base_one() {
 
   size_t ix {0};
   for (const auto & x : FREE_LIST) {
+    LINE;
     printf("Node #%u\n", ix);
     x.describe_instance();
     x.data.describe_instance('-');

@@ -10,8 +10,7 @@
 
 namespace reseune {
   namespace base_one {
-    using            alloc_node = doubly_linked<alloc_info>;
-    
+    using            alloc_node = doubly_linked<alloc_info>;    
     constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block)};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
@@ -42,10 +41,7 @@ namespace reseune {
       blk->describe_instance();
       blk->data.describe_instance('-');
       
-      //   //and now our giant block of MEMORY is added to the list!
-      //   blk->node.insert_before(&free_list);
-
-      PRINT("Attach to free list", uintptr(&FREE_LIST));
+      // PRINT("Attach to free list", uintptr(&FREE_LIST));
 
       blk->insert_after(FREE_LIST);
     }
