@@ -86,7 +86,7 @@ namespace reseune {
       LINE;
       PRINT("Bytes requested: ", size);
       
-      void *       ptr {nullptr};
+      void *       pointer {nullptr};
       alloc_node * blk {nullptr};
 
       assert(size > 0);
@@ -99,7 +99,7 @@ namespace reseune {
         if (b.data.size >= size)
         {
           blk = &b;
-          ptr = &b.data.block_start_pointer;
+          pointer = &b.data.block_start_pointer;
 
           LINE;
           printf("Selecting this block:\n");
@@ -110,9 +110,8 @@ namespace reseune {
           break;
         }
 
-      // PRINT("Selected block at", uintptr(ptr));
-      PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
-      PRINT("Selected block at", uintptr(ptr));
+      // PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
+      PRINT("Selected block at", uintptr(pointer));
       
       if (nullptr == blk)
         goto exit;
@@ -120,11 +119,14 @@ namespace reseune {
       // Can we split the block?
       if ((blk->data.size - size) >= MIN_ALLOC_SZ)
       {
-        //   alloc_node_t* new_blk;
-      //   new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
-      //   new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
-      //   blk->size = size;
-      //   list_add_(&new_blk->node, &blk->node, blk->node.next);
+        alloc_node * new_blk;
+        new_blk = (alloc_node*)  uintptr(uintptr(pointer) + size);
+        
+        new_blk->data.size = blk->data.size - size - ALLOC_HEADER_SZ;
+        blk->data.size = size;
+
+        blk->insert_after(FREE_LIST);
+        //   list_add_(&new_blk->node, &blk->node, blk->node.next);
        }
 
       // list_del(&blk->node);
@@ -132,8 +134,7 @@ namespace reseune {
     exit:
       LINE;
       
-      return 
-        ptr;
+      return pointer;
     }
     
 #undef PRINT 
