@@ -54,33 +54,18 @@ namespace reseune {
       A->B = this;                                                              \
       new_##B->A = this;                                                        \
       B = new_##B;                                                              \
+    }                                                                           \
+                                                                                \
+    inline void insert_##name(reference node) {                                \
+      insert_##name(&node);                                                    \
     }
-    
+
     INSERT(before, prev, next);
     INSERT(after,  next, prev);
     
 #undef INSERT
     
     // -----------------------------------------------------------------------------------------------------------------
-
-#define INSERT_WITH_REFERENCE(position)                                         \
-    inline void insert_ ## position(reference node) {                           \
-      insert_ ## position(&node);                                               \
-    }
-
-    INSERT_WITH_REFERENCE(before);
-    INSERT_WITH_REFERENCE(after);
-
-#undef INSERT_WITH_REFERENCE
-
-// inline void insert_before(reference new_next) {
-//   insert_before(&new_next);
-// }
-// inline void insert_after(reference new_prev) {
-//   insert_after(&new_prev);
-// }
-
-// -----------------------------------------------------------------------------------------------------------------
 
     inline void remove() {
       if (nullptr != next) next->prev = prev;
