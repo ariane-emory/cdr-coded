@@ -199,9 +199,9 @@ namespace reseune {
     }
         
     void describe_instance() const {
-      print_bits<true, false>("cell is at", reinterpret_cast<uintptr_t>(this));
+      print_bits<true, false>("cell is at", uintptr(this));
       if (is_type(tag_type::link))
-        print_bits("cell.link()", reinterpret_cast<uintptr_t>(link()));
+        print_bits("cell.link()", uintptr(link()));
       else
         print_bits("cell.value()", value());
       printf("cell.tag() as c_str : %s\n", tag_type_as_c_str(tag()));

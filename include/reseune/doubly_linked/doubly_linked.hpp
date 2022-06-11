@@ -37,9 +37,9 @@ namespace reseune {
     
     inline void describe_instance(char c = '=') const {
       print_line(c);
-      print_bits<true, false>("linked list is at", reinterpret_cast<uintptr_t>(this));
-      print_bits<true, false>("prev",       reinterpret_cast<uintptr_t>(prev));
-      print_bits<true, false>("next",       reinterpret_cast<uintptr_t>(next));
+      print_bits<true, false>("linked list is at", uintptr(this));
+      print_bits<true, false>("prev",       uintptr(prev));
+      print_bits<true, false>("next",       uintptr(next));
     }
 
     // =================================================================================================================

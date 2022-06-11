@@ -36,8 +36,8 @@ namespace reseune {
     
     inline void describe_instance() const {
       print_line();
-      print_bits<true, false>("singly_linked is at", reinterpret_cast<uintptr_t>(this));
-      print_bits<true, false>("next",       reinterpret_cast<uintptr_t>(next));
+      print_bits<true, false>("singly_linked is at", uintptr(this));
+      print_bits<true, false>("next",       uintptr(next));
     }
 
     // =================================================================================================================
