@@ -14,7 +14,7 @@ namespace reseune {
     // ===========================================================================================================
 
     using            alloc_node = doubly_linked<alloc_info>;    
-    constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start_pointer)};
+    constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start)};
     constexpr        size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
@@ -106,7 +106,7 @@ namespace reseune {
 
       assert(size > 0);
       
-      // Align the pointer
+     // Align the pointer
       size = align_up(size, sizeof(void *));
 
       // try to find a big enough block to alloc
@@ -114,12 +114,12 @@ namespace reseune {
         if (b.data.size >= size)
         {
           blk = &b;
-          pointer = &b.data.block_start_pointer;
+          pointer = &b.data.block_start;
 
           PRINT("Selected block at", &b);
           PROFFSET(&b);
-          PRINT("With block start at", &b.data.block_start_pointer);
-          PROFFSET(&b.data.block_start_pointer);
+          PRINT("With block start at", &b.data.block_start);
+          PROFFSET(&b.data.block_start);
           HLINE;
           
           blk->describe_instance();
@@ -129,7 +129,7 @@ namespace reseune {
           break;
         }
 
-      // PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
+      // PRINT("Selected block at", uintptr(&blk->data.block_start));
       
       if (nullptr == blk)
         return pointer;
@@ -149,8 +149,8 @@ namespace reseune {
         
         PRINT("Created new block at", new_blk);
         PROFFSET(new_blk);
-        PRINT("With block start at", &new_blk->data.block_start_pointer);
-        PROFFSET(&new_blk->data.block_start_pointer);
+        PRINT("With block start at", &new_blk->data.block_start);
+        PROFFSET(&new_blk->data.block_start);
 
         HLINE;
         new_blk->describe_instance();
@@ -167,6 +167,36 @@ namespace reseune {
       
       return pointer;
     }
+
+    // ===========================================================================================================
+
+    void release(void * pointer) {
+      // alloc_node *blk, *free_blk;
+
+      // // Don't free a NULL pointer..
+      // if(pointer)
+      // {
+      //   // we take the pointer and use container_of to get the corresponding alloc block
+      //   blk = container_of(pointer, alloc_node_t, block);
+
+      //   // Let's put it back in the proper spot
+      //   list_for_each_entry(free_blk, &free_list, node)
+      //   {
+      //     if(free_blk > blk)
+      //     {
+      //       list_add_(&blk->node, free_blk->node.prev, &free_blk->node);
+      //       goto blockadded;
+      //     }
+      //   }
+      //   list_add_tail(&blk->node, &free_list);
+
+      // blockadded:
+      //   // Let's see if we can combine any memory
+      //   defrag_free_list();
+      // }
+    }
+
+    // ===========================================================================================================
     
 #undef PRINT
 #undef PROFFSET

@@ -4,7 +4,7 @@
 namespace reseune {
   struct alloc_info {
     size_t      size;
-    char *      block_start_pointer;
+    char *      block_start;
 
     void describe_instance(char c = '=') const {
       print_bits<true, false>("alloc_info is at", uintptr(this));
