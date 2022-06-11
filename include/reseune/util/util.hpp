@@ -1,7 +1,10 @@
-
 #ifndef RESEUNE_UTIL_HPP
 #define RESEUNE_UTIL_HPP
 
+#include <cstddef>
+#include <cstdio>
+#include <inttypes.h>
+#include <stdint.h>
 #include <type_traits>
 
 namespace reseune {

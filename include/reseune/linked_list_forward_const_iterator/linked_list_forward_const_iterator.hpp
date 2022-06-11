@@ -1,6 +1,8 @@
 #ifndef RESEUNE_LINKED_LIST_FORWARD_CONST_ITERATOR_H
 #define RESEUNE_LINKED_LIST_FORWARD_CONST_ITERATOR_H
 
+#include "reseune/const_iterator_base/const_iterator_base.hpp"
+
 namespace reseune {
   template <typename T>
   struct linked_list_forward_const_iterator : public const_iterator_base<T>

@@ -1,6 +1,8 @@
 #ifndef RESEUNE_CONST_ITERATOR_BASE_H
 #define RESEUNE_CONST_ITERATOR_BASE_H
 
+#include <iterator>
+
 namespace reseune {
   template <typename T>
   class const_iterator_base

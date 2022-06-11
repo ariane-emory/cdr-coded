@@ -2,11 +2,11 @@
 #define RESEUNE_DOUBLY_LINKED_H
 
 #include <cassert>
+#include "reseune/linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
 
 namespace reseune {
   template <typename T>
-  class doubly_linked {
-  public:
+  struct doubly_linked {
 
     // ===========================================================================================================
     // Typedefs
@@ -29,7 +29,10 @@ namespace reseune {
     // Constructors
     // ===========================================================================================================
 
-    constexpr doubly_linked(pointer p = nullptr, pointer n = nullptr): prev(p), next(n), data{} {}
+    constexpr doubly_linked(pointer p = nullptr, pointer n = nullptr): prev(p), next(n), data{} {
+      if (nullptr != prev) prev->next = this;
+      if (nullptr != next) next->prev = this;
+    }
     
     // ===========================================================================================================
     // Printing-related member functions

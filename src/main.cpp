@@ -196,7 +196,7 @@ int main() {
   // describe_list(POOL[0]); // list of 88s / Xs.
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
-  test_links();
+  // test_links();
   test_base_one();
 }
 
