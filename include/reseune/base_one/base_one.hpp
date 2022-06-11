@@ -6,13 +6,11 @@ namespace reseune {
   namespace base_one {
     using     alloc_node = doubly_linked<alloc_info>;
     
-    constexpr size_t       ALLOC_HEADER_SZ      { offsetof(alloc_node, data.block) };
-    constexpr size_t       MEMORY_WORDS         { 1024 };
-    constexpr size_t       MEMORY_BYTES         { MEMORY_WORDS << 3 };
-
-    static    char *       MEMORY[MEMORY_BYTES] { 0 };
-    // static    alloc_node   FREE_LIST            { &FREE_LIST, &FREE_LIST };
-    static    alloc_node   FREE_LIST            { nullptr, nullptr };
+    constexpr size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block)};
+    constexpr size_t       MEMORY_WORDS         {1024};
+    constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
+    static    char *       MEMORY[MEMORY_BYTES] {0};
+    static    alloc_node   FREE_LIST            {};
     
     static void malloc_add_block(void * addr, size_t size) {
       print_line();
@@ -42,5 +40,6 @@ namespace reseune {
     }
   }
 }
+
 
 #endif
