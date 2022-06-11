@@ -17,7 +17,7 @@
 #include "reseune/singly_linked/singly_linked.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 
-#include "reseune/alloc_block/alloc_block.hpp"
+#include "reseune/alloc_info/alloc_info.hpp"
 
 #include "reseune/base_one/base_one.hpp"
 
