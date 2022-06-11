@@ -3,8 +3,9 @@
 
 namespace reseune {
   template <typename T>
-  struct const_iterator_base
+  class const_iterator_base
   {
+  public:
     using value_type        = T;
     using difference_type   = std::ptrdiff_t;
     using iterator_category = std::input_iterator_tag;
@@ -25,7 +26,7 @@ namespace reseune {
     //   return tmp;
     // } 
 
-    inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
+      inline friend auto operator == (const const_iterator_base & a, const const_iterator_base & b)
       { return a.m_data == b.m_data; };
 
     inline friend auto operator != (const const_iterator_base & a, const const_iterator_base & b)
