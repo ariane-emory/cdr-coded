@@ -18,18 +18,22 @@ namespace reseune {
     extern           alloc_node   FREE_LIST;
 
 #define PRINT(x,y ) print_bits<true,false>((x), (y))
-    
+#define LINE print_line()
+
     inline static void malloc_add_block(void * const addr, size_t size) {
-      print_line();
-      PRINT("Addr is at", uintptr(addr));
-      PRINT("Block size", sizeof(alloc_node));
+      LINE;
+      printf("ADDING NEW MEMORY TO THE FREE LIST!\n");
+      LINE;
+      PRINT("Given memory at", uintptr(addr));
+      PRINT("Given bytes", uintptr(size));
+      PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
       alloc_node * blk {
         reinterpret_cast<alloc_node *>(
           align_up(uintptr(addr), sizeof(void *))) };
         
-      PRINT("Block is at", uintptr(blk));
+      PRINT("Aligned block to", uintptr(blk));
 
       // calculate actual size - mgmt overhead
       blk->data.size =
@@ -48,6 +52,7 @@ namespace reseune {
   }
 }
 
+#undef LINE
 #undef PRINT 
 
 #endif
