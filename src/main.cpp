@@ -159,23 +159,28 @@ void test_base_one() {
 // ===============================================================================================================
 
 void test_links() {
-  link l;
-  link m;
-  link n;
-  link o;
+  link l; l.data = 'l';
+  link m; m.data = 'm';
+  link n; n.data = 'n';
+  link o; o.data = 'o';
   // l.describe_instance();
   // m.describe_instance();
   // n.describe_instance();
   // o.describe_instance();
-  m.insert_before(l);
-  n.insert_before(m);
-  o.insert_before(n);
-  // m.remove();
-  o.describe_instance();
-  n.describe_instance();
-  m.describe_instance();
-  l.describe_instance();
+  m.insert_after(l);
+  n.insert_after(m);
+  o.insert_after(n);
 
+  m.remove();
+
+#define PRINT(x) x.describe_instance(); printf("Value: %c\n", x.data);
+
+  PRINT(l);
+  PRINT(m);
+  PRINT(n);
+  PRINT(o);
+#undef PRINT
+  
   // for (const link & i : o) {
   //   i.describe_instance();
   // }
@@ -185,12 +190,12 @@ void test_links() {
 // ===============================================================================================================
 
 int main() {
-  describe_some_sizes();
-  cell::describe_class();
-  // describe_every_cell();
-  describe_list(POOL[0]); // list of 88s / Xs.
-  describe_list(POOL[4]); // list of 89s / Ys.
-  draw_the_pool();
+  // describe_some_sizes();
+  // cell::describe_class();
+  // // describe_every_cell();
+  // describe_list(POOL[0]); // list of 88s / Xs.
+  // describe_list(POOL[4]); // list of 89s / Ys.
+  // draw_the_pool();
   test_links();
   // test_base_one();
 }
