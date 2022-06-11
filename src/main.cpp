@@ -187,6 +187,6 @@ int main() {
   // }
   // constexpr char * memory[8 * 1024] { 0 }; // 8 kb
 
-  test_base_one();
+  // test_base_one();
 }
 
