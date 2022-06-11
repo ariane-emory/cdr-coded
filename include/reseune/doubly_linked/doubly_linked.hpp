@@ -47,20 +47,17 @@ namespace reseune {
     // =================================================================================================================
     
 
-#define INSERT(A,B)                                                             \
-    A = new_##B->A;                                                             \
-    if (nullptr != A)                                                           \
+#define INSERT(name, A, B)                                                      \
+    inline void insert_##name(pointer new_##B) {                                \
+      A = new_##B->A;                                                           \
+      if (nullptr != A)                                                         \
       A->B = this;                                                              \
-    new_##B->A = this;                                                          \
-    B = new_##B;
-
-    inline void insert_before(pointer new_next) {      
-      INSERT(prev, next);
+      new_##B->A = this;                                                        \
+      B = new_##B;                                                              \
     }
-
-    inline void insert_after(pointer new_prev) {
-      INSERT(next, prev);
-    }
+    
+    INSERT(before, prev, next);
+    INSERT(after,  next, prev);
     
 #undef INSERT
     
