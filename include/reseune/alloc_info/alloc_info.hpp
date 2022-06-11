@@ -2,8 +2,7 @@
 #define RESEUNE_ALLOC_INFO_H
 
 namespace reseune {
-  class alloc_info {
-  public:
+  struct alloc_info {
     size_t      size;
     char *      block;
 
