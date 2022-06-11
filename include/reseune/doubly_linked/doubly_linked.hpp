@@ -47,13 +47,13 @@ namespace reseune {
     // =================================================================================================================
     
     inline void insert_before(pointer new_next) {      
-      // next = new_next;
-      // if (nullptr != next) prev = next->prev;
-
-      // if (nullptr != next) next->prev = this;
-      // if (nullptr != prev) prev->next = this;
-
-      insert_between(new_next->prev, new_next);
+      prev = new_next->prev;
+      
+      if (nullptr != prev)
+        prev->next = this;
+      
+      new_next->prev = this;
+      next = new_next;
     }
 
     inline void insert_after(pointer new_prev) {
@@ -66,6 +66,7 @@ namespace reseune {
       prev = new_prev;
     }
 
+    // This might be broken:
     inline void insert_between(pointer new_prev, pointer new_next) {
 #define CONNECT(A, B)                                                           \
       if (nullptr == new_ ## A) {                                               \
