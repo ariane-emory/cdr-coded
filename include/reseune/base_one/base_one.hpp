@@ -137,15 +137,14 @@ namespace reseune {
         new_blk->data.size = blk->data.size - size - ALLOC_HEADER_SZ;
         blk->data.size = size;
 
+        new_blk->insert_before(blk);
+
         PRINT("Created new block at", uintptr(&new_blk));
         PRINT("With offset", uintptr(&new_blk) - uintptr(MEMORY));
         HLINE;
         new_blk->describe_instance();
         new_blk->data.describe_instance();
         HLINE;
-        
-        new_blk->insert_before(blk);
-
         //   list_add_(&new_blk->node, &blk->node, blk->node.next);
       }
 
