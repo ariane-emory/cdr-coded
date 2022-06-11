@@ -31,7 +31,7 @@ namespace reseune {
 
     inline static void alloc_add_block(void * const addr, size_t size) {
       LINE;
-      printf("ADDING NEW MEMORY TO THE FREE LIST @ %zu!\n", MEMORY);
+      printf("ADDING NEW MEMORY TO THE FREE LIST @ %zu!\n", FREE_LIST);
       LINE;
       PRINT("Given memory at", uintptr(addr));
       PRINT("Given bytes", uintptr(size));
@@ -51,13 +51,15 @@ namespace reseune {
         - ALLOC_HEADER_SZ;
       
       // blk->describe_instance();
+      HLINE;
+      blk->insert_after(FREE_LIST);
+      blk->describe_instance('-');
       blk->data.describe_instance('-');
       
       PRINT("Add to free list at", uintptr(&FREE_LIST));
       LINE;
       putchar('\n');
       
-      blk->insert_after(FREE_LIST);
     }
 
     // ===========================================================================================================
@@ -72,7 +74,7 @@ namespace reseune {
       assert(nullptr != FREE_LIST.next);
       
       LINE;
-      printf("PRINTING THE FREE LIST @ %zu!\n", MEMORY);
+      printf("PRINTING THE FREE LIST @ %zu!\n", FREE_LIST);
       LINE;
 
       size_t ix {0};
@@ -94,7 +96,7 @@ namespace reseune {
     void * alloc(size_t size)
     {
       LINE;
-      printf("ALLOCATING MEMORY FROM THE FREE LIST @ %zu!\n", MEMORY);
+      printf("ALLOCATING MEMORY FROM THE FREE LIST @ %zu!\n", FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
@@ -114,9 +116,9 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           PRINT("Selected block at", uintptr(pointer));
-          PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
+          PROFFSET(pointer);
           HLINE;
-          blk->describe_instance();
+      blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
           
@@ -139,8 +141,8 @@ namespace reseune {
 
         new_blk->insert_before(blk);
 
-        PRINT("Created new block at", uintptr(&new_blk));
-        PRINT("With offset", uintptr(&new_blk) - uintptr(MEMORY));
+        PRINT("Created new block at", uintptr(new_blk));
+        PROFFSET(new_blk);
         HLINE;
         new_blk->describe_instance();
         new_blk->data.describe_instance();
