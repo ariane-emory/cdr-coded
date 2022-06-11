@@ -20,7 +20,7 @@ namespace reseune {
   static void print_line(char c = '=') {
     size_t line_ix { 0 };
 
-    while (line_ix++ < 122)
+    while (line_ix++ < 120)
       putchar(c);
 
     putchar('\n');
@@ -82,7 +82,7 @@ namespace reseune {
              ? " ="
              : "  ");
 
-      constexpr const char * tmp = " 0x%%0%ulx = %% 12lu\n";
+      constexpr const char * tmp = " 0x%%0%ulx = %% 10lu\n";
       char buf[64] {0};
 
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
