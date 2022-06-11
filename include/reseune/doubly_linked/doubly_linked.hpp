@@ -16,6 +16,7 @@ namespace reseune {
     using pointer        = doubly_linked *;
     using reference      = doubly_linked &;
     using const_iterator = linked_list_forward_const_iterator<doubly_linked>;
+    using iterator       = linked_list_forward_iterator<doubly_linked>;
     
     // ===========================================================================================================
     // Member fields
@@ -81,12 +82,20 @@ namespace reseune {
     // Iterator-related member functions
     // ===========================================================================================================
     
-    inline auto begin() const {
+    inline auto cbegin() const {
       return const_iterator::begin(this);
     }
 
-    inline auto end() const {
+    inline auto cend() const {
       return const_iterator::end();
+    }
+
+    inline auto begin() {
+      return iterator::begin(this);
+    }
+
+    inline auto end() {
+      return iterator::end();
     }
 
 // ===============================================================================================================
