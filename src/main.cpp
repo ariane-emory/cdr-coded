@@ -181,10 +181,12 @@ void test_base_one() {
 
   describe_free_list();
   
-  alloc(1024);
-
+  char * buffer = reinterpret_cast<char *>(alloc(1024));
+  reseune::print_bits<true, false>("Received", reseune::uintptr(buffer));
   putchar('\n');
   describe_free_list();
+  release(buffer);
+  
 }
 
 // ===============================================================================================================
