@@ -15,20 +15,19 @@ namespace reseune {
       print_line();
       print_bits<true,false>("Block size", sizeof(alloc_block));
       
-      alloc_block * blk;
-      blk = reinterpret_cast<alloc_block *>(align_up(reinterpret_cast<uintptr_t>(addr), sizeof(void *)));
+      // align the start addr of our block to the next pointer aligned addr
+      alloc_block * blk {
+        reinterpret_cast<alloc_block *>(
+          align_up(reinterpret_cast<uintptr_t>(addr), sizeof(void *))) };
         
       print_bits<true,false>("Block is at", reinterpret_cast<uintptr_t>(blk));
-      
-      //   // align the start addr of our block to the next pointer aligned addr
-        //   blk = reinterpret_cast<alloc_info *>(align_up((uintptr_t)addr, sizeof(void*)));
 
-      //   // calculate actual size - mgmt overhead
-          //   blk->size = (uintptr_t) addr + size - (uintptr_t) blk 
-                 //     - ALLOC_HEADER_SZ;
-
-        //   //and now our giant block of MEMORY is added to the list!
-        //   blk->node.insert_before(&free_list);
+      //   blk = reinterpret_cast<alloc_info *>(align_up((uintptr_t)addr, sizeof(void*)));
+      // calculate actual size - mgmt overhead
+      //   blk->size = (uintptr_t) addr + size - (uintptr_t) blk 
+             //     - ALLOC_HEADER_SZ;
+             //   //and now our giant block of MEMORY is added to the list!
+             //   blk->node.insert_before(&free_list);
         }
   }
 }
