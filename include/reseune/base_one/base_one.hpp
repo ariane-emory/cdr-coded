@@ -53,10 +53,10 @@ namespace reseune {
         - ALLOC_HEADER_SZ;
       
       // blk->describe_instance();
-      HLINE;
+      // HLINE;
       blk->insert_after(FREE_LIST);
-      blk->describe_instance('-');
-      blk->data.describe_instance('-');
+      // blk->describe_instance('-');
+      // blk->data.describe_instance('-');
 
       LINE;
       putchar('\n');
@@ -83,6 +83,9 @@ namespace reseune {
         printf("Node                : #%u\n", ++ix);
         PRINT("Node is at", &x);
         PROFFSET(&x);
+        PRINT("With block start at", &x.data.block_start);
+        PROFFSET(&x.data.block_start);
+
         HLINE;
         x.describe_instance();
         x.data.describe_instance('-');
@@ -183,6 +186,8 @@ namespace reseune {
 
       blk = reinterpret_cast<alloc_node *>(uintptr(pointer) - ALLOC_HEADER_SZ);
       PRINT("It's node is", blk);
+      LINE;
+      putchar('\n');;
       
       // Let's put it back in the proper spot
       // list_for_each_entry(free_blk, &free_list, node)
