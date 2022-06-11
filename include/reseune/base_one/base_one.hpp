@@ -24,9 +24,11 @@ namespace reseune {
     // ===========================================================================================================
 
 #define PRINT(x,y) print_bits<true,false>((x), (y))
+#define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
+#define PRINTWOFFSET(x,y) PRINT(x, y); PROFFSET(x)
 #define LINE print_line()
 #define HLINE print_line('-')
-#define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
+
     // ===========================================================================================================
 
     inline static void alloc_add_block(void * const addr, size_t size) {
@@ -166,8 +168,11 @@ namespace reseune {
       return pointer;
     }
     
-#undef PRINT 
+#undef PRINT
+#undef PROFFSET
+#undef PRINTWOFFSET
 #undef LINE
+#undef HLINE
   }
 }
 
