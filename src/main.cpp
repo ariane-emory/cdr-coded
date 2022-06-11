@@ -170,9 +170,7 @@ void test_links() {
 void test_base_one() {
   using namespace reseune::base_one;
   
-  malloc_add_block(
-    MEMORY,
-    MEMORY_BYTES);
+  alloc_add_block(MEMORY, MEMORY_BYTES);
 
   // This size is probably wrong by 8:
   // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 

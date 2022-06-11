@@ -28,7 +28,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline static void malloc_add_block(void * const addr, size_t size) {
+    inline static void alloc_add_block(void * const addr, size_t size) {
       LINE;
       printf("ADDING NEW MEMORY TO THE FREE LIST!\n");
       LINE;
@@ -63,7 +63,7 @@ namespace reseune {
 
     void * alloc(size_t size)
     {
-      char * ptr {nullptr};
+      void * ptr {nullptr};
 
       // alloc_node * blk {nullptr};
 
@@ -73,15 +73,17 @@ namespace reseune {
       size = align_up(size, sizeof(void *));
 
       // try to find a big enough block to alloc
-      // for (auto & b : FREE_LIST)
-      // {
-      //   if (b.data.size >= size)
-      //   {
-      //     ptr = &b.data.block;
-      //     break;
-      //   }
-      // }
+      for (auto & b : FREE_LIST)
+      {
+        if (b.data.size >= size)
+        {
+          ptr = &b.data.block;
+          break;
+        }
+      }
 
+      
+      
       // // we found something
       // if(ptr)
       // {
