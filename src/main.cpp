@@ -174,7 +174,6 @@ void test_base_one() {
     MEMORY,
     MEMORY_BYTES);
 
-
   // This size is probably wrong by 8:
   // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
   // putchar('\n');
@@ -189,6 +188,8 @@ void test_base_one() {
     x.describe_instance();
     x.data.describe_instance('-');
   }
+
+  alloc(1024);
 }
 
 // ===============================================================================================================

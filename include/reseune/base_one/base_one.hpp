@@ -63,8 +63,9 @@ namespace reseune {
 
     void * alloc(size_t size)
     {
-      void       * ptr {nullptr};
-      alloc_node * blk {nullptr};
+      char * ptr {nullptr};
+
+      // alloc_node * blk {nullptr};
 
       assert(size > 0);
       
@@ -72,14 +73,14 @@ namespace reseune {
       size = align_up(size, sizeof(void *));
 
       // try to find a big enough block to alloc
-      for (auto & b : FREE_LIST)
-      {
-        if (b.size >= size)
-        {
-          ptr = &b.block;
-          break;
-        }
-      }
+      // for (auto & b : FREE_LIST)
+      // {
+      //   if (b.data.size >= size)
+      //   {
+      //     ptr = &b.data.block;
+      //     break;
+      //   }
+      // }
 
       // // we found something
       // if(ptr)
