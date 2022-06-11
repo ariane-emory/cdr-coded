@@ -5,6 +5,11 @@
 #include <type_traits>
 
 namespace reseune {
+  template <typename T>
+  static uintptr_t uintptr(T t) {
+    return reinterpret_cast<uintptr_t>(t);
+  }
+  
   static constexpr size_t align_up(size_t num, size_t align) {
     return ((num) + ((align)-1)) & ~((align)-1);
   }
@@ -91,9 +96,3 @@ namespace reseune {
 }
 
 #endif
-
-
-
-
-
-
