@@ -183,6 +183,7 @@ void test_base_one() {
   
   alloc(1024);
 
+  putchar('\n');
   describe_free_list();
 }
 

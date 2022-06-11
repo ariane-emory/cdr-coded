@@ -102,7 +102,7 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           LINE;
-          printf("Selecting this block:\n");
+          PRINT("Selected block at", uintptr(pointer));
           blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
@@ -111,7 +111,6 @@ namespace reseune {
         }
 
       // PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
-      PRINT("Selected block at", uintptr(pointer));
       
       if (nullptr == blk)
         goto exit;
@@ -125,10 +124,18 @@ namespace reseune {
         new_blk->data.size = blk->data.size - size - ALLOC_HEADER_SZ;
         blk->data.size = size;
 
-        blk->insert_after(FREE_LIST);
-        //   list_add_(&new_blk->node, &blk->node, blk->node.next);
-       }
+        PRINT("Created new block at", uintptr(&new_blk));
+        new_blk->describe_instance();
+        new_blk->data.describe_instance();
+        LINE;
+        
+        new_blk->insert_before(blk);
 
+        //   list_add_(&new_blk->node, &blk->node, blk->node.next);
+      }
+
+      blk->remove();
+      
       // list_del(&blk->node);
       
     exit:
