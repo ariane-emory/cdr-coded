@@ -175,18 +175,11 @@ void test_base_one() {
   // This size is probably wrong by 8:
   // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
   // putchar('\n');
-  LINE;
+  // LINE;
   
-  reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
+  // reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
-  size_t ix {0};
-  for (const auto & x : FREE_LIST) {
-    LINE;
-    printf("Node                : #%u\n", ix++);
-    x.describe_instance();
-    x.data.describe_instance('-');
-  }
-
+  describe_free_list();
   alloc(1024);
 }
 

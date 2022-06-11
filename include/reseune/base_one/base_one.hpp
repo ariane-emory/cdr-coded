@@ -60,9 +60,32 @@ namespace reseune {
     }
 
     // ===========================================================================================================
+    
+    void describe_free_list() {
+      LINE;
+      printf("PRINTING THE FREE LIST!\n");
+      LINE;
+  
+      size_t ix {0};
+      for (const auto & x : FREE_LIST) {
+        printf("Node                : #%u\n", ix++);
+        x.describe_instance();
+        x.data.describe_instance('-');
+        LINE;
+      }
+  
+      putchar('\n');
+    }
 
+    // ===========================================================================================================
+    
     void * alloc(size_t size)
     {
+      LINE;
+      printf("ALLOCATING MEMORY FROM THE FREE LIST!\n");
+      LINE;
+      PRINT("Bytes requested: ", size);
+      
       void * ptr {nullptr};
 
       // alloc_node * blk {nullptr};
@@ -102,6 +125,8 @@ namespace reseune {
 
       // } // else NULL
 
+      LINE;
+      
       return ptr;
     }
     
