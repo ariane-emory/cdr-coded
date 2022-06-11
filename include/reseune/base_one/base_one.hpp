@@ -26,7 +26,7 @@ namespace reseune {
 #define PRINT(x,y) print_bits<true,false>((x), (y))
 #define LINE print_line()
 #define HLINE print_line('-')
-#define PROFFSET(x) PRINT("... with offset", uintptr(&x) - uintptr(MEMORY))
+#define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
     // ===========================================================================================================
 
     inline static void alloc_add_block(void * const addr, size_t size) {
@@ -80,7 +80,7 @@ namespace reseune {
       for (const auto & x : *FREE_LIST.next) {
         printf("Node                : #%u\n", ++ix);
         PRINT("Node is at", uintptr(&x));
-        PROFFSET(x);
+        PROFFSET(&x);
         HLINE;
         x.describe_instance();
         x.data.describe_instance('-');
@@ -115,10 +115,11 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           PRINT("Selected block at", uintptr(&b));
-          PROFFSET(b);
+          PROFFSET(&b);
           PRINT("With block start at", uintptr(&b.data.block_start_pointer));
-          PROFFSET(b.data.block_start_pointer);
+          PROFFSET(&b.data.block_start_pointer);
           HLINE;
+          
           blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
@@ -145,9 +146,9 @@ namespace reseune {
         blk->remove();
         
         PRINT("Created new block at", uintptr(new_blk));
-        PROFFSET(*new_blk);
+        PROFFSET(new_blk);
         PRINT("With block start at", uintptr(&new_blk->data.block_start_pointer));
-        PROFFSET(new_blk->data.block_start_pointer);
+        PROFFSET(&new_blk->data.block_start_pointer);
 
         HLINE;
         new_blk->describe_instance();
