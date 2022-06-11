@@ -9,11 +9,11 @@ namespace reseune {
     return ((num) + ((align)-1)) & ~((align)-1);
   }
 
-  static void print_line() {
+  static void print_line(char c = '=') {
     size_t line_ix { 0 };
 
     while (line_ix++ < 129)
-      putchar('=');
+      putchar(c);
 
     putchar('\n');
   }
