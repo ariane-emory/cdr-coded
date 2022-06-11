@@ -45,7 +45,7 @@ namespace reseune {
       //   //and now our giant block of MEMORY is added to the list!
       //   blk->node.insert_before(&free_list);
 
-      PRINT("Attach to free list at", uintptr(&FREE_LIST));
+      PRINT("Attach to free list", uintptr(&FREE_LIST));
 
       blk->insert_after(FREE_LIST);
     }

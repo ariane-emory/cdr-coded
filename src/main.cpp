@@ -151,7 +151,7 @@ void test_base_one() {
   reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
   size_t ix {0};
-  for (auto x : FREE_LIST) {
+  for (auto & x : FREE_LIST) {
     printf("Node #%u\n", ix);
     x.describe_instance();
     x.data.describe_instance('-');
