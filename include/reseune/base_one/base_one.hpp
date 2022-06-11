@@ -14,8 +14,8 @@ namespace reseune {
     constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block)};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
-    extern           char *       MEMORY[MEMORY_BYTES];
-    extern           alloc_node   FREE_LIST;
+    static           char *       MEMORY[MEMORY_BYTES] {0};
+    static           alloc_node   FREE_LIST {nullptr,nullptr};
 
 #define PRINT(x,y ) print_bits<true,false>((x), (y))
 #define LINE print_line()
@@ -30,8 +30,7 @@ namespace reseune {
       
       // align the start addr of our block to the next pointer aligned addr
       alloc_node * blk {
-        reinterpret_cast<alloc_node *>(
-          align_up(uintptr(addr), sizeof(void *))) };
+        reinterpret_cast<alloc_node *>(align_up(uintptr(addr), sizeof(void *))) };
         
       PRINT("Aligned block to", uintptr(blk));
 
@@ -45,8 +44,10 @@ namespace reseune {
       blk->describe_instance();
       blk->data.describe_instance('-');
       
-      // PRINT("Attach to free list", uintptr(&FREE_LIST));
-
+      PRINT("Add to free list at", uintptr(&FREE_LIST));
+      LINE;
+      putchar('\n');
+      
       blk->insert_after(FREE_LIST);
     }
   }

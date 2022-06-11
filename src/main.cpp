@@ -144,8 +144,9 @@ void test_base_one() {
     MEMORY_BYTES);
 
 
-  reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node));
-  putchar('\n');
+  // This size is probably wrong by 8:
+  // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
+  // putchar('\n');
   LINE;
   
   reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
