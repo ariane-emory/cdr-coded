@@ -47,7 +47,7 @@ namespace reseune {
     // =================================================================================================================
     
 
-#define CONNECT(A,B)                                                            \
+#define INSERT(A,B)                                                             \
     A = new_##B->A;                                                             \
     if (nullptr != A)                                                           \
       A->B = this;                                                              \
@@ -55,14 +55,14 @@ namespace reseune {
     B = new_##B;
 
     inline void insert_before(pointer new_next) {      
-      CONNECT(prev, next);
+      INSERT(prev, next);
     }
 
     inline void insert_after(pointer new_prev) {
-      CONNECT(next, prev);
+      INSERT(next, prev);
     }
     
-#undef CONNECT
+#undef INSERT
     
     // -----------------------------------------------------------------------------------------------------------------
 
