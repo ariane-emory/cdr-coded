@@ -167,7 +167,13 @@ int main() {
     MEMORY,
     MEMORY_BYTES);
 
-  reseune::print_bits<true, false>(
-    "Size should be", MEMORY_BYTES - sizeof(alloc_node));
+  reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node));
+  putchar('\n');
+  printf("Free list:\n");
+  
+  for (auto x : FREE_LIST) {
+    x.describe_instance();
+    x.data.describe_instance('-');
+  }
 }
 
