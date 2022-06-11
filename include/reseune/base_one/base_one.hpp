@@ -38,7 +38,7 @@ namespace reseune {
       
       //   //and now our giant block of MEMORY is added to the list!
       //   blk->node.insert_before(&free_list);
-      blk->insert_before(FREE_LIST);
+      blk->insert_after(FREE_LIST);
     }
   }
 }

@@ -57,13 +57,13 @@ namespace reseune {
     }
 
     inline void insert_after(pointer new_prev) {
-      // prev = new_prev;
-      // if (nullptr != prev) next = prev->next;
+      next = new_prev->next;
       
-      // if (nullptr != next) next->prev = this;
-      // if (nullptr != prev) prev->next = this;
-
-      insert_between(new_prev->next, new_prev);
+      if (nullptr != next)
+        next->prev = this;
+      
+      new_prev->next = this;
+      prev = new_prev;
     }
 
     inline void insert_between(pointer new_prev, pointer new_next) {
