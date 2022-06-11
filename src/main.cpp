@@ -173,7 +173,7 @@ void test_links() {
 
   // m.remove();
 
-#define PRINT(x) x.describe_instance(); printf("Value: %c\n", x.data);
+#define PRINT(x) x.describe_instance(); printf("Value               : %c\n", x.data);
 
   PRINT(l);
   PRINT(m);
