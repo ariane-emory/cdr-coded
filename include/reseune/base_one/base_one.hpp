@@ -161,7 +161,14 @@ namespace reseune {
         HLINE;
         //   list_add_(&new_blk->node, &blk->node, blk->node.next);
       }
-
+      else {
+        printf(
+          "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
+          (blk->data.size),
+          size,
+          (blk->data.size - size),
+          MIN_ALLOC_SZ);
+      }
       
       // list_del(&blk->node);
 
@@ -171,6 +178,11 @@ namespace reseune {
       return pointer;
     }
 
+    // ===========================================================================================================
+
+    void defrag() {
+    }
+    
     // ===========================================================================================================
 
     void release(void * pointer) {
@@ -202,19 +214,25 @@ namespace reseune {
  
       for (auto & free_blk : *FREE_LIST.next) {
         if (&free_blk > blk) {
-          blk->insert_before(free_blk);
+          blk->insert_after(free_blk);
+          goto blockadded;
         }
       }
+
+      blk->insert_after(FREE_LIST);;
       
-      // blockadded:
-      //     // Let's see if we can combine any memory
-      //     defrag_free_list();
+    blockadded:
+      // Let's see if we can combine any memory
+      defrag();
     }
+  
+    // =========================================================================================================
+    
   }
 }
 
-// ===========================================================================================================
-    
+
+
 #undef PRINT
 #undef PROFFSET
 #undef PRINTWOFFSET
