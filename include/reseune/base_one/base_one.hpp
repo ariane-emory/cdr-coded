@@ -112,6 +112,7 @@ namespace reseune {
 
       // PRINT("Selected block at", uintptr(ptr));
       PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
+      PRINT("Selected block at", uintptr(ptr));
       
       if (nullptr == blk)
         goto exit;
@@ -131,7 +132,8 @@ namespace reseune {
     exit:
       LINE;
       
-      return ptr;
+      return 
+        ptr;
     }
     
 #undef PRINT 
