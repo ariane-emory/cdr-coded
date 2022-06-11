@@ -171,10 +171,13 @@ int main() {
   putchar('\n');
   LINE;
   printf("Free list:\n");
-  
+
+  size_t ix {0};
   for (auto x : FREE_LIST) {
+    printf("Node #%u\n", ++ix);
     x.describe_instance();
     x.data.describe_instance('-');
   }
+  
 }
 

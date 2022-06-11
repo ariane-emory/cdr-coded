@@ -29,7 +29,7 @@ namespace reseune {
     // Constructors
     // ===========================================================================================================
 
-    // onstexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
+    constexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
     
     // ===========================================================================================================
     // Printing-related member functions
@@ -51,7 +51,7 @@ namespace reseune {
     inline void insert_##name(pointer new_##B) {                                \
       A = new_##B->A;                                                           \
       if (nullptr != A)                                                         \
-      A->B = this;                                                              \
+        A->B = this;                                                            \
       new_##B->A = this;                                                        \
       B = new_##B;                                                              \
     }                                                                           \
