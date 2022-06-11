@@ -171,9 +171,9 @@ void test_links() {
   n.insert_after(m);
   o.insert_after(n);
 
-  // m.remove();
+  m.remove();
 
-#define PRINT(x) x.describe_instance(); printf("Value               : %c\n", x.data);
+#define PRINT(x) { x.describe_instance(); printf("Value               : %c\n", x.data); }
 
   PRINT(l);
   PRINT(m);
@@ -182,7 +182,7 @@ void test_links() {
 
   putchar('\n');
   
-  for (const link & i : o) PRINT(i);
+  for (const link & i : l) PRINT(i);
   
 #undef PRINT
 }
@@ -197,6 +197,6 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
   test_links();
-  // test_base_one();
+  test_base_one();
 }
 
