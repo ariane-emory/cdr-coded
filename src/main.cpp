@@ -143,10 +143,12 @@ void test_base_one() {
     MEMORY,
     MEMORY_BYTES);
 
+
   reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node));
   putchar('\n');
   LINE;
-  printf("Free list:\n");
+  
+  reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
   size_t ix {0};
   for (auto x : FREE_LIST) {
