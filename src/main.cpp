@@ -168,6 +168,6 @@ int main() {
     MEMORY_BYTES);
 
   reseune::print_bits<true, false>(
-    "Size should be", MEMORY_BYTES - sizeof(alloc_block));
+    "Size should be", MEMORY_BYTES - sizeof(alloc_node));
 }
 
