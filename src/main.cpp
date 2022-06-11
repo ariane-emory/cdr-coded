@@ -136,32 +136,6 @@ void draw_the_pool() {
 
 // ===============================================================================================================
 
-void test_base_one() {
-  using namespace reseune::base_one;
-  
-  malloc_add_block(
-    MEMORY,
-    MEMORY_BYTES);
-
-
-  // This size is probably wrong by 8:
-  // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
-  // putchar('\n');
-  LINE;
-  
-  reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
-
-  size_t ix {0};
-  for (const auto & x : FREE_LIST) {
-    LINE;
-    printf("Node                : #%u\n", ix++);
-    x.describe_instance();
-    x.data.describe_instance('-');
-  }
-}
-
-// ===============================================================================================================
-
 void test_links() {
   link l; l.data = 'l';
   link m; m.data = 'm';
@@ -189,6 +163,32 @@ void test_links() {
   for (const link & i : l) PRINT(i);
   
 #undef PRINT
+}
+
+// ===============================================================================================================
+
+void test_base_one() {
+  using namespace reseune::base_one;
+  
+  malloc_add_block(
+    MEMORY,
+    MEMORY_BYTES);
+
+
+  // This size is probably wrong by 8:
+  // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
+  // putchar('\n');
+  LINE;
+  
+  reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
+
+  size_t ix {0};
+  for (const auto & x : FREE_LIST) {
+    LINE;
+    printf("Node                : #%u\n", ix++);
+    x.describe_instance();
+    x.data.describe_instance('-');
+  }
 }
 
 // ===============================================================================================================

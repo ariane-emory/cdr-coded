@@ -7,18 +7,26 @@
 
 #include <inttypes.h>
 #include <stdint.h>
+#include <cassert>
 
 namespace reseune {
   namespace base_one {
+    // ===========================================================================================================
+
     using            alloc_node = doubly_linked<alloc_info>;    
     constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block)};
+    constexpr        size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static           char *       MEMORY[MEMORY_BYTES] {0};
     static           alloc_node   FREE_LIST {nullptr,nullptr};
 
+    // ===========================================================================================================
+
 #define PRINT(x,y) print_bits<true,false>((x), (y))
 #define LINE print_line()
+
+    // ===========================================================================================================
 
     inline static void malloc_add_block(void * const addr, size_t size) {
       LINE;
@@ -51,6 +59,49 @@ namespace reseune {
       blk->insert_after(FREE_LIST);
     }
 
+    // ===========================================================================================================
+
+    void * alloc(size_t size)
+    {
+      void       * ptr {nullptr};
+      alloc_node * blk {nullptr};
+
+      assert(size > 0);
+      
+      // Align the pointer
+      size = align_up(size, sizeof(void *));
+
+      // try to find a big enough block to alloc
+      for (auto & b : FREE_LIST)
+      {
+        if (b.size >= size)
+        {
+          ptr = &b.block;
+          break;
+        }
+      }
+
+      // // we found something
+      // if(ptr)
+      // {
+      //   // Can we split the block?
+      //   if((blk->size - size) >= MIN_ALLOC_SZ)
+      //   {
+      //     alloc_node_t* new_blk;
+      //     new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
+      //     new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
+      //     blk->size = size;
+      //     list_add_(&new_blk->node, &blk->node, blk->node.next);
+      //   }
+
+      //   list_del(&blk->node);
+      // }
+
+      // } // else NULL
+
+      return ptr;
+    }
+    
 #undef PRINT 
 #undef LINE
   }
