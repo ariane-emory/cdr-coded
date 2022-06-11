@@ -60,15 +60,24 @@ namespace reseune {
     }
 
     // ===========================================================================================================
+
+    void initialize() {
+      alloc_add_block(MEMORY, MEMORY_BYTES);
+    }
+
+    // ===========================================================================================================
     
     void describe_free_list() {
+      assert(nullptr != FREE_LIST.next);
+      
       LINE;
       printf("PRINTING THE FREE LIST!\n");
       LINE;
-  
+
       size_t ix {0};
-      for (const auto & x : FREE_LIST) {
-        printf("Node                : #%u\n", ix++);
+      for (const auto & x : *FREE_LIST.next) {
+        printf("Node                : #%u\n", ++ix);
+        PRINT("Node is at", uintptr(&x));
         x.describe_instance();
         x.data.describe_instance('-');
         LINE;
@@ -101,8 +110,8 @@ namespace reseune {
           blk = &b;
           pointer = &b.data.block_start_pointer;
 
-          LINE;
           PRINT("Selected block at", uintptr(pointer));
+          PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
           blk->describe_instance();
           blk->data.describe_instance('-');
           LINE;
@@ -113,7 +122,7 @@ namespace reseune {
       // PRINT("Selected block at", uintptr(&blk->data.block_start_pointer));
       
       if (nullptr == blk)
-        goto exit;
+        return pointer;
 
       // Can we split the block?
       if ((blk->data.size - size) >= MIN_ALLOC_SZ)
@@ -137,9 +146,6 @@ namespace reseune {
       blk->remove();
       
       // list_del(&blk->node);
-      
-    exit:
-      LINE;
       
       return pointer;
     }
