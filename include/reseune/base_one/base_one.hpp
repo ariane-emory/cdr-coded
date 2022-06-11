@@ -25,6 +25,7 @@ namespace reseune {
 
 #define PRINT(x,y) print_bits<true,false>((x), (y))
 #define LINE print_line()
+#define HLINE print_line('-')
 
     // ===========================================================================================================
 
@@ -78,6 +79,7 @@ namespace reseune {
       for (const auto & x : *FREE_LIST.next) {
         printf("Node                : #%u\n", ++ix);
         PRINT("Node is at", uintptr(&x));
+        HLINE;
         x.describe_instance();
         x.data.describe_instance('-');
         LINE;
@@ -111,6 +113,7 @@ namespace reseune {
           pointer = &b.data.block_start_pointer;
 
           PRINT("Selected block at", uintptr(pointer));
+          HLINE;
           PRINT("With offset", uintptr(pointer) - uintptr(MEMORY));
           blk->describe_instance();
           blk->data.describe_instance('-');
@@ -134,6 +137,7 @@ namespace reseune {
         blk->data.size = size;
 
         PRINT("Created new block at", uintptr(&new_blk));
+        HLINE;
         new_blk->describe_instance();
         new_blk->data.describe_instance();
         LINE;

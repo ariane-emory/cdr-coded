@@ -7,7 +7,6 @@ namespace reseune {
     char *      block_start_pointer;
 
     void describe_instance(char c = '=') const {
-      print_line(c);
       print_bits<true, false>("alloc_info is at", uintptr(this));
       print_bits<true, false>("size",       size);
       // print_bits<true, false>("block_pointer",       uintptr(block_start_pointer));
