@@ -24,12 +24,11 @@ namespace reseune {
       print_bits<true,false>("Block is at", reinterpret_cast<uintptr_t>(blk));
 
       // calculate actual size - mgmt overhead
-      //   blk->size = (uintptr_t) addr + size - (uintptr_t) blk 
-             //     - ALLOC_HEADER_SZ;
-             //   //and now our giant block of MEMORY is added to the list!
-             //   blk->node.insert_before(&free_list);
-             }
-  
+      blk->data.size = (uintptr_t) addr + size - (uintptr_t) blk - ALLOC_HEADER_SZ;
+      
+      //   //and now our giant block of MEMORY is added to the list!
+      //   blk->node.insert_before(&free_list);
+    }
   }
 }
 #endif
