@@ -12,7 +12,12 @@ namespace reseune {
     static    alloc_block   FREE_LIST            { &FREE_LIST, &FREE_LIST };
     
     static void malloc_add_block(char * addr, size_t size) {
+      print_line();
+      print_bits<true,false>("Block size", sizeof(alloc_block));
+      
       alloc_block * blk;
+      print_bits<true,false>("Block is at", reinterpret_cast<uintptr_t>(blk));
+      
       
       //   // align the start addr of our block to the next pointer aligned addr
       //   blk = reinterpret_cast<alloc_info *>(align_up((uintptr_t)addr, sizeof(void*)));
