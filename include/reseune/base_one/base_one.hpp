@@ -106,7 +106,7 @@ namespace reseune {
 
       assert(size > 0);
       
-     // Align the pointer
+      // Align the pointer
       size = align_up(size, sizeof(void *));
 
       // try to find a big enough block to alloc
@@ -171,8 +171,15 @@ namespace reseune {
     // ===========================================================================================================
 
     void release(void * pointer) {
-      // alloc_node *blk, *free_blk;
 
+      assert(nullptr != pointer);
+
+      LINE;
+      printf("RELEASING 0x%lx!\n", uintptr(pointer));
+      LINE;
+
+      // alloc_node *blk, *free_blk;
+      
       // // Don't free a NULL pointer..
       // if(pointer)
       // {
@@ -194,6 +201,7 @@ namespace reseune {
       //   // Let's see if we can combine any memory
       //   defrag_free_list();
       // }
+
     }
 
     // ===========================================================================================================
