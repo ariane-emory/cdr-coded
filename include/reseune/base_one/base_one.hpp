@@ -56,8 +56,6 @@ namespace reseune {
       blk->describe_instance('-');
       blk->data.describe_instance('-');
 
-      // LINE;
-      // PRINT("Add to free list at", uintptr(&FREE_LIST));
       LINE;
       putchar('\n');
       
@@ -116,7 +114,8 @@ namespace reseune {
           blk = &b;
           pointer = &b.data.block_start_pointer;
 
-          PRINT("Selected block at", uintptr(pointer));
+          PRINT("Selected block at", uintptr(&b));
+          PRINT("With block start at", uintptr(pointer));
           PROFFSET(pointer);
           HLINE;
       blk->describe_instance();
