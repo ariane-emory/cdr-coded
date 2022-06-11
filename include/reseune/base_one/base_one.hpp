@@ -17,10 +17,10 @@ namespace reseune {
     static           char *       MEMORY[MEMORY_BYTES] {0};
     static           alloc_node   FREE_LIST {nullptr,nullptr};
 
-    inline static void malloc_add_block(void * const addr, size_t size) {
-#define PRINT(x,y ) print_bits<true,false>((x), (y))
+#define PRINT(x,y) print_bits<true,false>((x), (y))
 #define LINE print_line()
 
+    inline static void malloc_add_block(void * const addr, size_t size) {
       LINE;
       printf("ADDING NEW MEMORY TO THE FREE LIST!\n");
       LINE;
@@ -49,11 +49,11 @@ namespace reseune {
       putchar('\n');
       
       blk->insert_after(FREE_LIST);
-#undef LINE
-#undef PRINT 
     }
+
+#undef PRINT 
+#undef LINE
   }
 }
-
 
 #endif
