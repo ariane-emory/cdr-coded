@@ -13,6 +13,7 @@ namespace reseune {
     
     static void malloc_add_block(void * addr, size_t size) {
       print_line();
+      print_bits<true,false>("Addr is at", reinterpret_cast<uintptr_t>(addr));
       print_bits<true,false>("Block size", sizeof(alloc_block));
       
       // align the start addr of our block to the next pointer aligned addr
