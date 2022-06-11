@@ -46,42 +46,24 @@ namespace reseune {
     // Other member functions
     // =================================================================================================================
     
+
+#define CONNECT(A,B)                                                            \
+    A = new_##B->A;                                                             \
+    if (nullptr != A)                                                           \
+      A->B = this;                                                              \
+    new_##B->A = this;                                                          \
+    B = new_##B;
+
     inline void insert_before(pointer new_next) {      
-      prev = new_next->prev;
-      
-      if (nullptr != prev)
-        prev->next = this;
-      
-      new_next->prev = this;
-      next = new_next;
+      CONNECT(prev, next);
     }
 
     inline void insert_after(pointer new_prev) {
-      next = new_prev->next;
-      
-      if (nullptr != next)
-        next->prev = this;
-      
-      new_prev->next = this;
-      prev = new_prev;
-    }
-
-    // This might be broken:
-    inline void insert_between(pointer new_prev, pointer new_next) {
-#define CONNECT(A, B)                                                           \
-      if (nullptr == new_ ## A) {                                               \
-        A = nullptr;                                                            \
-      }                                                                         \
-      else {                                                                    \
-        A = new_ ## A;                                                          \
-        new_ ## A->B = this;                                                    \
-      }                                                                         \
-     
-      CONNECT(prev, next);
       CONNECT(next, prev);
-#undef CONNECT
     }
-
+    
+#undef CONNECT
+    
     // -----------------------------------------------------------------------------------------------------------------
 
 #define INSERT_WITH_REFERENCE(position)                                         \
