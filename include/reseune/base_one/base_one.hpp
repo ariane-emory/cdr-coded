@@ -35,7 +35,7 @@ namespace reseune {
       LINE;
       PRINT("Given memory at", uintptr(addr));
       PRINT("Given bytes", uintptr(size));
-      PRINT("sizeof(alloc_node)", sizeof(alloc_node));
+      // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
       alloc_node * blk {
@@ -55,8 +55,9 @@ namespace reseune {
       blk->insert_after(FREE_LIST);
       blk->describe_instance('-');
       blk->data.describe_instance('-');
-      
-      PRINT("Add to free list at", uintptr(&FREE_LIST));
+
+      // LINE;
+      // PRINT("Add to free list at", uintptr(&FREE_LIST));
       LINE;
       putchar('\n');
       
@@ -130,7 +131,7 @@ namespace reseune {
       if (nullptr == blk)
         return pointer;
 
-      // Can we split the block?
+      // Can we split the blocko?
       if ((blk->data.size - size) >= MIN_ALLOC_SZ)
       {
         alloc_node * new_blk;

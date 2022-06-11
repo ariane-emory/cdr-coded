@@ -88,7 +88,7 @@ namespace reseune {
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
         putchar(' ');
       
-      sprintf(buf, tmp, sizeof(T) << 1);
+      sprintf(buf, tmp, 1 + (sizeof(T) << 0));
       
       printf(buf, (uintptr_t)v, (uintptr_t)v);
     }
