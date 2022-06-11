@@ -23,7 +23,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-#define PRINT(x,y) print_bits<true,false>((x), (y))
+#define PRINT(x,y) print_bits<true,false>((x), uintptr(y))
 #define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
 #define PRINTWOFFSET(x,y) PRINT(x, y); PROFFSET(x)
 #define LINE print_line()
@@ -35,15 +35,15 @@ namespace reseune {
       LINE;
       printf("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
       LINE;
-      PRINT("Given memory at", uintptr(addr));
-      PRINT("Given bytes", uintptr(size));
+      PRINT("Given memory at", addr);
+      PRINT("Given bytes", size);
       // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
       alloc_node * blk {
         reinterpret_cast<alloc_node *>(align_up(uintptr(addr), sizeof(void *))) };
         
-      PRINT("Aligned block to", uintptr(blk));
+      PRINT("Aligned block to", blk);
 
       // calculate actual size - mgmt overhead
       blk->data.size =
@@ -81,7 +81,7 @@ namespace reseune {
       size_t ix {0};
       for (const auto & x : *FREE_LIST.next) {
         printf("Node                : #%u\n", ++ix);
-        PRINT("Node is at", uintptr(&x));
+        PRINT("Node is at", &x);
         PROFFSET(&x);
         HLINE;
         x.describe_instance();
@@ -116,9 +116,9 @@ namespace reseune {
           blk = &b;
           pointer = &b.data.block_start_pointer;
 
-          PRINT("Selected block at", uintptr(&b));
+          PRINT("Selected block at", &b);
           PROFFSET(&b);
-          PRINT("With block start at", uintptr(&b.data.block_start_pointer));
+          PRINT("With block start at", &b.data.block_start_pointer);
           PROFFSET(&b.data.block_start_pointer);
           HLINE;
           
@@ -147,9 +147,9 @@ namespace reseune {
 
         blk->remove();
         
-        PRINT("Created new block at", uintptr(new_blk));
+        PRINT("Created new block at", new_blk);
         PROFFSET(new_blk);
-        PRINT("With block start at", uintptr(&new_blk->data.block_start_pointer));
+        PRINT("With block start at", &new_blk->data.block_start_pointer);
         PROFFSET(&new_blk->data.block_start_pointer);
 
         HLINE;
