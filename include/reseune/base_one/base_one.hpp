@@ -86,8 +86,7 @@ namespace reseune {
       LINE;
       PRINT("Bytes requested: ", size);
       
-      void * ptr {nullptr};
-
+      void *       ptr {nullptr};
       // alloc_node * blk {nullptr};
 
       assert(size > 0);
@@ -107,23 +106,23 @@ namespace reseune {
 
       PRINT("Selected block at", uintptr(ptr));
       
-      // // we found something
-      // if(ptr)
-      // {
-      //   // Can we split the block?
-      //   if((blk->size - size) >= MIN_ALLOC_SZ)
-      //   {
-      //     alloc_node_t* new_blk;
-      //     new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
-      //     new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
-      //     blk->size = size;
-      //     list_add_(&new_blk->node, &blk->node, blk->node.next);
-      //   }
+      // we found something
+      if(ptr)
+      {
+        // Can we split the block?
+        if((blk->size - size) >= MIN_ALLOC_SZ)
+        {
+          alloc_node_t* new_blk;
+          new_blk = (alloc_node_t*)((uintptr_t)(&blk->block) + size);
+          new_blk->size = blk->size - size - ALLOC_HEADER_SZ;
+          blk->size = size;
+          list_add_(&new_blk->node, &blk->node, blk->node.next);
+        }
 
-      //   list_del(&blk->node);
-      // }
+        list_del(&blk->node);
+      }
 
-      // } // else NULL
+      // else NULL
 
       LINE;
       
