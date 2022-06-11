@@ -56,8 +56,8 @@ namespace reseune {
       B = new_##B;                                                              \
     }                                                                           \
                                                                                 \
-    inline void insert_##name(reference node) {                                \
-      insert_##name(&node);                                                    \
+    inline void insert_##name(reference node) {                                 \
+      insert_##name(&node);                                                     \
     }
 
     INSERT(before, prev, next);
