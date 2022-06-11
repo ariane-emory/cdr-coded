@@ -29,7 +29,7 @@ namespace reseune {
     // Constructors
     // =================================================================================================================
 
-    constexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
+    // onstexpr doubly_linked(): prev(nullptr), next(nullptr), data{} {}
     
     // =================================================================================================================
     // Printing-related member functions

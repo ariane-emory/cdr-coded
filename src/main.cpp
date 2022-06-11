@@ -169,6 +169,7 @@ int main() {
 
   reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node));
   putchar('\n');
+  LINE;
   printf("Free list:\n");
   
   for (auto x : FREE_LIST) {

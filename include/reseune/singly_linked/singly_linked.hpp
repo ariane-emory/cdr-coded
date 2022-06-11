@@ -28,7 +28,7 @@ namespace reseune {
     // Constructors
     // =================================================================================================================
 
-    constexpr singly_linked(): next(nullptr), data{} {}
+    // constexpr singly_linked(): next(nullptr), data{} {}
     
     // =================================================================================================================
     // Printing-related member functions
