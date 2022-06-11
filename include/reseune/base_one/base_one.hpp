@@ -102,7 +102,7 @@ namespace reseune {
       PRINT("Bytes requested: ", size);
       
       void *       pointer {nullptr};
-      alloc_node * blk {nullptr};
+      alloc_node * blk     {nullptr};
 
       assert(size > 0);
       
