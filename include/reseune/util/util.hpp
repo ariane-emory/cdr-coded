@@ -5,7 +5,7 @@
 #include <type_traits>
 
 namespace reseune {
-  static constexpr  size_t align_up(size_t num, size_t align) {
+  static constexpr size_t align_up(size_t num, size_t align) {
     return ((num) + ((align)-1)) & ~((align)-1);
   }
 
