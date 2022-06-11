@@ -25,8 +25,8 @@ namespace reseune {
 
       // calculate actual size - mgmt overhead
       blk->data.size = (uintptr_t) addr + size - (uintptr_t) blk - ALLOC_HEADER_SZ;
-      blk->describe_instance();
       blk->data.describe_instance();
+      blk->describe_instance();
       
       //   //and now our giant block of MEMORY is added to the list!
       //   blk->node.insert_before(&free_list);
