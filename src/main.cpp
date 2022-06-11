@@ -74,7 +74,7 @@ void describe_every_cell()
 {
   uint8_t ix { 0 };
 
-  for (const cell & i : POOL) {
+  for (const auto & i : POOL) {
     printf("cell # %u\n", ix++);
     
     i.describe_instance();
@@ -88,7 +88,7 @@ void describe_every_cell()
 void describe_list(const cell & head) {
   uint8_t ix { 0 };
     
-  for (cell const & c : head) {
+  for (const auto & c : head) {
     LINE;
     printf("cell #%u in this list: \n", ix++);
     c.describe_instance();
@@ -151,7 +151,7 @@ void test_base_one() {
   reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
   size_t ix {0};
-  for (auto & x : FREE_LIST) {
+  for (const auto & x : FREE_LIST) {
     printf("Node #%u\n", ix);
     x.describe_instance();
     x.data.describe_instance('-');
