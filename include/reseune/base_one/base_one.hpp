@@ -150,6 +150,8 @@ namespace reseune {
       blk->remove();
       
       // list_del(&blk->node);
+
+      PRINT("Gave pointer to", uintptr(pointer));
       
       return pointer;
     }
