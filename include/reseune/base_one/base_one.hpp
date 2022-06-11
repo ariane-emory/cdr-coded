@@ -12,7 +12,7 @@ namespace reseune {
     static    char *       MEMORY[MEMORY_BYTES] {0};
     static    alloc_node   FREE_LIST            {};
     
-    static void malloc_add_block(void * addr, size_t size) {
+    static void malloc_add_block(void * const addr, size_t size) {
       print_line();
       print_bits<true,false>("Addr is at", uintptr(addr));
       print_bits<true,false>("Block size", sizeof(alloc_node));
