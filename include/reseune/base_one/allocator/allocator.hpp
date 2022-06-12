@@ -246,6 +246,5 @@ namespace reseune {
   }
 }
 
-#include "undef_macros.hpp"
-  
+#include "undef_macros.hpp"  
 #endif
