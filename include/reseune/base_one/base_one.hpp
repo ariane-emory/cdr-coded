@@ -23,20 +23,22 @@ namespace reseune {
 
     // ===========================================================================================================
 
-#define FREE_LIST_HEAD    (*FREE_LIST.next)
-#define HLINE             { if (verbose) print_line('-'); }
-#define LINE              { if (verbose) print_line(); }
-#define PRINT(x,y)        { if (verbose) print_bits<true,false>((x), uintptr(y)); }
-#define PRINTF(...)       { if (verbose) printf(__VA_ARGS__); }
-#define PUTCHAR(c)        { if (verbose) putchar(c); }
-#define DESCRIBE(block)   { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
-#define PROFFSET(x)       { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
-#define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
-#define VERBOSEARG        bool verbose = false
-#define alloc_nodep       alloc_node *
-#define ISNULL(x)         (nullptr == x)
-#define ISNOTNULL(x)      (nullptr != x)
-#define ALLOC_NODEP(x)    (reinterpret_cast<alloc_nodep>(x))
+#define FREE_LIST_HEAD        (*FREE_LIST.next)
+#define HLINE                 { if (verbose) print_line('-'); }
+#define LINE                  { if (verbose) print_line(); }
+#define PRINT(x,y)            { if (verbose) print_bits<true,false>((x), uintptr(y)); }
+#define PRINTF(...)           { if (verbose) printf(__VA_ARGS__); }
+#define PUTCHAR(c)            { if (verbose) putchar(c); }
+#define DESCRIBE(block)       { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
+#define PROFFSET(x)           { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
+#define DESCRIBEP(blockp)     { DESCRIBE((*blockp)); }
+#define VERBOSEARG            bool verbose = false
+#define alloc_nodep           alloc_node *
+#define ISNULL(x)             (nullptr == x)
+#define ISNOTNULL(x)          (nullptr != x)
+#define ALLOC_NODEP(x)        (reinterpret_cast<alloc_nodep>(x))
+#define FOR_EACH_BLOCK(name)  for (auto & name : FREE_LIST_HEAD)
+#define UINTPTR(x)            (uintptr(x))
     
     // ===========================================================================================================
 
@@ -49,15 +51,15 @@ namespace reseune {
       // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
-      alloc_nodep block {ALLOC_NODEP(align_up(uintptr(addr), sizeof(void *)))};
+      alloc_nodep block {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(void *)))};
         
       PRINT("Aligned block to", block);
 
       // calculate actual size - mgmt overhead
       block->data.size =
-        uintptr(addr)
+        UINTPTR(addr)
         + size
-        - uintptr(block)
+        - UINTPTR(block)
         - ALLOC_HEADER_SZ;
       
       // block->describe_instance();
@@ -89,7 +91,8 @@ namespace reseune {
       LINE;
 
       size_t ix {0};
-      for (const auto & x : FREE_LIST_HEAD) {
+      
+      FOR_EACH_BLOCK(x) {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &x);
         PROFFSET(&x);
@@ -121,7 +124,7 @@ namespace reseune {
       size = align_up(size, sizeof(void *));
 
       // try to find a big enough block to alloc
-      for (auto & b : FREE_LIST)
+      FOR_EACH_BLOCK(b)
         if (b.data.size >= size)
         {
           blockp = &b;
@@ -139,21 +142,18 @@ namespace reseune {
           break;
         }
 
-      // PRINT("Selected block at", uintptr(&block->data.block_start));
-      
       if (ISNULL(blockp))
         return pointer;
 
-      // Can we split the blocko?
+      // Can we split the block?
       if ((blockp->data.size - size) >= MIN_ALLOC_SZ) {
-        alloc_nodep new_blockp { ALLOC_NODEP((uintptr(pointer) + size)) };
+        alloc_nodep new_blockp { ALLOC_NODEP((UINTPTR(pointer) + size)) };
         
         new_blockp->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
-        blockp->data.size = size;
+        blockp    ->data.size = size;
 
         new_blockp->insert_before(blockp);
-
-        blockp->remove();
+        blockp    ->remove();
         
         PRINT("Created new block at", new_blockp);
         PROFFSET(new_blockp);
@@ -163,7 +163,6 @@ namespace reseune {
         HLINE;
         DESCRIBEP(new_blockp);
         HLINE;
-        //   list_add_(&new_blockp->node, &block->node, block->node.next);
       }
       else {
         PRINTF(
@@ -173,10 +172,8 @@ namespace reseune {
           (blockp->data.size - size),
           MIN_ALLOC_SZ);
       }
-      
-      // list_del(&block->node);
 
-      PRINT("Gave pointer to", uintptr(pointer));
+      PRINT("Gave pointer to", UINTPTR(pointer));
       LINE;
       
       return pointer;
@@ -190,26 +187,27 @@ namespace reseune {
       assert(ISNOTNULL(pointer));
 
       LINE;
-      PRINTF("RELEASING 0x%lx = %ul!\n", uintptr(pointer));
+      PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
       LINE;
 
-      alloc_nodep block;
+      alloc_nodep blockp;
 
-      block = ALLOC_NODEP(uintptr(pointer) - ALLOC_HEADER_SZ);
-      PRINT("It's node is", block);
+      blockp = ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ);
+      PRINT("It's node is", blockp);
       LINE;
       PUTCHAR('\n');;
       
       // Let's put it back in the proper spot
-      for (auto & free_block : FREE_LIST_HEAD) {
-        if (&free_block > block) {
-          block->insert_before(free_block);
+      FOR_EACH_BLOCK(free_block) {
+        if (&free_block > blockp) {
+          blockp->insert_before(free_block);
 
           goto block_added;
         }
       }
 
-      block->insert_after(FREE_LIST);
+      // blockp->insert_after(FREE_LIST);
+      blockp->insert_before(FREE_LIST_HEAD);
       
     block_added:
       // Let's see if we can combine any memory
@@ -223,13 +221,13 @@ namespace reseune {
       PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
-      alloc_nodep last_block {nullptr};
+      alloc_nodep last_blockp {nullptr};
 
-      for (auto & block : FREE_LIST_HEAD) {
-        if (ISNOTNULL(last_block)
-            && (uintptr(&last_block->data.block_start) + last_block->data.size) == uintptr(&block))
+      FOR_EACH_BLOCK(block) {
+        if (ISNOTNULL(last_blockp)
+            && (UINTPTR(&last_blockp->data.block_start) + last_blockp->data.size) == UINTPTR(&block))
         {
-          last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
+          last_blockp->data.size += ALLOC_HEADER_SZ + block.data.size;
 
           PRINTF("Removing this block:.\n");
           DESCRIBE(block);
@@ -239,7 +237,7 @@ namespace reseune {
           // continue; // this seems unnecessary?
         }
         
-        last_block = &block;
+        last_blockp = &block;
       }
 
       HLINE;
@@ -267,5 +265,7 @@ namespace reseune {
 #undef ISNULL
 #undef ISNOTNULL
 #undef ALLOC_NODEP
+#undef FOR_EACH_BLOCK
+#undef UINTPTR
 
 #endif
