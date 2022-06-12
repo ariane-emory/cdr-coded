@@ -16,7 +16,7 @@ namespace reseune {
 #define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
-#define                    BSIZEP(pb)           (BSIZE((*bp)))
+#define                    BSIZEP(pb)           (BSIZE((*pb)))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
@@ -230,7 +230,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block) 
-          if ((UINTPTR(&plast_block->data.block_start) + plast_block->data.size) == UINTPTR(&block)) {
+          if ((UINTPTR(&plast_block->data.block_start) + BSIZEP(plast_block)) == UINTPTR(&block)) {
             plast_block->data.size += ALLOC_HEADER_SZ + BSIZE(block);
 
             PRINTF("Removing this block:.\n");
