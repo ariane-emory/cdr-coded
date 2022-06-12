@@ -28,6 +28,7 @@ namespace reseune {
 #define PRINTWOFFSET(x,y) PRINT(x, y); PROFFSET(x)
 #define LINE print_line()
 #define HLINE print_line('-')
+#define FREE_LIST_HEAD (*FREE_LIST.next)
 
     // ===========================================================================================================
 
@@ -40,23 +41,23 @@ namespace reseune {
       // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
-      alloc_node * blk {
+      alloc_node * block {
         reinterpret_cast<alloc_node *>(align_up(uintptr(addr), sizeof(void *))) };
         
-      PRINT("Aligned block to", blk);
+      PRINT("Aligned block to", block);
 
       // calculate actual size - mgmt overhead
-      blk->data.size =
+      block->data.size =
         uintptr(addr)
         + size
-        - uintptr(blk)
+        - uintptr(block)
         - ALLOC_HEADER_SZ;
       
-      // blk->describe_instance();
+      // block->describe_instance();
       // HLINE;
-      blk->insert_after(FREE_LIST);
-      // blk->describe_instance('-');
-      // blk->data.describe_instance('-');
+      block->insert_after(FREE_LIST);
+      // block->describe_instance('-');
+      // block->data.describe_instance('-');
 
       LINE;
       putchar('\n');
@@ -79,7 +80,7 @@ namespace reseune {
       LINE;
 
       size_t ix {0};
-      for (const auto & x : *FREE_LIST.next) {
+      for (const auto & x : FREE_LIST_HEAD) {
         printf("Node                : #%u\n", ++ix);
         PRINT("Node is at", &x);
         PROFFSET(&x);
@@ -105,7 +106,7 @@ namespace reseune {
       PRINT("Bytes requested: ", size);
       
       void *       pointer {nullptr};
-      alloc_node * blk     {nullptr};
+      alloc_node * block   {nullptr};
 
       assert(size > 0);
       
@@ -116,7 +117,7 @@ namespace reseune {
       for (auto & b : FREE_LIST)
         if (b.data.size >= size)
         {
-          blk = &b;
+          block = &b;
           pointer = &b.data.block_start;
 
           PRINT("Selected block at", &b);
@@ -125,52 +126,52 @@ namespace reseune {
           PROFFSET(&b.data.block_start);
           HLINE;
           
-          blk->describe_instance();
-          blk->data.describe_instance('-');
+          block->describe_instance();
+          block->data.describe_instance('-');
           LINE;
           
           break;
         }
 
-      // PRINT("Selected block at", uintptr(&blk->data.block_start));
+      // PRINT("Selected block at", uintptr(&block->data.block_start));
       
-      if (nullptr == blk)
+      if (nullptr == block)
         return pointer;
 
       // Can we split the blocko?
-      if ((blk->data.size - size) >= MIN_ALLOC_SZ)
+      if ((block->data.size - size) >= MIN_ALLOC_SZ)
       {
-        alloc_node * new_blk;
-        new_blk = reinterpret_cast<alloc_node *>((uintptr(pointer) + size));
+        alloc_node * new_block;
+        new_block = reinterpret_cast<alloc_node *>((uintptr(pointer) + size));
         
-        new_blk->data.size = blk->data.size - size - ALLOC_HEADER_SZ;
-        blk->data.size = size;
+        new_block->data.size = block->data.size - size - ALLOC_HEADER_SZ;
+        block->data.size = size;
 
-        new_blk->insert_before(blk);
+        new_block->insert_before(block);
 
-        blk->remove();
+        block->remove();
         
-        PRINT("Created new block at", new_blk);
-        PROFFSET(new_blk);
-        PRINT("With block start at", &new_blk->data.block_start);
-        PROFFSET(&new_blk->data.block_start);
+        PRINT("Created new block at", new_block);
+        PROFFSET(new_block);
+        PRINT("With block start at", &new_block->data.block_start);
+        PROFFSET(&new_block->data.block_start);
 
         HLINE;
-        new_blk->describe_instance();
-        new_blk->data.describe_instance();
+        new_block->describe_instance();
+        new_block->data.describe_instance();
         HLINE;
-        //   list_add_(&new_blk->node, &blk->node, blk->node.next);
+        //   list_add_(&new_block->node, &block->node, block->node.next);
       }
       else {
         printf(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-          (blk->data.size),
+          (block->data.size),
           size,
-          (blk->data.size - size),
+          (block->data.size - size),
           MIN_ALLOC_SZ);
       }
       
-      // list_del(&blk->node);
+      // list_del(&block->node);
 
       PRINT("Gave pointer to", uintptr(pointer));
       LINE;
@@ -190,33 +191,33 @@ namespace reseune {
       printf("RELEASING 0x%lx!\n", uintptr(pointer));
       LINE;
 
-      alloc_node * blk;
-      // alloc_node * free_blk;
+      alloc_node * block;
+      // alloc_node * free_block;
 
-      blk = reinterpret_cast<alloc_node *>(uintptr(pointer) - ALLOC_HEADER_SZ);
-      PRINT("It's node is", blk);
+      block = reinterpret_cast<alloc_node *>(uintptr(pointer) - ALLOC_HEADER_SZ);
+      PRINT("It's node is", block);
       LINE;
       putchar('\n');;
       
       // Let's put it back in the proper spot
-      // list_for_each_entry(free_blk, &free_list, node)
+      // list_for_each_entry(free_block, &free_list, node)
       // {
-      //   if(free_blk > blk)
+      //   if(free_block > block)
       //   {
-      //     list_add_(&blk->node, free_blk->node.prev, &free_blk->node);
+      //     list_add_(&block->node, free_block->node.prev, &free_block->node);
       //     goto blockadded;
       //   }
       // }
-      // list_add_tail(&blk->node, &free_list);
+      // list_add_tail(&block->node, &free_list);
  
-      for (auto & free_blk : *FREE_LIST.next) {
-        if (&free_blk > blk) {
-          blk->insert_after(free_blk);
+      for (auto & free_block : FREE_LIST_HEAD) {
+        if (&free_block > block) {
+          block->insert_after(free_block);
           goto blockadded;
         }
       }
 
-      blk->insert_after(FREE_LIST);;
+      block->insert_after(FREE_LIST);;
       
     blockadded:
       // Let's see if we can combine any memory
@@ -226,6 +227,30 @@ namespace reseune {
     // ===========================================================================================================
 
     void defrag() {
+      LINE;
+      printf("DEFRAGMMENTING THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
+      LINE;
+
+      // alloc_node * block      {nullptr};
+      alloc_node * last_block {nullptr};
+      // alloc_node * t          {nullptr};
+
+      for (auto & block : FREE_LIST_HEAD) {
+        if (nullptr != last_block) {
+          if((((uintptr_t)&last_block->data.block_start) + last_block->data.size) == (uintptr_t)&block)
+          {
+            last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
+            printf("Removing this block:.\n");
+            block.describe_instance();
+            block.data.describe_instance();
+            block.remove();
+            continue;
+          }
+        }
+        
+        last_block = &block;
+      }
+             
     }
   
     // =========================================================================================================
@@ -233,12 +258,11 @@ namespace reseune {
   }
 }
 
-
-
 #undef PRINT
 #undef PROFFSET
 #undef PRINTWOFFSET
 #undef LINE
 #undef HLINE
-
+#undef FREE_LIST_HEAD
+  
 #endif
