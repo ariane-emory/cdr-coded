@@ -189,8 +189,7 @@ void test_base_one() {
   allocator::add_memory(buff1, buff_len, verbose);
   allocator::add_memory(buff2, buff_len, verbose);
 #else
-  allocator alloc {};
-  
+  allocator alloc {};  
   alloc.add_memory(buff1, buff_len, verbose);
   alloc.add_memory(buff2, buff_len, verbose);
 #endif
