@@ -184,7 +184,7 @@ namespace reseune {
 
     VOID defragment(bool varbose);
     
-    VOID release(VOIDP pointer, VERBOSEARG) {
+    VOID release(VOIDP const pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
 
       LINE;
