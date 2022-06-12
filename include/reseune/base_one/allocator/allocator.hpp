@@ -50,15 +50,6 @@ namespace reseune {
           alloc_node & new_block  {*pnew_block};
           
           PRINT("Align pnew_block to", pnew_block);
-
-#define PLACE_BLOCK(name)                                                       \
-          FOR_EACH_BLOCK                                                        \
-            if (&block > name) {                                                \
-              CONSP(name, block);                                               \
-                                                                                \
-              goto block_placed;                                                \
-        }
-
           
           // calculate actual size - overhead
           SETBSIZE(
@@ -68,19 +59,13 @@ namespace reseune {
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
 
-          IFISNULL(PFREE_LIST_HEAD) {
-            RCONS(new_block, FREE_LIST);
-          }
-          else {
-            // Let's put it back in the proper spot
-            FOR_EACH_BLOCK
-              if (&block > pnew_block) {
-                CONS(new_block, block);
-
-                goto block_placed;
-              }
-          }
-        block_placed:
+          // IFISNULL(PFREE_LIST_HEAD) {
+          RCONS(new_block, FREE_LIST);
+          // }
+          // else {
+          //   printf("PLACING THIS");
+          //   PLACE_BLOCKP(pnew_block);
+          // }
           
           PRLINE;
           PUTCHAR('\n');      
@@ -275,17 +260,8 @@ namespace reseune {
           ASSERTISNOTNULL(addr);
 
           // Let's put it back in the proper spot
-          FOR_EACH_BLOCK
-            if (&block > preleased_block) {
-              CONSP(preleased_block, block);
-
-              goto block_placed;
-            }
-
-          CONSP(preleased_block, FREE_LIST_HEAD);
-
-        block_placed:
-          // Let's see if we can combine any memory
+          PLACE_BLOCKP(preleased_block);
+          
           if (! defer_coalesce)
             coalesce(verbose);
         }

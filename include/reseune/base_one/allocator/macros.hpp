@@ -56,4 +56,14 @@
 #define                    VERBOSEARG           bool verbose = false
 #define                    palloc_node          alloc_node *
 
+#define                    PLACE_BLOCKP(pblock)                                 \
+  FOR_EACH_BLOCK                                                                \
+  if (&block > pblock) {                                                        \
+    CONSP(pblock, block);                                                       \
+                                                                                \
+    goto block_placed;                                                          \
+  }                                                                             \
+  CONSP(pblock, FREE_LIST_HEAD);                                                \
+block_placed:
+
 #endif
