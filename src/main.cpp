@@ -8,12 +8,13 @@
 
 // ===============================================================================================================
 
-#define LINE    reseune::print_line()
-#define HLINE   reseune::print_line('-')
-#define NOW     duration_cast<milliseconds>(system_clock::now().time_since_epoch())
-#define cout    std::cout
-#define endl    std::endl
-#define uintptr reseune::uintptr
+#define LINE        (reseune::print_line())
+#define HLINE       (reseune::print_line('-'))
+#define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
+#define NOW         (duration_cast<milliseconds>(system_clock::now().time_since_epoch()))
+#define cout        (std::cout)
+#define endl        (std::endl)
+#define uintptr(x)  (reseune::uintptr(x))
 
 // ===============================================================================================================
 
@@ -194,7 +195,6 @@ void test_base_one() {
 #define ALLOC alloc.
   base_one::allocator alloc {};  
 #endif
-#define PRINT print_bits<true,false>
   
   constexpr size_t buff_len = 1 << 14; // 16 kb
 
@@ -246,7 +246,6 @@ void test_base_one() {
     // if (verbose) DESCRIBE;
   } while (nullptr != buffer);
 #undef ALLOC
-#undef PRINT
 }
 
 // ===============================================================================================================
