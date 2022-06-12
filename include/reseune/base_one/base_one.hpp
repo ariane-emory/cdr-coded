@@ -84,9 +84,10 @@ namespace reseune {
     // ===========================================================================================================
     
     VOID describe_free_list() {
+      ASSERTISNOTNULL(FREE_LIST_HEADP);
+
       const bool verbose {true};
       
-      ASSERTISNOTNULL(FREE_LIST_HEADP);
       
       LINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
@@ -112,6 +113,7 @@ namespace reseune {
     
     inline VOIDP alloc(size_t size, VERBOSEARG) {
       assert(size > 0);
+      
       size = align_up(size, sizeof(VOIDP)); // Align the pointer
 
       LINE;
