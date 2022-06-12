@@ -32,10 +32,11 @@ namespace reseune {
 #define PUTCHAR(c)        { if (verbose) putchar(c); }
 #define DESCRIBE(block)   { block.describe_instance(); block.data.describe_instance(); }
 #define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
+#define VERBOSEARG        bool verbose = false
     
     // ===========================================================================================================
 
-    inline void alloc_add_block(void * const addr, size_t size, bool verbose = false) {
+    inline void alloc_add_block(void * const addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -69,13 +70,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline void initialize(bool verbose = false) {
+    inline void initialize(VERBOSEARG) {
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
 
     // ===========================================================================================================
     
-    inline void describe_free_list(bool verbose = false) {
+    inline void describe_free_list(VERBOSEARG) {
       assert(nullptr != FREE_LIST.next);
       
       LINE;
@@ -100,7 +101,7 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline void * alloc(size_t size, bool verbose = false) {
+    inline void * alloc(size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -182,7 +183,7 @@ namespace reseune {
 
     void defrag(bool varbose);
     
-    void release(void * pointer, bool verbose = false) {
+    void release(void * pointer, VERBOSEARG) {
 
       assert(nullptr != pointer);
 
@@ -225,7 +226,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    void defrag(bool verbose = false) {
+    void defrag(VERBOSEARG) {
       LINE;
       PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
