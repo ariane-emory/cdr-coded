@@ -13,23 +13,16 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-#define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
-#define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
-#define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
-#define                    FREE_LIST_HEADP      (FREE_LIST.next)
-#define                    HLINE                { if (verbose) print_line('-'); }
 #define                    IFISNOTNULL(x)       if (ISNOTNULL(x))
 #define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
-#define                    LINE                 { if (verbose) print_line(); }
-#define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
@@ -38,6 +31,13 @@ namespace reseune {
 #define                    RPLACD(l, t)         t.insert_after(l)
 #define                    RPLACDP(l, tp)       RPLACD(l, (*tp))
 #define                    UINTPTR(x)           (uintptr(x))
+#define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
+#define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
+#define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
+#define                    FREE_LIST_HEADP      (FREE_LIST.next)
+#define                    HLINE                { if (verbose) print_line('-'); }
+#define                    LINE                 { if (verbose) print_line(); }
+#define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
 #define                    VOIDP                void * 
