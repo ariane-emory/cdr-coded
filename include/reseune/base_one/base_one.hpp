@@ -34,6 +34,7 @@ namespace reseune {
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    VERBOSEARG           bool verbose = false
+#define                    VOID                 inline void 
 #define                    VOIDP                void * 
 #define                    alloc_nodep          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
@@ -44,7 +45,7 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    inline void alloc_add_block(VOIDP const addr, size_t size, VERBOSEARG) {
+    VOID alloc_add_block(VOIDP const addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -71,13 +72,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline void initialize(VERBOSEARG) {
+    VOID initialize(VERBOSEARG) {
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
 
     // ===========================================================================================================
     
-    inline void describe_free_list() {
+    VOID describe_free_list() {
       const bool verbose {true};
       
       ASSERTISNOTNULL(FREE_LIST_HEADP);
@@ -167,6 +168,8 @@ namespace reseune {
           size,
           (block.data.size - size),
           MIN_ALLOC_SZ);
+        
+        assert(false);
       }
 
       PRINT("Gave pointer to", UINTPTR(pointer));
@@ -177,9 +180,9 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline void defragment(bool varbose);
+    VOID defragment(bool varbose);
     
-    inline void release(VOIDP pointer, VERBOSEARG) {
+    VOID release(VOIDP pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
 
       LINE;
@@ -210,7 +213,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline void defragment(VERBOSEARG) {
+    VOID defragment(VERBOSEARG) {
       LINE;
       PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -264,6 +267,7 @@ namespace reseune {
 #undef PUTCHAR
 #undef UINTPTR
 #undef VERBOSEARG
+#undef VOID
 #undef VOIDP
 #undef alloc_nodep
 
