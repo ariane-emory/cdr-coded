@@ -192,8 +192,8 @@ void test_base_one() {
   const bool verbose {true};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  using namespace reseune::base_one::allocator;
 #define ALLOC
+  using namespace reseune::base_one::allocator;
 #else
 #define ALLOC alloc.
   base_one::allocator alloc {};  
