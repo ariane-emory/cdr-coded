@@ -15,12 +15,15 @@ namespace reseune {
 
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
+#define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
 #define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
 #define                    FREE_LIST_HEADP      (FREE_LIST.next)
 #define                    HLINE                { if (verbose) print_line('-'); }
+#define                    IFISNOTNULL(x)       if (ISNOTNULL(x))
+#define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
 #define                    LINE                 { if (verbose) print_line(); }
@@ -48,23 +51,22 @@ namespace reseune {
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
       
-      // align the start addr of our block to the next pointer aligned addr
-      alloc_nodep block {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(VOIDP)))};
+      // align the start addr of our blockp to the next pointer aligned addr
+      alloc_nodep blockp {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(VOIDP)))};
         
-      PRINT("Aligned block to", block);
+      PRINT("Aligned blockp to", blockp);
 
       // calculate actual size - overhead
-      block->data.size =
+      blockp->data.size =
         UINTPTR(addr)
         + size
-        - UINTPTR(block)
+        - UINTPTR(blockp)
         - ALLOC_HEADER_SZ;
       
-      block->insert_after(FREE_LIST);
+      blockp->insert_after(FREE_LIST);
 
       LINE;
-      PUTCHAR('\n');
-      
+      PUTCHAR('\n');      
     }
 
     // ===========================================================================================================
@@ -78,7 +80,7 @@ namespace reseune {
     inline void describe_free_list() {
       const bool verbose {true};
       
-      assert(ISNOTNULL(FREE_LIST_HEADP));
+      ASSERTISNOTNULL(FREE_LIST_HEADP);
       
       LINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
@@ -120,7 +122,7 @@ namespace reseune {
       FOR_EACH_BLOCK
         if (block.data.size >= size)
         {
-          blockp = &block;
+          blockp  = &block;
           pointer = &block.data.block_start;
 
           PRINT("Selected block at", blockp);
@@ -134,7 +136,7 @@ namespace reseune {
           break;
         }
 
-      if (ISNULL(blockp))
+      IFISNULL(blockp)
         return pointer;
 
       // Can we split the block?
@@ -176,7 +178,7 @@ namespace reseune {
     inline void defrag(bool varbose);
     
     inline void release(VOIDP pointer, VERBOSEARG) {
-      assert(ISNOTNULL(pointer));
+      ASSERTISNOTNULL(pointer);
 
       LINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
@@ -243,11 +245,14 @@ namespace reseune {
 
 #undef ALLOC_HEADER_SZ
 #undef ALLOC_NODEP
+#undef ASSERTISNOTNULL
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef FOR_EACH_BLOCK
 #undef FREE_LIST_HEAD
 #undef HLINE
+#undef IFISNOTNULL
+#undef IFISNULL
 #undef ISNOTNULL
 #undef ISNULL
 #undef LINE
