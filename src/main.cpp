@@ -198,7 +198,8 @@ void test_base_one() {
 #define ALLOC alloc.
   base_one::allocator alloc {};  
 #endif
-
+#define PRINT print_bits<true,false>
+  
   ALLOC add_memory(buff1, buff_len, verbose);
   ALLOC add_memory(buff2, buff_len, verbose);
   
@@ -211,7 +212,7 @@ void test_base_one() {
 
   cout << *reinterpret_cast<string *>(strblk) << endl;
 
-  print_bits<true,false>("String is at", uintptr(strblk));
+  PRINT("String is at", uintptr(strblk));
   
   // return;
   
@@ -238,6 +239,8 @@ void test_base_one() {
     // RELEASE(buffer, verbose);
     // if (verbose) DESCRIBE;
   } while (nullptr != buffer);
+#undef ALLOC
+#undef PRINT
 }
 
 // ===============================================================================================================
