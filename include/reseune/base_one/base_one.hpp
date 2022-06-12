@@ -173,9 +173,9 @@ namespace reseune {
       else {
         PRINTF(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-          (block.data.size),
+          BSIZE(block),
           size,
-          (block.data.size - size),
+          (BSIZE(block) - size),
           MIN_ALLOC_SZ);
         
         assert(false);
