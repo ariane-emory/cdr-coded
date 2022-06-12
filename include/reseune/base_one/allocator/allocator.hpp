@@ -226,7 +226,7 @@ namespace reseune {
   
       // ===========================================================================================================
     
-      VOIDFUN(release, ADDRARG, VERBOSEARG) {
+      VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
         palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
         ASSERTISNOTNULL(addr);
@@ -246,13 +246,14 @@ namespace reseune {
           }
 
         CONSP(released_pblock, FREE_LIST_HEAD);
-      
+
       block_added:
         // Let's see if we can combine any memory
-        coalesce(verbose);
+        if (! defer_coalesce)
+          coalesce(verbose);
       }
 
-      // =========================================================================================================
+        // =========================================================================================================
     };
   }
 }
