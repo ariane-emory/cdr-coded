@@ -189,14 +189,15 @@ char buff2[buff_len] {0};
 
 void test_base_one() {
   using namespace reseune::base_one;
+  using namespace reseune::base_one::allocator;
 
   const bool verbose {true};
 
   // initialize(verbose);
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  allocator::add_memory(buff1, buff_len, verbose);
-  allocator::add_memory(buff2, buff_len, verbose);
+  add_memory(buff1, buff_len, verbose);
+  add_memory(buff2, buff_len, verbose);
 #else
   allocator alloc {};  
   alloc.add_memory(buff1, buff_len, verbose);
@@ -205,13 +206,13 @@ void test_base_one() {
   
   if (verbose) {
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-    allocator::describe_free_list();
+    describe_free_list();
 #else
     alloc.describe_free_list();
 #endif
   }
   
-  void * strblk = allocator::valloc<string>(true);
+  void * strblk = valloc<string>(true);
 
   new (strblk) string("This is the string.");
 
@@ -234,7 +235,7 @@ void test_base_one() {
     
     buffer =
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      allocator::alloc<T>(1024, verbose)
+      alloc<T>(1024, verbose)
 #else
       alloc.alloc<T>(1024, true)
 #endif
@@ -245,7 +246,7 @@ void test_base_one() {
       LINE;
       putchar('\n'); 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      allocator::describe_free_list();
+      describe_free_list();
 #else
       alloc.describe_free_list();
 #endif
