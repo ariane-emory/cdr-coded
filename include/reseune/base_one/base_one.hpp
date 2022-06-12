@@ -18,8 +18,8 @@ namespace reseune {
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
 #define                    BSTART(b)            (b.data.block_start)
 #define                    BSTARTP(pb)          (BSTART((*pb)))
-#define                    CONS(head, tail)     head.insert_before(tail)
-#define                    CONSP(headp, tail)   CONS((*headp), tail)
+#define                    CONS(head, list)     head.insert_before(list)
+#define                    CONSP(headp, list)   CONS((*headp), list)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(pblock)    { DESCRIBE((*pblock)); }
 #define                    IFISNOTNULL(x)       if (ISNOTNULL(x))
