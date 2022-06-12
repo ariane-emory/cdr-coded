@@ -36,6 +36,40 @@ namespace reseune {
       
         // =======================================================================================================
 
+        
+        VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
+          PRLINE;
+          PRINT("Placing block", pnew_block);
+ 
+          IFISNULL(PFREE_LIST_HEAD) {
+            WARN("Placing after FL head.\n");
+      
+            RCONSP(pnew_block, FREE_LIST); 
+          } 
+          else { 
+            WARN("Placing somewhere else.\n"); 
+ 
+            palloc_node last_block {nullptr}; 
+ 
+            FOR_EACH_BLOCK { 
+              last_block = &block; 
+              PRINT("Compare with", &block); 
+              if (&block <= pnew_block) { 
+                PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
+              } 
+              else { 
+                PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
+                CONSP(pnew_block, block); 
+                return;
+              } 
+            } 
+ 
+            RCONSP(pnew_block, last_block); 
+          } 
+        }
+        
+        // =======================================================================================================
+        
         VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
           PRLINE;
           PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
@@ -275,7 +309,7 @@ namespace reseune {
           //}
 
           
-        if (! defer_coalesce)
+          if (! defer_coalesce)
             coalesce(verbose);
         }
 

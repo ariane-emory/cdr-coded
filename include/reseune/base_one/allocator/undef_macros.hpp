@@ -17,7 +17,7 @@
 #undef ISNULL
 #undef MIN_ALLOC_SZ
 #undef PALLOC_NODE
-#undef PLACE_BLOCKP
+// #undef PLACE_BLOCKP
 #undef PFREE_LIST
 #undef PFREE_LIST_HEAD
 #undef PRHLINE
