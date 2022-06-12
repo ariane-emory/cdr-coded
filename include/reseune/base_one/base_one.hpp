@@ -72,12 +72,9 @@ namespace reseune {
       PRLINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
-      
       // align the start addr of our pblock to the next pointer aligned addr
       palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
-        
       PRINT("Aligned pblock to", pblock);
-
       // calculate actual size - overhead
       SETBSIZEP(
         pblock, 
@@ -85,9 +82,7 @@ namespace reseune {
         + size
         - UINTPTR(pblock)
         - ALLOC_HEADER_SZ);
-
       RCONSP(pblock, FREE_LIST);
-
       PRLINE;
       PUTCHAR('\n');      
     }
@@ -179,7 +174,7 @@ namespace reseune {
         
         SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ);
         SETBSIZE(block, size);
-        CONSP(pnew_block, block);
+        RCONSP(pnew_block, block);
         REMOVE(block);
         
         PRINT("Created new block at", pnew_block);
@@ -228,11 +223,9 @@ namespace reseune {
         IFISNOTNULL(plast_block) 
           if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
             SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
-
             PRINTF("Removing this block:.\n");
             DESCRIBE(block);
             REMOVE(block);
-
             // continue; // this seems unnecessary?
           }
         
