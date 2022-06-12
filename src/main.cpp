@@ -10,7 +10,7 @@
 
 #define LINE  reseune::print_line()
 #define HLINE reseune::print_line('-')
-#define NOW   duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+#define NOW   duration_cast<milliseconds>(system_clock::now().time_since_epoch())
 #define cout  std::cout
 #define endl  std::endl
 
@@ -224,8 +224,8 @@ void test_base_one() {
   
   using T = int;
   
-  T *        buffer {nullptr};
-  size_t     ix     {0};
+  T *       buffer {nullptr};
+  size_t    ix     {0};
 
   do {
     if (verbose) {
@@ -259,6 +259,16 @@ void test_base_one() {
 
 // ===============================================================================================================
 
+void measure_time(void(*fun)()) {
+  auto before = NOW;
+  fun();
+  auto after  = NOW;
+
+  printf("Took %u ms.\n", after - before);
+}
+
+// ===============================================================================================================
+
 int main() {
   // describe_some_sizes();
   // cell::describe_class();
@@ -267,11 +277,7 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   //draw_the_pool();
   // test_links();
-
-  auto before = NOW;
-  test_base_one();  
-  auto after = NOW;
-  printf("Took %u ms.\n", after - before);
+  measure_time(test_base_one);
 }
 
 
