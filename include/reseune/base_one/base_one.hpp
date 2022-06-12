@@ -16,7 +16,7 @@ namespace reseune {
     using     alloc_node = doubly_linked<alloc_info>;    
     //    constexpr size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start)};
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
-    constexpr size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
+#define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
     constexpr size_t       MEMORY_WORDS         {1024};
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static    char         MEMORY[MEMORY_BYTES] {0};
