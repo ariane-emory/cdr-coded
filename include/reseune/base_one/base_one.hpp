@@ -48,25 +48,20 @@ namespace reseune {
       LINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
-      // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
       alloc_nodep block {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(void *)))};
         
       PRINT("Aligned block to", block);
 
-      // calculate actual size - mgmt overhead
+      // calculate actual size - overhead
       block->data.size =
         UINTPTR(addr)
         + size
         - UINTPTR(block)
         - ALLOC_HEADER_SZ;
       
-      // block->describe_instance();
-      // HLINE;
       block->insert_after(FREE_LIST);
-      // block->describe_instance('-');
-      // block->data.describe_instance('-');
 
       LINE;
       PUTCHAR('\n');
@@ -183,19 +178,18 @@ namespace reseune {
 
     void defrag(bool varbose);
     
-    void release(void * pointer, VERBOSEARG) {
+    inline void release(void * pointer, VERBOSEARG) {
       assert(ISNOTNULL(pointer));
 
       LINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
       LINE;
 
-      alloc_nodep blockp;
-
-      blockp = ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ);
+      alloc_nodep blockp {ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
+      
       PRINT("It's node is", blockp);
       LINE;
-      PUTCHAR('\n');;
+      PUTCHAR('\n');
       
       // Let's put it back in the proper spot
       FOR_EACH_BLOCK(free_block) {
@@ -216,7 +210,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    void defrag(VERBOSEARG) {
+    inline void defrag(VERBOSEARG) {
       LINE;
       PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
