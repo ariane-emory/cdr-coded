@@ -190,29 +190,30 @@ char buff1[buff_len] {0};
 char buff2[buff_len] {0};
 
 void test_base_one() {
-
   const bool verbose {true};
 
-  // initialize(verbose);
-
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  add_memory(buff1, buff_len, verbose);
-  add_memory(buff2, buff_len, verbose);
+#define ADD_MEMORY add_memory  
+#define DESCRIBE   describe_free_list();
+#define ALLOC      alloc
+#define RELEASE    release
+#define VALLOC     valloc
 #else
+#define ADD_MEMORY alloc.add_memory  
+#define DESCRIBE   alloc.describe_free_list();
+#define ALLOC      alloc.aalloc
+#define RELEASE    alloc.release
+#define VALLOC     alloc.valloc  
   allocator alloc {};  
-  alloc.add_memory(buff1, buff_len, verbose);
-  alloc.add_memory(buff2, buff_len, verbose);
 #endif
+
+  ADD_MEMORY(buff1, buff_len, verbose);
+  ADD_MEMORY(buff2, buff_len, verbose);
   
-  if (verbose) {
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-    describe_free_list();
-#else
-    alloc.describe_free_list();
-#endif
-  }
+  if (verbose)
+    DESCRIBE;
   
-  void * strblk = valloc<string>(true);
+  void * strblk = VALLOC<string>(true);
 
   new (strblk) string("This is the string.");
 
@@ -233,27 +234,17 @@ void test_base_one() {
       printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
-    buffer =
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-      alloc<T>(1024, verbose)
-#else
-      alloc.alloc<T>(1024, true)
-#endif
-      ;
+    buffer = ALLOC<T>(1024, verbose);
     
     if (verbose) {
       print_bits<verbose,false>("Received", uintptr(buffer));
       LINE;
-      putchar('\n'); 
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-      describe_free_list();
-#else
-      alloc.describe_free_list();
-#endif
+      putchar('\n');
+      DESCRIBE;
     }
 
-    // release(buffer, verbose);
-    // if (verbose) describe_free_list();
+    // RELEASE(buffer, verbose);
+    // if (verbose) DESCRIBE;
   } while (nullptr != buffer);
 }
 
