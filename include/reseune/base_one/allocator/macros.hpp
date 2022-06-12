@@ -65,7 +65,7 @@
     PRINT("Compare with", &block);                                              \
     if (&block > pblock) {                                                      \
       PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n");                           \
-      CONSP(pblock, block);                                                     \
+      CONSP(pblock, block);                                                    \
       goto block_placed;                                                        \
     }                                                                           \
     else {                                                                      \
@@ -73,7 +73,7 @@
     }                                                                           \
 }                                                                               \
                                                                                 \
-  CONSP(pblock, FREE_LIST_HEAD);                                                \
+  RCONSP(pblock, FREE_LIST_HEAD);                                               \
                                                                                 \
 block_placed:
 

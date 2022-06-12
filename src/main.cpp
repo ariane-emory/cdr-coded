@@ -202,11 +202,11 @@ void test_base_one() {
   char buff2[buff_len] {0};
 
   LINE;
-  PRINT("buff2 is at", buff2);
   PRINT("buff1 is at", buff1);
+  PRINT("buff2 is at", buff2);
   
-  ALLOC add_memory(buff2, buff_len, verbose);
   ALLOC add_memory(buff1, buff_len, verbose);
+  ALLOC add_memory(buff2, buff_len, verbose);
 
   if (verbose)
     ALLOC describe_free_list();
