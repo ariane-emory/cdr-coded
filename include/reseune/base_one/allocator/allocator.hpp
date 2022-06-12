@@ -263,7 +263,17 @@ namespace reseune {
           ASSERTISNOTNULL(addr);
 
           // Let's put it back in the proper spot
-          PLACE_BLOCKP(preleased_block);
+          IFISNULL(PFREE_LIST_HEAD) {
+            WARN("Placing after FL head.\n");
+            
+            RCONSP(preleased_block, FREE_LIST);
+          }
+          else {
+            WARN("Placing somewhere else.\n");
+            
+            PLACE_BLOCKP(preleased_block);
+          }
+
           
           if (! defer_coalesce)
             coalesce(verbose);
