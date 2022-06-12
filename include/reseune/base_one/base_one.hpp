@@ -195,7 +195,7 @@ namespace reseune {
 
     template <typename T>
     inline T * alloc(size_t size, VERBOSEARG) {
-      return reinterpret_cast<T *>(valloc(size, verbose));
+      return reinterpret_cast<T *>(valloc(size * sizeof(T), verbose));
     }
     
     // ===========================================================================================================
