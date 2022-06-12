@@ -76,6 +76,7 @@ namespace reseune {
       palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
 
       PRINT("Aligned pblock to", pblock);
+
       // calculate actual size - overhead
       SETBSIZEP(
         pblock, 
@@ -172,10 +173,11 @@ namespace reseune {
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
-        SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ);
+        SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
         SETBSIZE(block, size);
         RCONSP(pnew_block, block);
         REMOVE(block);
+
         PRINT("Created new block at", pnew_block);
         PRINT("With block start at", BSTARTP(pnew_block));
         PRHLINE;
@@ -221,8 +223,10 @@ namespace reseune {
         IFISNOTNULL(plast_block) 
           if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
             SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
+
             PRINTF("Removing this block:.\n");
             DESCRIBE(block);
+
             REMOVE(block);
             // continue; // this seems unnecessary?
           }
