@@ -55,7 +55,7 @@ namespace reseune {
 #define                    PVOIDFUN             inline PVOID
 #define                    SIZEARG              size_t size
 #define                    VERBOSEARG           bool verbose = false
-#define                    VOIDFUN              inline void
+#define                    VOIDFUN(name, ...) inline void name(__VA_ARGS__)
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
@@ -65,7 +65,8 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOIDFUN alloc_add_block(ADDRARG, SIZEARG, VERBOSEARG) {
+    
+    VOIDFUN(alloc_add_block, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       PRLINE;
@@ -93,13 +94,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    VOIDFUN initialize(VERBOSEARG) {
+    VOIDFUN(initialize, VERBOSEARG) {
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
 
     // ===========================================================================================================
     
-    VOIDFUN describe_free_list() {
+    VOIDFUN(describe_free_list) {
       ASSERTISNOTNULL(PFREE_LIST_HEAD);
 
       const bool verbose {true};
@@ -215,9 +216,9 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOIDFUN defragment(bool varbose);
+    VOIDFUN(defragment, bool varbose);
     
-    VOIDFUN release(ADDRARG, VERBOSEARG) {
+    VOIDFUN(release, ADDRARG, VERBOSEARG) {
       ASSERTISNOTNULL(addr);
 
       PRLINE;
@@ -247,7 +248,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    VOIDFUN defragment(VERBOSEARG) {
+    VOIDFUN(defragment, VERBOSEARG) {
       PRLINE;
       PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       PRLINE;
