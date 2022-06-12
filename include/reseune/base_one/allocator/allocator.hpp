@@ -58,7 +58,7 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    palloc_node          alloc_node *
       using                alloc_node         = doubly_linked<alloc_info>;    
-      static alloc_node    FREE_LIST;           //  {nullptr, nullptr};
+      static alloc_node    FREE_LIST;      
     
       // ===========================================================================================================
 
