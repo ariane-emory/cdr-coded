@@ -33,14 +33,14 @@ namespace reseune {
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
-#define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
-#define                    FREE_LIST_HEADP      (FREE_LIST.next)
+#define                    FREE_LIST_HEAD       (*PFREE_LIST_HEAD)
 #define                    HLINE                { if (verbose) print_line('-'); }
 #define                    LINE                 { if (verbose) print_line(); }
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
+#define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
-#define                    VOIDP                void * 
+#define                    PVOID                void * 
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
@@ -50,7 +50,7 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOID alloc_add_block(VOIDP const addr, size_t size, VERBOSEARG) {
+    VOID alloc_add_block(PVOID const addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -58,7 +58,7 @@ namespace reseune {
       PRINT("Given bytes", size);
       
       // align the start addr of our pblock to the next pointer aligned addr
-      palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(VOIDP)))};
+      palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
         
       PRINT("Aligned pblock to", pblock);
 
@@ -84,11 +84,10 @@ namespace reseune {
     // ===========================================================================================================
     
     VOID describe_free_list() {
-      ASSERTISNOTNULL(FREE_LIST_HEADP);
+      ASSERTISNOTNULL(PFREE_LIST_HEAD);
 
       const bool verbose {true};
-      
-      
+            
       LINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -111,17 +110,17 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline VOIDP alloc(size_t size, VERBOSEARG) {
+    inline PVOID alloc(size_t size, VERBOSEARG) {
       assert(size > 0);
       
-      size = align_up(size, sizeof(VOIDP)); // Align the pointer
+      size = align_up(size, sizeof(PVOID)); // Align the pointer
 
       LINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
-      VOIDP       pvoid  {nullptr};
+      PVOID       pvoid  {nullptr};
       palloc_node pblock {nullptr};
 
       // try to find a big enough block to alloc
@@ -186,7 +185,7 @@ namespace reseune {
 
     VOID defragment(bool varbose);
     
-    VOID release(VOIDP const pointer, VERBOSEARG) {
+    VOID release(PVOID const pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
 
       LINE;
@@ -271,12 +270,12 @@ namespace reseune {
 #undef PROFFSET
 #undef PROFFSETP
 #undef PUTCHAR
+#undef PVOID
 #undef RPLACD
 #undef RPLACDP
 #undef UINTPTR
 #undef VERBOSEARG
 #undef VOID
-#undef VOIDP
 #undef palloc_node
 
 #endif
