@@ -244,15 +244,12 @@ int main() {
   // // describe_every_cell();
   // describe_list(POOL[0]); // list of 88s / Xs.
   // describe_list(POOL[4]); // list of 89s / Ys.
-  // draw_the_pool();
+  //draw_the_pool();
   // test_links();
 
   auto before = NOW;
-
-  test_base_one();
-  
+  test_base_one();  
   auto after = NOW;
-
   printf("Took %u ms.\n", after - before);
 }
 
