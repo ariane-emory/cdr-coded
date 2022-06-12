@@ -25,7 +25,7 @@ namespace reseune {
       using alloc_node = doubly_linked<alloc_info>;    
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      static  alloc_node   FREE_LIST {nullptr, nullptr};
+      static alloc_node FREE_LIST {nullptr, nullptr};
 #else
       alloc_node FREE_LIST;
 
