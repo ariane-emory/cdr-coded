@@ -131,7 +131,7 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
-        if (block.data.size >= size)
+        if (BSIZE(block) >= size)
         {
           pblock = &block;
           pvoid  = &block.data.block_start;
