@@ -51,6 +51,3 @@ debug: clean all
 
 dump: clean tmp/main.o $(BIN)
 	$(OBJDUMP) -t -d tmp/main.o
-
-blah:
-	echo $(UNAME)
