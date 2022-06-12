@@ -32,6 +32,8 @@ namespace reseune {
 #define                    REMOVEP(b)           REMOVE(*b)
 #define                    RPLACD(list, tail)   tail.insert_after(list)
 #define                    RPLACDP(list, ptail) RPLACD(list, (*ptail))
+#define                    SETSIZE(b, s)        b.data.size = s
+#define                    SETSIZEP(pb, s)      SETSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
