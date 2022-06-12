@@ -17,6 +17,8 @@ namespace reseune {
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
+#define                    BSTART(b)            (b.data.block_start)
+#define                    BSTARTP(pb)          (BSTARTP((*pb)))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
@@ -104,7 +106,7 @@ namespace reseune {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
         PROFFSET(block);
-        PRINT("With block start at", &block.data.block_start);
+        PRINT("With block start at", &BSTART(block));
         PROFFSET(block.data.block_start);
         HLINE;
         DESCRIBE(block);
