@@ -35,6 +35,8 @@ namespace reseune {
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
+#define                    RPLACD(l, t)         t.insert_after(l)
+#define                    RPLACDP(l, tp)       RPLACD(l, (*tp))
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
@@ -66,8 +68,8 @@ namespace reseune {
         + size
         - UINTPTR(blockp)
         - ALLOC_HEADER_SZ;
-      
-      blockp->insert_after(FREE_LIST);
+
+      RPLACDP(FREE_LIST, blockp);
 
       LINE;
       PUTCHAR('\n');      
@@ -249,6 +251,7 @@ namespace reseune {
 #undef ALLOC_HEADER_SZ
 #undef ALLOC_NODEP
 #undef ASSERTISNOTNULL
+#undef CONS
 #undef CONSP
 #undef DESCRIBE
 #undef DESCRIBEP
@@ -266,6 +269,8 @@ namespace reseune {
 #undef PROFFSET
 #undef PROFFSETP
 #undef PUTCHAR
+#undef RPLACD
+#undef RPLACDP
 #undef UINTPTR
 #undef VERBOSEARG
 #undef VOID
