@@ -211,7 +211,7 @@ void test_base_one() {
 #endif
   }
   
-  void * strblk = allocator::valloc(sizeof(string), true);
+  void * strblk = allocator::valloc<string>(true);
 
   new (strblk) string("This is the string.");
 

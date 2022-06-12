@@ -180,6 +180,26 @@ namespace reseune {
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
       static
 #endif
+      inline PVOID valloc(SIZEARG, VERBOSEARG) {
+        return valloc(size * sizeof(T), verbose);
+      }
+    
+      // ===========================================================================================================
+
+      template <typename T>
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+      static
+#endif
+      inline PVOID valloc(VERBOSEARG) {
+        return valloc(sizeof(T), verbose);
+      }
+    
+      // ===========================================================================================================
+
+      template <typename T>
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+      static
+#endif
       inline T * alloc(SIZEARG, VERBOSEARG) {
         return reinterpret_cast<T *>(valloc(size * sizeof(T), verbose));
       }
