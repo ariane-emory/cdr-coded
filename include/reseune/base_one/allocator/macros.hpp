@@ -59,19 +59,19 @@
 #define                    PLACE_BLOCKP(pblock)                                 \
   PRLINE;                                                                       \
   PRINT("Placing block", pblock);                                               \
-  PRHLINE;                                                                      \
                                                                                 \
   FOR_EACH_BLOCK                                                                \
   {                                                                             \
+    PRINT("Compare with", &block);                                              \
     if (&block > pblock) {                                                      \
-      PRINT("IS LESS THAN", &block);                                            \
+      PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n");                           \
       CONSP(pblock, block);                                                     \
       goto block_placed;                                                        \
     }                                                                           \
     else {                                                                      \
-      PRINT("IS GREATER THAN", &block);                                         \
+      PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");                            \
     }                                                                           \
-  }                                                                             \
+}                                                                               \
                                                                                 \
   CONSP(pblock, FREE_LIST_HEAD);                                                \
                                                                                 \
