@@ -52,10 +52,10 @@ namespace reseune {
 #define                    PRLINE               { if (verbose) print_line(); }
 #define                    PVOID                void *
 #define                    PVOIDC               PVOID const 
-#define                    PVOIDFUN             inline PVOID
+#define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
 #define                    SIZEARG              size_t size
 #define                    VERBOSEARG           bool verbose = false
-#define                    VOIDFUN(name, ...) inline void name(__VA_ARGS__)
+#define                    VOIDFUN(name, ...)   inline void name(__VA_ARGS__)
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
@@ -127,13 +127,13 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    PVOIDFUN valloc(SIZEARG, size_t each, VERBOSEARG) {
+    PVOIDFUN(valloc, SIZEARG, size_t each, VERBOSEARG) {
       return valloc(size * each, verbose);
     }
     
     // ===========================================================================================================
     
-    PVOIDFUN valloc(SIZEARG, VERBOSEARG) {
+    PVOIDFUN(valloc, SIZEARG, VERBOSEARG) {
       assert(size > 0);
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
@@ -216,7 +216,35 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOIDFUN(defragment, bool varbose);
+    VOIDFUN(defragment, VERBOSEARG) {
+      PRLINE;
+      PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+      PRLINE;
+
+      palloc_node plast_block {nullptr};
+
+      FOR_EACH_BLOCK {
+        IFISNOTNULL(plast_block) 
+          if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
+            SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
+
+            PRINTF("Removing this block:.\n");
+            DESCRIBE(block);
+            REMOVE(block);
+
+            // continue; // this seems unnecessary?
+          }
+        
+        plast_block = &block;
+      }
+
+      PRHLINE;
+      PRINTF("Done defragmenting.\n");
+      PRLINE;
+      PUTCHAR('\n');
+    }
+  
+    // ===========================================================================================================
     
     VOIDFUN(release, ADDRARG, VERBOSEARG) {
       ASSERTISNOTNULL(addr);
@@ -246,36 +274,6 @@ namespace reseune {
       defragment(verbose);
     }
 
-    // ===========================================================================================================
-
-    VOIDFUN(defragment, VERBOSEARG) {
-      PRLINE;
-      PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      PRLINE;
-
-      palloc_node plast_block {nullptr};
-
-      FOR_EACH_BLOCK {
-        IFISNOTNULL(plast_block) 
-          if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
-            SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
-
-            PRINTF("Removing this block:.\n");
-            DESCRIBE(block);
-            REMOVE(block);
-
-            // continue; // this seems unnecessary?
-          }
-        
-        plast_block = &block;
-      }
-
-      PRHLINE;
-      PRINTF("Done defragmenting.\n");
-      PRLINE;
-      PUTCHAR('\n');
-    }
-  
     // =========================================================================================================
     
   }
