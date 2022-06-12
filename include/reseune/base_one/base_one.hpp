@@ -161,8 +161,8 @@ namespace reseune {
         }
 
       IFISNULL(pblock) {
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-        
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);        
+
         return pvoid;
       }
 
@@ -176,10 +176,8 @@ namespace reseune {
         SETBSIZE(block, size);
         RCONSP(pnew_block, block);
         REMOVE(block);
-        
         PRINT("Created new block at", pnew_block);
         PRINT("With block start at", BSTARTP(pnew_block));
-
         PRHLINE;
         DESCRIBEP(pnew_block);
         PRHLINE;
@@ -243,11 +241,12 @@ namespace reseune {
     VOIDFUN(release, ADDRARG, VERBOSEARG) {
       ASSERTISNOTNULL(addr);
 
+      palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+
       PRLINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
       PRLINE;
 
-      palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
       
       PRINT("It's node is at", released_pblock);
       PRLINE;
