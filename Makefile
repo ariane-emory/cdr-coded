@@ -50,7 +50,7 @@ test: clean all
 debug: clean all
 	$(GDB) ./$(BIN)
 
-dump: clean tmp/main.o
+dump: clean tmp/main.o $(BIN)
 	$(OBJDUMP) -t -d tmp/main.o
 
 blah:
