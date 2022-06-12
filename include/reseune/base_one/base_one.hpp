@@ -28,6 +28,8 @@ namespace reseune {
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
+#define                    REMOVE(b)            b.remove()
+#define                    REMOVEP(b)           REMOVE(*b)
 #define                    RPLACD(list, tail)   tail.insert_after(list)
 #define                    RPLACDP(list, ptail) RPLACD(list, (*ptail))
 #define                    UINTPTR(x)           (uintptr(x))
@@ -153,7 +155,7 @@ namespace reseune {
         pnew_block->data.size = block.data.size - size - ALLOC_HEADER_SZ;
         block      .data.size = size;
         CONSP(pnew_block, block);
-        block      .remove();
+        REMOVE(block);
         
         PRINT("Created new block at", pnew_block);
         PROFFSETP(pnew_block);
@@ -229,8 +231,7 @@ namespace reseune {
 
             PRINTF("Removing this block:.\n");
             DESCRIBE(block);
-
-            block.remove();
+            REMOVE(block);
 
             // continue; // this seems unnecessary?
           }
@@ -271,6 +272,8 @@ namespace reseune {
 #undef PROFFSETP
 #undef PUTCHAR
 #undef PVOID
+#undef REMOVE
+#undef REMOVEP
 #undef RPLACD
 #undef RPLACDP
 #undef UINTPTR
