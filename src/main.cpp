@@ -181,8 +181,9 @@ void test_base_one() {
 
   describe_free_list();
   
-  char * buffer {nullptr};
-
+  char *     buffer {nullptr};
+  const bool verbose {true};
+  
   for (size_t ix = 0; ix < 2; ix++) {
     buffer = reinterpret_cast<char *>(alloc(1024));
     // reseune::print_bits<true, false>("Received", reseune::uintptr(buffer));
