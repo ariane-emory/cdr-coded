@@ -157,7 +157,7 @@ namespace reseune {
           pvoid  = BSTART(block);
 
           PRINT("Selected block at", pblock);
-          PRINT("With block start at", BSTART(block));
+          PRINT("With block start at", pvoid);
           PRHLINE;
           DESCRIBEP(pblock);
           PRLINE;
