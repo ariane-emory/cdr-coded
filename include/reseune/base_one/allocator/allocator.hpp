@@ -59,16 +59,16 @@ namespace reseune {
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
 
-          IFISNULL(PFREE_LIST_HEAD) {
-            WARN("Placing after FL head.\n");
+          // IFISNULL(PFREE_LIST_HEAD) {
+          //   WARN("Placing after FL head.\n");
             
-            RCONS(new_block, FREE_LIST);
-          }
-          else {
-            WARN("Placing somewhere else.\n");
+          //   RCONS(new_block, FREE_LIST);
+          // }
+          // else {
+          //   WARN("Placing somewhere else.\n");
             
-            PLACE_BLOCKP(pnew_block);
-          }
+          PLACE_BLOCKP(pnew_block);
+          //}
           
           PRLINE;
           PUTCHAR('\n');      
@@ -263,19 +263,19 @@ namespace reseune {
           ASSERTISNOTNULL(addr);
 
           // Let's put it back in the proper spot
-          IFISNULL(PFREE_LIST_HEAD) {
-            WARN("Placing after FL head.\n");
+          // IFISNULL(PFREE_LIST_HEAD) {
+          //   WARN("Placing after FL head.\n");
             
-            RCONSP(pnew_block, FREE_LIST);
-          }
-          else {
-            WARN("Placing somewhere else.\n");
+          //   RCONSP(pnew_block, FREE_LIST);
+          // }
+          // else {
+          //   WARN("Placing somewhere else.\n");
             
-            PLACE_BLOCKP(pnew_block);
-          }
+          PLACE_BLOCKP(pnew_block);
+          //}
 
           
-          if (! defer_coalesce)
+        if (! defer_coalesce)
             coalesce(verbose);
         }
 
