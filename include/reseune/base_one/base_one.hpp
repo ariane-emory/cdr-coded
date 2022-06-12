@@ -97,9 +97,10 @@ namespace reseune {
     VOIDFUN(initialize, VERBOSEARG) {
 #ifndef RESEUNE_NO_BASE_ONE_MEMORY
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
-#endif
+#else
       WARN("initialize cannot be called when -DRESEUNE_NO_BASE_ONE_MEMORY");
       assert(false);
+#endif
     }
     
     // ===========================================================================================================
