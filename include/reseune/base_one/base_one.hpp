@@ -31,8 +31,8 @@ namespace reseune {
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
-#define                    RCONS(list, tail)    tail.insert_after(list)
-#define                    RCONSP(list, ptail)  RCONS(list, (*ptail))
+#define                    RCONS(tail, list)    tail.insert_after(list)
+#define                    RCONSP(ptail, list)  RCONS((*ptail), list)
 #define                    REMOVE(b)            b.remove()
 #define                    REMOVEP(b)           REMOVE(*b)
 #define                    SETBSIZE(b, s)       b.data.size = s
@@ -86,7 +86,7 @@ namespace reseune {
         - UINTPTR(pblock)
         - ALLOC_HEADER_SZ);
 
-      RCONSP(FREE_LIST, pblock);
+      RCONSP(pblock, FREE_LIST);
 
       PRLINE;
       PUTCHAR('\n');      
