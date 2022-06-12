@@ -38,9 +38,9 @@ namespace reseune {
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define                    PVOIDFUN(name, ...)  static inline void * name(__VA_ARGS__)
+#define                    PVOIDFUN(name, ...)  static inline PVOID name(__VA_ARGS__)
 #else
-#define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
+#define                    PVOIDFUN(name, ...)  inline PVOID name(__VA_ARGS__)
 #endif
 
 #define                    RCONS(tail, list)    tail.insert_after(list)
