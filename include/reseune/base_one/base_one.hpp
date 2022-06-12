@@ -76,7 +76,9 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline void describe_free_list(VERBOSEARG) {
+    inline void describe_free_list() {
+      const bool verbose = true;
+      
       assert(nullptr != FREE_LIST.next);
       
       LINE;
@@ -141,26 +143,24 @@ namespace reseune {
 
       // Can we split the blocko?
       if ((blockp->data.size - size) >= MIN_ALLOC_SZ) {
-        alloc_node * new_block;
-        new_block = reinterpret_cast<alloc_node *>((uintptr(pointer) + size));
+        alloc_node * new_blockp { reinterpret_cast<alloc_node *>((uintptr(pointer) + size)) };
         
-        new_block->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
+        new_blockp->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
         blockp->data.size = size;
 
-        new_block->insert_before(blockp);
+        new_blockp->insert_before(blockp);
 
         blockp->remove();
         
-        PRINT("Created new block at", new_block);
-        PROFFSET(new_block);
-        PRINT("With block start at", &new_block->data.block_start);
-        PROFFSET(&new_block->data.block_start);
+        PRINT("Created new block at", new_blockp);
+        PROFFSET(new_blockp);
+        PRINT("With block start at", &new_blockp->data.block_start);
+        PROFFSET(&new_blockp->data.block_start);
 
         HLINE;
-        new_block->describe_instance();
-        new_block->data.describe_instance();
+        DESCRIBEP(new_blockp);
         HLINE;
-        //   list_add_(&new_block->node, &block->node, block->node.next);
+        //   list_add_(&new_blockp->node, &block->node, block->node.next);
       }
       else {
         PRINTF(
