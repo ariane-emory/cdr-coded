@@ -29,7 +29,8 @@ namespace reseune {
 #define LINE print_line()
 #define HLINE print_line('-')
 #define FREE_LIST_HEAD (*FREE_LIST.next)
-#define PRINTF(...) printf(__VA_ARGS__);
+#define PRINTF(...) printf(__VA_ARGS__)
+#define PUTCHAR(c) putchar(c)
 
     // ===========================================================================================================
 
@@ -61,7 +62,7 @@ namespace reseune {
       // block->data.describe_instance('-');
 
       LINE;
-      putchar('\n');
+      PUTCHAR('\n');
       
     }
 
@@ -94,7 +95,7 @@ namespace reseune {
         LINE;
       }
   
-      putchar('\n');
+      PUTCHAR('\n');
     }
 
     // ===========================================================================================================
@@ -198,7 +199,7 @@ namespace reseune {
       block = reinterpret_cast<alloc_node *>(uintptr(pointer) - ALLOC_HEADER_SZ);
       PRINT("It's node is", block);
       LINE;
-      putchar('\n');;
+      PUTCHAR('\n');;
       
       // Let's put it back in the proper spot
       // list_for_each_entry(free_block, &free_list, node)
@@ -254,7 +255,7 @@ namespace reseune {
       HLINE;
       PRINTF("Done defragmenting.\n");
       LINE;
-      putchar('\n');
+      PUTCHAR('\n');
     }
   
     // =========================================================================================================
