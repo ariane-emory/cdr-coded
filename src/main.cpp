@@ -18,6 +18,7 @@
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
+using namespace reseune;
 using namespace std::chrono;
 using string  = std::string;
 using cell    = reseune::cell;
@@ -28,9 +29,10 @@ using pool    = std::conditional<
   reseune::pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
 
+
 // ===============================================================================================================
 
-pool POOL { 
+::pool POOL { 
   /*  0 */ 88,
   /*  1 */ 88,
   /*  2 */ 88,
@@ -188,8 +190,8 @@ char buff1[buff_len] {0};
 char buff2[buff_len] {0};
 
 void test_base_one() {
-  using namespace reseune::base_one;
-  using namespace reseune::base_one::allocator;
+  using namespace base_one;
+  using namespace base_one::allocator;
 
   const bool verbose {true};
 
@@ -218,7 +220,7 @@ void test_base_one() {
 
   cout << *reinterpret_cast<string *>(strblk) << endl;
 
-  reseune::print_bits<true, false>("String is at", reseune::uintptr(strblk));
+  print_bits<true,false>("String is at", uintptr(strblk));
   
   // return;
   
@@ -242,7 +244,7 @@ void test_base_one() {
       ;
     
     if (verbose) {
-      reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
+      print_bits<verbose,false>("Received", uintptr(buffer));
       LINE;
       putchar('\n'); 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
