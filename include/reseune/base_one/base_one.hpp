@@ -182,22 +182,22 @@ namespace reseune {
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
       LINE;
 
-      alloc_nodep blockp {ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
+      alloc_nodep released_blockp {ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
       
-      PRINT("It's node is at", blockp);
+      PRINT("It's node is at", released_blockp);
       LINE;
       PUTCHAR('\n');
       
       // Let's put it back in the proper spot
       FOR_EACH_BLOCK
-        if (&block > blockp) {
-          blockp->insert_before(block);
+        if (&block > released_blockp) {
+          released_blockp->insert_before(block);
 
           goto block_added;
         }
 
-      // blockp->insert_after(FREE_LIST);
-      blockp->insert_before(FREE_LIST_HEAD);
+      // released_blockp->insert_after(FREE_LIST);
+      released_blockp->insert_before(FREE_LIST_HEAD);
       
     block_added:
       // Let's see if we can combine any memory
