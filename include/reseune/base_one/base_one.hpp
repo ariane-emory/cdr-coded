@@ -50,8 +50,9 @@ namespace reseune {
 #define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    VERBOSEARG           bool verbose = false
-#define                    VOID                 inline void
+#define                    VOIDFUN              inline void
 #define                    PVOID                void *
+#define                    PVOIDFUN             inline PVOID
 #define                    PVOIDC               PVOID const 
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
@@ -62,7 +63,7 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOID alloc_add_block(PVOIDC addr, size_t size, VERBOSEARG) {
+    VOIDFUN alloc_add_block(PVOIDC addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
@@ -90,13 +91,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    VOID initialize(VERBOSEARG) {
+    VOIDFUN initialize(VERBOSEARG) {
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
 
     // ===========================================================================================================
     
-    VOID describe_free_list() {
+    VOIDFUN describe_free_list() {
       ASSERTISNOTNULL(PFREE_LIST_HEAD);
 
       const bool verbose {true};
@@ -123,13 +124,13 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline PVOID valloc(size_t size, size_t each, VERBOSEARG) {
+    PVOIDFUN valloc(size_t size, size_t each, VERBOSEARG) {
       return valloc(size * each, verbose);
     }
     
     // ===========================================================================================================
     
-    inline PVOID valloc(size_t size, VERBOSEARG) {
+    PVOIDFUN valloc(size_t size, VERBOSEARG) {
       assert(size > 0);
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
@@ -212,9 +213,9 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOID defragment(bool varbose);
+    VOIDFUN defragment(bool varbose);
     
-    VOID release(PVOIDC pointer, VERBOSEARG) {
+    VOIDFUN release(PVOIDC pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
 
       LINE;
@@ -244,7 +245,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    VOID defragment(VERBOSEARG) {
+    VOIDFUN defragment(VERBOSEARG) {
       LINE;
       PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
@@ -305,6 +306,7 @@ namespace reseune {
 #undef PROFFSETP
 #undef PUTCHAR
 #undef PVOID
+#undef PVOIDFUN
 #undef PVOIDC
 #undef REMOVE
 #undef REMOVEP
@@ -314,7 +316,7 @@ namespace reseune {
 #undef SETBSIZEP
 #undef UINTPTR
 #undef VERBOSEARG
-#undef VOID
+#undef VOIDFUN
 #undef palloc_node
 
 #endif
