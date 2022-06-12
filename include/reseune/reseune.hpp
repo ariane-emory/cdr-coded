@@ -25,5 +25,6 @@
 #include "reseune/alloc_info/alloc_info.hpp"
 
 #include "reseune/base_one/base_one.hpp"
+#include "reseune/base_one/allocator/allocator.hpp"
 
 #endif
