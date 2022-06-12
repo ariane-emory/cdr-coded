@@ -23,13 +23,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-#define PRINT(x,y) print_bits<true,false>((x), uintptr(y))
-#define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
-#define PRINTWOFFSET(x,y) PRINT(x, y); PROFFSET(x)
-#define LINE print_line()
-#define HLINE print_line('-')
 #define FREE_LIST_HEAD (*FREE_LIST.next)
+#define HLINE print_line('-')
+#define LINE print_line()
+#define PRINT(x,y) print_bits<true,false>((x), uintptr(y))
 #define PRINTF(...) printf(__VA_ARGS__)
+#define PRINTWOFFSET(x,y) PRINT(x, y); PROFFSET(x)
+#define PROFFSET(x) PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
 #define PUTCHAR(c) putchar(c)
 
     // ===========================================================================================================
@@ -263,11 +263,13 @@ namespace reseune {
   }
 }
 
-#undef PRINT
-#undef PROFFSET
-#undef PRINTWOFFSET
-#undef LINE
-#undef HLINE
 #undef FREE_LIST_HEAD
-  
+#undef HLINE print_line
+#undef LINE print_line
+#undef PRINT
+#undef PRINTF
+#undef PRINTWOFFSET
+#undef PROFFSET
+#undef PUTCHAR
+
 #endif
