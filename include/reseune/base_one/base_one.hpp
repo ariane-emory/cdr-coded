@@ -65,15 +65,16 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    
     VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       PRLINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
+      
       // align the start addr of our pblock to the next pointer aligned addr
       palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+
       PRINT("Aligned pblock to", pblock);
       // calculate actual size - overhead
       SETBSIZEP(
@@ -101,10 +102,9 @@ namespace reseune {
     // ===========================================================================================================
     
     VOIDFUN(describe_free_list) {
-      ASSERTISNOTNULL(PFREE_LIST_HEAD);
-
       const bool verbose {true};
-            
+
+      ASSERTISNOTNULL(PFREE_LIST_HEAD);
       PRLINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       PRLINE;
@@ -239,15 +239,12 @@ namespace reseune {
     // ===========================================================================================================
     
     VOIDFUN(release, ADDRARG, VERBOSEARG) {
-      ASSERTISNOTNULL(addr);
-
       palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
+      ASSERTISNOTNULL(addr);
       PRLINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
       PRLINE;
-
-      
       PRINT("It's node is at", released_pblock);
       PRLINE;
       PUTCHAR('\n');
