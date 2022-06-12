@@ -12,8 +12,12 @@
 namespace reseune {
   namespace base_one {
     // ===========================================================================================================
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+    namespace allocator {
+#else
     class allocator {
     public:
+#endif
       
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
@@ -72,13 +76,12 @@ namespace reseune {
       using                alloc_node         = doubly_linked<alloc_info>;    
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      static 
-#endif
-      alloc_node FREE_LIST;
+      static  alloc_node   FREE_LIST {nullptr, nullptr};
+#else
+      alloc_node           FREE_LIST;
 
       // ===========================================================================================================
 
-#ifndef RESEUNE_SINGLETON_ALLOCATOR
       constexpr allocator() : FREE_LIST {nullptr, nullptr } {}
 #endif
       
