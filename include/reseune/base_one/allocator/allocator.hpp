@@ -227,25 +227,28 @@ namespace reseune {
       // ===========================================================================================================
     
       VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
-        palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+        // Warning: if you try to release an address that wasn't ever allcated, something bad will
+        // probably happen.
+        
+        palloc_node preleased_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
         ASSERTISNOTNULL(addr);
         PRLINE;
         PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
         PRLINE;
-        PRINT("It's node is at", released_pblock);
+        PRINT("It's node is at", preleased_block);
         PRLINE;
         PUTCHAR('\n');
       
         // Let's put it back in the proper spot
         FOR_EACH_BLOCK
-          if (&block > released_pblock) {
-            CONSP(released_pblock, block);
+          if (&block > preleased_block) {
+            CONSP(preleased_block, block);
 
             goto block_added;
           }
 
-        CONSP(released_pblock, FREE_LIST_HEAD);
+        CONSP(preleased_block, FREE_LIST_HEAD);
 
       block_added:
         // Let's see if we can combine any memory
