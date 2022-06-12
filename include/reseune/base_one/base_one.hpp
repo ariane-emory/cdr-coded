@@ -28,7 +28,8 @@ namespace reseune {
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
-#define                    PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
+#define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
+#define                    WARN(...)            { printf(__VA_ARGS__); }
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
@@ -158,7 +159,7 @@ namespace reseune {
         }
 
       IFISNULL(pblock) {
-        PRINTF("OUT OF MEMORY!\n");
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
         
         return pvoid;
       }
@@ -184,7 +185,7 @@ namespace reseune {
         HLINE;
       }
       else {
-        PRINTF(
+        WARN(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
           BSIZE(block),
           size,
