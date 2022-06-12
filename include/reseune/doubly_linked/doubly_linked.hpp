@@ -39,7 +39,7 @@ namespace reseune {
     // Printing-related member functions
     // ===========================================================================================================
     
-    inline void describe_instance(char c = '=') const {
+    inline void describe_instance() const {
       print_bits<true, false>("doubly_linked is at", uintptr(this));
       print_bits<true, false>("prev",       uintptr(prev));
       print_bits<true, false>("next",       uintptr(next));

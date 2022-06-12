@@ -23,17 +23,19 @@ namespace reseune {
 
     // ===========================================================================================================
 
-#define FREE_LIST_HEAD (*FREE_LIST.next)
-#define HLINE          print_line('-')
-#define LINE           print_line()
-#define PRINT(x,y)     print_bits<true,false>((x), uintptr(y))
-#define PRINTF(...)    printf(__VA_ARGS__)
-#define PROFFSET(x)    PRINT("... with offset", uintptr(x) - uintptr(MEMORY))
-#define PUTCHAR(c)     putchar(c)
-
+#define FREE_LIST_HEAD    (*FREE_LIST.next)
+#define HLINE             { if (verbose) print_line('-'); }
+#define LINE              { if (verbose) print_line(); }
+#define PRINT(x,y)        { if (verbose) print_bits<true,false>((x), uintptr(y)); }
+#define PRINTF(...)       { if (verbose) printf(__VA_ARGS__); }
+#define PROFFSET(x)       { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
+#define PUTCHAR(c)        { if (verbose) putchar(c); }
+#define DESCRIBE(block)   { block.describe_instance(); block.data.describe_instance(); }
+#define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
+    
     // ===========================================================================================================
 
-    inline static void alloc_add_block(void * const addr, size_t size) {
+    inline void alloc_add_block(void * const addr, size_t size, bool verbose = false) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -67,13 +69,13 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    void initialize() {
-      alloc_add_block(MEMORY, MEMORY_BYTES);
+    inline void initialize(bool verbose = false) {
+      alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
 
     // ===========================================================================================================
     
-    void describe_free_list() {
+    inline void describe_free_list(bool verbose = false) {
       assert(nullptr != FREE_LIST.next);
       
       LINE;
@@ -89,8 +91,7 @@ namespace reseune {
         PROFFSET(&x.data.block_start);
 
         HLINE;
-        x.describe_instance();
-        x.data.describe_instance('-');
+        DESCRIBE(x);
         LINE;
       }
   
@@ -99,15 +100,14 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    void * alloc(size_t size)
-    {
+    inline void * alloc(size_t size, bool verbose = false) {
       LINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
       void *       pointer {nullptr};
-      alloc_node * block   {nullptr};
+      alloc_node * blockp  {nullptr};
 
       assert(size > 0);
       
@@ -118,7 +118,7 @@ namespace reseune {
       for (auto & b : FREE_LIST)
         if (b.data.size >= size)
         {
-          block = &b;
+          blockp = &b;
           pointer = &b.data.block_start;
 
           PRINT("Selected block at", &b);
@@ -126,9 +126,8 @@ namespace reseune {
           PRINT("With block start at", &b.data.block_start);
           PROFFSET(&b.data.block_start);
           HLINE;
-          
-          block->describe_instance();
-          block->data.describe_instance('-');
+
+          DESCRIBEP(blockp);
           LINE;
           
           break;
@@ -136,21 +135,20 @@ namespace reseune {
 
       // PRINT("Selected block at", uintptr(&block->data.block_start));
       
-      if (nullptr == block)
+      if (nullptr == blockp)
         return pointer;
 
       // Can we split the blocko?
-      if ((block->data.size - size) >= MIN_ALLOC_SZ)
-      {
+      if ((blockp->data.size - size) >= MIN_ALLOC_SZ) {
         alloc_node * new_block;
         new_block = reinterpret_cast<alloc_node *>((uintptr(pointer) + size));
         
-        new_block->data.size = block->data.size - size - ALLOC_HEADER_SZ;
-        block->data.size = size;
+        new_block->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
+        blockp->data.size = size;
 
-        new_block->insert_before(block);
+        new_block->insert_before(blockp);
 
-        block->remove();
+        blockp->remove();
         
         PRINT("Created new block at", new_block);
         PROFFSET(new_block);
@@ -166,9 +164,9 @@ namespace reseune {
       else {
         PRINTF(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-          (block->data.size),
+          (blockp->data.size),
           size,
-          (block->data.size - size),
+          (blockp->data.size - size),
           MIN_ALLOC_SZ);
       }
       
@@ -182,9 +180,9 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    void defrag();
+    void defrag(bool varbose);
     
-    void release(void * pointer) {
+    void release(void * pointer, bool verbose = false) {
 
       assert(nullptr != pointer);
 
@@ -222,12 +220,12 @@ namespace reseune {
       
     blockadded:
       // Let's see if we can combine any memory
-      defrag();
+      defrag(verbose);
     }
 
     // ===========================================================================================================
 
-    void defrag() {
+    void defrag(bool verbose = false) {
       LINE;
       PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -241,10 +239,12 @@ namespace reseune {
             && (uintptr(&last_block->data.block_start) + last_block->data.size) == uintptr(&block))
         {
           last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
+
           PRINTF("Removing this block:.\n");
-          block.describe_instance();
-          block.data.describe_instance();
+          DESCRIBE(block);
+
           block.remove();
+
           continue;
         }
         
