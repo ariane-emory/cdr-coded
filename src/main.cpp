@@ -168,7 +168,7 @@ void test_links() {
 
 // ===============================================================================================================
 
-constexpr size_t buff_len = 1 << 19; // 512 kb
+constexpr size_t buff_len = 1 << 17; // 128 kb
 
 char buff1[buff_len] {0};
 char buff2[buff_len] {0};
@@ -193,7 +193,7 @@ void test_base_one() {
   do {
     LINE;
     
-    printf("Req #%zu, requesting %zu bytes.\n", ++ix, sizeof(T) * 1024);
+    printf("Request #%zu, requesting %zu bytes.\n", ++ix, sizeof(T) * 1024);
     
     buffer = alloc<T>(1024, verbose);
     
