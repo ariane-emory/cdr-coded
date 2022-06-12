@@ -1,3 +1,5 @@
+#include <iostream>
+#include <string>
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdexcept>
@@ -193,14 +195,24 @@ void test_base_one() {
   alloc.add_memory(buff2, buff_len, verbose);
 #endif
   
-  if (verbose) {
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-    allocator::describe_free_list();
-#else
-    alloc.describe_free_list();
-#endif
-  }
-    
+//   if (verbose) {
+// #ifdef RESEUNE_SINGLETON_ALLOCATOR
+//     allocator::describe_free_list();
+// #else
+//     alloc.describe_free_list();
+// #endif
+//   }
+
+  void * strblk = allocator::valloc(sizeof(std::string), true);
+
+  std::string * newstr = new (strblk) std::string("This is the string.");
+
+  std::cout << *newstr << std::endl;
+
+  reseune::print_bits<true, false>("String is at", reseune::uintptr(newstr));
+  
+  // return;
+  
   using T = int;
   
   T *        buffer {nullptr};
@@ -214,16 +226,16 @@ void test_base_one() {
     
     buffer =
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      allocator::alloc<T>(1024, false) // Ignoring verbose!
+      allocator::alloc<T>(1024, verbose)
 #else
-      alloc.alloc<T>(1024, false) // Ignoring verbose!
+      alloc.alloc<T>(1024, true)
 #endif
       ;
     
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       LINE;
-      putchar('\n'); putchar('\n');
+      putchar('\n'); 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
       allocator::describe_free_list();
 #else
