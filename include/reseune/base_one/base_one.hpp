@@ -28,9 +28,9 @@ namespace reseune {
 #define LINE              { if (verbose) print_line(); }
 #define PRINT(x,y)        { if (verbose) print_bits<true,false>((x), uintptr(y)); }
 #define PRINTF(...)       { if (verbose) printf(__VA_ARGS__); }
-#define PROFFSET(x)       { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
 #define PUTCHAR(c)        { if (verbose) putchar(c); }
 #define DESCRIBE(block)   { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
+#define PROFFSET(x)       { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
 #define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
 #define VERBOSEARG        bool verbose = false
     
@@ -263,12 +263,15 @@ namespace reseune {
   }
 }
 
-#undef FREE_LIST_HEAD
-#undef HLINE
-#undef LINE
+#undef FREE_LIST_HEAD   
+#undef HLINE            
+#undef LINE             
 #undef PRINT
 #undef PRINTF
-#undef PROFFSET
 #undef PUTCHAR
+#undef DESCRIBE
+#undef PROFFSET
+#undef DESCRIBEP
+#undef VERBOSEARG       
 
 #endif
