@@ -140,9 +140,9 @@ namespace reseune {
           pvoid  = &BSTART(block);
 
           PRINT("Selected block at", pblock);
-                          PROFFSETP(pblock);
-          PRINT("With block start at", &block.data.block_start);
-          PROFFSET(block.data.block_start);
+          PROFFSETP(pblock);
+          PRINT("With block start at", &BSTART(block));
+          PROFFSET(BSTART(block));
           HLINE;
           DESCRIBEP(pblock);
           LINE;
