@@ -169,7 +169,7 @@ namespace reseune {
 
       alloc_node & block {*pblock};
       
-      // Can we split the block?
+      // Check if we can we split the block:
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
