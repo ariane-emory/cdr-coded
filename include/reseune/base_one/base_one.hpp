@@ -111,12 +111,13 @@ namespace reseune {
       PRINT("Bytes requested: ", size);
       
       VOIDP       pointer {nullptr};
-      alloc_nodep blockp  {nullptr};
 
       assert(size > 0);
       
       // Align the pointer
       size = align_up(size, sizeof(VOIDP));
+
+      alloc_nodep blockp  {nullptr};
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
@@ -139,11 +140,13 @@ namespace reseune {
       IFISNULL(blockp)
         return pointer;
 
+      alloc_node & block {*blockp};
+      
       // Can we split the block?
-      if ((blockp->data.size - size) >= MIN_ALLOC_SZ) {
-        alloc_nodep new_blockp { ALLOC_NODEP((UINTPTR(pointer) + size)) };
+      if ((block.data.size - size) >= MIN_ALLOC_SZ) {
+        alloc_nodep new_blockp {ALLOC_NODEP((UINTPTR(pointer) + size))};
         
-        new_blockp->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
+        new_blockp->data.size = block.data.size - size - ALLOC_HEADER_SZ;
         blockp    ->data.size = size;
         new_blockp->insert_before(blockp);
         blockp    ->remove();
@@ -160,9 +163,9 @@ namespace reseune {
       else {
         PRINTF(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-          (blockp->data.size),
+          (block.data.size),
           size,
-          (blockp->data.size - size),
+          (block.data.size - size),
           MIN_ALLOC_SZ);
       }
 
