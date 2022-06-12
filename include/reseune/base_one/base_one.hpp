@@ -30,8 +30,8 @@ namespace reseune {
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    WARN(...)            { printf(__VA_ARGS__); }
 #define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
-// This offset will only print correctly for locations in MEMORY:
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
+// This offset will only print correctly for locations in MEMORY:
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    REMOVE(b)            b.remove()
