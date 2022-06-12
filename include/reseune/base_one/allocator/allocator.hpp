@@ -45,19 +45,35 @@ namespace reseune {
       
           ASSERTISNOTNULL(addr);
 
-          // align the start addr of our pblock to the next pointer aligned addr
-          palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+          // align the start addr of our pnew_block to the next pointer aligned addr
+          palloc_node pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+          alloc_node & block {*pnew_block};
+          
+          PRINT("Align pnew_block to", pnew_block);
 
-          PRINT("Aligned pblock to", pblock);
-
+          
           // calculate actual size - overhead
           SETBSIZEP(
-            pblock, 
+            pnew_block, 
             UINTPTR(addr)
             + size
-            - UINTPTR(pblock)
+            - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
-          RCONSP(pblock, FREE_LIST);
+
+          // IFISNULL(PFREE_LIST_HEAD) {
+          RCONSP(pnew_block, FREE_LIST);
+          // }
+          //   else {
+          //     // Let's put it back in the proper spot
+          //     FOR_EACH_BLOCK
+          //       if (&block > preleased_block) {
+          //         CONSP(preleased_block, block);
+
+          //         goto block_added;
+          //       }
+
+          //   }
+
           PRLINE;
           PUTCHAR('\n');      
         }
