@@ -29,9 +29,8 @@ namespace reseune {
 #define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
-#define                    PROFFSET(x)          { PROFFSETP(&x); }
-#define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
+#define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
 #define                    RCONS(list, tail)    tail.insert_after(list)
 #define                    RCONSP(list, ptail)  RCONS(list, (*ptail))
 #define                    REMOVE(b)            b.remove()
@@ -39,6 +38,7 @@ namespace reseune {
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
+#define                    VOIDFUN(name, ...)   inline void name(__VA_ARGS__)
 #define                    WARN(...)            { printf(__VA_ARGS__); }
 // This offset will only print correctly for locations in MEMORY:
 #define                    ADDRARG              PVOIDC addr
@@ -52,15 +52,15 @@ namespace reseune {
 #define                    PRLINE               { if (verbose) print_line(); }
 #define                    PVOID                void *
 #define                    PVOIDC               PVOID const 
-#define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
 #define                    SIZEARG              size_t size
 #define                    VERBOSEARG           bool verbose = false
-#define                    VOIDFUN(name, ...)   inline void name(__VA_ARGS__)
 #define                    palloc_node          alloc_node *
-    using                  alloc_node         = doubly_linked<alloc_info>;    
+#ifndef RESEUNE_NO_BASE_ONE_MEMORY
     constexpr size_t       MEMORY_WORDS         {1024};
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static    char         MEMORY[MEMORY_BYTES] {0};
+#endif
+    using                  alloc_node         = doubly_linked<alloc_info>;    
     static    alloc_node   FREE_LIST            {nullptr, nullptr};
     
     // ===========================================================================================================
@@ -94,10 +94,12 @@ namespace reseune {
 
     // ===========================================================================================================
 
+#ifndef RESEUNE_NO_BASE_ONE_MEMORY
     VOIDFUN(initialize, VERBOSEARG) {
       alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
     }
-
+#endif
+    
     // ===========================================================================================================
     
     VOIDFUN(describe_free_list) {
@@ -114,9 +116,7 @@ namespace reseune {
       FOR_EACH_BLOCK {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
-        // PROFFSET(block);
         PRINT("With block start at", BSTART(block));
-        // PROFFSET(BSTART(block));
         PRHLINE;
         DESCRIBE(block);
         PRLINE;
@@ -154,9 +154,7 @@ namespace reseune {
           pvoid  = BSTART(block);
 
           PRINT("Selected block at", pblock);
-          // PROFFSETP(pblock);
           PRINT("With block start at", BSTART(block));
-          // PROFFSET(BSTART(block));
           PRHLINE;
           DESCRIBEP(pblock);
           PRLINE;
@@ -182,9 +180,7 @@ namespace reseune {
         REMOVE(block);
         
         PRINT("Created new block at", pnew_block);
-        // PROFFSETP(pnew_block);
         PRINT("With block start at", BSTARTP(pnew_block));
-        // PROFFSET(BSTARTP(pnew_block));
 
         PRHLINE;
         DESCRIBEP(pnew_block);
@@ -304,8 +300,6 @@ namespace reseune {
 #undef PRINT
 #undef PRINTF
 #undef PRLINE
-#undef PROFFSET
-#undef PROFFSETP
 #undef PUTCHAR
 #undef PVOID
 #undef PVOIDC
