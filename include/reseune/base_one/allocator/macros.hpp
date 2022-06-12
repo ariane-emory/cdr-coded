@@ -57,13 +57,24 @@
 #define                    palloc_node          alloc_node *
 
 #define                    PLACE_BLOCKP(pblock)                                 \
+  PRLINE;                                                                       \
+  PRINT("Placing block", pblock);                                               \
+  PRHLINE;                                                                      \
+                                                                                \
   FOR_EACH_BLOCK                                                                \
-  if (&block > pblock) {                                                        \
-    CONSP(pblock, block);                                                       \
-    PRINT("Insert node:", pblock);                                              \
-    goto block_placed;                                                          \
+  {                                                                             \
+    if (&block > pblock) {                                                      \
+      PRINT("IS LESS THAN", &block);                                            \
+      CONSP(pblock, block);                                                     \
+      goto block_placed;                                                        \
+    }                                                                           \
+    else {                                                                      \
+      PRINT("IS GREATER THAN", &block);                                         \
+    }                                                                           \
   }                                                                             \
+                                                                                \
   CONSP(pblock, FREE_LIST_HEAD);                                                \
+                                                                                \
 block_placed:
 
 #endif
