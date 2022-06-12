@@ -46,11 +46,10 @@ namespace reseune {
           ASSERTISNOTNULL(addr);
 
           // align the start addr of our pnew_block to the next pointer aligned addr
-          palloc_node pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
-          alloc_node & new_block {*pnew_block};
+          palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+          alloc_node & new_block  {*pnew_block};
           
           PRINT("Align pnew_block to", pnew_block);
-
           
           // calculate actual size - overhead
           SETBSIZE(
@@ -60,20 +59,20 @@ namespace reseune {
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
 
-          // IFISNULL(PFREE_LIST_HEAD) {
-          RCONSP(pnew_block, FREE_LIST);
-          // }
-          //   else {
-          //     // Let's put it back in the proper spot
-          //     FOR_EACH_BLOCK
-          //       if (&block > preleased_block) {
-          //         CONSP(preleased_block, block);
+          IFISNULL(PFREE_LIST_HEAD) {
+            RCONS(new_block, FREE_LIST);
+          }
+          else {
+            // Let's put it back in the proper spot
+            FOR_EACH_BLOCK
+              if (&block > pnew_block) {
+                CONS(new_block, block);
 
-          //         goto block_added;
-          //       }
-
-          //   }
-
+                goto block_placed;
+              }
+          }
+        block_placed:
+          
           PRLINE;
           PUTCHAR('\n');      
         }
@@ -271,12 +270,12 @@ namespace reseune {
             if (&block > preleased_block) {
               CONSP(preleased_block, block);
 
-              goto block_added;
+              goto block_placed;
             }
 
           CONSP(preleased_block, FREE_LIST_HEAD);
 
-        block_added:
+        block_placed:
           // Let's see if we can combine any memory
           if (! defer_coalesce)
             coalesce(verbose);
