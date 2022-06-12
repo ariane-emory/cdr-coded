@@ -18,8 +18,9 @@
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
-using namespace reseune;
 using namespace std::chrono;
+using namespace reseune;
+using namespace reseune::base_one::allocator;
 using string  = std::string;
 using cell    = reseune::cell;
 using tag     = cell::tag_type;
@@ -190,8 +191,6 @@ char buff1[buff_len] {0};
 char buff2[buff_len] {0};
 
 void test_base_one() {
-  using namespace base_one;
-  using namespace base_one::allocator;
 
   const bool verbose {true};
 
