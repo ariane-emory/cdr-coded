@@ -67,11 +67,11 @@ namespace reseune {
       PRINT("Aligned pblock to", pblock);
 
       // calculate actual size - overhead
-      pblock->data.size =
-        UINTPTR(addr)
-        + size
-        - UINTPTR(pblock)
-        - ALLOC_HEADER_SZ;
+      SETSIZEP(pblock, 
+               UINTPTR(addr)
+               + size
+               - UINTPTR(pblock)
+               - ALLOC_HEADER_SZ);
 
       RPLACDP(FREE_LIST, pblock);
 
@@ -131,8 +131,8 @@ namespace reseune {
       FOR_EACH_BLOCK
         if (block.data.size >= size)
         {
-          pblock  = &block;
-          pvoid = &block.data.block_start;
+          pblock = &block;
+          pvoid  = &block.data.block_start;
 
           PRINT("Selected block at", pblock);
           PROFFSETP(pblock);
@@ -154,8 +154,8 @@ namespace reseune {
       if ((block.data.size - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
-        pnew_block->data.size = block.data.size - size - ALLOC_HEADER_SZ;
-        block      .data.size = size;
+        SETSIZEP(pnew_block, block.data.size - size - ALLOC_HEADER_SZ);
+        SETSIZE(block, size);
         CONSP(pnew_block, block);
         REMOVE(block);
         
