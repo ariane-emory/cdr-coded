@@ -34,7 +34,7 @@ namespace reseune {
 
     inline static void alloc_add_block(void * const addr, size_t size) {
       LINE;
-      printf("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
+      printf("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
@@ -76,7 +76,7 @@ namespace reseune {
       assert(nullptr != FREE_LIST.next);
       
       LINE;
-      printf("PRINTING THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
+      printf("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
       size_t ix {0};
@@ -101,7 +101,7 @@ namespace reseune {
     void * alloc(size_t size)
     {
       LINE;
-      printf("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
+      printf("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
@@ -188,7 +188,7 @@ namespace reseune {
       assert(nullptr != pointer);
 
       LINE;
-      printf("RELEASING 0x%lx!\n", uintptr(pointer));
+      printf("RELEASING 0x%lx = %ul!\n", uintptr(pointer));
       LINE;
 
       alloc_node * block;
@@ -228,7 +228,7 @@ namespace reseune {
 
     void defrag() {
       LINE;
-      printf("DEFRAGMMENTING THE FREE LIST @ 0x%lx!\n", &FREE_LIST);
+      printf("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
       // alloc_node * block      {nullptr};
@@ -250,7 +250,11 @@ namespace reseune {
         
         last_block = &block;
       }
-             
+
+      HLINE;
+      printf("Done defragmenting.\n");
+      LINE;
+      putchar('\n');
     }
   
     // =========================================================================================================
