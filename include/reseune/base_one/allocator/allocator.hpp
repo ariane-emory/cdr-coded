@@ -35,35 +35,39 @@ namespace reseune {
 #endif
       
         // =======================================================================================================
-
         
         VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
           PRLINE;
           PRINT("Placing block", pnew_block);
  
           IFISNULL(PFREE_LIST_HEAD) {
-            WARN("Placing after FL head.\n");
+            PRINTF("Placing after FL head.\n");
       
             RCONSP(pnew_block, FREE_LIST); 
           } 
           else { 
-            WARN("Placing somewhere else.\n"); 
+            PRINTF("Placing somewhere else.\n"); 
  
             palloc_node last_block {nullptr}; 
  
             FOR_EACH_BLOCK { 
               last_block = &block; 
-              PRINT("Compare with", &block); 
+
+              PRINTF("Compare with", &block);
+              
               if (&block <= pnew_block) { 
                 PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
               } 
               else { 
                 PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
+
                 CONSP(pnew_block, block); 
+
                 return;
               } 
             } 
- 
+
+            // There shouldn't be any way for last_block to be nil if we got here.
             RCONSP(pnew_block, last_block); 
           } 
         }
