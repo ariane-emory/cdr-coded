@@ -180,18 +180,22 @@ void test_base_one() {
   // reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
 
   describe_free_list();
+
+  using T = int;
   
-  char *     buffer {nullptr};
+  T *        buffer {nullptr};
   const bool verbose {true};
   
   for (size_t ix = 0; ix < 2; ix++) {
     // buffer = reinterpret_cast<char *>(alloc(1024, verbose));
-    buffer = alloc<char>(1024, verbose);
+    buffer = alloc<T>(1024, verbose);
+    
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       putchar('\n');
       describe_free_list();
     }
+
     release(buffer, verbose);
     describe_free_list();
   }
