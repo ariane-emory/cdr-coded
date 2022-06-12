@@ -264,8 +264,8 @@ namespace reseune {
 }
 
 #undef FREE_LIST_HEAD
-#undef HLINE print_line
-#undef LINE print_line
+#undef HLINE
+#undef LINE
 #undef PRINT
 #undef PRINTF
 #undef PRINTWOFFSET
