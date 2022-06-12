@@ -153,7 +153,7 @@ namespace reseune {
       alloc_node & block {*pblock};
       
       // Can we split the block?
-      if ((block.data.size - size) >= MIN_ALLOC_SZ) {
+      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
         SETBSIZEP(pnew_block, block.data.size - size - ALLOC_HEADER_SZ);
