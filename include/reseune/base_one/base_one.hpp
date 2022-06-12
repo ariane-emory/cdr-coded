@@ -49,7 +49,8 @@ namespace reseune {
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
-#define                    PVOID                void * 
+#define                    PVOID                void *
+#define                    PVOIDC               PVOID const 
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
@@ -59,7 +60,7 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOID alloc_add_block(PVOID const addr, size_t size, VERBOSEARG) {
+    VOID alloc_add_block(PVOIDC addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
@@ -194,7 +195,7 @@ namespace reseune {
 
     VOID defragment(bool varbose);
     
-    VOID release(PVOID const pointer, VERBOSEARG) {
+    VOID release(PVOIDC pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
 
       LINE;
@@ -285,6 +286,7 @@ namespace reseune {
 #undef PROFFSETP
 #undef PUTCHAR
 #undef PVOID
+#undef PVOIDC
 #undef REMOVE
 #undef REMOVEP
 #undef RPLACD
