@@ -45,6 +45,7 @@ namespace reseune {
 #define                    HLINE                { if (verbose) print_line('-'); }
 #define                    LINE                 { if (verbose) print_line(); }
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
+#define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
@@ -60,7 +61,7 @@ namespace reseune {
 
     VOID alloc_add_block(PVOID const addr, size_t size, VERBOSEARG) {
       LINE;
-      PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
@@ -97,7 +98,7 @@ namespace reseune {
       const bool verbose {true};
             
       LINE;
-      PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
 
       size_t ix {0};
@@ -124,7 +125,7 @@ namespace reseune {
       size = align_up(size, sizeof(PVOID)); // Align the pointer
 
       LINE;
-      PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
@@ -225,7 +226,7 @@ namespace reseune {
 
     VOID defragment(VERBOSEARG) {
       LINE;
-      PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
 
       palloc_node plast_block {nullptr};
