@@ -194,9 +194,14 @@ void test_base_one() {
 #endif
   
   if (verbose)
-    allocator::describe_free_list();
-
-  using T = int;
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+    allocator::describe_free_list()
+#ellse
+    alloc::describe_free_list()
+#end
+    ;
+    
+    using T = int;
   
   T *        buffer {nullptr};
   size_t     ix     {0};
@@ -207,13 +212,23 @@ void test_base_one() {
       printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
-    buffer = allocator::alloc<T>(1024, false); // Ignoring verbose!
+    buffer =
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+      allocator::alloc<T>(1024, false) // Ignoring verbose!
+#else
+      allocator.alloc<T>(1024, false) // Ignoring verbose!
+#end
+      ;
     
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       LINE;
       putchar('\n'); putchar('\n');
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
       allocator::describe_free_list();
+#else
+      alloc.describe_free_list();
+#endif
     }
 
     // release(buffer, verbose);
