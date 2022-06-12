@@ -13,7 +13,6 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-#define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
@@ -30,6 +29,7 @@ namespace reseune {
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    WARN(...)            { printf(__VA_ARGS__); }
+#define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
@@ -49,7 +49,7 @@ namespace reseune {
 #define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    VERBOSEARG           bool verbose = false
-#define                    VOID                 inline void 
+#define                    VOID                 inline void
 #define                    PVOID                void *
 #define                    PVOIDC               PVOID const 
 #define                    palloc_node          alloc_node *
