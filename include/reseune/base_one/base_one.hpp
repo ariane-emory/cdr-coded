@@ -120,7 +120,7 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline PVOID alloc(size_t size, VERBOSEARG) {
+    inline PVOID valloc(size_t size, VERBOSEARG) {
       assert(size > 0);
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
@@ -191,6 +191,13 @@ namespace reseune {
       return pvoid;
     }
 
+    // ===========================================================================================================
+
+    template <typename T>
+    inline T * alloc(size_t size, VERBOSEARG) {
+      return reinterpret_cast<T *>(valloc(size, verbose));
+    }
+    
     // ===========================================================================================================
 
     VOID defragment(bool varbose);
