@@ -229,7 +229,7 @@ namespace reseune {
   
         // =======================================================================================================
     
-        VOIDFUN(release, ADDRARG, , bool defer_coalesce = falseVERBOSEARG) {
+        VOIDFUN(release, ADDRARG, bool defer_coalesce = false, VERBOSEARG) {
           // WARNING: something bad will probably happen if you try to release an address that wasn't ever allocated
           // by one of these allocators (such that addr does not have an alloc_info in the memory loction directly
           // to it's left).
