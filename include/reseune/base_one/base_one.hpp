@@ -137,10 +137,10 @@ namespace reseune {
         if (BSIZE(block) >= size)
         {
           pblock = &block;
-          pvoid  = &block.data.block_start;
+          pvoid  = &BSTART(block);
 
           PRINT("Selected block at", pblock);
-          PROFFSETP(pblock);
+                          PROFFSETP(pblock);
           PRINT("With block start at", &block.data.block_start);
           PROFFSET(block.data.block_start);
           HLINE;
