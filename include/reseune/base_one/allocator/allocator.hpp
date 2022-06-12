@@ -251,12 +251,12 @@ namespace reseune {
           // adding it to your own free list, but I haven't tested this yet (and whether doing so would ever be a
           // good idea seems kind of questionoable to me).
           
-          palloc_node preleased_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+          palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
           PRLINE;
           PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
           PRLINE;
-          PRINT("It's node is at", preleased_block);
+          PRINT("It's node is at", pnew_block);
           PRLINE;
           PUTCHAR('\n');
       
@@ -266,12 +266,12 @@ namespace reseune {
           IFISNULL(PFREE_LIST_HEAD) {
             WARN("Placing after FL head.\n");
             
-            RCONSP(preleased_block, FREE_LIST);
+            RCONSP(pnew_block, FREE_LIST);
           }
           else {
             WARN("Placing somewhere else.\n");
             
-            PLACE_BLOCKP(preleased_block);
+            PLACE_BLOCKP(pnew_block);
           }
 
           
