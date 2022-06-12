@@ -175,7 +175,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    inline void defrag(bool varbose);
+    inline void defragment(bool varbose);
     
     inline void release(VOIDP pointer, VERBOSEARG) {
       ASSERTISNOTNULL(pointer);
@@ -203,14 +203,14 @@ namespace reseune {
       
     block_added:
       // Let's see if we can combine any memory
-      defrag(verbose);
+      defragment(verbose);
     }
 
     // ===========================================================================================================
 
-    inline void defrag(VERBOSEARG) {
+    inline void defragment(VERBOSEARG) {
       LINE;
-      PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
       alloc_nodep last_blockp {nullptr};
