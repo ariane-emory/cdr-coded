@@ -187,7 +187,6 @@ namespace reseune {
     void defrag(bool varbose);
     
     void release(void * pointer, VERBOSEARG) {
-
       assert(ISNOTNULL(pointer));
 
       LINE;
@@ -195,7 +194,6 @@ namespace reseune {
       LINE;
 
       alloc_nodep block;
-      // alloc_nodep free_block;
 
       block = ALLOC_NODEP(uintptr(pointer) - ALLOC_HEADER_SZ);
       PRINT("It's node is", block);
@@ -238,7 +236,7 @@ namespace reseune {
 
           block.remove();
 
-          continue;
+          // continue; // this seems unnecessary?
         }
         
         last_block = &block;
