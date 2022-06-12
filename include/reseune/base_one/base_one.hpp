@@ -17,7 +17,7 @@ namespace reseune {
 #define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
-#define                    FOR_EACH_BLOCK(name) for (auto & name : FREE_LIST_HEAD)
+#define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
 #define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
 #define                    FREE_LIST_HEADP      (FREE_LIST.next)
 #define                    HLINE                { if (verbose) print_line('-'); }
@@ -86,7 +86,7 @@ namespace reseune {
 
       size_t ix {0};
       
-      FOR_EACH_BLOCK(block) {
+      FOR_EACH_BLOCK {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
         PROFFSET(&block);
@@ -117,7 +117,7 @@ namespace reseune {
       size = align_up(size, sizeof(VOIDP));
 
       // try to find a big enough block to alloc
-      FOR_EACH_BLOCK(block)
+      FOR_EACH_BLOCK
         if (block.data.size >= size)
         {
           blockp = &block;
@@ -189,9 +189,9 @@ namespace reseune {
       PUTCHAR('\n');
       
       // Let's put it back in the proper spot
-      FOR_EACH_BLOCK(free_block)
-        if (&free_block > blockp) {
-          blockp->insert_before(free_block);
+      FOR_EACH_BLOCK
+        if (&block > blockp) {
+          blockp->insert_before(block);
 
           goto block_added;
         }
@@ -213,7 +213,7 @@ namespace reseune {
 
       alloc_nodep last_blockp {nullptr};
 
-      FOR_EACH_BLOCK(block) {
+      FOR_EACH_BLOCK {
         if (ISNOTNULL(last_blockp)
             && (UINTPTR(&last_blockp->data.block_start) + last_blockp->data.size) == UINTPTR(&block))
         {
