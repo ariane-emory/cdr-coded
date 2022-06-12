@@ -107,18 +107,15 @@ namespace reseune {
     // ===========================================================================================================
     
     inline VOIDP alloc(size_t size, VERBOSEARG) {
+      assert(size > 0);
+      size = align_up(size, sizeof(VOIDP)); // Align the pointer
+
       LINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
       VOIDP       pointer {nullptr};
-
-      assert(size > 0);
-      
-      // Align the pointer
-      size = align_up(size, sizeof(VOIDP));
-
       alloc_nodep blockp  {nullptr};
 
       // try to find a big enough block to alloc
