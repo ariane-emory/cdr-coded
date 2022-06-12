@@ -30,7 +30,6 @@ using pool    = std::conditional<
   reseune::pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
 
-
 // ===============================================================================================================
 
 ::pool POOL { 
