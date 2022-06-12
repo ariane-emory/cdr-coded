@@ -30,7 +30,7 @@ namespace reseune {
 #define PRINTF(...)       { if (verbose) printf(__VA_ARGS__); }
 #define PROFFSET(x)       { PRINT("... with offset", uintptr(x) - uintptr(MEMORY)); }
 #define PUTCHAR(c)        { if (verbose) putchar(c); }
-#define DESCRIBE(block)   { block.describe_instance(); block.data.describe_instance(); }
+#define DESCRIBE(block)   { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
 #define VERBOSEARG        bool verbose = false
     
