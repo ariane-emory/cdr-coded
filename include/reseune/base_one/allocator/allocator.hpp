@@ -47,14 +47,14 @@ namespace reseune {
 
           // align the start addr of our pnew_block to the next pointer aligned addr
           palloc_node pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
-          alloc_node & block {*pnew_block};
+          alloc_node & new_block {*pnew_block};
           
           PRINT("Align pnew_block to", pnew_block);
 
           
           // calculate actual size - overhead
-          SETBSIZEP(
-            pnew_block, 
+          SETBSIZE(
+            new_block, 
             UINTPTR(addr)
             + size
             - UINTPTR(pnew_block)
