@@ -183,8 +183,15 @@ void test_base_one() {
 
   // initialize(verbose);
 
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
   allocator::add_memory(buff1, buff_len, verbose);
   allocator::add_memory(buff2, buff_len, verbose);
+#else
+  allocator alloc {};
+  
+  allocator.add_memory(buff1, buff_len, verbose);
+  allocator.add_memory(buff2, buff_len, verbose);
+#endif
   
   if (verbose)
     allocator::describe_free_list();

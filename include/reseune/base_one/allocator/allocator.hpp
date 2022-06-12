@@ -14,6 +14,7 @@
 namespace reseune {
   namespace base_one {
     // ===========================================================================================================
+
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     namespace allocator {
 #else
