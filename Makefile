@@ -1,5 +1,7 @@
 UNAME_S = $(shell uname -s)
 
+LDFLAGS = -Wl,--gc-sections
+
 CXXLAGS  = \
 	-std=c++23 \
 	-Iinclude \
@@ -7,6 +9,8 @@ CXXLAGS  = \
 	-ggdb \
 	-fno-exceptions \
 	-funroll-loops \
+	-fdata-sections \
+	-ffunction-sections \
   -Wno-terminate \
 	-Wno-format \
 	-Wall \
@@ -38,7 +42,7 @@ tmp/%.o: src/%.cpp
 	$(CXX) -c $< -o $@ $(CXXLAGS)
 
 $(BIN): $(OBJ)
-	$(CXX) -o $@ $^ $(CXXLAGS)
+	$(CXX) -o $@ $^ $(CXXLAGS) $(LDFLAGS)
 
 clean::
 	rm -rf $(BIN) tmp
