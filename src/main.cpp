@@ -176,7 +176,7 @@ char buff2[buff_len] {0};
 void test_base_one() {
   using namespace reseune::base_one;
 
-  const bool verbose {false};
+  const bool verbose {true};
 
   // initialize(verbose);
 
@@ -197,17 +197,17 @@ void test_base_one() {
       printf("Request #%zu, requesting %zu bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
-    buffer = alloc<T>(1024, false);
+    buffer = alloc<T>(1024, false); // Ignoring verbose!
     
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       LINE;
       putchar('\n'); putchar('\n');
-      // describe_free_list();
+      describe_free_list();
     }
 
     // release(buffer, verbose);
-    // describe_free_list();
+    // if (verbose) describe_free_list();
   } while (nullptr != buffer);
 }
 
