@@ -50,7 +50,7 @@ debug: clean all
 	$(GDB) ./$(BIN)
 
 dump: clean tmp/main.o
-	$(GOBJDUMP) -t -d tmp/main.o
+	$(OBJDUMP) -t -d tmp/main.o
 
 blah:
 	echo $(UNAME)

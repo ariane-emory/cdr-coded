@@ -197,7 +197,7 @@ void test_base_one() {
   do {
     if (verbose) {
       LINE;
-      printf("Request #%zu, requesting %zu bytes.\n", ++ix, sizeof(T) * 1024);
+      printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
     buffer = alloc<T>(1024, false); // Ignoring verbose!
@@ -231,7 +231,7 @@ int main() {
   
   auto after = NOW;
 
-  printf("Took %ul ms.\n", after - before);
+  printf("Took %u ms.\n", after - before);
 }
 
 
