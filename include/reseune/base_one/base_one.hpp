@@ -32,7 +32,7 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOIDP                void * 
 #define                    alloc_nodep          alloc_node *
-    using     alloc_node = doubly_linked<alloc_info>;    
+    using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static    char         MEMORY[MEMORY_BYTES] {0};
