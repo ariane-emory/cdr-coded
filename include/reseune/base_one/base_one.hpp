@@ -131,7 +131,6 @@ namespace reseune {
           PRINT("With block start at", &b.data.block_start);
           PROFFSET(&b.data.block_start);
           HLINE;
-
           DESCRIBEP(blockp);
           LINE;
           
