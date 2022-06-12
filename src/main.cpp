@@ -202,8 +202,7 @@ void test_base_one() {
 #endif
   }
 
-  void * strblk = allocator::valloc(sizeof(std::string), true);
-
+  void *        strblk = allocator::valloc(sizeof(std::string), true);
   std::string * newstr = new (strblk) std::string("This is the string.");
 
   std::cout << *newstr << std::endl;
