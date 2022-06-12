@@ -76,7 +76,7 @@ namespace reseune {
     // ===========================================================================================================
     
     inline void describe_free_list() {
-      const bool verbose = true;
+      const bool verbose {true};
       
       assert(ISNOTNULL(FREE_LIST_HEADP));
       
