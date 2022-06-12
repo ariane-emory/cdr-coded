@@ -59,13 +59,16 @@ namespace reseune {
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
 
-          // IFISNULL(PFREE_LIST_HEAD) {
-          RCONS(new_block, FREE_LIST);
-          // }
-          // else {
-          //   printf("PLACING THIS");
-          //   PLACE_BLOCKP(pnew_block);
-          // }
+          IFISNULL(PFREE_LIST_HEAD) {
+            WARN("Placing after FL head.\n");
+            
+            RCONS(new_block, FREE_LIST);
+          }
+          else {
+            WARN("Placing somewhere else.\n");
+            
+            PLACE_BLOCKP(pnew_block);
+          }
           
           PRLINE;
           PUTCHAR('\n');      

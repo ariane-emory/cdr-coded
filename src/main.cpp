@@ -210,7 +210,7 @@ void test_base_one() {
   if (verbose)
     ALLOC describe_free_list();
   
-  // return;
+  return;
 
   {
     void * strblk = ALLOC valloc<string>(true);
