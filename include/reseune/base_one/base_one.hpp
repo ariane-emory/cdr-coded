@@ -173,7 +173,7 @@ namespace reseune {
 
     // ===========================================================================================================
 
-    void defrag(bool varbose);
+    inline void defrag(bool varbose);
     
     inline void release(VOIDP pointer, VERBOSEARG) {
       assert(ISNOTNULL(pointer));
