@@ -86,15 +86,14 @@ namespace reseune {
 
       size_t ix {0};
       
-      FOR_EACH_BLOCK(x) {
+      FOR_EACH_BLOCK(block) {
         PRINTF("Node                : #%u\n", ++ix);
-        PRINT("Node is at", &x);
-        PROFFSET(&x);
-        PRINT("With block start at", &x.data.block_start);
-        PROFFSET(&x.data.block_start);
-
+        PRINT("Node is at", &block);
+        PROFFSET(&block);
+        PRINT("With block start at", &block.data.block_start);
+        PROFFSET(&block.data.block_start);
         HLINE;
-        DESCRIBE(x);
+        DESCRIBE(block);
         LINE;
       }
   
