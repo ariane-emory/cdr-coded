@@ -183,11 +183,11 @@ void test_base_one() {
 
   // initialize(verbose);
 
-  add_memory(buff1, buff_len, verbose);
-  add_memory(buff2, buff_len, verbose);
+  allocator::add_memory(buff1, buff_len, verbose);
+  allocator::add_memory(buff2, buff_len, verbose);
   
   if (verbose)
-    describe_free_list();
+    allocator::describe_free_list();
 
   using T = int;
   
@@ -200,13 +200,13 @@ void test_base_one() {
       printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
-    buffer = alloc<T>(1024, false); // Ignoring verbose!
+    buffer = allocator::alloc<T>(1024, false); // Ignoring verbose!
     
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       LINE;
       putchar('\n'); putchar('\n');
-      describe_free_list();
+      allocator::describe_free_list();
     }
 
     // release(buffer, verbose);
