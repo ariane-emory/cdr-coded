@@ -15,6 +15,8 @@ namespace reseune {
 
 #define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
+#define                    BSIZE(b)             (b.data.size)
+#define                    BSIZEP(pb)           (BSIZE((*bp)))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
@@ -32,8 +34,8 @@ namespace reseune {
 #define                    REMOVEP(b)           REMOVE(*b)
 #define                    RPLACD(list, tail)   tail.insert_after(list)
 #define                    RPLACDP(list, ptail) RPLACD(list, (*ptail))
-#define                    SETSIZE(b, s)        b.data.size = s
-#define                    SETSIZEP(pb, s)      SETSIZE((*pb), s)
+#define                    SETBSIZE(b, s)       b.data.size = s
+#define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
@@ -67,11 +69,11 @@ namespace reseune {
       PRINT("Aligned pblock to", pblock);
 
       // calculate actual size - overhead
-      SETSIZEP(pblock, 
-               UINTPTR(addr)
-               + size
-               - UINTPTR(pblock)
-               - ALLOC_HEADER_SZ);
+      SETBSIZEP(pblock, 
+                UINTPTR(addr)
+                + size
+                - UINTPTR(pblock)
+                - ALLOC_HEADER_SZ);
 
       RPLACDP(FREE_LIST, pblock);
 
@@ -154,8 +156,8 @@ namespace reseune {
       if ((block.data.size - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
-        SETSIZEP(pnew_block, block.data.size - size - ALLOC_HEADER_SZ);
-        SETSIZE(block, size);
+        SETBSIZEP(pnew_block, block.data.size - size - ALLOC_HEADER_SZ);
+        SETBSIZE(block, size);
         CONSP(pnew_block, block);
         REMOVE(block);
         
