@@ -145,7 +145,6 @@ namespace reseune {
         
         new_blockp->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
         blockp    ->data.size = size;
-
         new_blockp->insert_before(blockp);
         blockp    ->remove();
         
