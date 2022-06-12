@@ -107,7 +107,7 @@ namespace reseune {
         PRINT("Node is at", &block);
         PROFFSET(block);
         PRINT("With block start at", &BSTART(block));
-        PROFFSET(block.data.block_start);
+        PROFFSET(BSTART(block));
         HLINE;
         DESCRIBE(block);
         LINE;
