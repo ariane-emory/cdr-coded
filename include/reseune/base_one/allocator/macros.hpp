@@ -60,20 +60,23 @@
   PRLINE;                                                                       \
   PRINT("Placing block", pblock);                                               \
                                                                                 \
+  palloc_node last_block {nullptr};                                             \
+                                                                                \
   FOR_EACH_BLOCK                                                                \
   {                                                                             \
+    last_block = &block;                                                        \
     PRINT("Compare with", &block);                                              \
     if (&block > pblock) {                                                      \
       PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n");                           \
-      CONSP(pblock, block);                                                    \
+      CONSP(pblock, block);                                                     \
       goto block_placed;                                                        \
     }                                                                           \
     else {                                                                      \
       PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");                            \
     }                                                                           \
-}                                                                               \
+  }                                                                             \
                                                                                 \
-  RCONSP(pblock, FREE_LIST_HEAD);                                               \
+  RCONSP(pblock, last_block);                                                   \
                                                                                 \
 block_placed:
 
