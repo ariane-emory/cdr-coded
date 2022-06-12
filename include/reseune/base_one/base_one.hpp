@@ -18,7 +18,8 @@ namespace reseune {
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
 #define                    FOR_EACH_BLOCK(name) for (auto & name : FREE_LIST_HEAD)
-#define                    FREE_LIST_HEAD       (*FREE_LIST.next)
+#define                    FREE_LIST_HEAD       (*FREE_LIST_HEADP)
+#define                    FREE_LIST_HEADP      (FREE_LIST.next)
 #define                    HLINE                { if (verbose) print_line('-'); }
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
@@ -77,7 +78,7 @@ namespace reseune {
     inline void describe_free_list() {
       const bool verbose = true;
       
-      assert(ISNOTNULL(FREE_LIST.next));
+      assert(ISNOTNULL(FREE_LIST_HEADP));
       
       LINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
