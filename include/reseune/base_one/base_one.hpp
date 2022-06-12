@@ -192,13 +192,12 @@ namespace reseune {
       PUTCHAR('\n');
       
       // Let's put it back in the proper spot
-      FOR_EACH_BLOCK(free_block) {
+      FOR_EACH_BLOCK(free_block)
         if (&free_block > blockp) {
           blockp->insert_before(free_block);
 
           goto block_added;
         }
-      }
 
       // blockp->insert_after(FREE_LIST);
       blockp->insert_before(FREE_LIST_HEAD);
