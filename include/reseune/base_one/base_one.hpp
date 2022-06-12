@@ -98,7 +98,7 @@ namespace reseune {
 #ifndef RESEUNE_NO_BASE_ONE_MEMORY
       add_memory(MEMORY, MEMORY_BYTES, verbose);
 #else
-      WARN("initialize cannot be called when -DRESEUNE_NO_BASE_ONE_MEMORY");
+      WARN("initialize must not be called when -DRESEUNE_NO_BASE_ONE_MEMORY.");
       assert(false);
 #endif
     }
