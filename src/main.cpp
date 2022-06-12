@@ -183,8 +183,8 @@ void test_base_one() {
 
   // initialize(verbose);
 
-  alloc_add_block(buff1, buff_len, verbose);
-  alloc_add_block(buff2, buff_len, verbose);
+  add_memory(buff1, buff_len, verbose);
+  add_memory(buff2, buff_len, verbose);
   
   if (verbose)
     describe_free_list();

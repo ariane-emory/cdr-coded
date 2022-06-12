@@ -66,7 +66,7 @@ namespace reseune {
     // ===========================================================================================================
 
     
-    VOIDFUN(alloc_add_block, ADDRARG, SIZEARG, VERBOSEARG) {
+    VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       PRLINE;
@@ -96,7 +96,7 @@ namespace reseune {
 
     VOIDFUN(initialize, VERBOSEARG) {
 #ifndef RESEUNE_NO_BASE_ONE_MEMORY
-      alloc_add_block(MEMORY, MEMORY_BYTES, verbose);
+      add_memory(MEMORY, MEMORY_BYTES, verbose);
 #else
       WARN("initialize cannot be called when -DRESEUNE_NO_BASE_ONE_MEMORY");
       assert(false);
