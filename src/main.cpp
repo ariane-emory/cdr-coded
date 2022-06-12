@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdexcept>
-
+#include <chrono>
 #include "reseune/reseune.hpp"
+
+using namespace std::chrono;
 
 // ===============================================================================================================
 
 #define LINE reseune::print_line()
 #define HLINE reseune::print_line('-')
+#define NOW duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
@@ -168,7 +171,7 @@ void test_links() {
 
 // ===============================================================================================================
 
-constexpr size_t buff_len = 1 << 17; // 128 kb
+constexpr size_t buff_len = 1 << 15; // 32 kb
 
 char buff1[buff_len] {0};
 char buff2[buff_len] {0};
@@ -221,7 +224,14 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
   // test_links();
+
+  auto before = NOW;
+
   test_base_one();
+  
+  auto after = NOW;
+
+  printf("Took %ul ms.\n", after - before);
 }
 
 
