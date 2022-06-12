@@ -23,8 +23,6 @@ CXXLAGS  = \
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-12
-else
-	CXX = g++-11
 endif
 
 GDB      = gdb
