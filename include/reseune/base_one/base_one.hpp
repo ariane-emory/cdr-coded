@@ -16,6 +16,7 @@ namespace reseune {
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
+#define                    CONSP(head,tail)     head->insert_before(tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
@@ -147,7 +148,7 @@ namespace reseune {
         
         new_blockp->data.size = block.data.size - size - ALLOC_HEADER_SZ;
         block      .data.size = size;
-        new_blockp->insert_before(block);
+        CONSP(new_blockp, block);
         block      .remove();
         
         PRINT("Created new block at", new_blockp);
@@ -196,13 +197,12 @@ namespace reseune {
       // Let's put it back in the proper spot
       FOR_EACH_BLOCK
         if (&block > released_blockp) {
-          released_blockp->insert_before(block);
+          CONSP(released_blockp, block);
 
           goto block_added;
         }
 
-      // released_blockp->insert_after(FREE_LIST);
-      released_blockp->insert_before(FREE_LIST_HEAD);
+      CONSP(released_blockp, FREE_LIST_HEAD);
       
     block_added:
       // Let's see if we can combine any memory
@@ -248,6 +248,7 @@ namespace reseune {
 #undef ALLOC_HEADER_SZ
 #undef ALLOC_NODEP
 #undef ASSERTISNOTNULL
+#undef CONSP
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef FOR_EACH_BLOCK
