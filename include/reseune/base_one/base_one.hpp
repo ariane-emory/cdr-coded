@@ -233,8 +233,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block) 
-          if ((UINTPTR(&plast_block->data.block_start) + BSIZEP(plast_block)) == UINTPTR(&block)) {
-            plast_block->data.size += ALLOC_HEADER_SZ + BSIZE(block);
+          if ((UINTPTR(&BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
+            SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
             PRINTF("Removing this block:.\n");
             DESCRIBE(block);
@@ -258,10 +258,11 @@ namespace reseune {
 }
 
 #undef ALLOC_HEADER_SZ
-#undef PALLOC_NODE
 #undef ASSERTISNOTNULL
 #undef BSIZE
 #undef BSIZEP
+#undef BSTART
+#undef BSTARTP
 #undef CONS
 #undef CONSP
 #undef DESCRIBE
@@ -275,6 +276,9 @@ namespace reseune {
 #undef ISNULL
 #undef LINE
 #undef MIN_ALLOC_SZ
+#undef PALLOC_NODE
+#undef PFREE_LIST
+#undef PFREE_LIST_HEAD
 #undef PRINT
 #undef PRINTF
 #undef PROFFSET
