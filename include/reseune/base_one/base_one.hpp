@@ -236,16 +236,15 @@ namespace reseune {
       // alloc_node * t          {nullptr};
 
       for (auto & block : FREE_LIST_HEAD) {
-        if (nullptr != last_block) {
-          if((((uintptr_t)&last_block->data.block_start) + last_block->data.size) == (uintptr_t)&block)
-          {
-            last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
-            printf("Removing this block:.\n");
-            block.describe_instance();
-            block.data.describe_instance();
-            block.remove();
-            continue;
-          }
+        if ((nullptr != last_block)
+            && (uintptr(&last_block->data.block_start) + last_block->data.size) == uintptr(&block))
+        {
+          last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
+          printf("Removing this block:.\n");
+          block.describe_instance();
+          block.data.describe_instance();
+          block.remove();
+          continue;
         }
         
         last_block = &block;
