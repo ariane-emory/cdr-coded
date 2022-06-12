@@ -36,8 +36,8 @@ namespace reseune {
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    REMOVE(b)            b.remove()
 #define                    REMOVEP(b)           REMOVE(*b)
-#define                    RPLACD(list, tail)   tail.insert_after(list)
-#define                    RPLACDP(list, ptail) RPLACD(list, (*ptail))
+#define                    RCONS(list, tail)    tail.insert_after(list)
+#define                    RCONSP(list, ptail)  RCONS(list, (*ptail))
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
@@ -82,7 +82,7 @@ namespace reseune {
         - UINTPTR(pblock)
         - ALLOC_HEADER_SZ);
 
-      RPLACDP(FREE_LIST, pblock);
+      RCONSP(FREE_LIST, pblock);
 
       LINE;
       PUTCHAR('\n');      
@@ -308,8 +308,8 @@ namespace reseune {
 #undef PVOIDC
 #undef REMOVE
 #undef REMOVEP
-#undef RPLACD
-#undef RPLACDP
+#undef RCONS
+#undef RCONSP
 #undef SETBSIZE
 #undef SETBSIZEP
 #undef UINTPTR
