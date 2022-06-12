@@ -216,18 +216,17 @@ namespace reseune {
       alloc_nodep last_blockp {nullptr};
 
       FOR_EACH_BLOCK {
-        if (ISNOTNULL(last_blockp)
-            && (UINTPTR(&last_blockp->data.block_start) + last_blockp->data.size) == UINTPTR(&block))
-        {
-          last_blockp->data.size += ALLOC_HEADER_SZ + block.data.size;
+        IFISNOTNULL(last_blockp) 
+          if ((UINTPTR(&last_blockp->data.block_start) + last_blockp->data.size) == UINTPTR(&block)) {
+            last_blockp->data.size += ALLOC_HEADER_SZ + block.data.size;
 
-          PRINTF("Removing this block:.\n");
-          DESCRIBE(block);
+            PRINTF("Removing this block:.\n");
+            DESCRIBE(block);
 
-          block.remove();
+            block.remove();
 
-          // continue; // this seems unnecessary?
-        }
+            // continue; // this seems unnecessary?
+          }
         
         last_blockp = &block;
       }
