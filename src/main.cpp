@@ -185,11 +185,13 @@ void test_base_one() {
   const bool verbose {true};
   
   for (size_t ix = 0; ix < 2; ix++) {
-    buffer = reinterpret_cast<char *>(alloc(1024));
-    // reseune::print_bits<true, false>("Received", reseune::uintptr(buffer));
-    // putchar('\n');
-    // describe_free_list();
-    release(buffer);
+    buffer = reinterpret_cast<char *>(alloc(1024, verbose));
+    if (verbose) {
+      reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
+      putchar('\n');
+      describe_free_list();
+    }
+    release(buffer, verbose);
     describe_free_list();
   }
 }

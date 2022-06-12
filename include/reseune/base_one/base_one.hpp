@@ -187,7 +187,7 @@ namespace reseune {
 
       alloc_nodep blockp {ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
       
-      PRINT("It's node is", blockp);
+      PRINT("It's node is at", blockp);
       LINE;
       PUTCHAR('\n');
       
