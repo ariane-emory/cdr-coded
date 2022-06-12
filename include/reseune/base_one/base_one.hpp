@@ -41,6 +41,7 @@ namespace reseune {
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
+#define                    ADDRARG              PVOIDC addr
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
 #define                    FREE_LIST_HEAD       (*PFREE_LIST_HEAD)
@@ -49,6 +50,7 @@ namespace reseune {
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
+#define                    SIZEARG              size_t size
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOIDFUN              inline void
 #define                    PVOID                void *
@@ -63,7 +65,7 @@ namespace reseune {
     
     // ===========================================================================================================
 
-    VOIDFUN alloc_add_block(PVOIDC addr, size_t size, VERBOSEARG) {
+    VOIDFUN alloc_add_block(ADDRARG, SIZEARG, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
       LINE;
@@ -124,13 +126,13 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    PVOIDFUN valloc(size_t size, size_t each, VERBOSEARG) {
+    PVOIDFUN valloc(SIZEARG, size_t each, VERBOSEARG) {
       return valloc(size * each, verbose);
     }
     
     // ===========================================================================================================
     
-    PVOIDFUN valloc(size_t size, VERBOSEARG) {
+    PVOIDFUN valloc(SIZEARG, VERBOSEARG) {
       assert(size > 0);
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
@@ -207,7 +209,7 @@ namespace reseune {
     // ===========================================================================================================
 
     template <typename T>
-    inline T * alloc(size_t size, VERBOSEARG) {
+    inline T * alloc(SIZEARG, VERBOSEARG) {
       return reinterpret_cast<T *>(valloc(size * sizeof(T), verbose));
     }
     
@@ -215,14 +217,14 @@ namespace reseune {
 
     VOIDFUN defragment(bool varbose);
     
-    VOIDFUN release(PVOIDC pointer, VERBOSEARG) {
-      ASSERTISNOTNULL(pointer);
+    VOIDFUN release(ADDRARG, VERBOSEARG) {
+      ASSERTISNOTNULL(addr);
 
       LINE;
-      PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
+      PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
       LINE;
 
-      palloc_node released_pblock {PALLOC_NODE(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
+      palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
       
       PRINT("It's node is at", released_pblock);
       LINE;
@@ -278,6 +280,7 @@ namespace reseune {
   }
 }
 
+#undef ADDRARG
 #undef ALLOC_HEADER_SZ
 #undef ASSERTISNOTNULL
 #undef BSIZE
@@ -314,6 +317,7 @@ namespace reseune {
 #undef RCONSP
 #undef SETBSIZE
 #undef SETBSIZEP
+#undef SIZEARG
 #undef UINTPTR
 #undef VERBOSEARG
 #undef VOIDFUN
