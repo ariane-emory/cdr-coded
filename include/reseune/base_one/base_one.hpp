@@ -29,12 +29,13 @@ namespace reseune {
 #define LINE print_line()
 #define HLINE print_line('-')
 #define FREE_LIST_HEAD (*FREE_LIST.next)
+#define PRINTF(...) printf(__VA_ARGS__);
 
     // ===========================================================================================================
 
     inline static void alloc_add_block(void * const addr, size_t size) {
       LINE;
-      printf("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
@@ -76,12 +77,12 @@ namespace reseune {
       assert(nullptr != FREE_LIST.next);
       
       LINE;
-      printf("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
       size_t ix {0};
       for (const auto & x : FREE_LIST_HEAD) {
-        printf("Node                : #%u\n", ++ix);
+        PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &x);
         PROFFSET(&x);
         PRINT("With block start at", &x.data.block_start);
@@ -101,7 +102,7 @@ namespace reseune {
     void * alloc(size_t size)
     {
       LINE;
-      printf("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
@@ -163,7 +164,7 @@ namespace reseune {
         //   list_add_(&new_block->node, &block->node, block->node.next);
       }
       else {
-        printf(
+        PRINTF(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
           (block->data.size),
           size,
@@ -188,7 +189,7 @@ namespace reseune {
       assert(nullptr != pointer);
 
       LINE;
-      printf("RELEASING 0x%lx = %ul!\n", uintptr(pointer));
+      PRINTF("RELEASING 0x%lx = %ul!\n", uintptr(pointer));
       LINE;
 
       alloc_node * block;
@@ -228,7 +229,7 @@ namespace reseune {
 
     void defrag() {
       LINE;
-      printf("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
+      PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
       // alloc_node * block      {nullptr};
@@ -240,7 +241,7 @@ namespace reseune {
             && (uintptr(&last_block->data.block_start) + last_block->data.size) == uintptr(&block))
         {
           last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
-          printf("Removing this block:.\n");
+          PRINTF("Removing this block:.\n");
           block.describe_instance();
           block.data.describe_instance();
           block.remove();
@@ -251,7 +252,7 @@ namespace reseune {
       }
 
       HLINE;
-      printf("Done defragmenting.\n");
+      PRINTF("Done defragmenting.\n");
       LINE;
       putchar('\n');
     }
