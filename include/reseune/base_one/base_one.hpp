@@ -26,36 +26,36 @@ namespace reseune {
 #define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
+#define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
-#define                    WARN(...)            { printf(__VA_ARGS__); }
-#define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
-// This offset will only print correctly for locations in MEMORY:
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
-#define                    REMOVE(b)            b.remove()
-#define                    REMOVEP(b)           REMOVE(*b)
 #define                    RCONS(list, tail)    tail.insert_after(list)
 #define                    RCONSP(list, ptail)  RCONS(list, (*ptail))
+#define                    REMOVE(b)            b.remove()
+#define                    REMOVEP(b)           REMOVE(*b)
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
+#define                    WARN(...)            { printf(__VA_ARGS__); }
+// This offset will only print correctly for locations in MEMORY:
 #define                    ADDRARG              PVOIDC addr
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
 #define                    FREE_LIST_HEAD       (*PFREE_LIST_HEAD)
-#define                    HLINE                { if (verbose) print_line('-'); }
-#define                    LINE                 { if (verbose) print_line(); }
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
+#define                    PRHLINE              { if (verbose) print_line('-'); }
+#define                    PRLINE               { if (verbose) print_line(); }
+#define                    PVOID                void *
+#define                    PVOIDC               PVOID const 
+#define                    PVOIDFUN             inline PVOID
 #define                    SIZEARG              size_t size
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOIDFUN              inline void
-#define                    PVOID                void *
-#define                    PVOIDFUN             inline PVOID
-#define                    PVOIDC               PVOID const 
 #define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
@@ -66,9 +66,9 @@ namespace reseune {
     // ===========================================================================================================
 
     VOIDFUN alloc_add_block(ADDRARG, SIZEARG, VERBOSEARG) {
-      LINE;
+      PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      LINE;
+      PRLINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
       
@@ -87,7 +87,7 @@ namespace reseune {
 
       RCONSP(FREE_LIST, pblock);
 
-      LINE;
+      PRLINE;
       PUTCHAR('\n');      
     }
 
@@ -104,9 +104,9 @@ namespace reseune {
 
       const bool verbose {true};
             
-      LINE;
+      PRLINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      LINE;
+      PRLINE;
 
       size_t ix {0};
       
@@ -116,9 +116,9 @@ namespace reseune {
         // PROFFSET(block);
         PRINT("With block start at", BSTART(block));
         // PROFFSET(BSTART(block));
-        HLINE;
+        PRHLINE;
         DESCRIBE(block);
-        LINE;
+        PRLINE;
       }
   
       PUTCHAR('\n');
@@ -137,9 +137,9 @@ namespace reseune {
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
 
-      LINE;
+      PRLINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      LINE;
+      PRLINE;
       PRINT("Bytes requested: ", size);
       
       PVOID       pvoid  {nullptr};
@@ -156,9 +156,9 @@ namespace reseune {
           // PROFFSETP(pblock);
           PRINT("With block start at", BSTART(block));
           // PROFFSET(BSTART(block));
-          HLINE;
+          PRHLINE;
           DESCRIBEP(pblock);
-          LINE;
+          PRLINE;
           
           break;
         }
@@ -185,9 +185,9 @@ namespace reseune {
         PRINT("With block start at", BSTARTP(pnew_block));
         // PROFFSET(BSTARTP(pnew_block));
 
-        HLINE;
+        PRHLINE;
         DESCRIBEP(pnew_block);
-        HLINE;
+        PRHLINE;
       }
       else {
         WARN(
@@ -201,7 +201,7 @@ namespace reseune {
       }
 
       PRINT("Gave pointer to", UINTPTR(pvoid));
-      LINE;
+      PRLINE;
       
       return pvoid;
     }
@@ -220,14 +220,14 @@ namespace reseune {
     VOIDFUN release(ADDRARG, VERBOSEARG) {
       ASSERTISNOTNULL(addr);
 
-      LINE;
+      PRLINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
-      LINE;
+      PRLINE;
 
       palloc_node released_pblock {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
       
       PRINT("It's node is at", released_pblock);
-      LINE;
+      PRLINE;
       PUTCHAR('\n');
       
       // Let's put it back in the proper spot
@@ -248,9 +248,9 @@ namespace reseune {
     // ===========================================================================================================
 
     VOIDFUN defragment(VERBOSEARG) {
-      LINE;
+      PRLINE;
       PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      LINE;
+      PRLINE;
 
       palloc_node plast_block {nullptr};
 
@@ -269,9 +269,9 @@ namespace reseune {
         plast_block = &block;
       }
 
-      HLINE;
+      PRHLINE;
       PRINTF("Done defragmenting.\n");
-      LINE;
+      PRLINE;
       PUTCHAR('\n');
     }
   
@@ -293,28 +293,28 @@ namespace reseune {
 #undef DESCRIBEP
 #undef FOR_EACH_BLOCK
 #undef FREE_LIST_HEAD
-#undef HLINE
 #undef IFISNOTNULL
 #undef IFISNULL
 #undef ISNOTNULL
 #undef ISNULL
-#undef LINE
 #undef MIN_ALLOC_SZ
 #undef PALLOC_NODE
 #undef PFREE_LIST
 #undef PFREE_LIST_HEAD
+#undef PRHLINE
 #undef PRINT
 #undef PRINTF
+#undef PRLINE
 #undef PROFFSET
 #undef PROFFSETP
 #undef PUTCHAR
 #undef PVOID
-#undef PVOIDFUN
 #undef PVOIDC
-#undef REMOVE
-#undef REMOVEP
+#undef PVOIDFUN
 #undef RCONS
 #undef RCONSP
+#undef REMOVE
+#undef REMOVEP
 #undef SETBSIZE
 #undef SETBSIZEP
 #undef SIZEARG
