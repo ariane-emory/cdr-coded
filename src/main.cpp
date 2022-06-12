@@ -8,11 +8,12 @@
 
 // ===============================================================================================================
 
-#define LINE  reseune::print_line()
-#define HLINE reseune::print_line('-')
-#define NOW   duration_cast<milliseconds>(system_clock::now().time_since_epoch())
-#define cout  std::cout
-#define endl  std::endl
+#define LINE    reseune::print_line()
+#define HLINE   reseune::print_line('-')
+#define NOW     duration_cast<milliseconds>(system_clock::now().time_since_epoch())
+#define cout    std::cout
+#define endl    std::endl
+#define uintptr reseune::uintptr
 
 // ===============================================================================================================
 
@@ -200,21 +201,26 @@ void test_base_one() {
   char buff1[buff_len] {0};
   char buff2[buff_len] {0};
 
+  PRINT("buff1 is at", uintptr(buff1));
+  PRINT("buff2 is at", uintptr(buff2));
+  
   ALLOC add_memory(buff1, buff_len, verbose);
   ALLOC add_memory(buff2, buff_len, verbose);
-  
+
   if (verbose)
-    ALLOC describe_free_list();
+          ALLOC describe_free_list();
   
-  void * strblk = ALLOC valloc<string>(true);
+        return;
 
-  new (strblk) string("This is the string.");
+        {
+          void * strblk = ALLOC valloc<string>(true);
 
-  cout << *reinterpret_cast<string *>(strblk) << endl;
+          new (strblk) string("This is the string.");
 
-  PRINT("String is at", uintptr(strblk));
-  
-  // return;
+          cout << *reinterpret_cast<string *>(strblk) << endl;
+
+          PRINT("String is at", uintptr(strblk));
+        }
   
   using T = int;
   
