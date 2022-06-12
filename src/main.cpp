@@ -202,12 +202,13 @@ void test_base_one() {
 #endif
   }
 
-  void *        strblk = allocator::valloc(sizeof(std::string), true);
-  std::string * newstr = new (strblk) std::string("This is the string.");
+  void * strblk = allocator::valloc(sizeof(std::string), true);
 
-  std::cout << *newstr << std::endl;
+  new (strblk) std::string("This is the string.");
 
-  reseune::print_bits<true, false>("String is at", reseune::uintptr(newstr));
+  std::cout << *reinterpret_cast<std::string *>(strblk) << std::endl;
+
+  reseune::print_bits<true, false>("String is at", reseune::uintptr(strblk));
   
   // return;
   
