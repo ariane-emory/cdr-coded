@@ -167,11 +167,17 @@ void test_links() {
 
 // ===============================================================================================================
 
+char buf[2048] = {0};
+
 void test_base_one() {
   using namespace reseune::base_one;
-  
-  initialize();
 
+  const bool verbose {true};
+
+  initialize(verbose);
+
+  alloc_add_block(buf, 2048, verbose);
+  
   // This size is probably wrong by 8:
   // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
   // putchar('\n');
@@ -184,21 +190,20 @@ void test_base_one() {
   using T = int;
   
   T *        buffer {nullptr};
-  const bool verbose {true};
   
-  for (size_t ix = 0; ix < 2; ix++) {
+  do {
     // buffer = reinterpret_cast<char *>(alloc(1024, verbose));
     buffer = alloc<T>(1024, verbose);
     
     if (verbose) {
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
-      putchar('\n');
-      describe_free_list();
+      // putchar('\n');
+      // describe_free_list();
     }
 
-    release(buffer, verbose);
+    // release(buffer, verbose);
     describe_free_list();
-  }
+  } while (nullptr != buffer);
 }
 
 // ===============================================================================================================
