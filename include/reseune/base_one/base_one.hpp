@@ -36,6 +36,7 @@ namespace reseune {
 #define alloc_nodep       alloc_node *
 #define ISNULL(x)         (nullptr == x)
 #define ISNOTNULL(x)      (nullptr != x)
+#define ALLOC_NODEP(x)    (reinterpret_cast<alloc_nodep>(x))
     
     // ===========================================================================================================
 
@@ -48,7 +49,7 @@ namespace reseune {
       // PRINT("sizeof(alloc_node)", sizeof(alloc_node));
       
       // align the start addr of our block to the next pointer aligned addr
-      alloc_nodep block {reinterpret_cast<alloc_nodep>(align_up(uintptr(addr), sizeof(void *)))};
+      alloc_nodep block {ALLOC_NODEP(align_up(uintptr(addr), sizeof(void *)))};
         
       PRINT("Aligned block to", block);
 
@@ -145,7 +146,7 @@ namespace reseune {
 
       // Can we split the blocko?
       if ((blockp->data.size - size) >= MIN_ALLOC_SZ) {
-        alloc_nodep new_blockp { reinterpret_cast<alloc_nodep>((uintptr(pointer) + size)) };
+        alloc_nodep new_blockp { ALLOC_NODEP((uintptr(pointer) + size)) };
         
         new_blockp->data.size = blockp->data.size - size - ALLOC_HEADER_SZ;
         blockp->data.size = size;
@@ -187,7 +188,7 @@ namespace reseune {
     
     void release(void * pointer, VERBOSEARG) {
 
-      assert(nullptr != pointer);
+      assert(ISNOTNULL(pointer));
 
       LINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", uintptr(pointer));
@@ -196,22 +197,12 @@ namespace reseune {
       alloc_nodep block;
       // alloc_nodep free_block;
 
-      block = reinterpret_cast<alloc_nodep>(uintptr(pointer) - ALLOC_HEADER_SZ);
+      block = ALLOC_NODEP(uintptr(pointer) - ALLOC_HEADER_SZ);
       PRINT("It's node is", block);
       LINE;
       PUTCHAR('\n');;
       
       // Let's put it back in the proper spot
-      // list_for_each_entry(free_block, &free_list, node)
-      // {
-      //   if(free_block > block)
-      //   {
-      //     list_add_(&block->node, free_block->node.prev, &free_block->node);
-      //     goto blockadded;
-      //   }
-      // }
-      // list_add_tail(&block->node, &free_list);
- 
       for (auto & free_block : FREE_LIST_HEAD) {
         if (&free_block > block) {
           block->insert_before(free_block);
@@ -233,12 +224,10 @@ namespace reseune {
       PRINTF("DEFRAGMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
-      // alloc_nodep block      {nullptr};
       alloc_nodep last_block {nullptr};
-      // alloc_nodep t          {nullptr};
 
       for (auto & block : FREE_LIST_HEAD) {
-        if ((nullptr != last_block)
+        if (ISNOTNULL(last_block)
             && (uintptr(&last_block->data.block_start) + last_block->data.size) == uintptr(&block))
         {
           last_block->data.size += ALLOC_HEADER_SZ + block.data.size;
@@ -275,5 +264,9 @@ namespace reseune {
 #undef PROFFSET
 #undef DESCRIBEP
 #undef VERBOSEARG       
+#undef alloc_nodep
+#undef ISNULL
+#undef ISNOTNULL
+#undef ALLOC_NODEP
 
 #endif
