@@ -163,7 +163,7 @@ namespace reseune {
       IFISNULL(pblock) {
         WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);        
 
-        return pvoid;
+        return nullptr;
       }
 
       alloc_node & block {*pblock};
