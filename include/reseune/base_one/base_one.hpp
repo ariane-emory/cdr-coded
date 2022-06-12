@@ -189,6 +189,7 @@ namespace reseune {
         DESCRIBEP(pnew_block);
         PRHLINE;
       }
+#ifndef NDEBUG
       else {
         WARN(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
@@ -199,7 +200,8 @@ namespace reseune {
         
         assert(false);
       }
-
+#endif
+      
       PRINT("Gave pointer to", UINTPTR(pvoid));
       PRLINE;
       
