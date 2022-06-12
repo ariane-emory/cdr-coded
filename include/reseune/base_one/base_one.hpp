@@ -159,7 +159,7 @@ namespace reseune {
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
-        SETBSIZEP(pnew_block, block.data.size - size - ALLOC_HEADER_SZ);
+        SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ);
         SETBSIZE(block, size);
         CONSP(pnew_block, block);
         REMOVE(block);
