@@ -18,7 +18,7 @@ namespace reseune {
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
 #define                    BSTART(b)            (b.data.block_start)
-#define                    BSTARTP(pb)          (BSTARTP((*pb)))
+#define                    BSTARTP(pb)          (BSTART((*pb)))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
@@ -166,8 +166,8 @@ namespace reseune {
         
         PRINT("Created new block at", pnew_block);
         PROFFSETP(pnew_block);
-        PRINT("With block start at", &pnew_block->data.block_start);
-        PROFFSET(pnew_block->data.block_start);
+        PRINT("With block start at", &BSTARTP(pnew_block));
+        PROFFSET(BSTARTP(pnew_block));
 
         HLINE;
         DESCRIBEP(pnew_block);
