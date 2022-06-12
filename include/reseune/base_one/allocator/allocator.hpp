@@ -4,7 +4,6 @@
 #include "reseune/util/util.hpp"
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
-#include "reseune/base_one/allocator/allocator.hpp"+
 
 #include <inttypes.h>
 #include <stdint.h>
@@ -13,7 +12,7 @@
 namespace reseune {
   namespace base_one {
     // ===========================================================================================================
-    struct allocator {
+    namespace allocator {
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
@@ -57,7 +56,7 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    palloc_node          alloc_node *
       using                alloc_node         = doubly_linked<alloc_info>;    
-      static    alloc_node FREE_LIST            {nullptr, nullptr};
+      static alloc_node    FREE_LIST            {nullptr, nullptr};
     
       // ===========================================================================================================
 

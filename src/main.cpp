@@ -177,7 +177,7 @@ char buff1[buff_len] {0};
 char buff2[buff_len] {0};
 
 void test_base_one() {
-  using namespace reseune::base_one;
+  using namespace reseune::base_one::allocator;
 
   const bool verbose {true};
 

@@ -2,7 +2,7 @@
 #define RESEUNE_BASE_ONE_HPP
 
 #include "reseune/util/util.hpp"
-#include "reseune/base_one/allocator/allocator.hpp"+
+#include "reseune/base_one/allocator/allocator.hpp"
 
 #include <inttypes.h>
 #include <stdint.h>
