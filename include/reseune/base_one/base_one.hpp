@@ -212,7 +212,7 @@ namespace reseune {
  
       for (auto & free_block : FREE_LIST_HEAD) {
         if (&free_block > block) {
-          block->insert_after(free_block);
+          block->insert_before(free_block);
           goto blockadded;
         }
       }
