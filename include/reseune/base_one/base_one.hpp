@@ -13,12 +13,12 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-#define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
+#define                    PALLOC_NODE(x)       (reinterpret_cast<palloc_node>(x))
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    CONS(head, tail)     head.insert_before(tail)
 #define                    CONSP(headp, tail)   CONS((*headp), tail)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
-#define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
+#define                    DESCRIBEP(pblock)    { DESCRIBE((*pblock)); }
 #define                    IFISNOTNULL(x)       if (ISNOTNULL(x))
 #define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)
@@ -29,7 +29,7 @@ namespace reseune {
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    RPLACD(list, tail)   tail.insert_after(list)
-#define                    RPLACDP(list, tailp) RPLACD(list, (*tailp))
+#define                    RPLACDP(list, ptail) RPLACD(list, (*ptail))
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
@@ -41,7 +41,7 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOID                 inline void 
 #define                    VOIDP                void * 
-#define                    alloc_nodep          alloc_node *
+#define                    palloc_node          alloc_node *
     using                  alloc_node         = doubly_linked<alloc_info>;    
     constexpr size_t       MEMORY_WORDS         {1024};
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
@@ -57,19 +57,19 @@ namespace reseune {
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
       
-      // align the start addr of our blockp to the next pointer aligned addr
-      alloc_nodep blockp {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(VOIDP)))};
+      // align the start addr of our pblock to the next pointer aligned addr
+      palloc_node pblock {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(VOIDP)))};
         
-      PRINT("Aligned blockp to", blockp);
+      PRINT("Aligned pblock to", pblock);
 
       // calculate actual size - overhead
-      blockp->data.size =
+      pblock->data.size =
         UINTPTR(addr)
         + size
-        - UINTPTR(blockp)
+        - UINTPTR(pblock)
         - ALLOC_HEADER_SZ;
 
-      RPLACDP(FREE_LIST, blockp);
+      RPLACDP(FREE_LIST, pblock);
 
       LINE;
       PUTCHAR('\n');      
@@ -121,48 +121,48 @@ namespace reseune {
       LINE;
       PRINT("Bytes requested: ", size);
       
-      VOIDP       pointer {nullptr};
-      alloc_nodep blockp  {nullptr};
+      VOIDP       pvoid  {nullptr};
+      palloc_node pblock {nullptr};
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
         if (block.data.size >= size)
         {
-          blockp  = &block;
-          pointer = &block.data.block_start;
+          pblock  = &block;
+          pvoid = &block.data.block_start;
 
-          PRINT("Selected block at", blockp);
-          PROFFSETP(blockp);
+          PRINT("Selected block at", pblock);
+          PROFFSETP(pblock);
           PRINT("With block start at", &block.data.block_start);
           PROFFSET(block.data.block_start);
           HLINE;
-          DESCRIBEP(blockp);
+          DESCRIBEP(pblock);
           LINE;
           
           break;
         }
 
-      IFISNULL(blockp)
-        return pointer;
+      IFISNULL(pblock)
+        return pvoid;
 
-      alloc_node & block {*blockp};
+      alloc_node & block {*pblock};
       
       // Can we split the block?
       if ((block.data.size - size) >= MIN_ALLOC_SZ) {
-        alloc_nodep new_blockp {ALLOC_NODEP((UINTPTR(pointer) + size))};
+        palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
         
-        new_blockp->data.size = block.data.size - size - ALLOC_HEADER_SZ;
+        pnew_block->data.size = block.data.size - size - ALLOC_HEADER_SZ;
         block      .data.size = size;
-        CONSP(new_blockp, block);
+        CONSP(pnew_block, block);
         block      .remove();
         
-        PRINT("Created new block at", new_blockp);
-        PROFFSETP(new_blockp);
-        PRINT("With block start at", &new_blockp->data.block_start);
-        PROFFSET(new_blockp->data.block_start);
+        PRINT("Created new block at", pnew_block);
+        PROFFSETP(pnew_block);
+        PRINT("With block start at", &pnew_block->data.block_start);
+        PROFFSET(pnew_block->data.block_start);
 
         HLINE;
-        DESCRIBEP(new_blockp);
+        DESCRIBEP(pnew_block);
         HLINE;
       }
       else {
@@ -176,10 +176,10 @@ namespace reseune {
         assert(false);
       }
 
-      PRINT("Gave pointer to", UINTPTR(pointer));
+      PRINT("Gave pointer to", UINTPTR(pvoid));
       LINE;
       
-      return pointer;
+      return pvoid;
     }
 
     // ===========================================================================================================
@@ -193,21 +193,21 @@ namespace reseune {
       PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(pointer));
       LINE;
 
-      alloc_nodep released_blockp {ALLOC_NODEP(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
+      palloc_node released_pblock {PALLOC_NODE(UINTPTR(pointer) - ALLOC_HEADER_SZ)};
       
-      PRINT("It's node is at", released_blockp);
+      PRINT("It's node is at", released_pblock);
       LINE;
       PUTCHAR('\n');
       
       // Let's put it back in the proper spot
       FOR_EACH_BLOCK
-        if (&block > released_blockp) {
-          CONSP(released_blockp, block);
+        if (&block > released_pblock) {
+          CONSP(released_pblock, block);
 
           goto block_added;
         }
 
-      CONSP(released_blockp, FREE_LIST_HEAD);
+      CONSP(released_pblock, FREE_LIST_HEAD);
       
     block_added:
       // Let's see if we can combine any memory
@@ -221,12 +221,12 @@ namespace reseune {
       PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
 
-      alloc_nodep last_blockp {nullptr};
+      palloc_node plast_block {nullptr};
 
       FOR_EACH_BLOCK {
-        IFISNOTNULL(last_blockp) 
-          if ((UINTPTR(&last_blockp->data.block_start) + last_blockp->data.size) == UINTPTR(&block)) {
-            last_blockp->data.size += ALLOC_HEADER_SZ + block.data.size;
+        IFISNOTNULL(plast_block) 
+          if ((UINTPTR(&plast_block->data.block_start) + plast_block->data.size) == UINTPTR(&block)) {
+            plast_block->data.size += ALLOC_HEADER_SZ + block.data.size;
 
             PRINTF("Removing this block:.\n");
             DESCRIBE(block);
@@ -236,7 +236,7 @@ namespace reseune {
             // continue; // this seems unnecessary?
           }
         
-        last_blockp = &block;
+        plast_block = &block;
       }
 
       HLINE;
@@ -251,7 +251,7 @@ namespace reseune {
 }
 
 #undef ALLOC_HEADER_SZ
-#undef ALLOC_NODEP
+#undef PALLOC_NODE
 #undef ASSERTISNOTNULL
 #undef CONS
 #undef CONSP
@@ -277,6 +277,6 @@ namespace reseune {
 #undef VERBOSEARG
 #undef VOID
 #undef VOIDP
-#undef alloc_nodep
+#undef palloc_node
 
 #endif
