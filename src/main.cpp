@@ -6,20 +6,29 @@
 #include <chrono>
 #include "reseune/reseune.hpp"
 
-using namespace std::chrono;
+// ===============================================================================================================
+
+#define LINE  reseune::print_line()
+#define HLINE reseune::print_line('-')
+#define NOW   duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+#define cout  std::cout
+#define endl  std::endl
 
 // ===============================================================================================================
 
-#define LINE reseune::print_line()
-#define HLINE reseune::print_line('-')
-#define NOW duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
-using cell = reseune::cell;
-using tag  = cell::tag_type;
-using link = reseune::doubly_linked<char>;
-using pool = std::conditional<WITH_RESEUNE_POOL, reseune::pool<cell, POOL_SIZE>, cell[POOL_SIZE]>::type;
+using namespace std::chrono;
+using string  = std::string;
+using cell    = reseune::cell;
+using tag     = cell::tag_type;
+using link    = reseune::doubly_linked<char>;
+using pool    = std::conditional<
+  WITH_RESEUNE_POOL,
+  reseune::pool<cell, POOL_SIZE>,
+  cell[POOL_SIZE]>::type;
+
+// ===============================================================================================================
 
 pool POOL { 
   /*  0 */ 88,
@@ -201,12 +210,12 @@ void test_base_one() {
     alloc.describe_free_list();
 #endif
   }
+  
+  void * strblk = allocator::valloc(sizeof(string), true);
 
-  void * strblk = allocator::valloc(sizeof(std::string), true);
+  new (strblk) string("This is the string.");
 
-  new (strblk) std::string("This is the string.");
-
-  std::cout << *reinterpret_cast<std::string *>(strblk) << std::endl;
+  cout << *reinterpret_cast<string *>(strblk) << endl;
 
   reseune::print_bits<true, false>("String is at", reseune::uintptr(strblk));
   
