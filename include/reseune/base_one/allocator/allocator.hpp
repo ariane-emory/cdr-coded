@@ -196,9 +196,9 @@ namespace reseune {
     
       // ===========================================================================================================
 
-      VOIDFUN(defragment, VERBOSEARG) {
+      VOIDFUN(coalesce, VERBOSEARG) {
         PRLINE;
-        PRINTF("DEFRAGMENTMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+        PRINTF("COALESCEMMENTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
         PRLINE;
 
         palloc_node plast_block {nullptr};
@@ -219,7 +219,7 @@ namespace reseune {
         }
 
         PRHLINE;
-        PRINTF("Done defragmenting.\n");
+        PRINTF("Done coalesceing.\n");
         PRLINE;
         PUTCHAR('\n');
       }
@@ -249,7 +249,7 @@ namespace reseune {
       
       block_added:
         // Let's see if we can combine any memory
-        defragment(verbose);
+        coalesce(verbose);
       }
 
       // =========================================================================================================
