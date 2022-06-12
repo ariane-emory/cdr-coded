@@ -20,26 +20,23 @@ namespace reseune {
     constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static    char         MEMORY[MEMORY_BYTES] {0};
     static    alloc_node   FREE_LIST            {nullptr, nullptr};
-
-    // ===========================================================================================================
-
-#define ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
-#define DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
-#define DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
-#define FOR_EACH_BLOCK(name) for (auto & name : FREE_LIST_HEAD)
-#define FREE_LIST_HEAD       (*FREE_LIST.next)
-#define HLINE                { if (verbose) print_line('-'); }
-#define ISNOTNULL(x)         (nullptr != x)
-#define ISNULL(x)            (nullptr == x)
-#define LINE                 { if (verbose) print_line(); }
-#define PRINT(x,y)           { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
-#define PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
-#define PROFFSET(x)          { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
-#define PUTCHAR(c)           { if (verbose) putchar(c); }
-#define UINTPTR(x)           (uintptr(x))
-#define VERBOSEARG           bool verbose = false
-#define VOIDP                void * 
-#define alloc_nodep          alloc_node *
+#define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
+#define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
+#define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
+#define                    FOR_EACH_BLOCK(name) for (auto & name : FREE_LIST_HEAD)
+#define                    FREE_LIST_HEAD       (*FREE_LIST.next)
+#define                    HLINE                { if (verbose) print_line('-'); }
+#define                    ISNOTNULL(x)         (nullptr != x)
+#define                    ISNULL(x)            (nullptr == x)
+#define                    LINE                 { if (verbose) print_line(); }
+#define                    PRINT(x,y)           { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
+#define                    PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
+#define                    PROFFSET(x)          { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
+#define                    PUTCHAR(c)           { if (verbose) putchar(c); }
+#define                    UINTPTR(x)           (uintptr(x))
+#define                    VERBOSEARG           bool verbose = false
+#define                    VOIDP                void * 
+#define                    alloc_nodep          alloc_node *
     
     // ===========================================================================================================
 
@@ -258,7 +255,8 @@ namespace reseune {
 #undef PROFFSET
 #undef PUTCHAR
 #undef UINTPTR
-#undef VERBOSEARG       
+#undef VERBOSEARG
+#undef VOIDP
 #undef alloc_nodep
 
 #endif
