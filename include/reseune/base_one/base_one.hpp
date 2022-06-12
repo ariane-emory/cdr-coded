@@ -13,14 +13,7 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-    using     alloc_node = doubly_linked<alloc_info>;    
-    //    constexpr size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start)};
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
-#define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
-    constexpr size_t       MEMORY_WORDS         {1024};
-    constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
-    static    char         MEMORY[MEMORY_BYTES] {0};
-    static    alloc_node   FREE_LIST            {nullptr, nullptr};
 #define                    ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
@@ -30,6 +23,7 @@ namespace reseune {
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
 #define                    LINE                 { if (verbose) print_line(); }
+#define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PRINT(x,y)           { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
 #define                    PROFFSET(x)          { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
@@ -38,6 +32,11 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    VOIDP                void * 
 #define                    alloc_nodep          alloc_node *
+    using     alloc_node = doubly_linked<alloc_info>;    
+    constexpr size_t       MEMORY_WORDS         {1024};
+    constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
+    static    char         MEMORY[MEMORY_BYTES] {0};
+    static    alloc_node   FREE_LIST            {nullptr, nullptr};
     
     // ===========================================================================================================
 
@@ -242,15 +241,17 @@ namespace reseune {
   }
 }
 
+#undef ALLOC_HEADER_SZ
 #undef ALLOC_NODEP
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef FOR_EACH_BLOCK
-#undef FREE_LIST_HEAD   
-#undef HLINE            
+#undef FREE_LIST_HEAD
+#undef HLINE
 #undef ISNOTNULL
 #undef ISNULL
-#undef LINE             
+#undef LINE
+#undef MIN_ALLOC_SZ
 #undef PRINT
 #undef PRINTF
 #undef PROFFSET
