@@ -30,7 +30,8 @@ namespace reseune {
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PRINT(x,y)           { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
-#define                    PROFFSET(x)          { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
+#define                    PROFFSET(x)          { PROFFSETP(&x); }
+#define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    VERBOSEARG           bool verbose = false
@@ -92,9 +93,9 @@ namespace reseune {
       FOR_EACH_BLOCK {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
-        PROFFSET(&block);
+        PROFFSET(block);
         PRINT("With block start at", &block.data.block_start);
-        PROFFSET(&block.data.block_start);
+        PROFFSET(block.data.block_start);
         HLINE;
         DESCRIBE(block);
         LINE;
@@ -128,9 +129,9 @@ namespace reseune {
           pointer = &block.data.block_start;
 
           PRINT("Selected block at", blockp);
-          PROFFSET(blockp);
+          PROFFSETP(blockp);
           PRINT("With block start at", &block.data.block_start);
-          PROFFSET(&block.data.block_start);
+          PROFFSET(block.data.block_start);
           HLINE;
           DESCRIBEP(blockp);
           LINE;
@@ -153,9 +154,9 @@ namespace reseune {
         block      .remove();
         
         PRINT("Created new block at", new_blockp);
-        PROFFSET(new_blockp);
+        PROFFSETP(new_blockp);
         PRINT("With block start at", &new_blockp->data.block_start);
-        PROFFSET(&new_blockp->data.block_start);
+        PROFFSET(new_blockp->data.block_start);
 
         HLINE;
         DESCRIBEP(new_blockp);
@@ -264,6 +265,7 @@ namespace reseune {
 #undef PRINT
 #undef PRINTF
 #undef PROFFSET
+#undef PROFFSETP
 #undef PUTCHAR
 #undef UINTPTR
 #undef VERBOSEARG
