@@ -183,11 +183,6 @@ void test_links() {
 
 // ===============================================================================================================
 
-constexpr size_t buff_len = 1 << 14; // 16 kb
-
-char buff1[buff_len] {0};
-char buff2[buff_len] {0};
-
 void test_base_one() {
   const bool verbose {true};
 
@@ -200,6 +195,11 @@ void test_base_one() {
 #endif
 #define PRINT print_bits<true,false>
   
+  constexpr size_t buff_len = 1 << 14; // 16 kb
+
+  char buff1[buff_len] {0};
+  char buff2[buff_len] {0};
+
   ALLOC add_memory(buff1, buff_len, verbose);
   ALLOC add_memory(buff2, buff_len, verbose);
   
