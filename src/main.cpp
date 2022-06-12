@@ -7,6 +7,7 @@
 // ===============================================================================================================
 
 #define LINE reseune::print_line()
+#define HLINE reseune::print_line('-')
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
@@ -167,35 +168,37 @@ void test_links() {
 
 // ===============================================================================================================
 
-char buf[2048] = {0};
+constexpr size_t buff_len = 1 << 19; // 512 kb
+
+char buff1[buff_len] {0};
+char buff2[buff_len] {0};
 
 void test_base_one() {
   using namespace reseune::base_one;
 
   const bool verbose {true};
 
-  initialize(verbose);
+  // initialize(verbose);
 
-  alloc_add_block(buf, 2048, verbose);
+  alloc_add_block(buff1, buff_len, verbose);
+  alloc_add_block(buff2, buff_len, verbose);
   
-  // This size is probably wrong by 8:
-  // reseune::print_bits<true, false>("Size should be", MEMORY_BYTES - sizeof(alloc_node)); 
-  // putchar('\n');
-  // LINE;
-  
-  // reseune::print_bits<true,false>("Free list is now at", reseune::uintptr(&reseune::base_one::FREE_LIST));
-
   describe_free_list();
 
   using T = int;
   
   T *        buffer {nullptr};
-  
+  size_t     ix     {0};
+
   do {
-    // buffer = reinterpret_cast<char *>(alloc(1024, verbose));
+    LINE;
+    
+    printf("Req #%zu, requesting %zu bytes.\n", ++ix, sizeof(T) * 1024);
+    
     buffer = alloc<T>(1024, verbose);
     
     if (verbose) {
+      HLINE;        
       reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
       // putchar('\n');
       // describe_free_list();

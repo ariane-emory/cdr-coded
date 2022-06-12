@@ -107,9 +107,9 @@ namespace reseune {
       FOR_EACH_BLOCK {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
-        PROFFSET(block);
+        // PROFFSET(block);
         PRINT("With block start at", &BSTART(block));
-        PROFFSET(BSTART(block));
+        // PROFFSET(BSTART(block));
         HLINE;
         DESCRIBE(block);
         LINE;
@@ -147,9 +147,9 @@ namespace reseune {
           pvoid  = &BSTART(block);
 
           PRINT("Selected block at", pblock);
-          PROFFSETP(pblock);
+          // PROFFSETP(pblock);
           PRINT("With block start at", &BSTART(block));
-          PROFFSET(BSTART(block));
+          // PROFFSET(BSTART(block));
           HLINE;
           DESCRIBEP(pblock);
           LINE;
@@ -157,8 +157,11 @@ namespace reseune {
           break;
         }
 
-      IFISNULL(pblock)
+      IFISNULL(pblock) {
+        PRINTF("OUT OF MEMORY!\n");
+        
         return pvoid;
+      }
 
       alloc_node & block {*pblock};
       
@@ -172,9 +175,9 @@ namespace reseune {
         REMOVE(block);
         
         PRINT("Created new block at", pnew_block);
-        PROFFSETP(pnew_block);
+        // PROFFSETP(pnew_block);
         PRINT("With block start at", &BSTARTP(pnew_block));
-        PROFFSET(BSTARTP(pnew_block));
+        // PROFFSET(BSTARTP(pnew_block));
 
         HLINE;
         DESCRIBEP(pnew_block);
