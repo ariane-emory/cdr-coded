@@ -194,13 +194,13 @@ void test_base_one() {
   alloc.add_memory(buff2, buff_len, verbose);
 #endif
   
-//   if (verbose) {
-// #ifdef RESEUNE_SINGLETON_ALLOCATOR
-//     allocator::describe_free_list();
-// #else
-//     alloc.describe_free_list();
-// #endif
-//   }
+  if (verbose) {
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+    allocator::describe_free_list();
+#else
+    alloc.describe_free_list();
+#endif
+  }
 
   void * strblk = allocator::valloc(sizeof(std::string), true);
 
