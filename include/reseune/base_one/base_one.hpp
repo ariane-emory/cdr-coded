@@ -75,11 +75,12 @@ namespace reseune {
       PRINT("Aligned pblock to", pblock);
 
       // calculate actual size - overhead
-      SETBSIZEP(pblock, 
-                UINTPTR(addr)
-                + size
-                - UINTPTR(pblock)
-                - ALLOC_HEADER_SZ);
+      SETBSIZEP(
+        pblock, 
+        UINTPTR(addr)
+        + size
+        - UINTPTR(pblock)
+        - ALLOC_HEADER_SZ);
 
       RPLACDP(FREE_LIST, pblock);
 
