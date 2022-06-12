@@ -217,8 +217,8 @@ void test_base_one() {
   
   using T = int;
   
-  T *       buffer {nullptr};
-  size_t    ix     {0};
+  T *    buffer {nullptr};
+  size_t ix     {0};
 
   do {
     if (verbose) {
