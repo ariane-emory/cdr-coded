@@ -60,7 +60,6 @@
   PRLINE;                                                                       \
   PRINT("Placing block", pblock);                                               \
                                                                                 \
-                                                                                \
   IFISNULL(PFREE_LIST_HEAD) {                                                   \
     WARN("Placing after FL head.\n");                                           \
                                                                                 \
