@@ -181,7 +181,7 @@ void test_base_one() {
 
   describe_free_list();
   
-  char * buffer = nullptr;
+  char * buffer {nullptr};
 
   for (size_t ix = 0; ix < 2; ix++) {
     buffer = reinterpret_cast<char *>(alloc(1024));
