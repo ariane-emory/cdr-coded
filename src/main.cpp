@@ -208,19 +208,19 @@ void test_base_one() {
   ALLOC add_memory(buff2, buff_len, verbose);
 
   if (verbose)
-          ALLOC describe_free_list();
+    ALLOC describe_free_list();
   
-        return;
+  return;
 
-        {
-          void * strblk = ALLOC valloc<string>(true);
+  {
+    void * strblk = ALLOC valloc<string>(true);
 
-          new (strblk) string("This is the string.");
+    new (strblk) string("This is the string.");
 
-          cout << *reinterpret_cast<string *>(strblk) << endl;
+    cout << *reinterpret_cast<string *>(strblk) << endl;
 
-          PRINT("String is at", uintptr(strblk));
-        }
+    PRINT("String is at", uintptr(strblk));
+  }
   
   using T = int;
   
