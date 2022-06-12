@@ -16,7 +16,7 @@ namespace reseune {
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
-#define                    BSTART(b)            (b.data.block_start)
+#define                    BSTART(b)            (&b.data.block_start)
 #define                    BSTARTP(pb)          (BSTART((*pb)))
 #define                    CONS(head, list)     head.insert_before(list)
 #define                    CONSP(headp, list)   CONS((*headp), list)
@@ -114,7 +114,7 @@ namespace reseune {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
         // PROFFSET(block);
-        PRINT("With block start at", &BSTART(block));
+        PRINT("With block start at", BSTART(block));
         // PROFFSET(BSTART(block));
         HLINE;
         DESCRIBE(block);
@@ -150,11 +150,11 @@ namespace reseune {
         if (BSIZE(block) >= size)
         {
           pblock = &block;
-          pvoid  = &BSTART(block);
+          pvoid  = BSTART(block);
 
           PRINT("Selected block at", pblock);
           // PROFFSETP(pblock);
-          PRINT("With block start at", &BSTART(block));
+          PRINT("With block start at", BSTART(block));
           // PROFFSET(BSTART(block));
           HLINE;
           DESCRIBEP(pblock);
@@ -182,7 +182,7 @@ namespace reseune {
         
         PRINT("Created new block at", pnew_block);
         // PROFFSETP(pnew_block);
-        PRINT("With block start at", &BSTARTP(pnew_block));
+        PRINT("With block start at", BSTARTP(pnew_block));
         // PROFFSET(BSTARTP(pnew_block));
 
         HLINE;
@@ -256,7 +256,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block) 
-          if ((UINTPTR(&BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
+          if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
             SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
             PRINTF("Removing this block:.\n");
