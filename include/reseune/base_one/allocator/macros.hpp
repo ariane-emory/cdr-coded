@@ -62,8 +62,8 @@
     CONSP(pblock, block);                                                       \
     PRINT("Insert node:", pblock);                                              \
     goto block_placed;                                                          \
-    CONSP(pblock, FREE_LIST_HEAD);                                              \
   }                                                                             \
+  CONSP(pblock, FREE_LIST_HEAD);                                                \
 block_placed:
 
 #endif
