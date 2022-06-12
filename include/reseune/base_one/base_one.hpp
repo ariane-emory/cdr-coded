@@ -19,7 +19,7 @@ namespace reseune {
     constexpr        size_t       MEMORY_WORDS         {1024};
     constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
     static           char         MEMORY[MEMORY_BYTES] {0};
-    static           alloc_node   FREE_LIST {nullptr,nullptr};
+    static           alloc_node   FREE_LIST            {nullptr, nullptr};
 
     // ===========================================================================================================
 
@@ -34,6 +34,8 @@ namespace reseune {
 #define DESCRIBEP(blockp) { DESCRIBE((*blockp)); }
 #define VERBOSEARG        bool verbose = false
 #define alloc_nodep       alloc_node *
+#define ISNULL(x)         (nullptr == x)
+#define ISNOTNULL(x)      (nullptr != x)
     
     // ===========================================================================================================
 
@@ -79,7 +81,7 @@ namespace reseune {
     inline void describe_free_list() {
       const bool verbose = true;
       
-      assert(nullptr != FREE_LIST.next);
+      assert(ISNOTNULL(FREE_LIST.next));
       
       LINE;
       PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
@@ -109,7 +111,7 @@ namespace reseune {
       LINE;
       PRINT("Bytes requested: ", size);
       
-      void *       pointer {nullptr};
+      void *      pointer {nullptr};
       alloc_nodep blockp  {nullptr};
 
       assert(size > 0);
@@ -138,7 +140,7 @@ namespace reseune {
 
       // PRINT("Selected block at", uintptr(&block->data.block_start));
       
-      if (nullptr == blockp)
+      if (ISNULL(blockp))
         return pointer;
 
       // Can we split the blocko?
