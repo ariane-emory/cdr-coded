@@ -13,36 +13,37 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-    using            alloc_node = doubly_linked<alloc_info>;    
-    constexpr        size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start)};
-    constexpr        size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
-    constexpr        size_t       MEMORY_WORDS         {1024};
-    constexpr        size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
-    static           char         MEMORY[MEMORY_BYTES] {0};
-    static           alloc_node   FREE_LIST            {nullptr, nullptr};
+    using     alloc_node = doubly_linked<alloc_info>;    
+    constexpr size_t       ALLOC_HEADER_SZ      {offsetof(alloc_node, data.block_start)};
+    constexpr size_t       MIN_ALLOC_SZ         {ALLOC_HEADER_SZ + 32};
+    constexpr size_t       MEMORY_WORDS         {1024};
+    constexpr size_t       MEMORY_BYTES         {MEMORY_WORDS << 3};
+    static    char         MEMORY[MEMORY_BYTES] {0};
+    static    alloc_node   FREE_LIST            {nullptr, nullptr};
 
     // ===========================================================================================================
 
-#define ALLOC_NODEP(x)        (reinterpret_cast<alloc_nodep>(x))
-#define DESCRIBE(block)       { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
-#define DESCRIBEP(blockp)     { DESCRIBE((*blockp)); }
-#define FOR_EACH_BLOCK(name)  for (auto & name : FREE_LIST_HEAD)
-#define FREE_LIST_HEAD        (*FREE_LIST.next)
-#define HLINE                 { if (verbose) print_line('-'); }
-#define ISNOTNULL(x)          (nullptr != x)
-#define ISNULL(x)             (nullptr == x)
-#define LINE                  { if (verbose) print_line(); }
-#define PRINT(x,y)            { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
-#define PRINTF(...)           { if (verbose) printf(__VA_ARGS__); }
-#define PROFFSET(x)           { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
-#define PUTCHAR(c)            { if (verbose) putchar(c); }
-#define UINTPTR(x)            (uintptr(x))
-#define VERBOSEARG            bool verbose = false
-#define alloc_nodep           alloc_node *
+#define ALLOC_NODEP(x)       (reinterpret_cast<alloc_nodep>(x))
+#define DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
+#define DESCRIBEP(blockp)    { DESCRIBE((*blockp)); }
+#define FOR_EACH_BLOCK(name) for (auto & name : FREE_LIST_HEAD)
+#define FREE_LIST_HEAD       (*FREE_LIST.next)
+#define HLINE                { if (verbose) print_line('-'); }
+#define ISNOTNULL(x)         (nullptr != x)
+#define ISNULL(x)            (nullptr == x)
+#define LINE                 { if (verbose) print_line(); }
+#define PRINT(x,y)           { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
+#define PRINTF(...)          { if (verbose) printf(__VA_ARGS__); }
+#define PROFFSET(x)          { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
+#define PUTCHAR(c)           { if (verbose) putchar(c); }
+#define UINTPTR(x)           (uintptr(x))
+#define VERBOSEARG           bool verbose = false
+#define VOIDP                void * 
+#define alloc_nodep          alloc_node *
     
     // ===========================================================================================================
 
-    inline void alloc_add_block(void * const addr, size_t size, VERBOSEARG) {
+    inline void alloc_add_block(VOIDP const addr, size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
@@ -50,7 +51,7 @@ namespace reseune {
       PRINT("Given bytes", size);
       
       // align the start addr of our block to the next pointer aligned addr
-      alloc_nodep block {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(void *)))};
+      alloc_nodep block {ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(VOIDP)))};
         
       PRINT("Aligned block to", block);
 
@@ -104,19 +105,19 @@ namespace reseune {
 
     // ===========================================================================================================
     
-    inline void * alloc(size_t size, VERBOSEARG) {
+    inline VOIDP alloc(size_t size, VERBOSEARG) {
       LINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", &FREE_LIST, &FREE_LIST);
       LINE;
       PRINT("Bytes requested: ", size);
       
-      void *      pointer {nullptr};
+      VOIDP       pointer {nullptr};
       alloc_nodep blockp  {nullptr};
 
       assert(size > 0);
       
       // Align the pointer
-      size = align_up(size, sizeof(void *));
+      size = align_up(size, sizeof(VOIDP));
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(b)
@@ -178,7 +179,7 @@ namespace reseune {
 
     void defrag(bool varbose);
     
-    inline void release(void * pointer, VERBOSEARG) {
+    inline void release(VOIDP pointer, VERBOSEARG) {
       assert(ISNOTNULL(pointer));
 
       LINE;
