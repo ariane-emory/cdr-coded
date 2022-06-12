@@ -147,9 +147,9 @@ namespace reseune {
         alloc_nodep new_blockp {ALLOC_NODEP((UINTPTR(pointer) + size))};
         
         new_blockp->data.size = block.data.size - size - ALLOC_HEADER_SZ;
-        blockp    ->data.size = size;
+        block      .data.size = size;
         new_blockp->insert_before(blockp);
-        blockp    ->remove();
+        block      .remove();
         
         PRINT("Created new block at", new_blockp);
         PROFFSET(new_blockp);
