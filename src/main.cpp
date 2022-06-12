@@ -167,18 +167,18 @@ void test_links() {
 
   m.remove();
 
-#define PRINT(x) { x.describe_instance(); printf("Value               : %c\n", x.data); }
+#define DESCRIBE(x) { x.describe_instance(); printf("Value               : %c\n", x.data); }
 
-  PRINT(l);
-  PRINT(m);
-  PRINT(n);
-  PRINT(o);
+  DESCRIBE(l);
+  DESCRIBE(m);
+  DESCRIBE(n);
+  DESCRIBE(o);
 
   putchar('\n');
   
-  for (const link & i : l) PRINT(i);
+  for (const link & i : l) DESCRIBE(i);
   
-#undef PRINT
+#undef DESCRIBE
 }
 
 // ===============================================================================================================
