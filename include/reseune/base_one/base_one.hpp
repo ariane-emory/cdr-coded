@@ -148,7 +148,7 @@ namespace reseune {
         
         new_blockp->data.size = block.data.size - size - ALLOC_HEADER_SZ;
         block      .data.size = size;
-        new_blockp->insert_before(blockp);
+        new_blockp->insert_before(block);
         block      .remove();
         
         PRINT("Created new block at", new_blockp);
