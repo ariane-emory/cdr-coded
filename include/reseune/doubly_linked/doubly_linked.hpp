@@ -2,6 +2,8 @@
 #define RESEUNE_DOUBLY_LINKED_H
 
 #include <cassert>
+
+#include "reseune/linked_list_forward_iterator/linked_list_forward_iterator.hpp"
 #include "reseune/linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
 
 namespace reseune {
