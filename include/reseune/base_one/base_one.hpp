@@ -117,16 +117,16 @@ namespace reseune {
       size = align_up(size, sizeof(VOIDP));
 
       // try to find a big enough block to alloc
-      FOR_EACH_BLOCK(b)
-        if (b.data.size >= size)
+      FOR_EACH_BLOCK(block)
+        if (block.data.size >= size)
         {
-          blockp = &b;
-          pointer = &b.data.block_start;
+          blockp = &block;
+          pointer = &block.data.block_start;
 
-          PRINT("Selected block at", &b);
-          PROFFSET(&b);
-          PRINT("With block start at", &b.data.block_start);
-          PROFFSET(&b.data.block_start);
+          PRINT("Selected block at", blockp);
+          PROFFSET(blockp);
+          PRINT("With block start at", &block.data.block_start);
+          PROFFSET(&block.data.block_start);
           HLINE;
           DESCRIBEP(blockp);
           LINE;
