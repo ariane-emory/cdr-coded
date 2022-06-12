@@ -20,7 +20,6 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace std::chrono;
 using namespace reseune;
-using namespace reseune::base_one::allocator;
 using string  = std::string;
 using cell    = reseune::cell;
 using tag     = cell::tag_type;
@@ -193,27 +192,20 @@ void test_base_one() {
   const bool verbose {true};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ADD_MEMORY add_memory  
-#define DESCRIBE   describe_free_list();
-#define ALLOC      alloc
-#define RELEASE    release
-#define VALLOC     valloc
+  using namespace reseune::base_one::allocator;
+#define ALLOC
 #else
-#define ADD_MEMORY alloc.add_memory  
-#define DESCRIBE   alloc.describe_free_list();
-#define ALLOC      alloc.aalloc
-#define RELEASE    alloc.release
-#define VALLOC     alloc.valloc  
-  allocator alloc {};  
+#define ALLOC alloc.
+  base_one::allocator alloc {};  
 #endif
 
-  ADD_MEMORY(buff1, buff_len, verbose);
-  ADD_MEMORY(buff2, buff_len, verbose);
+  ALLOC add_memory(buff1, buff_len, verbose);
+  ALLOC add_memory(buff2, buff_len, verbose);
   
   if (verbose)
-    DESCRIBE;
+    ALLOC describe_free_list();
   
-  void * strblk = VALLOC<string>(true);
+  void * strblk = ALLOC valloc<string>(true);
 
   new (strblk) string("This is the string.");
 
@@ -234,13 +226,13 @@ void test_base_one() {
       printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
     }
     
-    buffer = ALLOC<T>(1024, verbose);
+    buffer = ALLOC alloc<T>(1024, verbose);
     
     if (verbose) {
       print_bits<verbose,false>("Received", uintptr(buffer));
       LINE;
       putchar('\n');
-      DESCRIBE;
+      ALLOC describe_free_list();
     }
 
     // RELEASE(buffer, verbose);
