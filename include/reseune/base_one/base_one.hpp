@@ -28,8 +28,8 @@ namespace reseune {
 #define                    PROFFSET(x)          { PROFFSETP(&x); }
 #define                    PROFFSETP(x)         { PRINT("... with offset", UINTPTR(x) - UINTPTR(MEMORY)); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
-#define                    RPLACD(l, t)         t.insert_after(l)
-#define                    RPLACDP(l, tp)       RPLACD(l, (*tp))
+#define                    RPLACD(list, tail)   tail.insert_after(list)
+#define                    RPLACDP(list, tailp) RPLACD(list, (*tailp))
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
