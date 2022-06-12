@@ -227,8 +227,15 @@ namespace reseune {
       // ===========================================================================================================
     
       VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
-        // Warning: if you try to release an address that wasn't ever allcated, something bad will
-        // probably happen.
+        // WARNING: something bad will probably happen if you try to release an address that wasn't ever allcated by
+        // one of these allocaors (such that addr does not have an alloc info in the memory loction directly to it's
+        // left.
+        //
+        // If you are using multiple allocator objects, you probably ~could~ get away with having one allocator
+        // release a block that was allocated by a different allocator (effectively 'stealing' the block and
+        // adding it to your own free list, but I haven't tested this yet.
+
+        ASSERTISNOTNULL(addr);
         
         palloc_node preleased_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
@@ -242,11 +249,11 @@ namespace reseune {
       
         // Let's put it back in the proper spot
         FOR_EACH_BLOCK
-          if (&block > preleased_block) {
-            CONSP(preleased_block, block);
+      if (&block > preleased_block) {
+        CONSP(preleased_block, block);
 
-            goto block_added;
-          }
+        goto block_added;
+      }
 
         CONSP(preleased_block, FREE_LIST_HEAD);
 
