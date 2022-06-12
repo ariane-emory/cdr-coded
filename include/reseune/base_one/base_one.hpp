@@ -120,6 +120,12 @@ namespace reseune {
 
     // ===========================================================================================================
     
+    inline PVOID valloc(size_t size, size_t each, VERBOSEARG) {
+      return valloc(size * each, verbose);
+    }
+    
+    // ===========================================================================================================
+    
     inline PVOID valloc(size_t size, VERBOSEARG) {
       assert(size > 0);
       
