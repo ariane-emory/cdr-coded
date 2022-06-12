@@ -50,6 +50,15 @@ namespace reseune {
           alloc_node & new_block  {*pnew_block};
           
           PRINT("Align pnew_block to", pnew_block);
+
+#define PLACE_BLOCK(name)                                                       \
+          FOR_EACH_BLOCK                                                        \
+            if (&block > name) {                                                \
+              CONSP(name, block);                                               \
+                                                                                \
+              goto block_placed;                                                \
+        }
+
           
           // calculate actual size - overhead
           SETBSIZE(
