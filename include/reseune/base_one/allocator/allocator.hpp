@@ -32,7 +32,7 @@ namespace reseune {
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
-#define                    PVOIDFUN(name, ...)  static inline void * name(__VA_ARGS__)
+#define                    PVOIDFUN(name, ...)  inline void * name(__VA_ARGS__)
 #define                    RCONS(tail, list)    tail.insert_after(list)
 #define                    RCONSP(ptail, list)  RCONS((*ptail), list)
 #define                    REMOVE(b)            b.remove()
@@ -40,7 +40,7 @@ namespace reseune {
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
-#define                    VOIDFUN(name, ...)   static inline void name(__VA_ARGS__)
+#define                    VOIDFUN(name, ...)   inline void name(__VA_ARGS__)
 #define                    WARN(...)            { printf(__VA_ARGS__); }
 // This offset will only printg correctly for locations in MEMORY:
 #define                    ADDRARG              PVOIDC addr
@@ -58,8 +58,12 @@ namespace reseune {
 #define                    VERBOSEARG           bool verbose = false
 #define                    palloc_node          alloc_node *
       using                alloc_node         = doubly_linked<alloc_info>;    
-      static alloc_node    FREE_LIST;      
-    
+      /* static */ alloc_node    FREE_LIST;      
+
+      // ===========================================================================================================
+
+      constexpr allocator() : FREE_LIST {nullptr, nullptr } {}
+      
       // ===========================================================================================================
 
       VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
@@ -203,7 +207,7 @@ namespace reseune {
       // ===========================================================================================================
 
       template <typename T>
-      static inline T * alloc(SIZEARG, VERBOSEARG) {
+      inline T * alloc(SIZEARG, VERBOSEARG) {
         return reinterpret_cast<T *>(valloc(size * sizeof(T), verbose));
       }
     

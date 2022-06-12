@@ -183,37 +183,40 @@ void test_base_one() {
 
   // initialize(verbose);
 
-  allocator::add_memory(buff1, buff_len, verbose);
-  allocator::add_memory(buff2, buff_len, verbose);
+  allocator alloc {};
+  
+  alloc.add_memory(buff1, buff_len, verbose);
+  alloc.add_memory(buff2, buff_len, verbose);
   
   if (verbose)
-    allocator::describe_free_list();
+    alloc.describe_free_list();
 
   using T = int;
   
   T *        buffer {nullptr};
   size_t     ix     {0};
 
-  do {
-    if (verbose) {
-      LINE;
-      printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
-    }
+  while (true) {
+    do {
+      if (verbose) {
+        LINE;
+        printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
+      }
     
-    buffer = allocator::alloc<T>(1024, false); // Ignoring verbose!
+      buffer = alloc.alloc<T>(1024, false); // Ignoring verbose!
     
-    if (verbose) {
-      reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
-      LINE;
-      putchar('\n'); putchar('\n');
-      allocator::describe_free_list();
-    }
+      if (verbose) {
+        reseune::print_bits<verbose, false>("Received", reseune::uintptr(buffer));
+        LINE;
+        putchar('\n'); putchar('\n');
+        alloc.describe_free_list();
+      }
 
-    // release(buffer, verbose);
-    // if (verbose) describe_free_list();
-  } while (nullptr != buffer);
+      // release(buffer, verbose);
+      // if (verbose) describe_free_list();
+    } while (nullptr != buffer);
+  }
 }
-
 // ===============================================================================================================
 
 int main() {
