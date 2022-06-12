@@ -189,19 +189,19 @@ void test_base_one() {
 #else
   allocator alloc {};
   
-  allocator.add_memory(buff1, buff_len, verbose);
-  allocator.add_memory(buff2, buff_len, verbose);
+  alloc.add_memory(buff1, buff_len, verbose);
+  alloc.add_memory(buff2, buff_len, verbose);
 #endif
   
-  if (verbose)
+  if (verbose) {
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-    allocator::describe_free_list()
-#ellse
-    alloc::describe_free_list()
-#end
-    ;
+    allocator::describe_free_list();
+#else
+    alloc.describe_free_list();
+#endif
+  }
     
-    using T = int;
+  using T = int;
   
   T *        buffer {nullptr};
   size_t     ix     {0};
@@ -216,8 +216,8 @@ void test_base_one() {
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
       allocator::alloc<T>(1024, false) // Ignoring verbose!
 #else
-      allocator.alloc<T>(1024, false) // Ignoring verbose!
-#end
+      alloc.alloc<T>(1024, false) // Ignoring verbose!
+#endif
       ;
     
     if (verbose) {
