@@ -1,7 +1,4 @@
 UNAME_S = $(shell uname -s)
-
-LDFLAGS = -Wl,--gc-sections
-
 CXXLAGS  = \
 	-std=c++23 \
 	-Iinclude \
