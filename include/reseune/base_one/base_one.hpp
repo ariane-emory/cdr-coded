@@ -206,13 +206,14 @@ namespace reseune {
       for (auto & free_block : FREE_LIST_HEAD) {
         if (&free_block > block) {
           block->insert_before(free_block);
-          goto blockadded;
+
+          goto block_added;
         }
       }
 
-      block->insert_after(FREE_LIST);;
+      block->insert_after(FREE_LIST);
       
-    blockadded:
+    block_added:
       // Let's see if we can combine any memory
       defrag(verbose);
     }
