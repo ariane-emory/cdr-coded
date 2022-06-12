@@ -171,7 +171,7 @@ void test_links() {
 
 // ===============================================================================================================
 
-constexpr size_t buff_len = 1 << 15; // 32 kb
+constexpr size_t buff_len = 1 << 14; // 16 kb
 
 char buff1[buff_len] {0};
 char buff2[buff_len] {0};
