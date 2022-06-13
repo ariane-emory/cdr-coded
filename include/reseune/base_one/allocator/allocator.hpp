@@ -11,15 +11,13 @@
 
 #include "macros.hpp"
 
-namespace bloop {
-  namespace {
-    constexpr int x {5};
-  }
-}
-
 namespace reseune {
   namespace base_one {
     // ===========================================================================================================
+
+    namespace {
+      constexpr int x {5};
+    }
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     namespace allocator {
@@ -27,7 +25,7 @@ namespace reseune {
       class allocator {
       public:
 #endif
-      
+
         using alloc_node = doubly_linked<alloc_info>;    
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
