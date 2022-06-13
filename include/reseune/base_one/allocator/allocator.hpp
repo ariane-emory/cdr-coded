@@ -193,6 +193,7 @@ namespace reseune {
           }
           
         found_a_block:
+          
           alloc_node & block {*pblock};
       
           // Check if we can we split the block:
