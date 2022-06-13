@@ -42,7 +42,7 @@ namespace reseune {
         private:
 #endif
 
-          VOIDFUN(SPLIT_BLOCK, palloc_node pblock, SIZEARG, VERBOSEARG) {
+          VOIDFUN(SPLIT_BLOCKP, palloc_node pblock, SIZEARG, VERBOSEARG) {
             alloc_node & block      {*pblock};
             alloc_node & new_block  {*PALLOC_NODE((UINTPTR(BSTART(block)) + size))};
         
@@ -206,9 +206,9 @@ namespace reseune {
         found_a_block:
       
           // Check if we can we split the block:
-          if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ) {
-            SPLIT_BLOCK(pblock, size, verbose);
-          }
+          if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ)
+            SPLIT_BLOCKP(pblock, size, verbose);
+
 #ifndef NDEBUG
           else {
             WARN(
