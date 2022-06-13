@@ -211,7 +211,6 @@ void test_base_one() {
   if (verbose)
     ALLOC describe_free_list();
   
-  // return;
 
   {
     void * strblk = ALLOC valloc<string>(true);
@@ -223,6 +222,8 @@ void test_base_one() {
     PRINT("String is at", uintptr(strblk));
   }
   
+  return;
+
   using T = int;
   
   T *    buffer {nullptr};

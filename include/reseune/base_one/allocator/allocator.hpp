@@ -151,13 +151,7 @@ namespace reseune {
 
         // =======================================================================================================
     
-        PVOIDFUN(valloc, SIZEARG, size_t each, VERBOSEARG) {
-          return valloc(size * each, verbose);
-        }
-    
-        // =======================================================================================================
-    
-        PVOIDFUN(valloc, SIZEARG, VERBOSEARG) {
+        PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
           assert(size > 0);
       
           size = align_up(size, sizeof(PVOID)); // Align the pointer
@@ -237,6 +231,8 @@ namespace reseune {
         static
 #endif
         inline PVOID valloc(SIZEARG = 1, VERBOSEARG) {
+          // Is this function dumb? Maybe we don't really need it?
+
           return valloc(size * sizeof(T), verbose);
         }
     
