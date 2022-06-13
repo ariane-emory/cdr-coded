@@ -50,6 +50,7 @@
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    PRHLINE              { if (verbose) print_line('-'); }
 #define                    PRLINE               { if (verbose) print_line(); }
+#define                    PRNL              PUTCHAR('\n')
 #define                    PVOID                void *
 #define                    PVOIDC               PVOID const 
 #define                    SIZEARG              size_t size

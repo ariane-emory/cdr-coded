@@ -109,7 +109,7 @@ namespace reseune {
           PLACE_BLOCKP(pnew_block);
                     
           PRLINE;
-          PUTCHAR('\n');      
+          PRNL;
         }
 
         // =======================================================================================================
@@ -119,6 +119,7 @@ namespace reseune {
           add_memory(MEMORY, MEMORY_BYTES, verbose);
 #else
           WARN("initialize must not be called when -DRESEUNE_NO_BASE_ONE_MEMORY.");
+
           assert(false);
 #endif
         }
@@ -145,7 +146,7 @@ namespace reseune {
             PRLINE;
           }
   
-          PUTCHAR('\n');
+          PRNL;
         }
 
         // =======================================================================================================
@@ -274,7 +275,7 @@ namespace reseune {
           PRHLINE;
           PRINTF("Done coalesceing.\n");
           PRLINE;
-          PUTCHAR('\n');
+          PRNL;
         }
   
         // =======================================================================================================
@@ -296,7 +297,7 @@ namespace reseune {
           PRLINE;
           PRINT("It's node is at", pnew_block);
           PRLINE;
-          PUTCHAR('\n');
+          PRNL;
       
           ASSERTISNOTNULL(addr);
             
