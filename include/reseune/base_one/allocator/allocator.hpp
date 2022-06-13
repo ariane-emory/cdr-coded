@@ -11,6 +11,12 @@
 
 #include "macros.hpp"
 
+namespace bloop {
+  namespace {
+    constexpr int x {5};
+  }
+}
+
 namespace reseune {
   namespace base_one {
     // ===========================================================================================================
