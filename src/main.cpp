@@ -10,6 +10,7 @@
 
 #define LINE        (reseune::print_line())
 #define HLINE       (reseune::print_line('-'))
+#define NEWLINE     putchar('\n')
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
 #define NOW         (duration_cast<milliseconds>(system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
@@ -77,7 +78,7 @@ void describe_some_sizes() {
   if (pool_size > 1<<10)
     printf(" (%zu kilobytes)", pool_size >> 10);
 
-  putchar('\n');
+  NEWLINE;
   printf("sizeof(void *):             %zu\n", sizeof(void *));
   printf("sizeof(uintptr_t):          %zu\n", sizeof(uintptr_t));
   printf("sizeof(unsigned long):      %zu\n", sizeof(unsigned long));
@@ -148,7 +149,7 @@ void draw_the_pool() {
         putchar('?');
       }
     }
-    putchar('\n');
+    NEWLINE;
   }
 }
 
@@ -176,7 +177,7 @@ void test_links() {
   DESCRIBE(n);
   DESCRIBE(o);
 
-  putchar('\n');
+  NEWLINE;
   
   for (const link & i : l) DESCRIBE(i);
   
@@ -220,9 +221,10 @@ void test_base_one() {
     cout << *reinterpret_cast<string *>(strblk) << endl;
 
     PRINT("String is at", uintptr(strblk));
+    NEWLINE;
   }
   
-  return;
+  // return;
 
   using T = int;
   
@@ -240,7 +242,7 @@ void test_base_one() {
     if (verbose) {
       print_bits<verbose,false>("Received", uintptr(buffer));
       LINE;
-      putchar('\n');
+      NEWLINE;
       ALLOC describe_free_list();
     }
 
