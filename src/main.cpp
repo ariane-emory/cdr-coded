@@ -198,6 +198,7 @@ void test_allocator() {
   allocator<alloc_node> alloc {};  
 #endif
   
+  // Give the allocator with 2 blocks of memory ==================================================================
   constexpr size_t buff_len = 1 << 14; // 16 kb
 
   char buff1[buff_len] {0};
@@ -212,7 +213,8 @@ void test_allocator() {
 
   if (verbose)
     ALLOC describe_free_list();
-  
+
+  //  Try allocating and constructing a string ===================================================================
   {
     void * strblk = ALLOC valloc<string>(true);
 
@@ -224,32 +226,35 @@ void test_allocator() {
     NEWLINE;
   }
   
-  // return;
+// return;
 
-  using T = int;
+  // Allocate ints until we run out of memory ====================================================================
+  {
+    using T = int;
   
-  T *    buffer {nullptr};
-  size_t ix     {0};
+    T *    buffer {nullptr};
+    size_t ix     {0};
 
-  do {
-    if (verbose) {
-      LINE;
-      printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
-    }
+    do {
+      if (verbose) {
+        LINE;
+        printf("Request #%zu, requesting %u bytes.\n", ++ix, sizeof(T) * 1024);
+      }
     
-    buffer = ALLOC alloc<T>(1024, verbose);
+      buffer = ALLOC alloc<T>(1024, verbose);
     
-    if (verbose) {
-      print_bits<verbose,false>("Received", uintptr(buffer));
-      LINE;
-      NEWLINE;
-      ALLOC describe_free_list();
-    }
+      if (verbose) {
+        print_bits<verbose,false>("Received", uintptr(buffer));
+        LINE;
+        NEWLINE;
+        ALLOC describe_free_list();
+      }
 
-    // RELEASE(buffer, verbose);
-    // if (verbose) DESCRIBE;
-  } while (nullptr != buffer);
-
+      // RELEASE(buffer, verbose);
+      // if (verbose) DESCRIBE;
+    } while (nullptr != buffer);
+  }
+  
   printf("Before coalesce.\n");
   ALLOC coalesce(true);
   printf("After coalesce.\n");
