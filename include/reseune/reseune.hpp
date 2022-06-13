@@ -15,6 +15,7 @@
 #include "reseune/singly_linked/singly_linked.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 #include "reseune/alloc_info/alloc_info.hpp"
+#include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
 #include "reseune/allocator/allocator.hpp"
 
 #endif
