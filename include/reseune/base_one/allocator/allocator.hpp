@@ -206,6 +206,7 @@ namespace reseune {
           // Check if we can we split the block:
           if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ)
             SPLIT_BLOCKP(pblock, size, verbose);
+          
 #ifndef NDEBUG
           else 
             DIE(
@@ -262,7 +263,6 @@ namespace reseune {
                 DESCRIBE(block);
 
                 REMOVE(block);
-                // continue; // this seems unnecessary?
               }
         
             plast_block = &block;
