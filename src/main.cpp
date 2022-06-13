@@ -188,7 +188,7 @@ void test_links() {
 
 // ===============================================================================================================
 
-void test_base_one() {
+void test_allocator() {
   const bool verbose {true};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -279,7 +279,7 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
   // test_links();
-  measure_time(test_base_one);
+  measure_time(test_allocator);
 
   // thing mything { 15, 7, 3, 1 };
 
