@@ -43,10 +43,8 @@ namespace reseune {
 #endif
 
           VOIDFUN(SPLIT_BLOCK, palloc_node pblock, SIZEARG, VERBOSEARG) {
-            
-            alloc_node & new_block  {*PALLOC_NODE((UINTPTR(addr) + size))};
             alloc_node & block      {*pblock};
-            PVOID addr {BSTART(block)};
+            alloc_node & new_block  {*PALLOC_NODE((UINTPTR(BSTART(block)) + size))};
         
             SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
             SETBSIZE(block, size);
