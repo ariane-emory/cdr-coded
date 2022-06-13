@@ -9,6 +9,7 @@
 #undef CONSP
 #undef DESCRIBE
 #undef DESCRIBEP
+#undef DIE
 #undef FOR_EACH_BLOCK
 #undef FREE_LIST_HEAD
 #undef IFISNOTNULL

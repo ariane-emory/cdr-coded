@@ -10,6 +10,7 @@
 #define                    CONSP(headp, list)   CONS((*headp), list)
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(pblock)    { DESCRIBE((*pblock)); }
+#define                    DIE(...)             { WARN(__VA_ARGS__); assert(false); }
 #define                    IFISNOTNULL(x)       if (ISNOTNULL(x))
 #define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)

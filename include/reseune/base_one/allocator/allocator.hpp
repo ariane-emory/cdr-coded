@@ -135,9 +135,7 @@ namespace reseune {
 #ifdef RESEUNE_BASE_ONE_MEMORY
           add_memory(MEMORY, MEMORY_BYTES, verbose);
 #else
-          WARN("initialize must not be called when -DRESEUNE_NO_BASE_ONE_MEMORY.");
-
-          assert(false);
+          DIE("initialize must not be called when -DRESEUNE_NO_BASE_ONE_MEMORY.");
 #endif
         }
     
@@ -210,16 +208,13 @@ namespace reseune {
             SPLIT_BLOCKP(pblock, size, verbose);
 
 #ifndef NDEBUG
-          else {
-            WARN(
+          else 
+            DIE(
               "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
               BSIZEP(pblock),
               size,
               (BSIZEP(pblock) - size),
               MIN_ALLOC_SZ);
-        
-            assert(false);
-          }
 #endif
       
           PRINT("Gave pointer to", UINTPTR(pvoid));
