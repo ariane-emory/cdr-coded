@@ -182,8 +182,8 @@ namespace reseune {
               PRHLINE;
               DESCRIBEP(pblock);
               PRLINE;
-          
-              break;
+
+              goto found_a_block;
             }
 
           IFISNULL(pblock) {
@@ -191,7 +191,8 @@ namespace reseune {
 
             return nullptr;
           }
-
+          
+        found_a_block:
           alloc_node & block {*pblock};
       
           // Check if we can we split the block:
