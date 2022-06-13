@@ -33,8 +33,8 @@ namespace reseune {
 
   private:
 
-    VOIDFUN(unfree_blockp, palloc_node pblock) {
-      REMOVEP(pblock);
+    VOIDFUN(unfree_block, alloc_node & block) {
+      REMOVE(block);
     }
     
     // =======================================================================================================
@@ -47,7 +47,7 @@ namespace reseune {
       SETBSIZE(block, size);
       RCONS(new_block, block);
       // REMOVE(block);
-      unfree_blockp(pblock);
+      unfree_block(block);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
@@ -303,16 +303,6 @@ namespace reseune {
   template <typename T>
   allocator<T>::alloc_node allocator<T>::FREE_LIST {};
 #endif
-
-  template <>
-  inline bool allocator<alloc_info_with_unfree_flag>::is_free(alloc_node & block) {
-    return ! block.data.unfree;
-  }
-    
-  template <>
-  inline void allocator<alloc_info_with_unfree_flag>::unfree_blockp(palloc_node block) {
-    block->data.unfree = true;
-  }
 }
 
 #include "undef_macros.hpp"  

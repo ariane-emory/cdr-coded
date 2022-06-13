@@ -22,8 +22,8 @@
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace    reseune;
-// using alloc_node = reseune::alloc_info_with_unfree_flag;
-using alloc_node = reseune::alloc_info;
+using alloc_node = reseune::alloc_info_with_unfree_flag;
+// using alloc_node = reseune::alloc_info;
 using string     = std::string;
 using cell       = reseune::cell;
 using tag        = cell::tag_type;
@@ -249,6 +249,11 @@ void test_base_one() {
     // RELEASE(buffer, verbose);
     // if (verbose) DESCRIBE;
   } while (nullptr != buffer);
+
+  printf("Before coalesce.\n");
+  ALLOC coalesce(true);
+  printf("After coalesce.\n");
+  // ALLOC describe_free_list();
 #undef ALLOC
 }
 
@@ -276,10 +281,10 @@ int main() {
   // test_links();
   measure_time(test_base_one);
 
-  thing mything { 15, 7, 3, 1 };
+  // thing mything { 15, 7, 3, 1 };
 
-  LINE;
-  print_bits("This thing", uintptr(mything));
+  // LINE;
+  // print_bits("This thing", uintptr(mything));
 }
 
 
