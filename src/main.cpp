@@ -21,14 +21,15 @@
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
-using namespace std::chrono;
-using namespace reseune;
-using string  = std::string;
-using cell    = reseune::cell;
-using tag     = cell::tag_type;
-using link    = reseune::doubly_linked<char>;
-using thing   = reseune::thing;
-using pool    = std::conditional<
+using namespace    std::chrono;
+using namespace    reseune;
+using alloc      = reseune::alloc_info;
+using string     = std::string;
+using cell       = reseune::cell;
+using tag        = cell::tag_type;
+using link       = reseune::doubly_linked<char>;
+using thing      = reseune::thing;
+using pool       = std::conditional<
   WITH_RESEUNE_POOL,
   reseune::pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
@@ -191,10 +192,10 @@ void test_base_one() {
   const bool verbose {true};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ALLOC allocator<reseune::alloc_info>::
+#define ALLOC allocator<alloc>::
 #else
 #define ALLOC alloc.
-  allocator<reseune::alloc_info> alloc {};  
+  allocator<alloc> alloc {};  
 #endif
   
   constexpr size_t buff_len = 1 << 14; // 16 kb
