@@ -100,7 +100,7 @@ namespace reseune {
              ? " ="
              : "  ");
 
-      constexpr const char * tmp = " 0x%%0%ulx = %% 10lu\n";
+      constexpr const char * tmp = " 0x%%0%ulx = %% 19lu\n";
       char buf[64] {0};
 
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)

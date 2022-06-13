@@ -15,19 +15,19 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
+    template <typename T>
     class allocator {
     public:
-      using alloc_node = doubly_linked<alloc_info_with_unfree_flag>;
-      // using alloc_node = doubly_linked<alloc_info>;    
+      using alloc_info = T;
+      using alloc_node = doubly_linked<alloc_info>;
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-      static alloc_node FREE_LIST; // {nullptr, nullptr};
+      static alloc_node FREE_LIST;
+    private:
+      allocator() {};
+    public:
 #else
       alloc_node FREE_LIST;
-
-      // =======================================================================================================
-
-      // constexpr allocator() : FREE_LIST {nullptr, nullptr } {}
 #endif
       
       // =======================================================================================================
@@ -216,87 +216,92 @@ namespace reseune {
 
       // =======================================================================================================
 
-      template <typename T>
+      template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-    static
+      static
 #endif
-    inline PVOID valloc(SIZEARG = 1, VERBOSEARG) {
-      // Is this function dumb? Maybe we don't really need it?
+      inline PVOID valloc(SIZEARG = 1, VERBOSEARG) {
+        // Is this function dumb? Maybe we don't really need it?
 
-      return valloc(size * sizeof(T), verbose);
-    }
+        return valloc(size * sizeof(TT), verbose);
+      }
     
-    // =======================================================================================================
+      // =======================================================================================================
 
-    template <typename T>
+      template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-    static
+      static
 #endif
-    inline T * alloc(SIZEARG = 1, VERBOSEARG) {
-      return reinterpret_cast<T *>(valloc(size * sizeof(T), verbose));
-    }
+      inline TT * alloc(SIZEARG = 1, VERBOSEARG) {
+        return reinterpret_cast<TT *>(valloc(size * sizeof(TT), verbose));
+      }
     
-    // =======================================================================================================
+      // =======================================================================================================
 
-    VOIDFUN(coalesce, VERBOSEARG) {
-      PRLINE;
-      PRINTF("COALESCING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
-      PRLINE;
+      VOIDFUN(coalesce, VERBOSEARG) {
+        PRLINE;
+        PRINTF("COALESCING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+        PRLINE;
 
-      palloc_node plast_block {nullptr};
+        palloc_node plast_block {nullptr};
 
-      FOR_EACH_BLOCK {
-        IFISNOTNULL(plast_block) 
-          if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
-            SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
+        FOR_EACH_BLOCK {
+          IFISNOTNULL(plast_block) 
+            if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
+              SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
-            PRINTF("Removing this block:.\n");
-            DESCRIBE(block);
+              PRINTF("Removing this block:.\n");
+              DESCRIBE(block);
 
-            REMOVE(block);
-          }
+              REMOVE(block);
+            }
         
-        plast_block = &block;
+          plast_block = &block;
+        }
+
+        PRHLINE;
+        PRINTF("Done coalesceing.\n");
+        PRLINE;
+        PRNL;
+      }
+  
+      // =======================================================================================================
+    
+      VOIDFUN(release, ADDRARG, bool defer_coalesce = false, VERBOSEARG) {
+        // WARNING: something bad will probably happen if you try to release an address that wasn't ever
+        // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
+        // allocated directly to it's left).
+        //
+        // If you are using multiple allocator objects, you probably ~could~ get away with having one allocator
+        // release a block that was allocated by a different allocator (effectively 'stealing' the block and
+        // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
+        // good idea seems kind of questionoable to me).
+          
+        palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+
+        PRLINE;
+        PRINTF("RELEASING 0x%lx = %ul!\n", addr);
+        PRLINE;
+        PRINT("It's node is at", pnew_block);
+        PRLINE;
+        PRNL;
+      
+        ASSERTISNOTNULL(addr);
+            
+        PLACE_BLOCKP(pnew_block, verbose);
+          
+        if (! defer_coalesce)
+          coalesce(verbose);
       }
 
-      PRHLINE;
-      PRINTF("Done coalesceing.\n");
-      PRLINE;
-      PRNL;
-    }
-  
-    // =======================================================================================================
-    
-    VOIDFUN(release, ADDRARG, bool defer_coalesce = false, VERBOSEARG) {
-      // WARNING: something bad will probably happen if you try to release an address that wasn't ever
-      // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
-      // allocated directly to it's left).
-      //
-      // If you are using multiple allocator objects, you probably ~could~ get away with having one allocator
-      // release a block that was allocated by a different allocator (effectively 'stealing' the block and
-      // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
-      // good idea seems kind of questionoable to me).
-          
-      palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+      // =======================================================================================================
+    };
 
-      PRLINE;
-      PRINTF("RELEASING 0x%lx = %ul!\n", addr);
-      PRLINE;
-      PRINT("It's node is at", pnew_block);
-      PRLINE;
-      PRNL;
-      
-      ASSERTISNOTNULL(addr);
-            
-      PLACE_BLOCKP(pnew_block, verbose);
-          
-      if (! defer_coalesce)
-        coalesce(verbose);
-    }
-
-    // =======================================================================================================
-  };
-}
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+    template <typename T>
+    allocator<T>::alloc_node allocator<T>::FREE_LIST {};
+#endif
+  }
 }
 
 #include "undef_macros.hpp"  

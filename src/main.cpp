@@ -23,6 +23,7 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace std::chrono;
 using namespace reseune;
+using namespace reseune::base_one;
 using string  = std::string;
 using cell    = reseune::cell;
 using tag     = cell::tag_type;
@@ -191,10 +192,10 @@ void test_base_one() {
   const bool verbose {true};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ALLOC reseune::base_one::allocator::
+#define ALLOC allocator<reseune::alloc_info>::
 #else
 #define ALLOC alloc.
-  base_one::allocator alloc {};  
+  allocator<reseune::alloc_info> alloc {};  
 #endif
   
   constexpr size_t buff_len = 1 << 14; // 16 kb
@@ -212,7 +213,6 @@ void test_base_one() {
   if (verbose)
     ALLOC describe_free_list();
   
-
   {
     void * strblk = ALLOC valloc<string>(true);
 
