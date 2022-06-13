@@ -290,7 +290,7 @@ namespace reseune {
           palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
 
           PRLINE;
-          PRINTF("RELEASING 0x%lx = %ul!\n", UINTPTR(addr));
+          PRINTF("RELEASING 0x%lx = %ul!\n", addr);
           PRLINE;
           PRINT("It's node is at", pnew_block);
           PRLINE;
