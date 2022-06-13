@@ -305,6 +305,11 @@ namespace reseune {
 #endif
 
   template <>
+  inline bool allocator<alloc_info_with_unfree_flag>::is_free(alloc_node & block) {
+    return ! block.data.unfree;
+  }
+    
+  template <>
   inline void allocator<alloc_info_with_unfree_flag>::remove_blockp(palloc_node block) {
     block->data.unfree = true;
   }
