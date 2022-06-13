@@ -27,6 +27,7 @@ using string  = std::string;
 using cell    = reseune::cell;
 using tag     = cell::tag_type;
 using link    = reseune::doubly_linked<char>;
+using thing   = reseune::thing;
 using pool    = std::conditional<
   WITH_RESEUNE_POOL,
   reseune::pool<cell, POOL_SIZE>,
@@ -264,30 +265,21 @@ void measure_time(void(*fun)()) {
 
 // ===============================================================================================================
 
-struct thing {
-  using value_type = uintptr_t;
-
-  value_type value: 48;  
-  value_type empty: 9;
-  value_type tags:  4;
-  value_type flags: 3;
-};
-
-
 
 // ===============================================================================================================
 
-  int main() {
-    thing mything {
-      .value {1},
-      .empty {1},
-      .tags  {1},
-      .flags {1},
-    };
+int main() {
+  thing mything {
+    .value {1},
+    .empty {1},
+    .tags  {1},
+    .flags {1}
+  };
 
-    print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>(reinterpret_cast<void *>(&mything))));
+  print_bits<true,true>("This thing", uintptr_t(mything));
+// print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>((&mything))));
     
-    // describe_some_sizes();
+  // describe_some_sizes();
   // cell::describe_class();
   // // describe_every_cell();
   // describe_list(POOL[0]); // list of 88s / Xs.

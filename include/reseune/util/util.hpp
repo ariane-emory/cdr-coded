@@ -8,6 +8,19 @@
 #include <type_traits>
 
 namespace reseune {
+  struct thing {
+    using value_type = uintptr_t;
+
+    value_type value: 48;  
+    value_type empty: 9;
+    value_type tags:  4;
+    value_type flags: 3;
+
+    explicit operator uintptr_t () {
+      return *reinterpret_cast<uintptr_t *>(reinterpret_cast<void *>(this));
+    };
+  };
+
   template <typename T>
   static uintptr_t uintptr(T t) {
     return reinterpret_cast<uintptr_t>(t);
