@@ -277,13 +277,13 @@ namespace reseune {
         // =======================================================================================================
     
         VOIDFUN(release, ADDRARG, bool defer_coalesce = false, VERBOSEARG) {
-          // WARNING: something bad will probably happen if you try to release an address that wasn't ever allocated
-          // by one of these allocators (such that addr does not have an alloc_info in the memory loction directly
-          // to it's left).
+          // WARNING: something bad will probably happen if you try to release an address that wasn't ever
+          // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
+          // allocated directly to it's left).
           //
           // If you are using multiple allocator objects, you probably ~could~ get away with having one allocator
           // release a block that was allocated by a different allocator (effectively 'stealing' the block and
-          // adding it to your own free list, but I haven't tested this yet (and whether doing so would ever be a
+          // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
           // good idea seems kind of questionoable to me).
           
           palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
@@ -297,7 +297,7 @@ namespace reseune {
       
           ASSERTISNOTNULL(addr);
             
-          PLACE_BLOCKP(pnew_block);
+          PLACE_BLOCKP(pnew_block, verbose);
           
           if (! defer_coalesce)
             coalesce(verbose);
