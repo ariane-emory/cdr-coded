@@ -38,7 +38,7 @@ namespace reseune {
   static void print_line(char c = '=') {
     size_t line_ix { 0 };
 
-    while (line_ix++ < 120)
+    while (line_ix++ < 137)
       putchar(c);
 
     putchar('\n');
@@ -106,7 +106,7 @@ namespace reseune {
       for (size_t iix = 0; iix < (8 - sizeof(T)) * 2; ++iix)
         putchar(' ');
       
-      sprintf(buf, tmp, 1 + (sizeof(T) << 0));
+      sprintf(buf, tmp, 1 + (sizeof(T) << 1));
       
       printf(buf, (uintptr_t)v, (uintptr_t)v);
     }

@@ -269,14 +269,6 @@ void measure_time(void(*fun)()) {
 // ===============================================================================================================
 
 int main() {
-  thing mything {
-    .value {1},
-    .empty {1},
-    .tags  {1},
-    .flags {1}
-  };
-
-  print_bits<true,true>("This thing", uintptr(mything));
 // print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>((&mything))));
     
   // describe_some_sizes();
@@ -287,6 +279,18 @@ int main() {
   // draw_the_pool();
   // test_links();
   // measure_time(test_base_one);
+
+  // thing mything {
+  //   .value  {15},
+  //   .empty  {7},
+  //   .tags   {3},
+  //   .flags  {1}
+  // };
+
+  thing mything { 15, 7, 3, 1 };
+
+  LINE;
+  print_bits<true,true>("This thing", uintptr(mything));
 }
 
 
