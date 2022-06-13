@@ -15,10 +15,6 @@ namespace reseune {
   namespace base_one {
     // ===========================================================================================================
 
-    namespace {
-      constexpr int x {5};
-    }
-
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     namespace allocator {
 #else
@@ -40,42 +36,52 @@ namespace reseune {
       
         // =======================================================================================================
 
-        VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
-          PRLINE;
-          PRINT("Placing block", pnew_block);
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+        namespace {
+#else
+        private:
+#endif
+          VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
+            PRLINE;
+            PRINT("Placing block", pnew_block);
  
-          IFISNULL(PFREE_LIST_HEAD) {
-            PRINTF("Placing after FL head.\n");
+            IFISNULL(PFREE_LIST_HEAD) {
+              PRINTF("Placing after FL head.\n");
       
-            RCONSP(pnew_block, FREE_LIST); 
-          } 
-          else { 
-            PRINTF("Placing somewhere else.\n"); 
- 
-            palloc_node last_block {nullptr}; 
- 
-            FOR_EACH_BLOCK { 
-              last_block = &block; 
-
-              PRINTF("Compare with", &block);
-              
-              if (&block <= pnew_block) { 
-                PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
-              } 
-              else { 
-                PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
-
-                CONSP(pnew_block, block); 
-
-                return;
-              } 
+              RCONSP(pnew_block, FREE_LIST); 
             } 
+            else { 
+              PRINTF("Placing somewhere else.\n"); 
+ 
+              palloc_node last_block {nullptr}; 
+ 
+              FOR_EACH_BLOCK { 
+                last_block = &block; 
 
-            // There shouldn't be any way for last_block to be nil if we got here.
-            RCONSP(pnew_block, last_block); 
-          } 
-        }
+                PRINTF("Compare with", &block);
+              
+                if (&block <= pnew_block) { 
+                  PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
+                } 
+                else { 
+                  PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
+
+                  CONSP(pnew_block, block); 
+
+                  return;
+                } 
+              } 
+
+              // There shouldn't be any way for last_block to be nil if we got here.
+              RCONSP(pnew_block, last_block); 
+            } 
+          }
           
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+        };
+#else
+      public:
+#endif
         // =======================================================================================================
         
         VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
@@ -203,13 +209,13 @@ namespace reseune {
         
             SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
             SETBSIZE(block, size);
-            RCONSP(pnew_block, block);
-            REMOVE(block);
+RCONSP(pnew_block, block);
+          REMOVE(block);
 
-            PRINT("Created new block at", pnew_block);
-            PRINT("With block start at", BSTARTP(pnew_block));
-            PRHLINE;
-            DESCRIBEP(pnew_block);
+          PRINT("Created new block at", pnew_block);
+          PRINT("With block start at", BSTARTP(pnew_block));
+          PRHLINE;
+DESCRIBEP(pnew_block);
             PRHLINE;
           }
 #ifndef NDEBUG
