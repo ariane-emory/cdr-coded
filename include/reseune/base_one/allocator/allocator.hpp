@@ -77,19 +77,19 @@ namespace reseune {
 
                 PRINTF("Compare with", &block);
               
-                if (last_block <= pnew_block) { 
-                  PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
-                } 
-                else { 
-                  PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
+                if (last_block <= pnew_block) 
+                  continue;
+                
+                PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
 
-                  CONSP(pnew_block, block); 
+                CONSP(pnew_block, block); 
 
-                  return;
-                } 
+                return;
               } 
 
               // There shouldn't be any way for last_block to be nulll if we got this far.
+              
+              PRINTF("PLACED BLOCK IS AT THE END\n");
               
               RCONSP(pnew_block, last_block); 
             } 
