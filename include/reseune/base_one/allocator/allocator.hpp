@@ -35,7 +35,7 @@ namespace reseune {
 #endif
       
         // =======================================================================================================
-        
+
         VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
           PRLINE;
           PRINT("Placing block", pnew_block);
@@ -71,7 +71,7 @@ namespace reseune {
             RCONSP(pnew_block, last_block); 
           } 
         }
-        
+          
         // =======================================================================================================
         
         VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
