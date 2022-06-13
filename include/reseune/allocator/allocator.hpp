@@ -152,6 +152,12 @@ namespace reseune {
     }
 
     // =======================================================================================================
+
+    INLINE bool is_free(alloc_node & block) {
+      return true;
+    }
+    
+    // =======================================================================================================
     
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
       assert(size > 0);
@@ -168,7 +174,7 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
-        if (BSIZE(block) >= size)
+        if (is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
           pvoid  = BSTART(block);
