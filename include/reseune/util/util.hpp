@@ -16,7 +16,7 @@ namespace reseune {
     value_type tags:  4;
     value_type flags: 3;
 
-    explicit operator uintptr_t () {
+    inline explicit operator uintptr_t () {
       return *reinterpret_cast<uintptr_t *>(reinterpret_cast<void *>(this));
     };
   };
@@ -24,6 +24,11 @@ namespace reseune {
   template <typename T>
   static uintptr_t uintptr(T t) {
     return reinterpret_cast<uintptr_t>(t);
+  }
+
+  template <>
+  uintptr_t uintptr(thing t) {
+    return uintptr_t(t);
   }
   
   static constexpr size_t align_up(size_t num, size_t align) {

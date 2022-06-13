@@ -276,7 +276,7 @@ int main() {
     .flags {1}
   };
 
-  print_bits<true,true>("This thing", uintptr_t(mything));
+  print_bits<true,true>("This thing", uintptr(mything));
 // print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>((&mything))));
     
   // describe_some_sizes();
