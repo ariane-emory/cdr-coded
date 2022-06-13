@@ -264,15 +264,37 @@ void measure_time(void(*fun)()) {
 
 // ===============================================================================================================
 
-int main() {
-  // describe_some_sizes();
+struct thing {
+  using value_type = uintptr_t;
+
+  value_type value: 48;  
+  value_type empty: 9;
+  value_type tags:  4;
+  value_type flags: 3;
+};
+
+
+
+// ===============================================================================================================
+
+  int main() {
+    thing mything {
+      .value {1},
+      .empty {1},
+      .tags  {1},
+      .flags {1},
+    };
+
+    print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>(reinterpret_cast<void *>(&mything))));
+    
+    // describe_some_sizes();
   // cell::describe_class();
   // // describe_every_cell();
   // describe_list(POOL[0]); // list of 88s / Xs.
   // describe_list(POOL[4]); // list of 89s / Ys.
-  //draw_the_pool();
+  // draw_the_pool();
   // test_links();
-  measure_time(test_base_one);
+  // measure_time(test_base_one);
 }
 
 
