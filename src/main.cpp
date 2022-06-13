@@ -22,7 +22,8 @@
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace    reseune;
-using alloc_node = reseune::alloc_info_with_unfree_flag;
+// using alloc_node = reseune::alloc_info_with_unfree_flag;
+using alloc_node = reseune::alloc_info;
 using string     = std::string;
 using cell       = reseune::cell;
 using tag        = cell::tag_type;
