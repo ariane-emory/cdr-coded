@@ -36,6 +36,10 @@ namespace reseune {
     VOIDFUN(unfree_block, alloc_node & block) {
       REMOVE(block);
     }
+
+    VOIDFUN(release_blockp, palloc_node pblock, VERBOSEARG) {
+      PLACE_BLOCKP(pblock, verbose);
+    }
     
     // =======================================================================================================
 
@@ -297,11 +301,13 @@ namespace reseune {
       PRNL;
       
       ASSERTISNOTNULL(addr);
-            
-      PLACE_BLOCKP(pnew_block, verbose);
-          
+      
+      // PLACE_BLOCKP(pnew_block, verbose);
+
+      release_blockp(pnew_block, verbose);
+      
       if (! defer_coalesce)
-        coalesce(verbose);
+          coalesce(verbose);
     }
 
     // =======================================================================================================

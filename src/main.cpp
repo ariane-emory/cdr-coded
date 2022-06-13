@@ -214,7 +214,7 @@ void test_allocator() {
   if (verbose)
     ALLOC describe_free_list();
 
-  //  Try allocating and constructing a string ===================================================================
+  // Try allocating and  constructing a string ===================================================================
   {
     void * strblk = ALLOC valloc<string>(true);
 
@@ -224,9 +224,21 @@ void test_allocator() {
 
     PRINT("String is at", uintptr(strblk));
     NEWLINE;
+
+    // Free the string ===========================================================================================
+
+    ALLOC release(strblk);
   }
+
+  ALLOC describe_free_list();
   
-// return;
+  printf("Before coalesce.\n");
+  ALLOC coalesce(true);
+  printf("After coalesce.\n");
+
+  ALLOC describe_free_list();
+
+  return;
 
   // Allocate ints until we run out of memory ====================================================================
   {
@@ -259,6 +271,7 @@ void test_allocator() {
   ALLOC coalesce(true);
   printf("After coalesce.\n");
   ALLOC describe_free_list();
+  
 #undef ALLOC
 }
 
