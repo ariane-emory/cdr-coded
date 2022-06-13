@@ -95,29 +95,19 @@ namespace reseune {
 
           // align the start addr of our pnew_block to the next pointer aligned addr
           palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
-          alloc_node & new_block  {*pnew_block};
           
           PRINT("Align pnew_block to", pnew_block);
           
           // calculate actual size - overhead
-          SETBSIZE(
-            new_block, 
+          SETBSIZEP(
+            pnew_block, 
             UINTPTR(addr)
             + size
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
-
-          // IFISNULL(PFREE_LIST_HEAD) {
-          //   WARN("Placing after FL head.\n");
-            
-          //   RCONS(new_block, FREE_LIST);
-          // }
-          // else {
-          //   WARN("Placing somewhere else.\n");
             
           PLACE_BLOCKP(pnew_block);
-          //}
-          
+                    
           PRLINE;
           PUTCHAR('\n');      
         }
@@ -209,13 +199,13 @@ namespace reseune {
         
             SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
             SETBSIZE(block, size);
-RCONSP(pnew_block, block);
-          REMOVE(block);
+            RCONSP(pnew_block, block);
+            REMOVE(block);
 
-          PRINT("Created new block at", pnew_block);
-          PRINT("With block start at", BSTARTP(pnew_block));
-          PRHLINE;
-DESCRIBEP(pnew_block);
+            PRINT("Created new block at", pnew_block);
+            PRINT("With block start at", BSTARTP(pnew_block));
+            PRHLINE;
+            DESCRIBEP(pnew_block);
             PRHLINE;
           }
 #ifndef NDEBUG
@@ -309,19 +299,8 @@ DESCRIBEP(pnew_block);
           PUTCHAR('\n');
       
           ASSERTISNOTNULL(addr);
-
-          // Let's put it back in the proper spot
-          // IFISNULL(PFREE_LIST_HEAD) {
-          //   WARN("Placing after FL head.\n");
-            
-          //   RCONSP(pnew_block, FREE_LIST);
-          // }
-          // else {
-          //   WARN("Placing somewhere else.\n");
             
           PLACE_BLOCKP(pnew_block);
-          //}
-
           
           if (! defer_coalesce)
             coalesce(verbose);
