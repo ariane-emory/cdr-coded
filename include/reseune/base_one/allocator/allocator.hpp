@@ -42,19 +42,19 @@ namespace reseune {
         private:
 #endif
 
-          VOIDFUN(split_block, PVOID pvoid, palloc_node pblock, SIZEARG, VERBOSEARG) {                      
-            alloc_node & block {*pblock};
-            palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
+          VOIDFUN(SPLIT_BLOCK, palloc_node pblock, ADDRARG, SIZEARG, VERBOSEARG) {                      
+            alloc_node & new_block  {*PALLOC_NODE((UINTPTR(addr) + size))};
+            alloc_node & block      {*pblock};
         
-            SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
+            SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
             SETBSIZE(block, size);
-            RCONSP(pnew_block, block);
+            RCONS(new_block, block);
             REMOVE(block);
 
-            PRINT("Created new block at", pnew_block);
-            PRINT("With block start at", BSTARTP(pnew_block));
+            PRINT("Created new block at", &new_block);
+            PRINT("With block start at", BSTART(new_block));
             PRHLINE;
-            DESCRIBEP(pnew_block);
+            DESCRIBE(new_block);
             PRHLINE;
           }
           
@@ -207,7 +207,7 @@ namespace reseune {
       
           // Check if we can we split the block:
           if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ) {
-            split_block(pvoid, pblock, size, verbose);
+            SPLIT_BLOCK(pblock, pvoid, size, verbose);
           }
 #ifndef NDEBUG
           else {
