@@ -41,6 +41,23 @@ namespace reseune {
 #else
         private:
 #endif
+
+          VOIDFUN(split_block, PVOID pvoid, palloc_node pblock, SIZEARG, VERBOSEARG) {                      
+            alloc_node & block {*pblock};
+            palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
+        
+            SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
+            SETBSIZE(block, size);
+            RCONSP(pnew_block, block);
+            REMOVE(block);
+
+            PRINT("Created new block at", pnew_block);
+            PRINT("With block start at", BSTARTP(pnew_block));
+            PRHLINE;
+            DESCRIBEP(pnew_block);
+            PRHLINE;
+          }
+          
           VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
             PRLINE;
             PRINT("Placing block", pnew_block);
@@ -187,31 +204,18 @@ namespace reseune {
           }
           
         found_a_block:
-          
-          alloc_node & block {*pblock};
       
           // Check if we can we split the block:
-          if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
-            palloc_node pnew_block {PALLOC_NODE((UINTPTR(pvoid) + size))};
-        
-            SETBSIZEP(pnew_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
-            SETBSIZE(block, size);
-            RCONSP(pnew_block, block);
-            REMOVE(block);
-
-            PRINT("Created new block at", pnew_block);
-            PRINT("With block start at", BSTARTP(pnew_block));
-            PRHLINE;
-            DESCRIBEP(pnew_block);
-            PRHLINE;
+          if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ) {
+            split_block(pvoid, pblock, size, verbose);
           }
 #ifndef NDEBUG
           else {
             WARN(
               "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-              BSIZE(block),
+              BSIZEP(pblock),
               size,
-              (BSIZE(block) - size),
+              (BSIZEP(pblock) - size),
               MIN_ALLOC_SZ);
         
             assert(false);
