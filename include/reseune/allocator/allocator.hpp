@@ -33,6 +33,12 @@ namespace reseune {
 
   private:
 
+    VOIDFUN(remove_block, alloc_node & block) {
+      REMOVE(block);
+    }
+    
+    // =======================================================================================================
+
     VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
       alloc_node & block      {*pblock};
       alloc_node & new_block  {*PALLOC_NODE((UINTPTR(BSTART(block)) + size))};
@@ -40,7 +46,8 @@ namespace reseune {
       SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
       SETBSIZE(block, size);
       RCONS(new_block, block);
-      REMOVE(block);
+      // REMOVE(block);
+      remove_block(block);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
