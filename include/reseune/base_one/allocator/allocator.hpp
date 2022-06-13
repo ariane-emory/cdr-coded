@@ -22,7 +22,8 @@ namespace reseune {
       public:
 #endif
 
-        using alloc_node = doubly_linked<alloc_info>;    
+        using alloc_node = doubly_linked<alloc_info_with_unfree_flag>;
+        // using alloc_node = doubly_linked<alloc_info>;    
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
         static alloc_node FREE_LIST {nullptr, nullptr};

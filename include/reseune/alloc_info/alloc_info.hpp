@@ -27,7 +27,7 @@ namespace reseune {
     void describe_instance() const {
       PRINT_ALLOC_INFO_FIELDS;
       printf(
-        "State: %s\n",
+        "state               : %s\n",
         unfree
         ? "unfree"
         : "free");
