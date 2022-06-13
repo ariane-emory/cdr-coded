@@ -75,7 +75,7 @@ namespace reseune {
             FOR_EACH_BLOCK { 
               last_block = &block; 
 
-              PRINTF("Compare with", &block);
+              PRINT("Compare with", uintptr(&block));
               
               if (last_block <= pnew_block) 
                 continue;
