@@ -21,7 +21,6 @@
 
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
-using namespace    std::chrono;
 using namespace    reseune;
 using alloc_node = reseune::alloc_info_with_unfree_flag;
 using string     = std::string;
@@ -255,6 +254,8 @@ void test_base_one() {
 // ===============================================================================================================
 
 void measure_time(void(*fun)()) {
+  using namespace std::chrono;
+  
   auto before = NOW;
   fun();
   auto after  = NOW;
