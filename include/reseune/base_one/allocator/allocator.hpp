@@ -87,7 +87,7 @@ namespace reseune {
               return;
             } 
 
-            // There shouldn't be any way for last_block to be nulll if we got this far.
+            // There shouldn't be any way for last_block to be null if we got this far.
               
             PRINTF("Placed block is at the end.\n");
               
