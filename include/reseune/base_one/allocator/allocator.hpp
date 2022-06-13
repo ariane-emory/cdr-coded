@@ -46,7 +46,7 @@ namespace reseune {
             PRINT("Placing block", pnew_block);
  
             IFISNULL(PFREE_LIST_HEAD) {
-              PRINTF("Placing after FL head.\n");
+              PRINTF("Placing after FL.\n");
       
               RCONSP(pnew_block, FREE_LIST); 
             } 
@@ -72,7 +72,7 @@ namespace reseune {
                 } 
               } 
 
-              // There shouldn't be any way for last_block to be nil if we got here.
+              // There shouldn't be any way for last_block to be nil if we got this far.
               RCONSP(pnew_block, last_block); 
             } 
           }
