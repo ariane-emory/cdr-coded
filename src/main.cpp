@@ -269,8 +269,6 @@ void measure_time(void(*fun)()) {
 // ===============================================================================================================
 
 int main() {
-// print_bits<true,true>("This thing", (*reinterpret_cast<uintptr_t *>((&mything))));
-    
   // describe_some_sizes();
   // cell::describe_class();
   // // describe_every_cell();
