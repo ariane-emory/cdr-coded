@@ -274,23 +274,16 @@ int main() {
   // describe_some_sizes();
   // cell::describe_class();
   // // describe_every_cell();
-  describe_list(POOL[0]); // list of 88s / Xs.
-  describe_list(POOL[4]); // list of 89s / Ys.
+  // describe_list(POOL[0]); // list of 88s / Xs.
+  // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
   // test_links();
-  // measure_time(test_base_one);
-
-  // thing mything {
-  //   .value  {15},
-  //   .empty  {7},
-  //   .tags   {3},
-  //   .flags  {1}
-  // };
+  measure_time(test_base_one);
 
   thing mything { 15, 7, 3, 1 };
 
   LINE;
-  print_bits<true,true>("This thing", uintptr(mything));
+  print_bits("This thing", uintptr(mything));
 }
 
 
