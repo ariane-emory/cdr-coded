@@ -65,34 +65,33 @@ namespace reseune {
             IFISNULL(PFREE_LIST_HEAD) {
               PRINTF("Placing after FL.\n");
       
-              RCONSP(pnew_block, FREE_LIST); 
-            } 
-            else { 
-              PRINTF("Placing somewhere else.\n"); 
- 
-              palloc_node last_block {nullptr}; 
- 
-              FOR_EACH_BLOCK { 
-                last_block = &block; 
+              RCONSP(pnew_block, FREE_LIST);
 
-                PRINTF("Compare with", &block);
+              return;
+            } 
+
+            palloc_node last_block {nullptr}; 
+ 
+            FOR_EACH_BLOCK { 
+              last_block = &block; 
+
+              PRINTF("Compare with", &block);
               
-                if (last_block <= pnew_block) 
-                  continue;
+              if (last_block <= pnew_block) 
+                continue;
                 
-                PRINTF("PLACED BLOCK IS BEFORE THIS BLOCK.\n"); 
+              PRINTF("Placed block is before this block.\n"); 
 
-                CONSP(pnew_block, block); 
+              CONSP(pnew_block, block); 
 
-                return;
-              } 
-
-              // There shouldn't be any way for last_block to be nulll if we got this far.
-              
-              PRINTF("PLACED BLOCK IS AT THE END\n");
-              
-              RCONSP(pnew_block, last_block); 
+              return;
             } 
+
+            // There shouldn't be any way for last_block to be nulll if we got this far.
+              
+            PRINTF("Placed block is at the end.\n");
+              
+            RCONSP(pnew_block, last_block); 
           }
           
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -124,7 +123,7 @@ namespace reseune {
             - UINTPTR(pnew_block)
             - ALLOC_HEADER_SZ);
             
-          PLACE_BLOCKP(pnew_block);
+          PLACE_BLOCKP(pnew_block, verbose);
                     
           PRLINE;
           PRNL;
