@@ -29,7 +29,6 @@
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    VOIDFUN(name, ...)   INLINE void name(__VA_ARGS__)
 #define                    WARN(...)            { printf(__VA_ARGS__); }
-// This offset will only printg correctly for locations in MEMORY:
 #define                    ADDRARG              PVOIDC addr
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)

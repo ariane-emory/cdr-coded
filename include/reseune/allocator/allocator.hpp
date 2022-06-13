@@ -293,15 +293,15 @@ namespace reseune {
     // =======================================================================================================
   };
 
-  template <>
-  inline void allocator<alloc_info_with_unfree_flag>::remove_blockp(palloc_node block) {
-    block->data.unfree = true;
-  }
-    
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
   template <typename T>
   allocator<T>::alloc_node allocator<T>::FREE_LIST {};
 #endif
+
+  template <>
+  inline void allocator<alloc_info_with_unfree_flag>::remove_blockp(palloc_node block) {
+    block->data.unfree = true;
+  }
 }
 
 #include "undef_macros.hpp"  

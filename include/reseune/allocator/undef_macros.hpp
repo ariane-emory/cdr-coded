@@ -12,6 +12,7 @@
 #undef DIE
 #undef FOR_EACH_BLOCK
 #undef FREE_LIST_HEAD
+#undef INLINE
 #undef IFISNOTNULL
 #undef IFISNULL
 #undef ISNOTNULL
