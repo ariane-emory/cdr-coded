@@ -218,7 +218,7 @@ namespace reseune {
               MIN_ALLOC_SZ);
 #endif
       
-          PRINT("Gave pointer to", UINTPTR(pvoid));
+          PRINT("Gave pointer to", pvoid);
           PRLINE;
       
           return pvoid;
