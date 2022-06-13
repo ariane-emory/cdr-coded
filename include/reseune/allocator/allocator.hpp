@@ -33,7 +33,7 @@ namespace reseune {
 
   private:
 
-    VOIDFUN(remove_blockp, palloc_node pblock) {
+    VOIDFUN(unfree_blockp, palloc_node pblock) {
       REMOVEP(pblock);
     }
     
@@ -47,7 +47,7 @@ namespace reseune {
       SETBSIZE(block, size);
       RCONS(new_block, block);
       // REMOVE(block);
-      remove_blockp(pblock);
+      unfree_blockp(pblock);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
@@ -310,7 +310,7 @@ namespace reseune {
   }
     
   template <>
-  inline void allocator<alloc_info_with_unfree_flag>::remove_blockp(palloc_node block) {
+  inline void allocator<alloc_info_with_unfree_flag>::unfree_blockp(palloc_node block) {
     block->data.unfree = true;
   }
 }
