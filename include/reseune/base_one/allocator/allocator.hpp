@@ -125,7 +125,7 @@ namespace reseune {
         // =======================================================================================================
 
         VOIDFUN(initialize, VERBOSEARG) {
-#ifndef RESEUNE_NO_BASE_ONE_MEMORY
+#ifdef RESEUNE_BASE_ONE_MEMORY
           add_memory(MEMORY, MEMORY_BYTES, verbose);
 #else
           WARN("initialize must not be called when -DRESEUNE_NO_BASE_ONE_MEMORY.");
