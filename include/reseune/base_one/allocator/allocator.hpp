@@ -178,7 +178,7 @@ namespace reseune {
           PRINT("Bytes requested: ", size);
       
           PVOID       pvoid  {nullptr};
-          palloc_node pblock {nullptr};
+          palloc_node  pblock {nullptr};
 
           // try to find a big enough block to alloc
           FOR_EACH_BLOCK
