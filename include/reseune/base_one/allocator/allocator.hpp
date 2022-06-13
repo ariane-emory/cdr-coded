@@ -77,7 +77,7 @@ namespace reseune {
 
                 PRINTF("Compare with", &block);
               
-                if (&block <= pnew_block) { 
+                if (last_block <= pnew_block) { 
                   PRINTF("PLACED BLOCK IS AFTER THIS BLOCK.\n");
                 } 
                 else { 
@@ -89,7 +89,8 @@ namespace reseune {
                 } 
               } 
 
-              // There shouldn't be any way for last_block to be nil if we got this far.
+              // There shouldn't be any way for last_block to be nulll if we got this far.
+              
               RCONSP(pnew_block, last_block); 
             } 
           }
