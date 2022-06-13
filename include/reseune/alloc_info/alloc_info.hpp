@@ -2,14 +2,35 @@
 #define RESEUNE_ALLOC_INFO_H
 
 namespace reseune {
+
+#define ALLOC_INFO_FIELDS                                                       \
+  size_t size;                                                                  \
+  char * block_start                                                           
+
+#define PRINT_ALLOC_INFO_FIELDS                                                 \
+  print_bits<true, false>("alloc_info is at", uintptr(this));                   \
+  print_bits<true, false>("size",       size)
+
   struct alloc_info {
-    size_t      size;
-    char *      block_start;
+    ALLOC_INFO_FIELDS;
 
     void describe_instance() const {
-      print_bits<true, false>("alloc_info is at", uintptr(this));
-      print_bits<true, false>("size",       size);
-      // print_bits<true, false>("block_pointer",       uintptr(block_start_pointer));
+      PRINT_ALLOC_INFO_FIELDS;
+    }
+  };
+
+  struct alloc_info_with_unfree_flag {
+    ALLOC_INFO_FIELDS;
+
+    bool unfree;
+
+    void describe_instance() const {
+      PRINT_ALLOC_INFO_FIELDS;
+      printf(
+        "State: %s\n",
+        unfree
+        ? "unfree"
+        : "free");
     }
   };
 }
