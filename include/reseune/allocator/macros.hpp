@@ -19,13 +19,7 @@
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }
-
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define                    PVOIDFUN(name, ...)  static inline PVOID name(__VA_ARGS__)
-#else
-#define                    PVOIDFUN(name, ...)  inline PVOID name(__VA_ARGS__)
-#endif
-
+#define                    PVOIDFUN(name, ...)  INLINE PVOID name(__VA_ARGS__)
 #define                    RCONS(tail, list)    tail.insert_after(list)
 #define                    RCONSP(ptail, list)  RCONS((*ptail), list)
 #define                    REMOVE(b)            b.remove()
@@ -33,25 +27,24 @@
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
-
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define                    VOIDFUN(name, ...)   static inline void name(__VA_ARGS__)
-#else
-#define                    VOIDFUN(name, ...)   inline void name(__VA_ARGS__)
-#endif
-
+#define                    VOIDFUN(name, ...)   INLINE void name(__VA_ARGS__)
 #define                    WARN(...)            { printf(__VA_ARGS__); }
 // This offset will only printg correctly for locations in MEMORY:
 #define                    ADDRARG              PVOIDC addr
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
 #define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
 #define                    FREE_LIST_HEAD       (*PFREE_LIST_HEAD)
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+#define                    INLINE               static inline 
+#else
+#define                    INLINE               inline 
+#endif
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
 #define                    PFREE_LIST           (&FREE_LIST)
 #define                    PFREE_LIST_HEAD      (FREE_LIST.next)
 #define                    PRHLINE              { if (verbose) print_line('-'); }
 #define                    PRLINE               { if (verbose) print_line(); }
-#define                    PRNL              PUTCHAR('\n')
+#define                    PRNL                 PUTCHAR('\n')
 #define                    PVOID                void *
 #define                    PVOIDC               PVOID const 
 #define                    SIZEARG              size_t size

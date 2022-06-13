@@ -33,6 +33,7 @@ namespace reseune {
 
   private:
 
+    // VOIDFUN(remove_block, alloc_node & block);
     VOIDFUN(remove_block, alloc_node & block) {
       REMOVE(block);
     }
@@ -293,6 +294,12 @@ namespace reseune {
     // =======================================================================================================
   };
 
+
+  // // VOIDFUN(remove_block, alloc_node & block) {
+  // INLINE
+  // REMOVE(block);
+  // }
+    
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
   template <typename T>
   allocator<T>::alloc_node allocator<T>::FREE_LIST {};
