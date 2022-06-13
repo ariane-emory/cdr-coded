@@ -253,7 +253,7 @@ void test_base_one() {
   printf("Before coalesce.\n");
   ALLOC coalesce(true);
   printf("After coalesce.\n");
-  // ALLOC describe_free_list();
+  ALLOC describe_free_list();
 #undef ALLOC
 }
 
