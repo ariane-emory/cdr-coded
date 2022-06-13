@@ -62,7 +62,7 @@ namespace reseune {
       : "%-20s: ",
       descr);
 
-    constexpr size_t width       { 72 };
+    constexpr size_t  width       { 72 };
     char             buff[width] { 0  };
     size_t           buffix      { 0  };
     size_t           sepix       { 0  };
