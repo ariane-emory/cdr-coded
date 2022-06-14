@@ -107,7 +107,7 @@ namespace reseune {
         return;
       } 
 
-      palloc_node plast_block {nullptr}; 
+      alloc_node * plast_block {nullptr}; 
  
       FOR_EACH_BLOCK {
 #ifndef NDEBUG
@@ -209,8 +209,8 @@ namespace reseune {
       PRLINE;
       PRINT("Bytes requested: ", size);
       
-      PVOID       pvoid  {nullptr};
-      palloc_node  pblock {nullptr};
+      PVOID        pvoid  {nullptr};
+      alloc_node * pblock {nullptr};
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
@@ -286,7 +286,7 @@ namespace reseune {
       PRINTF("COALESCING THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
       PRLINE;
 
-      palloc_node plast_block {nullptr};
+      alloc_node * plast_block {nullptr};
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
@@ -301,8 +301,8 @@ namespace reseune {
               block.remove();
             }
           }
-        plast_block = &block;
         
+        plast_block = &block;        
       }
 
       PRHLINE;
