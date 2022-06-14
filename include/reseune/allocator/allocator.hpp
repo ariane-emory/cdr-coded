@@ -289,8 +289,11 @@ namespace reseune {
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
           if (strategy::block_is_free(*plast_block) && strategy::block_is_free(block)) {
-            if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
-              SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
+
+            alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
+            
+            if ((UINTPTR(BSTART(last_block)) + BSIZE(last_block)) == UINTPTR(&block)) {
+              SETBSIZEP(plast_block, BSIZE(last_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);

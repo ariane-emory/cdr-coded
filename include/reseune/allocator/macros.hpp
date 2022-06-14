@@ -47,6 +47,6 @@
 #define                    VERBOSEARG           bool verbose = false
 
 #define                    ALLOC_NODEP_TO_REF(name, x)                          \
-  alloc_node & name {(* (reinterpret_cast<alloc_node *>(x)))}
+  alloc_node & name {(*(reinterpret_cast<alloc_node *>(x)))}
 
 #endif
