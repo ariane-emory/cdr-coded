@@ -1,6 +1,8 @@
 #ifndef RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 #define RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 
+#include "macros.hpp"
+
 namespace reseune {
   // ===========================================================================================================
   
@@ -11,6 +13,12 @@ namespace reseune {
 
   namespace allocator_strategies {
 
+    // =========================================================================================================
+
+    template <typename value_type>
+    struct doubly_linked_placement_stategy {
+    };
+    
     // =========================================================================================================
     
     template <typename alloc_info>
@@ -53,5 +61,7 @@ namespace reseune {
     // =========================================================================================================
   };
 }
+
+#include "undef_macros.hpp"
 
 #endif

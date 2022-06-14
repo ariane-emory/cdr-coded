@@ -9,8 +9,8 @@
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 
-#include "macros.hpp"
 #include "strategies.hpp"
+#include "macros.hpp" // include this last!
 
 namespace reseune {
   // ===========================================================================================================

@@ -1,5 +1,4 @@
-#ifndef RESEUNE_ALLOCATOR_MACROS_HPP
-#define RESEUNE_ALLOCATOR_MACROS_HPP
+// This header deliberately lacks an #ifndef guard
 
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
@@ -47,4 +46,4 @@
 #define                    ALLOC_NODEP_TO_REF(name, x)                          \
   alloc_node & name {(*(reinterpret_cast<alloc_node *>(x)))}
 
-#endif
+
