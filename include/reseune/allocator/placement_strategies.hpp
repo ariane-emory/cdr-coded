@@ -58,15 +58,15 @@ namespace reseune {
     };
     // =========================================================================================================
     template <template <typename> typename container, typename alloc_node>
-    struct first {};
+    struct after {};
     
     // =========================================================================================================
     template <typename alloc_node>
-    struct first<doubly_linked, alloc_node> {
+    struct after<doubly_linked, alloc_node> {
       
       // =======================================================================================================      
       static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
-        PRINTF("Placing after phead.\n");
+        PRINTF("Placing after given head.\n");
 
         RCONS(new_block, head); 
       }

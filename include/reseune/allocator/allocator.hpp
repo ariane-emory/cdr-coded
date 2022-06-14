@@ -27,7 +27,7 @@ namespace reseune {
     using alloc_node  = tcontainer<alloc_info>;
     using strategy    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
     using placement   = tplacement<tcontainer, alloc_node>;
-    using place_first = placement_strategies::first<tcontainer, alloc_node>;
+    using place_after = placement_strategies::after<tcontainer, alloc_node>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -44,10 +44,11 @@ namespace reseune {
         
         SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
         SETBSIZE(block, size);
-        RCONS(new_block, block);
-      
-        strategy::commit_block(block);
 
+        place_after::place_block(new_block, block, verbose);
+
+        strategy::commit_block(block);
+        
         PRINT("Created new block at", &new_block);
         PRINT("With block start at", BSTART(new_block));
         PRHLINE;
@@ -81,7 +82,7 @@ namespace reseune {
         - ALLOC_HEADER_SZ);
 
       IFISNULL(PFREE_LIST_HEAD)
-        place_first::place_block(new_block, root, verbose);
+      place_after::place_block(new_block, root, verbose);
       else
         placement::place_block(new_block, root, verbose);      
     
