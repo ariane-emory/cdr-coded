@@ -335,15 +335,15 @@ namespace reseune {
       strategy::release_block(new_block, verbose);
       
       if (! defer_coalesce)
-        coalesce(verbose);
-    }
+      coalesce(verbose);
+  }
 
-    // =======================================================================================================
-  };
+  // =======================================================================================================
+};
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  template <typename T>
-  allocator<T>::alloc_node allocator<T>::root {};
+template <typename T>
+allocator<T>::alloc_node allocator<T>::root {};
 #endif
 }
 
