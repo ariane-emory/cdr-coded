@@ -18,14 +18,13 @@ namespace reseune {
     struct no_track {
       using allocator_type = allocator<alloc_info, no_track>;
       using alloc_node = typename allocator_type::alloc_node;
-      template <typename t> using container = allocator_type::container;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
       }
 
       static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-        placement_strategies::pointer_order<container, alloc_node>::place_block(block, head, verbose);
+        allocator_type::placement::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
