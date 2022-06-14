@@ -1,16 +1,6 @@
 #ifndef RESEUNE_ALLOCATOR_STRATEGIES_HPP
 #define RESEUNE_ALLOCATOR_STRATEGIES_HPP
 
-// #include <inttypes.h>
-// #include <stdint.h>
-// #include <cassert>
-
-// #include "reseune/util/util.hpp"
-// #include "reseune/alloc_info/alloc_info.hpp"
-// #include "reseune/doubly_linked/doubly_linked.hpp"
-
-// #include "macros.hpp"
-
 namespace reseune {
   // ===========================================================================================================
   
@@ -27,7 +17,7 @@ namespace reseune {
       }
 
       static inline void release_block(alloc_node_t & block, VERBOSEARG) {
-        allocator<alloc_node_t>::place_block(block, verbose);
+        allocator<typename alloc_node_t::value_type>::place_block(block, verbose);
       }
 
       static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
