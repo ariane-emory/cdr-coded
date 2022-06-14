@@ -196,14 +196,18 @@ void test_links() {
 
 // ===============================================================================================================
 
+template <typename t> using strategy = strategies::no_track<t>;
+  
 void test_allocator() {
   const bool verbose {true};
 
+
+  
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ALLOC allocator<alloc_node>::
+#define ALLOC allocator<alloc_node, strategy>::
 #else
 #define ALLOC alloc. 
-  allocator<alloc_node> alloc {};  
+  allocator<alloc_node, strategy> alloc {};  
 #endif
   
   // Give the allocator with 2 blocks of memory ==================================================================

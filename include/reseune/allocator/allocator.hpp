@@ -15,7 +15,7 @@
 namespace reseune {
   // ===========================================================================================================
   
-  template <typename T>
+  template <typename T, template <typename> typename S>
   class allocator {
   public:
     template <typename t>
@@ -32,13 +32,12 @@ namespace reseune {
     alloc_node root;
 #endif
       
-    using strategy = typename
-#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-      strategies::track_by_marking<alloc_info>
-#else
-      strategies::no_track<alloc_info>
-#endif
-      ;
+    using strategy = S<alloc_info>; // typename
+// #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+//       strategies::track_by_marking<alloc_info>
+// #else
+//       strategies::no_track<alloc_info>
+// #endif
     
     // =======================================================================================================
     
@@ -322,8 +321,8 @@ namespace reseune {
   };
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  template <typename T>
-  allocator<T>::alloc_node allocator<T>::root {};
+  template <typename T, template <typename> typename S>
+  allocator<T, S>::alloc_node allocator<T, S>::root {};
 #endif
 }
 
