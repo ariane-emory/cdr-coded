@@ -39,7 +39,7 @@ namespace reseune {
         }
 
         static inline void release_block(alloc_node_t & block, VERBOSEARG) {
-          place_block(block, verbose);
+          allocator<alloc_node_t>::place_block(block, verbose);
         }
 
         static inline bool block_is_free(alloc_node_t const & block) {
@@ -75,8 +75,6 @@ namespace reseune {
     
   private:
 
-    // =======================================================================================================
-
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
       ALLOC_NODEP_TO_REF(new_block, UINTPTR(BSTART(block)) + size);
         
@@ -94,7 +92,9 @@ namespace reseune {
     }
 
     // =======================================================================================================
-
+    
+  public:
+    
     VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
@@ -112,6 +112,8 @@ namespace reseune {
           
     // =======================================================================================================
 
+  private:
+    
     VOIDFUN(place_block_strategy, alloc_node & new_block, VERBOSEARG) {
       alloc_node * plast_block {nullptr}; 
  
@@ -143,11 +145,9 @@ namespace reseune {
     }
           
     // =======================================================================================================
-
+        
   public:
 
-    // =======================================================================================================
-        
     VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
