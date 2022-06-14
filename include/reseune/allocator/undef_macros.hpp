@@ -7,6 +7,7 @@
 #undef BSTARTP
 #undef CONS
 #undef CONSP
+#undef DEREF_ALLOC_NODEP
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef DIE
@@ -18,7 +19,6 @@
 #undef ISNOTNULL
 #undef ISNULL
 #undef MIN_ALLOC_SZ
-#undef UNREF_ALLOC_NODEP
 #undef PFREE_LIST_HEAD
 #undef PRHLINE
 #undef PRNL
