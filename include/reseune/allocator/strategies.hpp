@@ -1,8 +1,10 @@
 #ifndef RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 #define RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 
-#include "macros.hpp"
 #include "placement_strategies.hpp"
+#include "macros.hpp" // include last
+#include "reseune/alloc_info/alloc_info.hpp"
+#include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
 
 // =============================================================================================================
 namespace reseune {
@@ -28,9 +30,9 @@ namespace reseune {
         block.remove();
       }
 
-      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-        allocator_type::placement::place_block(block, head, verbose);
-      }
+      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG); //  {
+      //   allocator_type::placement::place_block(block, head, verbose);
+      // }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
         return true;
@@ -40,7 +42,7 @@ namespace reseune {
     // =========================================================================================================
     template <>
     struct ordinary<alloc_info_with_unfree_flag> {
-      using alloc_node = typename allocator<alloc_info_with_unfree_tag>::alloc_node;
+      using alloc_node = typename allocator<alloc_info_with_unfree_flag>::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;

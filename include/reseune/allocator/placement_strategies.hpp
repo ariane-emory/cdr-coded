@@ -1,9 +1,12 @@
 #ifndef RESEUNE_ALLOCATOR_ALLOCATOR_PLACEMENT_STRATEGIES_HPP
 #define RESEUNE_ALLOCATOR_ALLOCATOR_PLACEMENT_STRATEGIES_HPP
 
-#include "macros.hpp"
-#include "placement_strategies.hpp"
+#include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
+#include "reseune/util/util.hpp"
+#include "placement_strategies.hpp"
+
+#include "macros.hpp" // include last
 
 // =============================================================================================================
 namespace reseune {
