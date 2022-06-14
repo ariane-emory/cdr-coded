@@ -197,7 +197,7 @@ void test_links() {
 // ===============================================================================================================
 
 template <typename t> using strategy = strategies::no_track<t>;
-  
+
 void test_allocator() {
   const bool verbose {true};
 
