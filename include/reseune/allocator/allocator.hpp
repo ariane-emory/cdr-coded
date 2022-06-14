@@ -23,14 +23,16 @@ namespace reseune {
     using alloc_info = T;
 
     template <typename t>
-    using container  = doubly_linked<t>;
+    using tcontainer  = doubly_linked<t>;
 
-    using alloc_node = container<alloc_info>;
+    using alloc_node = tcontainer<alloc_info>;
 
     template <template <typename> typename c, typename a>
     using tplacement = placement_strategies::pointer_order<c, a>;
-    using placement  = tplacement<container, alloc_node>;
-    using strategy   = allocator_strategies::standard<container, alloc_info, tplacement>; // S<alloc_info>;
+    
+    using placement  = tplacement<tcontainer, alloc_node>;
+    
+    using strategy   = allocator_strategies::standard<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
