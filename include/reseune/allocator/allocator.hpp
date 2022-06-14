@@ -116,10 +116,14 @@ namespace reseune {
       FOR_EACH_BLOCK { 
         last_block = &block; 
 
+        if (last_block == &block) {
+          DIE("last_blook == block, this is probably a logic error.\n");
+        }
+          
         PRINT("Compare with", uintptr(&block));
               
         if (last_block <= pnew_block) 
-          continue;
+              continue;
                 
         PRINTF("Placed block is before this block.\n"); 
 
@@ -197,7 +201,9 @@ namespace reseune {
     // =======================================================================================================
     
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
+#ifndef NDEBUG
       assert(size > 0);
+#endif
       
       size = align_up(size, sizeof(PVOID)); // Align the pointer
 
