@@ -132,35 +132,37 @@ namespace reseune {
       PVOID        pvoid  {nullptr};
       alloc_node * pblock {nullptr};
 
-      // try to find a big enough block to alloc
-      FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
-        {
-          pblock = &block;
-          pvoid  = BSTART(block);
+      {
+        // try to find a big enough block to alloc
+        FOR_EACH_BLOCK(FREE_LIST_HEAD)
+          if (strategy::block_is_free(block) && (BSIZE(block) >= size))
+          {
+            pblock = &block;
+            pvoid  = BSTART(block);
 
-          PRINT("Selected block at", pblock);
-          PRINT("With block start at", pvoid);
-          PRHLINE;
-          DESCRIBEP(pblock);
-          PRLINE;
+            PRINT("Selected block at", pblock);
+            PRINT("With block start at", pvoid);
+            PRHLINE;
+            DESCRIBEP(pblock);
+            PRLINE;
 
-          goto found_a_block;
+            goto found_a_block;
+          }
+
+        IFISNULL(pblock) {
+          WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
+
+          return nullptr;
         }
-
-      IFISNULL(pblock) {
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
-
-        return nullptr;
       }
       
     found_a_block:
+      
       alloc_node & block {*pblock};
       
       // Check if we can we split the block:
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
-        split_block(block, size, verbose);
-          
+        split_block(block, size, verbose);          
 #ifndef NDEBUG
       else 
         DIE(
