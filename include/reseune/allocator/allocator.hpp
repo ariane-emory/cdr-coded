@@ -104,9 +104,6 @@ namespace reseune {
           return pblock;
         }
 
-      IFISNULL(pblock)
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
-
       return nullptr;
     }
 
@@ -125,10 +122,10 @@ namespace reseune {
       PRLINE;
       PRINT("Bytes requested: ", size);
       
-
       alloc_node * pblock {find_first_fit(size, verbose)};
 
       IFISNULL(pblock) {
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);
         return nullptr;
       }
 
