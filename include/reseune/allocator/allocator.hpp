@@ -197,7 +197,7 @@ namespace reseune {
           if (tracking::block_is_free(*plast_block, true)
               && tracking::block_is_free(block, true)) {
 
-            alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
+            alloc_node & last_block {*plast_block};
             
             if ((UINTPTR(BSTART(last_block)) + BSIZE(last_block)) == UINTPTR(&block)) {
               SETBSIZE((*plast_block), BSIZE(last_block) + ALLOC_HEADER_SZ + BSIZE(block));
@@ -229,17 +229,17 @@ namespace reseune {
       // release a block that was allocated by a different allocator (effectively 'stealing' the block and
       // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
       // good idea seems kind of questionoable to me).
-          
-      ALLOC_NODEP_TO_REF(new_block, UINTPTR(addr) - ALLOC_HEADER_SZ);
-      
+
       PRLINE;
       PRINTF("RELEASING 0x%016lx = %ul!\n", addr);
       PRLINE;
+
+      ASSERTISNOTNULL(addr);
+      ALLOC_NODEP_TO_REF(new_block, UINTPTR(addr) - ALLOC_HEADER_SZ);
+
       PRINT("It's node is at", &new_block);
       PRLINE;
       PRNL;
-      
-      ASSERTISNOTNULL(addr);
       
       tracking::release_block(new_block, FREE_LIST_HEAD, verbose);
       
