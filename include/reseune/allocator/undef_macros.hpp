@@ -7,7 +7,7 @@
 #undef BSTARTP
 #undef CONS
 #undef CONSP
-#undef DEREF_ALLOC_NODEP
+#undef ALLOC_NODEP_TO_REF
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef DIE
