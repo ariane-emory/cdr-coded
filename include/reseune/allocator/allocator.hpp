@@ -154,7 +154,7 @@ namespace reseune {
       // align the start addr of our pnew_block to the next pointer aligned addr
       // palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
 
-      alloc_node & new_block = *PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)));
+      alloc_node & new_block {*PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
           
       PRINT("Align pnew_block to", &new_block);
           
@@ -325,7 +325,7 @@ namespace reseune {
       // good idea seems kind of questionoable to me).
           
       // palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
-      alloc_node & new_block = *PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ);
+      alloc_node & new_block {*PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
       
       PRLINE;
       PRINTF("RELEASING 0x%016lx = %ul!\n", addr);
