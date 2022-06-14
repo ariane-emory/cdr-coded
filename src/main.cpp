@@ -10,7 +10,7 @@
 
 #define LINE        (reseune::print_line())
 #define HLINE       (reseune::print_line('-'))
-#define NEWLINE     putchar('\n')
+#define NEWLINE     (putchar('\n'))
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
 #define NOW         (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
@@ -27,24 +27,29 @@ using tag        = cell::tag_type;
 using link       = doubly_linked<char>;
 using thing      = thing;
 
-using alloc_node = std::conditional<
-  RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG,
-  alloc_info_with_unfree_flag,
-  alloc_info>::type;
+using alloc_node =
+#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+  alloc_info_with_unfree_flag
+#else
+  alloc_info
+#endif
+  ;
 
-using pool       = std::conditional<
-  WITH_RESEUNE_POOL,
-  pool<cell, POOL_SIZE>,
-  cell[POOL_SIZE]>::type;
+using pool       = 
+#ifdef WITH_RESEUNE_POOL
+  pool<cell, POOL_SIZE>
+#else
+  cell[POOL_SIZE]
+#endif
+  ;
 
 template <typename t> using strategy =
-  allocator_strategies::
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-  track_by_marking
+  allocator_strategies::track_by_marking<t>
 #else
-  no_track
+  allocator_strategies::no_track<t>
 #endif
-  <t>;
+  ;
 
 using allocator_type = allocator<alloc_node, strategy>;
 
