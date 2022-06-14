@@ -46,7 +46,7 @@ namespace reseune {
         SETBSIZE(block, size);
 
         place_after::place_block(new_block, block, verbose);
-        tracking::commit_block(block);
+        tracking::commit_block(block, verbose);
         
         PRINT("Created new block at", &new_block);
         PRINT("With block start at", BSTART(new_block));
@@ -97,7 +97,7 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (tracking::block_is_free(block) && (BSIZE(block) >= size))
+        if (tracking::block_is_free(block, verbose) && (BSIZE(block) >= size))
         {
           pblock = &block;
           PVOID pvoid {BSTART(block)};
@@ -194,7 +194,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (tracking::block_is_free(*plast_block) && tracking::block_is_free(block)) {
+          if (tracking::block_is_free(*plast_block, true)
+              && tracking::block_is_free(block, true)) {
 
             alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
             
