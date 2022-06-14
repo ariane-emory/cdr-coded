@@ -17,11 +17,11 @@
 namespace reseune {
 
   // ===========================================================================================================
-  template <typename T, template <typename> typename S>
+  template <typename T>
   class allocator {
   public:
     using alloc_info = T;
-    using strategy   = S<alloc_info>;
+    using strategy   = allocator_strategies::ordinary<alloc_info>; // S<alloc_info>;
     template <typename t>
     using container  = doubly_linked<t>;
     using alloc_node = container<alloc_info>;

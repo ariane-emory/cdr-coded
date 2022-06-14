@@ -13,8 +13,7 @@ namespace reseune {
 
     // =========================================================================================================
     template <template <typename> typename container, typename alloc_node>
-    struct pointer_order {
-    };
+    struct pointer_order {};
     
     // =========================================================================================================
     template <typename alloc_node>
@@ -34,7 +33,7 @@ namespace reseune {
 #endif
 
           plast_block = &block; 
-          
+
           PRINT("Compare with", uintptr(&block));
               
           if (plast_block <= &new_block) 

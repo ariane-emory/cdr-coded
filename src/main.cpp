@@ -43,16 +43,17 @@ using pool       =
 #endif
   ;
 
-template <typename t>
-using strategy   = allocator_strategies::
-#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-  track_by_marking
-#else
-  no_track
-#endif
-  <t>;
+// template <typename t>
+// using strategy   = allocator_strategies::
+// #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+//   track_by_marking
+// #else
+//   no_track
+// #endif
+//   <t>;
 
-using allocator_type = allocator<alloc_node, strategy>;
+// using allocator_type = allocator<alloc_node, strategy>;
+using allocator_type = allocator<alloc_node>;
 
 
 // ===============================================================================================================

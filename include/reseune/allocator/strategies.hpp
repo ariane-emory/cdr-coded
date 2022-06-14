@@ -2,21 +2,26 @@
 #define RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 
 #include "macros.hpp"
+#include "placement_strategies.hpp"
 
 // =============================================================================================================
 namespace reseune {
 
   // ===========================================================================================================
-  template <typename T, template <typename> typename S>
+  template <typename T>
   class allocator;
 
   // ===========================================================================================================
   namespace allocator_strategies {
 
     // =========================================================================================================
-    template <typename alloc_info>
-    struct no_track {
-      using allocator_type = allocator<alloc_info, no_track>;
+    template <typename alloc_node>
+    struct ordinary {};
+    
+    // =========================================================================================================
+    template <>
+    struct ordinary<alloc_info> {
+      using allocator_type = allocator<alloc_info>;
       using alloc_node = typename allocator_type::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
@@ -30,12 +35,12 @@ namespace reseune {
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
         return true;
       }
-    };
+      };
 
     // =========================================================================================================
-    template <typename alloc_info>
-    struct track_by_marking {
-      using alloc_node = typename allocator<alloc_info, track_by_marking>::alloc_node;
+    template <>
+    struct ordinary<alloc_info_with_unfree_flag> {
+      using alloc_node = typename allocator<alloc_info_with_unfree_tag>::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;
