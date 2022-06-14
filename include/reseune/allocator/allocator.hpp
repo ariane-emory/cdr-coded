@@ -13,7 +13,46 @@
 
 namespace reseune {
   // ===========================================================================================================
+  
+  template <typename T>
+  class allocator;
 
+  // ===========================================================================================================
+
+  struct strategies {
+    template <typename alloc_node_t>
+    struct no_track {
+      static inline void commit_block(alloc_node_t & block) {
+        block.remove();
+      }
+
+      static inline void release_block(alloc_node_t & block, VERBOSEARG) {
+        allocator<alloc_node_t>::place_block(block, verbose);
+      }
+
+      static inline bool block_is_free(alloc_node_t const & block) {
+        return true;
+      }
+    };
+
+    template <typename alloc_node_t>
+    struct track_by_marking {
+      static inline void commit_block(alloc_node_t & block) {
+        block.data.unfree = true;
+      }
+
+      static inline void release_block(alloc_node_t & block, VERBOSEARG) {
+        block.data.unfree = false;
+      }
+
+      static inline bool block_is_free(alloc_node_t const & block) {
+        return ! block.data.unfree;
+      }
+    };
+  };
+
+  // ===========================================================================================================
+  
   template <typename T>
   class allocator {
   public:
@@ -29,40 +68,6 @@ namespace reseune {
     alloc_node root;
 #endif
       
-    // =======================================================================================================
-
-    struct strategies {
-      template <typename alloc_node_t>
-      struct no_track {
-        static inline void commit_block(alloc_node_t & block) {
-          block.remove();
-        }
-
-        static inline void release_block(alloc_node_t & block, VERBOSEARG) {
-          allocator<alloc_node_t>::place_block(block, verbose);
-        }
-
-        static inline bool block_is_free(alloc_node_t const & block) {
-          return true;
-        }
-      };
-
-      template <typename alloc_node_t>
-      struct track_by_marking {
-        static inline void commit_block(alloc_node_t & block) {
-          block.data.unfree = true;
-        }
-
-        static inline void release_block(alloc_node_t & block, VERBOSEARG) {
-          block.data.unfree = false;
-        }
-
-        static inline bool block_is_free(alloc_node_t const & block) {
-          return ! block.data.unfree;
-        }
-      };
-    };
-
     using strategy = typename
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
       strategies::track_by_marking<alloc_node>
