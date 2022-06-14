@@ -168,7 +168,7 @@ namespace reseune {
         - UINTPTR(pnew_block)
         - ALLOC_HEADER_SZ);
             
-      place_block(*new_block, verbose);
+      place_block(*pnew_block, verbose);
                     
       PRLINE;
       PRNL;
