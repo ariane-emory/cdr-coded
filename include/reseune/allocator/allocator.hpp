@@ -330,8 +330,8 @@ namespace reseune {
       // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
       // good idea seems kind of questionoable to me).
           
-      palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
-      alloc_node & new_block = *pnew_block;
+      // palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+      alloc_node & new_block = *PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ);
       
       PRLINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", addr);
