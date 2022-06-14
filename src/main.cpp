@@ -196,11 +196,14 @@ void test_links() {
 
 // ===============================================================================================================
 
+#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+template <typename t> using strategy = strategies::track_by_marking<t>;
+#else
 template <typename t> using strategy = strategies::no_track<t>;
+#endif 
 
 void test_allocator() {
   const bool verbose {true};
-
 
   
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
