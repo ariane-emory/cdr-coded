@@ -24,23 +24,23 @@ namespace reseune {
 
   // ===================================================================================================================
 
-  template <>
-  inline void allocator<alloc_info_with_unfree_flag>::commit_block(
-    allocator<alloc_info_with_unfree_flag>::alloc_node & block) {
-    block.data.unfree = true;
-  }
+  // template <>
+  // inline void allocator<alloc_info_with_unfree_flag>::commit_block(
+  //   allocator<alloc_info_with_unfree_flag>::alloc_node & block) {
+  //   block.data.unfree = true;
+  // }
 
-  template <>
-  inline void allocator<alloc_info_with_unfree_flag>::release_block(
-    allocator<alloc_info_with_unfree_flag>::alloc_node & block, bool verbose) {
-    block.data.unfree = false;
-  }
+  // template <>
+  // inline void allocator<alloc_info_with_unfree_flag>::release_block(
+  //   allocator<alloc_info_with_unfree_flag>::alloc_node & block, bool verbose) {
+  //   block.data.unfree = false;
+  // }
   
-  template <>
-  inline bool allocator<alloc_info_with_unfree_flag>::block_is_free(
-    allocator<alloc_info_with_unfree_flag>::alloc_node const & block) {    
-    return ! block.data.unfree;
-  }    
+  // template <>
+  // inline bool allocator<alloc_info_with_unfree_flag>::block_is_free(
+  //   allocator<alloc_info_with_unfree_flag>::alloc_node const & block) {    
+  //   return ! block.data.unfree;
+  // }    
 }
 
 #endif

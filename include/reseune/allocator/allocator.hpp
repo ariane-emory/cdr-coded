@@ -48,7 +48,7 @@ namespace reseune {
       };
 
       template <typename alloc_node_t>
-      struct track {
+      struct track_by_marking {
         static inline void commit_block(alloc_node_t & block) {
           block.data.unfree = true;
         }
@@ -63,7 +63,13 @@ namespace reseune {
       };
     };
 
-    using strategy = typename strategies::no_track<alloc_node>;
+    using strategy = typename
+#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+      strategies::track_by_marking<alloc_node>
+#else
+      strategies::no_track<alloc_node>
+#endif
+      ;
     
     // =======================================================================================================
     
