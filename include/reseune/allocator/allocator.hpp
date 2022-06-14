@@ -107,19 +107,19 @@ namespace reseune {
         return;
       } 
 
-      palloc_node last_block {nullptr}; 
+      palloc_node plast_block {nullptr}; 
  
       FOR_EACH_BLOCK {
 #ifndef NDEBUG
-        if (last_block == &block) 
+        if (plast_block == &block) 
           DIE("last_blook == block, this is probably a logic error.\n");
 #endif
 
-        last_block = &block; 
+        plast_block = &block; 
           
         PRINT("Compare with", uintptr(&block));
               
-        if (last_block <= &new_block) 
+        if (plast_block <= &new_block) 
           continue;
                 
         PRINTF("Placed block is before this block.\n"); 
@@ -129,11 +129,11 @@ namespace reseune {
         return;
       } 
 
-      // There shouldn't be any way for last_block to be null if we got this far.
+      // There shouldn't be any way for plast_block to be null if we got this far.
               
       PRINTF("Placed block is at the end.\n");
               
-      RCONS(new_block, last_block); 
+      RCONS(new_block, plast_block); 
     }
           
     // =======================================================================================================
@@ -301,8 +301,8 @@ namespace reseune {
               block.remove();
             }
           }
-        
         plast_block = &block;
+        
       }
 
       PRHLINE;
