@@ -1,5 +1,5 @@
-#ifndef RESEUNE_ALLOC_INFO_WITH_UNFREE_FLAG_H
-#define RESEUNE_ALLOC_INFO_WITH_UNFREE_FLAG_H
+#ifndef RESEUNE_ALLOC_INFO__H
+#define RESEUNE_ALLOC_INFO__H
 
 namespace reseune {
   struct alloc_info {
