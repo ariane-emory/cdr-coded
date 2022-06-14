@@ -58,54 +58,24 @@ namespace reseune {
     
   public:
     
-    static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
-      PRLINE;
-      PRINT("Placing block", &new_block);
-
-      alloc_node * plast_block {nullptr}; 
- 
-      FOR_EACH_BLOCK(head) {
-#ifndef NDEBUG
-        if (plast_block == &block) 
-          DIE("last_blook == block, this is probably a logic error.\n");
-#endif
-
-        plast_block = &block; 
-          
-        PRINT("Compare with", uintptr(&block));
-              
-        if (plast_block <= &new_block) 
-          continue;
-                
-        PRINTF("Placed block is before this block.\n"); 
-
-        CONS(new_block, block); 
-
-        return;
-      } 
-
-      // There shouldn't be any way for plast_block to be null if we got this far.
-              
-      PRINTF("Placed block is at the end.\n");
-              
-      RCONS(new_block, plast_block); 
+    static inline void place_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
+      placement_strategies::doubly_linked<alloc_node>::place_block(block, head, verbose);      
     }
 
   private:
     
-    VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
+    VOIDFUN(place_block, alloc_node & block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
-      PRINT("Placing block", &new_block);
+      PRINT("Placing block", &block);
  
       IFISNULL(phead) {
         PRINTF("Placing after phead.\n");
       
-        RCONS(new_block, root);
-
+        RCONS(block, root);
         return;
       } 
 
-      place_block(new_block, *phead, verbose);      
+      place_block(block, *phead, verbose);      
     }
           
     // =======================================================================================================
