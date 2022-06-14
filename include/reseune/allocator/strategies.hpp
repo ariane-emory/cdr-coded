@@ -12,12 +12,14 @@ namespace reseune {
   struct strategies {
     template <typename alloc_node_t>
     struct no_track {
+      using allocator_type = allocator<typename alloc_node_t::value_type>;
+      
       static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.remove();
       }
 
       static inline void release_block(alloc_node_t & block, alloc_node_t & head, VERBOSEARG) {
-        allocator<typename alloc_node_t::value_type>::place_block(block, head, verbose);
+        allocator_type::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
