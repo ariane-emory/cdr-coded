@@ -74,14 +74,6 @@ namespace reseune {
         return;
       } 
 
-      place_block_strategy(new_block, verbose);
-    }
-          
-    // =======================================================================================================
-
-  private:
-    
-    VOIDFUN(place_block_strategy, alloc_node & new_block, VERBOSEARG) {
       alloc_node * plast_block {nullptr}; 
  
       FOR_EACH_BLOCK {
