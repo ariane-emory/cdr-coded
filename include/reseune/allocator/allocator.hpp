@@ -63,26 +63,12 @@ namespace reseune {
   public:
     
     VOIDFUN(place_block, alloc_node & new_block, alloc_node & head, VERBOSEARG) {
-      place_block(new_block, &head, verbose);
-    }
-
-  private:
-    
-    VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
- 
-      IFISNULL(phead) {
-        PRINTF("Placing after phead.\n");
-      
-        RCONS(new_block, root);
-
-        return;
-      } 
 
       alloc_node * plast_block {nullptr}; 
  
-      FOR_EACH_BLOCK(*phead) {
+      FOR_EACH_BLOCK(head) {
 #ifndef NDEBUG
         if (plast_block == &block) 
           DIE("last_blook == block, this is probably a logic error.\n");
@@ -107,6 +93,23 @@ namespace reseune {
       PRINTF("Placed block is at the end.\n");
               
       RCONS(new_block, plast_block); 
+    }
+
+  private:
+    
+    VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
+      PRLINE;
+      PRINT("Placing block", &new_block);
+ 
+      IFISNULL(phead) {
+        PRINTF("Placing after phead.\n");
+      
+        RCONS(new_block, root);
+
+        return;
+      } 
+
+      place_block(new_block, *phead, verbose);      
     }
           
     // =======================================================================================================
