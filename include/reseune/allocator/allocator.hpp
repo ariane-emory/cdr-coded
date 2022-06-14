@@ -86,36 +86,12 @@ namespace reseune {
         return;
       } 
 
-      placement::place_block(new_block, FREE_LIST_HEAD, verbose);      
+      placement::place_block(new_block, root, verbose);      
     
       PRLINE;
       PRNL;
     }
     
-    // =======================================================================================================
-    VOIDFUN(describe_free_list) {
-      const bool verbose {true};
-
-      PRLINE;
-      PRINTF("PRINTING THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
-      PRLINE;
-
-      ASSERTISNOTNULL(PFREE_LIST_HEAD);
-
-      size_t ix {0};
-      
-      FOR_EACH_BLOCK(FREE_LIST_HEAD) {
-        PRINTF("Node                : #%u\n", ++ix);
-        PRINT("Node is at", &block);
-        PRINT("With block start at", BSTART(block));
-        PRHLINE;
-        DESCRIBE(block);
-        PRLINE;
-      }
-  
-      PRNL;
-    }
-
   private:
 
     // =======================================================================================================
@@ -271,6 +247,30 @@ namespace reseune {
       
       if (! defer_coalesce)
         coalesce(verbose);
+    }
+
+    // =======================================================================================================
+    VOIDFUN(describe_free_list) {
+      const bool verbose {true};
+
+      PRLINE;
+      PRINTF("PRINTING THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
+      PRLINE;
+
+      ASSERTISNOTNULL(PFREE_LIST_HEAD);
+
+      size_t ix {0};
+      
+      FOR_EACH_BLOCK(FREE_LIST_HEAD) {
+        PRINTF("Node                : #%u\n", ++ix);
+        PRINT("Node is at", &block);
+        PRINT("With block start at", BSTART(block));
+        PRHLINE;
+        DESCRIBE(block);
+        PRLINE;
+      }
+  
+      PRNL;
     }
 
     // =======================================================================================================
