@@ -38,6 +38,5 @@
 #undef UINTPTR
 #undef VERBOSEARG
 #undef VOIDFUN
-#undef palloc_node
 
 #undef RESEUNE_ALLOCATOR_MACROS_HPP
