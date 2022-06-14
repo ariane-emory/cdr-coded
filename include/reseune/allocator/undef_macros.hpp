@@ -2,12 +2,11 @@
 #undef ALLOC_HEADER_SZ
 #undef ASSERTISNOTNULL
 #undef BSIZE
-#undef BSIZEP
 #undef BSTART
 #undef BSTARTP
 #undef CONS
 #undef CONSP
-#undef ALLOC_NODEP_TO_REF
+#undef ALLOC_NODEP_TO_REFe
 #undef DESCRIBE
 #undef DESCRIBEP
 #undef DIE
