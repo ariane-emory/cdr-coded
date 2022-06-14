@@ -119,7 +119,7 @@ namespace reseune {
   private:
 
     // =======================================================================================================
-    alloc_node * find_first_fit(SIZEARG, VERBOSEARG) {
+    INLINE alloc_node * find_first_fit(SIZEARG, VERBOSEARG) {
       alloc_node * pblock {nullptr};
         
       // try to find a big enough block to alloc
@@ -277,8 +277,12 @@ namespace reseune {
   };
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-  template <typename T, template <typename> typename S>
-  allocator<T, S>::alloc_node allocator<T, S>::root {};
+  template <
+    typename ai,
+    template <typename> typename tc,
+    template <template <typename> typename, typename> typename tp,
+    template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename tt>
+  allocator<ai, tc, tp, tt>::alloc_node allocator<ai, tc, tp, tt>::root {};
 #endif
 }
 
