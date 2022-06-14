@@ -196,7 +196,7 @@ void test_links() {
 
 // ===============================================================================================================
 
-template <typename t> using strategy = strategies::
+template <typename t> using strategy = allocator_strategies::
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
   track_by_marking
 #else

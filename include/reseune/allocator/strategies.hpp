@@ -1,5 +1,5 @@
-#ifndef RESEUNE_ALLOCATOR_STRATEGIES_HPP
-#define RESEUNE_ALLOCATOR_STRATEGIES_HPP
+#ifndef RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
+#define RESEUNE_ALLOCATOR_ALLOCATOR_STRATEGIES_HPP
 
 namespace reseune {
   // ===========================================================================================================
@@ -9,7 +9,7 @@ namespace reseune {
 
   // ===========================================================================================================
 
-  struct strategies {
+  struct allocator_strategies {
 
     // =========================================================================================================
     
