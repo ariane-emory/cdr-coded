@@ -55,26 +55,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-    
-    static inline void place_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-      placement_strategies::doubly_linked<alloc_node>::place_block(block, head, verbose);      
-    }
-    
-    VOIDFUN(place_block, alloc_node & block, alloc_node * phead, VERBOSEARG) {
-      PRLINE;
-      PRINT("Placing block", &block);
- 
-      IFISNULL(phead) {
-        PRINTF("Placing after phead.\n");
-      
-        RCONS(block, root);
-        return;
-      } 
-
-      place_block(block, *phead, verbose);      
-    }
-          
-    // =======================================================================================================
         
   public:
 
@@ -99,9 +79,16 @@ namespace reseune {
         + size
         - UINTPTR(&new_block)
         - ALLOC_HEADER_SZ);
-            
-      place_block(new_block, PFREE_LIST_HEAD, verbose);
-                    
+
+      IFISNULL(PFREE_LIST_HEAD) {
+        PRINTF("Placing after phead.\n");
+      
+        RCONS(new_block, root);
+        return;
+      } 
+
+      placement_strategies::doubly_linked<alloc_node>::place_block(new_block, FREE_LIST_HEAD, verbose);      
+    
       PRLINE;
       PRNL;
     }
