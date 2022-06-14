@@ -77,10 +77,6 @@ namespace reseune {
 
     // =======================================================================================================
 
-    // VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
-    //   split_block(*pblock, size, verbose);
-    // }
-
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
       // alloc_node & block      {*pblock};
       alloc_node & new_block  {*PALLOC_NODE((UINTPTR(BSTART(block)) + size))};
@@ -99,10 +95,6 @@ namespace reseune {
       PRHLINE;
     }
 
-    // VOIDFUN(place_blockp, palloc_node new_block, VERBOSEARG) {
-    //   place_block(*new_block, verbose);
-    // }
-    
     VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
@@ -160,19 +152,21 @@ namespace reseune {
       ASSERTISNOTNULL(addr);
 
       // align the start addr of our pnew_block to the next pointer aligned addr
-      palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+      // palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
+
+      alloc_node & new_block = *PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)));
           
-      PRINT("Align pnew_block to", pnew_block);
+      PRINT("Align pnew_block to", &new_block);
           
       // calculate actual size - overhead
-      SETBSIZEP(
-        pnew_block, 
+      SETBSIZE(
+        new_block, 
         UINTPTR(addr)
         + size
-        - UINTPTR(pnew_block)
+        - UINTPTR(&new_block)
         - ALLOC_HEADER_SZ);
             
-      place_block(*pnew_block, verbose);
+      place_block(new_block, verbose);
                     
       PRLINE;
       PRNL;
