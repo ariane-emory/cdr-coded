@@ -18,11 +18,11 @@ namespace reseune {
   namespace allocator_strategies {
 
     // =========================================================================================================
-    template <typename alloc_node, template <template <typename> typename, typename> typename placement, template <typename> typename container>
+    template <typename alloc_info, template <template <typename> typename, typename> typename placement, template <typename> typename container>
     struct ordinary {};
     
     // =========================================================================================================
-    template <template <template <typename> typename, typename> typename placement>
+    template <typename alloc_info, template <template <typename> typename, typename> typename placement>
     struct ordinary<alloc_info, placement, doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info>;
@@ -41,8 +41,10 @@ namespace reseune {
     };
 
     // =========================================================================================================
-    template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
-    struct ordinary<alloc_info_with_unfree_flag, placement, container> {
+    // template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
+    template <template <template <typename> typename, typename> typename placement>
+    struct ordinary<alloc_info_with_unfree_flag, placement, doubly_linked> {
+      template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info_with_unfree_flag>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
