@@ -32,29 +32,8 @@ namespace reseune {
     // =======================================================================================================
 
     struct strategies {
-      struct do_not_track_commited {
-        template <typename block_type>
-        static inline void commit_block(block_type & block) {
-          block.remove();
-        }
-    
-        template <typename block_type>
-        static inline void release_block(block_type & block, VERBOSEARG) {
-          place_block(block, verbose);
-        }
-
-        template <typename block_type>
-        static inline bool block_is_free(block_type const & block) {
-          return true;
-        }
-      };
-    };
-
-    struct strat {
-      template <typename AN_T>
+      template <typename alloc_node_t>
       struct no_track {
-        using alloc_node_t = AN_T;
-        
         static inline void commit_block(alloc_node_t & block) {
           block.remove();
         }
@@ -69,7 +48,7 @@ namespace reseune {
       };
     };
 
-    using strategy = typename strat::no_track<alloc_node>;
+    using strategy = typename strategies::no_track<alloc_node>;
     
     // =======================================================================================================
     
