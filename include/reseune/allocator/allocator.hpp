@@ -80,9 +80,7 @@ namespace reseune {
         - ALLOC_HEADER_SZ);
 
       IFISNULL(PFREE_LIST_HEAD) {
-        PRINTF("Placing after phead.\n");
-      
-        RCONS(new_block, root);
+        placement_strategies::first<doubly_linked, alloc_node>::place_block(new_block, root, verbose);
         return;
       } 
 
