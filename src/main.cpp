@@ -218,15 +218,15 @@ void test_allocator() {
   constexpr size_t buff_len = 1 << 14; // 16 kb
 
   char buff1[buff_len] {0};
-  // char buff2[buff_len] {0};
+  char buff2[buff_len] {0};
 
   LINE;
   PRINT("buff1 is at", buff1);
   // PRINT("buff2 is at", buff2);
   
-  // ALLOC add_memory(buff2, buff_len, verbose);
+  ALLOC add_memory(buff2, buff_len, verbose);
   ALLOC add_memory(buff1, buff_len, verbose);
-
+  
   if (verbose) ALLOC describe_free_list();
 
 // Try allocating and  constructing a string ===================================================================
