@@ -294,8 +294,6 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      // PLACE_BLOCKP(pnew_block, verbose);
-
       release_block(*pnew_block, verbose);
       
       if (! defer_coalesce)

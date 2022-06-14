@@ -25,12 +25,6 @@ namespace reseune {
   // ===================================================================================================================
 
   template <>
-  inline bool allocator<alloc_info_with_unfree_flag>::is_free(
-    allocator<alloc_info_with_unfree_flag>::alloc_node & block) {    
-    return ! block.data.unfree;
-  }
-    
-  template <>
   inline void allocator<alloc_info_with_unfree_flag>::commit_block(
     allocator<alloc_info_with_unfree_flag>::alloc_node & block) {
     block.data.unfree = true;
@@ -41,6 +35,12 @@ namespace reseune {
     allocator<alloc_info_with_unfree_flag>::alloc_node & pblock, bool verbose) {
     pblock.data.unfree = false;
   }
+  
+  template <>
+  inline bool allocator<alloc_info_with_unfree_flag>::is_free(
+    allocator<alloc_info_with_unfree_flag>::alloc_node & block) {    
+    return ! block.data.unfree;
+  }    
 }
 
 #endif
