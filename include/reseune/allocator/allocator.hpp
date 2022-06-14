@@ -78,7 +78,7 @@ namespace reseune {
     // =======================================================================================================
 
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
-      ALLOC_NODEP_TO_REF(new_block, (UINTPTR(BSTART(block)) + size));
+      ALLOC_NODEP_TO_REF(new_block, UINTPTR(BSTART(block)) + size);
         
       SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
       SETBSIZE(block, size);
