@@ -46,13 +46,6 @@ namespace reseune {
         SETBSIZE(block, size);
 
         place_after::place_block(new_block, block, verbose);
-        tracking::commit_block(block, verbose);
-        
-        PRINT("Created new block at", &new_block);
-        PRINT("With block start at", BSTART(new_block));
-        PRHLINE;
-        DESCRIBE(new_block);
-        PRHLINE;
       }
         
   public:
@@ -143,16 +136,26 @@ namespace reseune {
       PVOID       pvoid  {BSTART(block)};
       
       // Check if we can we split the block:
-      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
-        split_block(block, size, verbose);          
+      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
+        split_block(block, size, verbose);
+
+        tracking::commit_block(block, verbose);
+        
+        PRINT("Created new block at", &block);
+        PRINT("With block start at", BSTART(block));
+        PRHLINE;
+        DESCRIBE(block);
+        PRHLINE;
+      }
 #ifndef NDEBUG
-      else 
+      else {
         DIE(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
           BSIZE(block),
           size,
           (BSIZE(block) - size),
           MIN_ALLOC_SZ);
+      }
 #endif
       
       PRINT("Gave pointer to", pvoid);
@@ -205,7 +208,7 @@ namespace reseune {
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);
 
-              block.remove();
+              block.remove(); // this is too coupled, make a removal_strategy!
             }
           }
         
