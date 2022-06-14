@@ -13,9 +13,10 @@
 #include "strategies.hpp"
 #include "macros.hpp" // include this last!
 
+// =============================================================================================================
 namespace reseune {
+
   // ===========================================================================================================
-  
   template <typename T, template <typename> typename S>
   class allocator {
   public:
@@ -25,19 +26,16 @@ namespace reseune {
     using container  = doubly_linked<t>;
     using alloc_node = container<alloc_info>;
 
+  private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static alloc_node root;
   private:
     allocator() {};
-  public:
 #else
     alloc_node root;
 #endif
     
-    // =======================================================================================================
-    
-  private:
-
+    // =======================================================================================================    
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
       ALLOC_NODEP_TO_REF(new_block, UINTPTR(BSTART(block)) + size);
         
