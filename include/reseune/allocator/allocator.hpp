@@ -57,7 +57,7 @@ namespace reseune {
     
   public:
     
-    VOIDFUN(place_block, alloc_node & new_block, alloc_node & head, VERBOSEARG) {
+    static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
 
