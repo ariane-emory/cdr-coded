@@ -16,7 +16,7 @@ namespace reseune {
     template <typename alloc_info>
     struct no_track {
       using allocator_type = allocator<alloc_info, no_track>;
-      using alloc_node     = typename allocator_type::container<alloc_info>;
+      using alloc_node = typename allocator_type::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
@@ -35,7 +35,7 @@ namespace reseune {
 
     template <typename alloc_info>
     struct track_by_marking {
-      using alloc_node = typename allocator<alloc_info, no_track>::alloc_node;
+      using alloc_node = typename allocator<alloc_info, track_by_marking>::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;
