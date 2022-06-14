@@ -10,8 +10,10 @@ namespace reseune {
   // ===========================================================================================================
 
   struct strategies {
-    template <typename alloc_node_t>
+    template <typename alloc_info>
     struct no_track {
+      using alloc_node_t = doubly_linked<alloc_info>;
+      
       using allocator_type = allocator<typename alloc_node_t::value_type>;
       
       static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
@@ -29,8 +31,10 @@ namespace reseune {
 
     // =========================================================================================================
 
-    template <typename alloc_node_t>
+    template <typename alloc_info>
     struct track_by_marking {
+      using alloc_node_t = doubly_linked<alloc_info>;
+
       static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.data.unfree = true;
       }
