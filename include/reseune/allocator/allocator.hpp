@@ -30,7 +30,7 @@ namespace reseune {
     template <template <typename> typename c, typename a>
     using tplacement = placement_strategies::pointer_order<c, a>;
     using placement  = tplacement<container, alloc_node>;
-    using strategy   = allocator_strategies::ordinary<alloc_info, tplacement, container>; // S<alloc_info>;
+    using strategy   = allocator_strategies::standard<alloc_info, tplacement, container>; // S<alloc_info>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR

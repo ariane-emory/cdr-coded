@@ -15,11 +15,11 @@ namespace reseune {
 
     // =========================================================================================================
     template <typename alloc_info, template <template <typename> typename, typename> typename placement, template <typename> typename container>
-    struct ordinary {};
+    struct standard {};
     
     // =========================================================================================================
     template <typename alloc_info, template <template <typename> typename, typename> typename tplacement>
-    struct ordinary<alloc_info, tplacement, doubly_linked> {
+    struct standard<alloc_info, tplacement, doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info>;
       using placement = tplacement<container, alloc_node>;
@@ -40,7 +40,7 @@ namespace reseune {
     // =========================================================================================================
     // template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
     template <template <template <typename> typename, typename> typename placement>
-    struct ordinary<alloc_info_with_unfree_flag, placement, doubly_linked> {
+    struct standard<alloc_info_with_unfree_flag, placement, doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info_with_unfree_flag>;
 
