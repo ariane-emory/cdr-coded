@@ -46,7 +46,6 @@ namespace reseune {
         SETBSIZE(block, size);
 
         place_after::place_block(new_block, block, verbose);
-
         tracking::commit_block(block);
         
         PRINT("Created new block at", &new_block);
