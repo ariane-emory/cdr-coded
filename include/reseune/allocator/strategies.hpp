@@ -11,7 +11,7 @@
 namespace reseune {
 
   // ===========================================================================================================
-  namespace allocator_strategies {
+  namespace tracking_strategies {
 
     // =========================================================================================================
     template <template <typename> typename container, typename alloc_info, template <template <typename> typename, typename> typename placement>
@@ -20,9 +20,9 @@ namespace reseune {
     // =========================================================================================================
     template <typename alloc_info, template <template <typename> typename, typename> typename tplacement>
     struct standard<doubly_linked, alloc_info, tplacement> {
-      template <typename t> using container = doubly_linked<t>;
-      using alloc_node = container<alloc_info>;
-      using placement = tplacement<container, alloc_node>;
+      template <typename t> using tcntainer = doubly_linked<t>;
+      using alloc_node = tcntainer<alloc_info>;
+      using placement = tplacement<tcntainer, alloc_node>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
