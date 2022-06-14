@@ -13,10 +13,7 @@ namespace reseune {
     template <typename alloc_info>
     struct base {
       using allocator_type = allocator<alloc_info>;      
-
-      template <typename t>
-      using container = typename allocator_type::container<t>;
-
+      template <typename t> using container = typename allocator_type::container<t>;
       using alloc_node = container<alloc_info>;            
     };
 
