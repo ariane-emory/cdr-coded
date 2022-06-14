@@ -33,12 +33,12 @@ namespace reseune {
 
   private:
 
-    VOIDFUN(unfree_block, alloc_node & block) {
+    VOIDFUN(commit_block, alloc_node & block) {
       REMOVE(block);
     }
 
-    VOIDFUN(release_blockp, palloc_node pblock, VERBOSEARG) {
-      PLACE_BLOCKP(pblock, verbose);
+    VOIDFUN(release_block, alloc_node & block, VERBOSEARG) {
+      PLACE_BLOCK(block, verbose);
     }
     
     // =======================================================================================================
@@ -51,7 +51,7 @@ namespace reseune {
       SETBSIZE(block, size);
       RCONS(new_block, block);
       // REMOVE(block);
-      unfree_block(block);
+      commit_block(block);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
@@ -304,7 +304,7 @@ namespace reseune {
       
       // PLACE_BLOCKP(pnew_block, verbose);
 
-      release_blockp(pnew_block, verbose);
+      release_block(*pnew_block, verbose);
       
       if (! defer_coalesce)
           coalesce(verbose);

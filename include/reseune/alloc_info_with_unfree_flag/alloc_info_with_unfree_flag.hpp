@@ -31,15 +31,15 @@ namespace reseune {
   }
     
   template <>
-  inline void allocator<alloc_info_with_unfree_flag>::unfree_block(
+  inline void allocator<alloc_info_with_unfree_flag>::commit_block(
     allocator<alloc_info_with_unfree_flag>::alloc_node & block) {
     block.data.unfree = true;
   }
 
   template <>
-  inline void allocator<alloc_info_with_unfree_flag>::release_blockp(
-    allocator<alloc_info_with_unfree_flag>::alloc_node * pblock, bool verbose) {
-    pblock->data.unfree = false;
+  inline void allocator<alloc_info_with_unfree_flag>::release_block(
+    allocator<alloc_info_with_unfree_flag>::alloc_node & pblock, bool verbose) {
+    pblock.data.unfree = false;
   }
 }
 
