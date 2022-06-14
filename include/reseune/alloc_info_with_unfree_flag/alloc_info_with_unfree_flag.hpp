@@ -37,7 +37,7 @@ namespace reseune {
   }
   
   template <>
-  inline bool allocator<alloc_info_with_unfree_flag>::is_free(
+  inline bool allocator<alloc_info_with_unfree_flag>::block_is_free(
     allocator<alloc_info_with_unfree_flag>::alloc_node & block) {    
     return ! block.data.unfree;
   }    

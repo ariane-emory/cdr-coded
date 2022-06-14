@@ -41,7 +41,7 @@ namespace reseune {
       place_block(block, verbose);
     }
     
-    INLINE bool is_free(alloc_node & block) {
+    INLINE bool block_is_free(alloc_node & block) {
       return true;
     }
     
@@ -180,7 +180,7 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
-        if (is_free(block) && (BSIZE(block) >= size))
+        if (block_is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
           pvoid  = BSTART(block);
@@ -255,7 +255,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (is_free(*plast_block) && is_free(block)) {
+          if (block_is_free(*plast_block) && block_is_free(block)) {
             if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
               SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
