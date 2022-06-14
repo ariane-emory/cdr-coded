@@ -12,25 +12,11 @@ namespace reseune {
   struct strategies {
 
     // =========================================================================================================
-
-  private:
-    
-    // template <typename alloc_info>
-    // struct base {
-    // protected:
-    // };
-
-    // =========================================================================================================
-
-  public:
-
-    // =========================================================================================================
     
     template <typename alloc_info>
-    class no_track /* : private base<alloc_info> */ {
-    public:
+    struct no_track {
       using allocator_type = allocator<alloc_info, no_track>;
-      using alloc_node = typename allocator_type::container<alloc_info>;
+      using alloc_node     = typename allocator_type::container<alloc_info>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
@@ -48,9 +34,8 @@ namespace reseune {
     // =========================================================================================================
 
     template <typename alloc_info>
-    class track_by_marking /* : private base<alloc_info> */ {
-    public:
-      using alloc_node = typename allocator<alloc_info, no_track>::container<alloc_info>;
+    struct track_by_marking {
+      using alloc_node = typename allocator<alloc_info, no_track>::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;
