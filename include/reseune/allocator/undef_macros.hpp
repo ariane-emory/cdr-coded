@@ -19,7 +19,6 @@
 #undef ISNULL
 #undef MIN_ALLOC_SZ
 #undef PALLOC_NODE
-#undef PFREE_LIST
 #undef PFREE_LIST_HEAD
 #undef PRHLINE
 #undef PRNL
@@ -34,6 +33,7 @@
 #undef RCONSP
 #undef REMOVE
 #undef REMOVEP
+#undef PROOT
 #undef SETBSIZE
 #undef SETBSIZEP
 #undef SIZEARG

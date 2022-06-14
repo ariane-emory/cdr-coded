@@ -104,7 +104,7 @@ namespace reseune {
         
     VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
-      PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+      PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%lx = %ul!\n", PROOT, PROOT);
       PRLINE;
       PRINT("Given memory at", addr);
       PRINT("Given bytes", size);
@@ -136,7 +136,7 @@ namespace reseune {
       const bool verbose {true};
 
       PRLINE;
-      PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+      PRINTF("PRINTING THE FREE LIST @ 0x%lx = %ul!\n", PROOT, PROOT);
       PRLINE;
 
       ASSERTISNOTNULL(PFREE_LIST_HEAD);
@@ -175,7 +175,7 @@ namespace reseune {
       size = align_up(size, sizeof(PVOID)); // Align the pointer
 
       PRLINE;
-      PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+      PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%lx = %ul!\n", PROOT, PROOT);
       PRLINE;
       PRINT("Bytes requested: ", size);
       
@@ -199,7 +199,7 @@ namespace reseune {
         }
 
       IFISNULL(pblock) {
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!!!!!!\n", PFREE_LIST, PFREE_LIST);        
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%lx = %ul!!!!!!\n", PROOT, PROOT);        
 
         return nullptr;
       }
@@ -252,7 +252,7 @@ namespace reseune {
 
     VOIDFUN(coalesce, VERBOSEARG) {
       PRLINE;
-      PRINTF("COALESCING THE FREE LIST @ 0x%lx = %ul!\n", PFREE_LIST, PFREE_LIST);
+      PRINTF("COALESCING THE FREE LIST @ 0x%lx = %ul!\n", PROOT, PROOT);
       PRLINE;
 
       palloc_node plast_block {nullptr};
