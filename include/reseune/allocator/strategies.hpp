@@ -16,8 +16,8 @@ namespace reseune {
         block.remove();
       }
 
-      static inline void release_block(alloc_node_t & block, VERBOSEARG) {
-        allocator<typename alloc_node_t::value_type>::place_block(block, verbose);
+      static inline void release_block(alloc_node_t & block, alloc_node_t * head, VERBOSEARG) {
+        allocator<typename alloc_node_t::value_type>::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
@@ -33,7 +33,7 @@ namespace reseune {
         block.data.unfree = true;
       }
 
-      static inline void release_block(alloc_node_t & block, VERBOSEARG) {
+      static inline void release_block(alloc_node_t & block, alloc_node_t * head, VERBOSEARG) {
         block.data.unfree = false;
       }
 

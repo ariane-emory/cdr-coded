@@ -26,7 +26,7 @@
 #define                    WARN(...)            { printf(__VA_ARGS__); }
 #define                    ADDRARG              PVOIDC addr
 #define                    ALLOC_HEADER_SZ      (offsetof(alloc_node, data.block_start))
-#define                    FOR_EACH_BLOCK       for (auto & block : FREE_LIST_HEAD)
+#define                    FOR_EACH_BLOCK(head) for (auto & block : head)
 #define                    FREE_LIST_HEAD       (*PFREE_LIST_HEAD)
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
 #define                    INLINE               static inline 

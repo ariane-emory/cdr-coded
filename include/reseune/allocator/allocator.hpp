@@ -62,12 +62,12 @@ namespace reseune {
     
   public:
     
-    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
+    VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
  
-      IFISNULL(PFREE_LIST_HEAD) {
-        PRINTF("Placing after FL.\n");
+      IFISNULL(phead) {
+        PRINTF("Placing after phead.\n");
       
         RCONS(new_block, root);
 
@@ -76,7 +76,7 @@ namespace reseune {
 
       alloc_node * plast_block {nullptr}; 
  
-      FOR_EACH_BLOCK {
+      FOR_EACH_BLOCK(*phead) {
 #ifndef NDEBUG
         if (plast_block == &block) 
           DIE("last_blook == block, this is probably a logic error.\n");
@@ -129,7 +129,7 @@ namespace reseune {
         - UINTPTR(&new_block)
         - ALLOC_HEADER_SZ);
             
-      place_block(new_block, verbose);
+      place_block(new_block, PFREE_LIST_HEAD, verbose);
                     
       PRLINE;
       PRNL;
@@ -148,7 +148,7 @@ namespace reseune {
 
       size_t ix {0};
       
-      FOR_EACH_BLOCK {
+      FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         PRINTF("Node                : #%u\n", ++ix);
         PRINT("Node is at", &block);
         PRINT("With block start at", BSTART(block));
@@ -178,7 +178,7 @@ namespace reseune {
       alloc_node * pblock {nullptr};
 
       // try to find a big enough block to alloc
-      FOR_EACH_BLOCK
+      FOR_EACH_BLOCK(FREE_LIST_HEAD)
         if (strategy::block_is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
@@ -253,7 +253,7 @@ namespace reseune {
 
       alloc_node * plast_block {nullptr};
 
-      FOR_EACH_BLOCK {
+      FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
           if (strategy::block_is_free(*plast_block) && strategy::block_is_free(block)) {
 
@@ -301,7 +301,7 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      strategy::release_block(new_block, verbose);
+      strategy::release_block(new_block, PFREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
