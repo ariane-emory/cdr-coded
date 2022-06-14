@@ -49,6 +49,27 @@ namespace reseune {
         }
       };
     };
+
+    struct strat {
+      template <typename AN_T>
+      struct no_track {
+        using alloc_node_t = AN_T;
+        
+        static inline void commit_block(alloc_node_t & block) {
+          block.remove();
+        }
+
+        static inline void release_block(alloc_node_t & block, VERBOSEARG) {
+          place_block(block, verbose);
+        }
+
+        static inline bool block_is_free(alloc_node_t const & block) {
+          return true;
+        }
+      };
+    };
+
+    using strategy = typename strat::no_track<alloc_node>;
     
     // =======================================================================================================
     
@@ -65,10 +86,10 @@ namespace reseune {
       RCONS(new_block, block);
       // REMOVE(block);
       
-      strategies::do_not_track_commited::commit_block(block);
+      strategy::commit_block(block);
 
       PRINT("Created new block at", &new_block);
-       PRINT("With block start at", BSTART(new_block));
+      PRINT("With block start at", BSTART(new_block));
       PRHLINE;
       DESCRIBE(new_block);
       PRHLINE;
@@ -190,7 +211,7 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
-        if (strategies::do_not_track_commited::block_is_free(block) && (BSIZE(block) >= size))
+        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
           pvoid  = BSTART(block);
@@ -265,8 +286,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (strategies::do_not_track_commited::block_is_free(*plast_block)
-              && strategies::do_not_track_commited::block_is_free(block)) {
+          if (strategy::block_is_free(*plast_block)
+              && strategy::block_is_free(block)) {
             if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
               SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
@@ -309,7 +330,7 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      strategies::do_not_track_commited::release_block(*pnew_block, verbose);
+      strategy::release_block(*pnew_block, verbose);
       
       if (! defer_coalesce)
           coalesce(verbose);
