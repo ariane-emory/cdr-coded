@@ -18,17 +18,18 @@ namespace reseune {
     struct ordinary {};
     
     // =========================================================================================================
-    template <typename alloc_info, template <template <typename> typename, typename> typename placement>
-    struct ordinary<alloc_info, placement, doubly_linked> {
+    template <typename alloc_info, template <template <typename> typename, typename> typename tplacement>
+    struct ordinary<alloc_info, tplacement, doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info>;
+      using placement = tplacement<container, alloc_node>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
       }
 
       static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-        placement<container, alloc_node>::place_block(block, head, verbose);
+        placement::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
