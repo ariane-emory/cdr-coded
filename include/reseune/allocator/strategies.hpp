@@ -14,48 +14,6 @@ namespace reseune {
   namespace allocator_strategies {
 
     // =========================================================================================================
-
-    template <typename alloc_node>
-    struct doubly_linked_placement_stategy {
-      // =======================================================================================================
-    
-    public:
-    
-      static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
-        PRLINE;
-        PRINT("Placing block", &new_block);
-
-        alloc_node * plast_block {nullptr}; 
- 
-        FOR_EACH_BLOCK(head) {
-#ifndef NDEBUG
-          if (plast_block == &block) 
-            DIE("last_blook == block, this is probably a logic error.\n");
-#endif
-
-          plast_block = &block; 
-          
-          PRINT("Compare with", uintptr(&block));
-              
-          if (plast_block <= &new_block) 
-            continue;
-                
-          PRINTF("Placed block is before this block.\n"); 
-
-          CONS(new_block, block); 
-
-          return;
-        } 
-
-        // There shouldn't be any way for plast_block to be null if we got this far.
-              
-        PRINTF("Placed block is at the end.\n");
-              
-        RCONS(new_block, plast_block); 
-      }
-    };
-    
-    // =========================================================================================================
     
     template <typename alloc_info>
        struct no_track {
@@ -67,7 +25,7 @@ namespace reseune {
        }
 
        static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-         allocator_type::place_block(block, head, verbose);
+         placement_strategies::doubly_linked<alloc_node>::place_block(block, head, verbose);
        }
 
        static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
@@ -97,7 +55,5 @@ namespace reseune {
     // =========================================================================================================
   };
 }
-
-#include "undef_macros.hpp"
 
 #endif
