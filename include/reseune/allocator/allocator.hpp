@@ -18,10 +18,11 @@ namespace reseune {
   template <typename T, template <typename> typename S>
   class allocator {
   public:
+    using alloc_info = T;
     template <typename t>
     using container  = doubly_linked<t>;
-    using alloc_info = T;
     using alloc_node = container<alloc_info>;
+    using strategy   = S<alloc_info>;
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static alloc_node root;
@@ -32,12 +33,6 @@ namespace reseune {
     alloc_node root;
 #endif
       
-    using strategy = S<alloc_info>; // typename
-// #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-//       strategies::track_by_marking<alloc_info>
-// #else
-//       strategies::no_track<alloc_info>
-// #endif
     
     // =======================================================================================================
     
