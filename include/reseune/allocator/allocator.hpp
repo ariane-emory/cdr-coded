@@ -77,8 +77,12 @@ namespace reseune {
 
     // =======================================================================================================
 
-    VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
-      alloc_node & block      {*pblock};
+    // VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
+    //   split_block(*pblock, size, verbose);
+    // }
+
+    VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
+      // alloc_node & block      {*pblock};
       alloc_node & new_block  {*PALLOC_NODE((UINTPTR(BSTART(block)) + size))};
         
       SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
@@ -95,9 +99,9 @@ namespace reseune {
       PRHLINE;
     }
 
-    VOIDFUN(place_blockp, palloc_node new_block, VERBOSEARG) {
-      place_block(*new_block, verbose);
-    }
+    // VOIDFUN(place_blockp, palloc_node new_block, VERBOSEARG) {
+    //   place_block(*new_block, verbose);
+    // }
     
     VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       PRLINE;
@@ -242,7 +246,7 @@ namespace reseune {
       
       // Check if we can we split the block:
       if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ)
-        split_blockp(pblock, size, verbose);
+        split_block(*pblock, size, verbose);
           
 #ifndef NDEBUG
       else 
