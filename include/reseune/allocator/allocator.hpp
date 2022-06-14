@@ -21,12 +21,12 @@ namespace reseune {
     using alloc_node = doubly_linked<alloc_info>;
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-    static alloc_node FREE_LIST;
+    static alloc_node free_list;
   private:
     allocator() {};
   public:
 #else
-    alloc_node FREE_LIST;
+    alloc_node free_list;
 #endif
       
     // =======================================================================================================
@@ -67,7 +67,7 @@ namespace reseune {
       IFISNULL(PFREE_LIST_HEAD) {
         PRINTF("Placing after FL.\n");
       
-        RCONSP(pnew_block, FREE_LIST);
+        RCONSP(pnew_block, free_list);
 
         return;
       } 
@@ -315,7 +315,7 @@ namespace reseune {
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
   template <typename T>
-  allocator<T>::alloc_node allocator<T>::FREE_LIST {};
+  allocator<T>::alloc_node allocator<T>::free_list {};
 #endif
 }
 
