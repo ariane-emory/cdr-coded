@@ -32,8 +32,8 @@ namespace reseune {
 
   template <>
   inline void allocator<alloc_info_with_unfree_flag>::release_block(
-    allocator<alloc_info_with_unfree_flag>::alloc_node & pblock, bool verbose) {
-    pblock.data.unfree = false;
+    allocator<alloc_info_with_unfree_flag>::alloc_node & block, bool verbose) {
+    block.data.unfree = false;
   }
   
   template <>

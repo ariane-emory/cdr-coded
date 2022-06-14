@@ -46,6 +46,21 @@ namespace reseune {
           return true;
         }
       };
+
+      template <typename alloc_node_t>
+      struct track {
+        static inline void commit_block(alloc_node_t & block) {
+          block.data.unfree = true;
+        }
+
+        static inline void release_block(alloc_node_t & block, VERBOSEARG) {
+          block.data.unfree = false;
+        }
+
+        static inline bool block_is_free(alloc_node_t const & block) {
+          return ! block.data.unfree;
+        }
+      };
     };
 
     using strategy = typename strategies::no_track<alloc_node>;
