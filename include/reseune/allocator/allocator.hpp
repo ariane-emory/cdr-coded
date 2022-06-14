@@ -65,6 +65,8 @@ namespace reseune {
     VOIDFUN(place_block, alloc_node & new_block, alloc_node & head, VERBOSEARG) {
       place_block(new_block, &head, verbose);
     }
+
+  private:
     
     VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
