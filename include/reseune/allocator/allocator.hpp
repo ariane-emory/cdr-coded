@@ -301,7 +301,7 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      strategy::release_block(new_block, PFREE_LIST_HEAD, verbose);
+      strategy::release_block(new_block, FREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
