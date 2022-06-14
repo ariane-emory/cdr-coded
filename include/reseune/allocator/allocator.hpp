@@ -56,13 +56,9 @@ namespace reseune {
 
     // =======================================================================================================
     
-  public:
-    
     static inline void place_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
       placement_strategies::doubly_linked<alloc_node>::place_block(block, head, verbose);      
     }
-
-  private:
     
     VOIDFUN(place_block, alloc_node & block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
