@@ -10,40 +10,40 @@ namespace reseune {
   // ===========================================================================================================
 
   struct strategies {
-    template <typename alloc_info>
+    template <template <typename> typename container, typename alloc_info>
     struct no_track {
-      using alloc_node_t = doubly_linked<alloc_info>;
+      using alloc_node = container<alloc_info>;
       
-      using allocator_type = allocator<typename alloc_node_t::value_type>;
+      using allocator_type = allocator<typename alloc_node::value_type>;
       
-      static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
+      static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
       }
 
-      static inline void release_block(alloc_node_t & block, alloc_node_t & head, VERBOSEARG) {
+      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
         allocator_type::place_block(block, head, verbose);
       }
 
-      static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
+      static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
         return true;
       }
     };
 
     // =========================================================================================================
 
-    template <typename alloc_info>
+    template <template <typename> typename container, typename alloc_info>
     struct track_by_marking {
-      using alloc_node_t = doubly_linked<alloc_info>;
+      using alloc_node = container<alloc_info>;
 
-      static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
+      static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;
       }
 
-      static inline void release_block(alloc_node_t & block, alloc_node_t & head, VERBOSEARG) {
+      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
         block.data.unfree = false;
       }
 
-      static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
+      static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
         return ! block.data.unfree;
       }
     };
