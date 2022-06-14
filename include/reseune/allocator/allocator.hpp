@@ -293,7 +293,7 @@ namespace reseune {
             alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
             
             if ((UINTPTR(BSTART(last_block)) + BSIZE(last_block)) == UINTPTR(&block)) {
-              SETBSIZEP(plast_block, BSIZE(last_block) + ALLOC_HEADER_SZ + BSIZE(block));
+              SETBSIZE((*plast_block), BSIZE(last_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);

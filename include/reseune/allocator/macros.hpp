@@ -21,7 +21,6 @@
 #define                    RCONS(tail, list)    tail.insert_after(list)
 #define                    RCONSP(ptail, list)  RCONS((*ptail), list)
 #define                    SETBSIZE(b, s)       b.data.size = s
-#define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))
 #define                    VOIDFUN(name, ...)   INLINE void name(__VA_ARGS__)
 #define                    WARN(...)            { printf(__VA_ARGS__); }

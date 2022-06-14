@@ -32,7 +32,6 @@
 #undef RCONSP
 #undef PROOT
 #undef SETBSIZE
-#undef SETBSIZEP
 #undef SIZEARG
 #undef UINTPTR
 #undef VERBOSEARG
