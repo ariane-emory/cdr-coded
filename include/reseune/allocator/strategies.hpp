@@ -22,13 +22,14 @@ namespace reseune {
     template <typename alloc_info>
     struct no_track : public base<alloc_info> {
       using b = base<alloc_info>;
+      using a = b::allocator_type;
       
       static inline void commit_block(b::alloc_node & block, VERBOSEARG) {
         block.remove();
       }
 
       static inline void release_block(b::alloc_node & block, b::alloc_node & head, VERBOSEARG) {
-        b::allocator_type::place_block(block, head, verbose);
+        a::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(b::alloc_node const & block, VERBOSEARG) {
