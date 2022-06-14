@@ -43,7 +43,8 @@ using pool       =
 #endif
   ;
 
-template <typename t> using strategy =
+template <typename t>
+using strategy   =
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
   allocator_strategies::track_by_marking<t>
 #else
@@ -300,8 +301,6 @@ void test_allocator() {
 // ===============================================================================================================
 
 void measure_time(void(*fun)()) {
-  // using namespace std::chrono;
-  
   auto before = NOW;
   fun();
   auto after  = NOW;
