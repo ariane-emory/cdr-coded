@@ -80,12 +80,10 @@ namespace reseune {
         - UINTPTR(&new_block)
         - ALLOC_HEADER_SZ);
 
-      IFISNULL(PFREE_LIST_HEAD) {
+      IFISNULL(PFREE_LIST_HEAD)
         place_first::place_block(new_block, root, verbose);
-        return;
-      } 
-
-      placement::place_block(new_block, root, verbose);      
+      else
+        placement::place_block(new_block, root, verbose);      
     
       PRLINE;
       PRNL;
