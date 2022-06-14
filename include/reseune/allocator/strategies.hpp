@@ -10,10 +10,14 @@ namespace reseune {
   // ===========================================================================================================
 
   struct strategies {
-    template <template <typename> typename container, typename alloc_info>
+    template <typename alloc_info>
     struct no_track {
-      using alloc_node     = container<alloc_info>;      
-      using allocator_type = allocator<typename alloc_node::value_type>;
+      using allocator_type = allocator<alloc_info>;      
+
+      template <typename t>
+      using container = typename allocator_type::container<t>;
+
+      using alloc_node = container<alloc_info>;      
       
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
@@ -30,8 +34,13 @@ namespace reseune {
 
     // =========================================================================================================
 
-    template <template <typename> typename container, typename alloc_info>
+    template <typename alloc_info>
     struct track_by_marking {
+      using allocator_type = allocator<alloc_info>;      
+
+      template <typename t>
+      using container = typename allocator_type::container<t>;
+
       using alloc_node = container<alloc_info>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {

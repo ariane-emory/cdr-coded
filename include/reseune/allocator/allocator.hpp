@@ -34,9 +34,9 @@ namespace reseune {
       
     using strategy = typename
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-      strategies::track_by_marking<doubly_linked, alloc_info>
+      strategies::track_by_marking<alloc_info>
 #else
-      strategies::no_track<doubly_linked, alloc_info>
+      strategies::no_track<alloc_info>
 #endif
       ;
     
