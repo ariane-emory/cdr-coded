@@ -12,7 +12,7 @@
 #define HLINE       (reseune::print_line('-'))
 #define NEWLINE     putchar('\n')
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
-#define NOW         (duration_cast<milliseconds>(system_clock::now().time_since_epoch()))
+#define NOW         (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
 #define endl        (std::endl)
 #define uintptr(x)  (reseune::uintptr(x))
@@ -22,22 +22,29 @@
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace    reseune;
-
 using string     = std::string;
 using cell       = cell;
 using tag        = cell::tag_type;
 using link       = doubly_linked<char>;
 using thing      = thing;
-
 using alloc_node = std::conditional<
   RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG,
   alloc_info_with_unfree_flag,
   alloc_info>::type;
-
 using pool       = std::conditional<
   WITH_RESEUNE_POOL,
   pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
+template <typename t> using strategy = allocator_strategies::
+#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
+  track_by_marking
+#else
+  no_track
+#endif
+  <t>;
+
+using allocator_type = allocator<alloc_node, strategy>;
+
 
 // ===============================================================================================================
 
@@ -193,16 +200,6 @@ void test_links() {
 
 // ===============================================================================================================
 
-template <typename t> using strategy = allocator_strategies::
-#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-  track_by_marking
-#else
-  no_track
-#endif
-<t>;
-
-using allocator_type = allocator<alloc_node, strategy>;
-
 void test_allocator() {
   const bool verbose {true};
   
@@ -295,7 +292,7 @@ void test_allocator() {
 // ===============================================================================================================
 
 void measure_time(void(*fun)()) {
-  using namespace std::chrono;
+  // using namespace std::chrono;
   
   auto before = NOW;
   fun();
