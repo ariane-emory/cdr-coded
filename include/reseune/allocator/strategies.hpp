@@ -14,12 +14,12 @@ namespace reseune {
   namespace allocator_strategies {
 
     // =========================================================================================================
-    template <typename alloc_info, template <template <typename> typename, typename> typename placement, template <typename> typename container>
+    template <template <typename> typename container, typename alloc_info, template <template <typename> typename, typename> typename placement>
     struct standard {};
     
     // =========================================================================================================
     template <typename alloc_info, template <template <typename> typename, typename> typename tplacement>
-    struct standard<alloc_info, tplacement, doubly_linked> {
+    struct standard<doubly_linked, alloc_info, tplacement> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info>;
       using placement = tplacement<container, alloc_node>;
@@ -40,7 +40,7 @@ namespace reseune {
     // =========================================================================================================
     // template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
     template <template <template <typename> typename, typename> typename placement>
-    struct standard<alloc_info_with_unfree_flag, placement, doubly_linked> {
+    struct standard<doubly_linked, alloc_info_with_unfree_flag, placement> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info_with_unfree_flag>;
 
