@@ -15,26 +15,27 @@ namespace reseune {
 
     // =========================================================================================================
     template <typename alloc_info>
-       struct no_track {
-       using allocator_type = allocator<alloc_info, no_track>;
-       using alloc_node = typename allocator_type::alloc_node;
+    struct no_track {
+      using allocator_type = allocator<alloc_info, no_track>;
+      using alloc_node = typename allocator_type::alloc_node;
+      template <typename t> using container = allocator_type::container;
 
-       static inline void commit_block(alloc_node & block, VERBOSEARG) {
-         block.remove();
-       }
+      static inline void commit_block(alloc_node & block, VERBOSEARG) {
+        block.remove();
+      }
 
-       static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-         placement_strategies::doubly_linked<alloc_node>::place_block(block, head, verbose);
-       }
+      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
+        placement_strategies::pointer_order<container, alloc_node>::place_block(block, head, verbose);
+      }
 
-       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
-         return true;
-       }
-     };
+      static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
+        return true;
+      }
+    };
 
-     // =========================================================================================================
+    // =========================================================================================================
     template <typename alloc_info>
-       struct track_by_marking {
+    struct track_by_marking {
       using alloc_node = typename allocator<alloc_info, track_by_marking>::alloc_node;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {

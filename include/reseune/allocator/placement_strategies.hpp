@@ -3,6 +3,7 @@
 
 #include "macros.hpp"
 #include "placement_strategies.hpp"
+#include "reseune/doubly_linked/doubly_linked.hpp"
 
 // =============================================================================================================
 namespace reseune {
@@ -11,8 +12,13 @@ namespace reseune {
   namespace placement_strategies {
 
     // =========================================================================================================
+    template <template <typename> typename container, typename alloc_node>
+    struct pointer_order {
+    };
+    
+    // =========================================================================================================
     template <typename alloc_node>
-    struct doubly_linked {
+    struct pointer_order<doubly_linked, alloc_node> {
       
       // =======================================================================================================      
       static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {

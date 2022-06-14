@@ -25,7 +25,7 @@ namespace reseune {
     template <typename t>
     using container  = doubly_linked<t>;
     using alloc_node = container<alloc_info>;
-    using placement  = placement_strategies::doubly_linked<alloc_node>;
+    using placement  = placement_strategies::pointer_order<container, alloc_node>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
