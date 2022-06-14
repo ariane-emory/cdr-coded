@@ -202,15 +202,16 @@ template <typename t> using strategy = strategies::track_by_marking<t>;
 template <typename t> using strategy = strategies::no_track<t>;
 #endif 
 
+using allocator_type = allocator<alloc_node, strategy>;
+
 void test_allocator() {
   const bool verbose {true};
-
   
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ALLOC allocator<alloc_node, strategy>::
+#define ALLOC allocator_type::
 #else
 #define ALLOC alloc. 
-  allocator<alloc_node, strategy> alloc {};  
+  allocator_type alloc {};  
 #endif
   
   // Give the allocator with 2 blocks of memory ==================================================================
