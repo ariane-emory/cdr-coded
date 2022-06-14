@@ -16,6 +16,9 @@
 #include "reseune/doubly_linked/doubly_linked.hpp"
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/allocator/allocator.hpp"
+
+#ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG 
 #include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
+#endif
 
 #endif

@@ -38,7 +38,7 @@ namespace reseune {
     }
 
     VOIDFUN(release_block, alloc_node & block, VERBOSEARG) {
-      PLACE_BLOCK(block, verbose);
+      PLACE_BLOCKP(&block, verbose);
     }
     
     INLINE bool is_free(alloc_node & block) {
