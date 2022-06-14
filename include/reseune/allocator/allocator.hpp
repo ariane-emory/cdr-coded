@@ -31,20 +31,27 @@ namespace reseune {
       
     // =======================================================================================================
 
+    struct strategies {
+      template <typename block_type>
+         struct do_not_track_used {
+        static inline void commit_block(block_type & block) {
+          block.remove();
+        }
+    
+        static inline void release_block(block_type & block, VERBOSEARG) {
+          place_block(block, verbose);
+        }
+    
+        static inline bool block_is_free(block_type const & block) {
+          return true;
+        }
+      };
+    }
+    
+    // =======================================================================================================
+    
   private:
 
-    static inline void commit_block(alloc_node & block) {
-      block.remove();
-    }
-    
-    static inline void release_block(alloc_node & block, VERBOSEARG) {
-      place_block(block, verbose);
-    }
-    
-    static inline bool block_is_free(alloc_node const & block) {
-      return true;
-    }
-    
     // =======================================================================================================
 
     VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
@@ -55,7 +62,8 @@ namespace reseune {
       SETBSIZE(block, size);
       RCONS(new_block, block);
       // REMOVE(block);
-      commit_block(block);
+      
+      strategies::do_not_track_used_block(block);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
@@ -180,7 +188,7 @@ namespace reseune {
 
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK
-        if (block_is_free(block) && (BSIZE(block) >= size))
+        if (strategies::do_not_track_used::block_is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
           pvoid  = BSTART(block);
@@ -255,7 +263,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (block_is_free(*plast_block) && block_is_free(block)) {
+          if (strategies::do_not_track_used::block_is_free(*plast_block)
+              && strategies::do_not_track_used::block_is_free(block)) {
             if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
               SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
@@ -298,7 +307,7 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      release_block(*pnew_block, verbose);
+      strategies::do_not_track_used::release_block(*pnew_block, verbose);
       
       if (! defer_coalesce)
           coalesce(verbose);
