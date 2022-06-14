@@ -95,8 +95,8 @@ namespace reseune {
       PRHLINE;
     }
 
-    VOIDFUN(place_block, alloc_node & pnew_block, VERBOSEARG) {
-      place_blockp(&pnew_block, verbose);
+    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
+      place_blockp(&new_block, verbose);
     }
     
     VOIDFUN(place_blockp, palloc_node pnew_block, VERBOSEARG) {
