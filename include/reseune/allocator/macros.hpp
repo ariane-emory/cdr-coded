@@ -4,7 +4,7 @@
 #define                    ASSERTISNOTNULL(x)   assert(ISNOTNULL(x))
 #define                    BSIZE(b)             (b.data.size)
 #define                    BSIZEP(pb)           (BSIZE((*pb)))
-#define                    BSTART(b)            (&b.data.block_start)
+#define                    BSTART(b)            (&(b.data.block_start))
 #define                    BSTARTP(pb)          (BSTART((*pb)))
 #define                    CONS(head, list)     head.insert_before(list)
 #define                    CONSP(headp, list)   CONS((*headp), list)
