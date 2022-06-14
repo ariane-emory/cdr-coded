@@ -44,13 +44,13 @@ using pool       =
   ;
 
 template <typename t>
-using strategy   =
+using strategy   = allocator_strategies::
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-  allocator_strategies::track_by_marking<t>
+  track_by_marking
 #else
-  allocator_strategies::no_track<t>
+  no_track
 #endif
-  ;
+  <t>;
 
 using allocator_type = allocator<alloc_node, strategy>;
 

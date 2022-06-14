@@ -19,10 +19,10 @@ namespace reseune {
   class allocator {
   public:
     using alloc_info = T;
+    using strategy   = S<alloc_info>;
     template <typename t>
     using container  = doubly_linked<t>;
     using alloc_node = container<alloc_info>;
-    using strategy   = S<alloc_info>;
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static alloc_node root;
