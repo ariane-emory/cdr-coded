@@ -288,8 +288,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (strategy::block_is_free(*plast_block)
-              && strategy::block_is_free(block)) {
+          if (strategy::block_is_free(*plast_block) && strategy::block_is_free(block)) {
             if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
               SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
