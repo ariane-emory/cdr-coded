@@ -95,38 +95,40 @@ namespace reseune {
       PRHLINE;
     }
 
-    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
-      place_blockp(&new_block, verbose);
+    VOIDFUN(place_blockp, palloc_node new_block, VERBOSEARG) {
+      place_block(*new_block, verbose);
     }
     
-    VOIDFUN(place_blockp, palloc_node pnew_block, VERBOSEARG) {
+    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       PRLINE;
-      PRINT("Placing block", pnew_block);
+      PRINT("Placing block", &new_block);
  
       IFISNULL(PFREE_LIST_HEAD) {
         PRINTF("Placing after FL.\n");
       
-        RCONSP(pnew_block, root);
+        RCONS(new_block, root);
 
         return;
       } 
 
       palloc_node last_block {nullptr}; 
  
-      FOR_EACH_BLOCK { 
+      FOR_EACH_BLOCK {
+#ifndef NDEBUG
         if (last_block == &block) 
           DIE("last_blook == block, this is probably a logic error.\n");
+#endif
 
         last_block = &block; 
           
         PRINT("Compare with", uintptr(&block));
               
-        if (last_block <= pnew_block) 
+        if (last_block <= &new_block) 
           continue;
                 
         PRINTF("Placed block is before this block.\n"); 
 
-        CONSP(pnew_block, block); 
+        CONS(new_block, block); 
 
         return;
       } 
@@ -135,7 +137,7 @@ namespace reseune {
               
       PRINTF("Placed block is at the end.\n");
               
-      RCONSP(pnew_block, last_block); 
+      RCONS(new_block, last_block); 
     }
           
     // =======================================================================================================
