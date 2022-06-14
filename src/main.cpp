@@ -196,11 +196,13 @@ void test_links() {
 
 // ===============================================================================================================
 
+template <typename t> using strategy = strategies::
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-template <typename t> using strategy = strategies::track_by_marking<t>;
+  track_by_marking
 #else
-template <typename t> using strategy = strategies::no_track<t>;
-#endif 
+  no_track
+#endif
+<t>;
 
 using allocator_type = allocator<alloc_node, strategy>;
 
