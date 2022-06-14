@@ -24,9 +24,10 @@ namespace reseune {
     template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
-    using alloc_node = tcontainer<alloc_info>;
-    using strategy   = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
-    using placement  = tplacement<tcontainer, alloc_node>;
+    using alloc_node  = tcontainer<alloc_info>;
+    using strategy    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
+    using placement   = tplacement<tcontainer, alloc_node>;
+    using place_first = placement_strategies::first<tcontainer, alloc_node>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -80,7 +81,7 @@ namespace reseune {
         - ALLOC_HEADER_SZ);
 
       IFISNULL(PFREE_LIST_HEAD) {
-        placement_strategies::first<doubly_linked, alloc_node>::place_block(new_block, root, verbose);
+        place_first::place_block(new_block, root, verbose);
         return;
       } 
 
