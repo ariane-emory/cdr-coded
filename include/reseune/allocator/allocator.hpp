@@ -152,8 +152,6 @@ namespace reseune {
       ASSERTISNOTNULL(addr);
 
       // align the start addr of our pnew_block to the next pointer aligned addr
-      // palloc_node  pnew_block {PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
-
       alloc_node & new_block {*PALLOC_NODE(align_up(UINTPTR(addr), sizeof(PVOID)))};
           
       PRINT("Align pnew_block to", &new_block);
@@ -235,20 +233,21 @@ namespace reseune {
 
         return nullptr;
       }
-          
+      
     found_a_block:
+      alloc_node & block {*pblock};
       
       // Check if we can we split the block:
-      if ((BSIZEP(pblock) - size) >= MIN_ALLOC_SZ)
-        split_block(*pblock, size, verbose);
+      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
+        split_block(block, size, verbose);
           
 #ifndef NDEBUG
       else 
         DIE(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
-          BSIZEP(pblock),
+          BSIZE(block),
           size,
-          (BSIZEP(pblock) - size),
+          (BSIZE(block) - size),
           MIN_ALLOC_SZ);
 #endif
       
