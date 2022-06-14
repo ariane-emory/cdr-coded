@@ -23,19 +23,22 @@ constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace    reseune;
 using string     = std::string;
-using cell       = cell;
 using tag        = cell::tag_type;
 using link       = doubly_linked<char>;
 using thing      = thing;
+
 using alloc_node = std::conditional<
   RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG,
   alloc_info_with_unfree_flag,
   alloc_info>::type;
+
 using pool       = std::conditional<
   WITH_RESEUNE_POOL,
   pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
-template <typename t> using strategy = allocator_strategies::
+
+template <typename t> using strategy =
+  allocator_strategies::
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
   track_by_marking
 #else
