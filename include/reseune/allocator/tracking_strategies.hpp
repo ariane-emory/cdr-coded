@@ -6,6 +6,7 @@
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
+#include <tuple>
 
 // =============================================================================================================
 namespace reseune {
@@ -25,6 +26,7 @@ namespace reseune {
       using placement = tplacement<tcntainer, alloc_node>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
+        (std::ignore = verbose);
         block.remove();
       }
 
@@ -33,6 +35,7 @@ namespace reseune {
       }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
+        (std::ignore = verbose) = block;
         return true;
       }
     };
@@ -45,14 +48,17 @@ namespace reseune {
       using alloc_node = container<alloc_info_with_unfree_flag>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
+        (std::ignore = verbose);
         block.data.unfree = true;
       }
 
       static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
+        (std::ignore = verbose) = head;        
         block.data.unfree = false;
       }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
+        (std::ignore = verbose);        
         return ! block.data.unfree;
       }
     };

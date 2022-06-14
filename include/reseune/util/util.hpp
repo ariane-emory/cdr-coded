@@ -26,10 +26,10 @@ namespace reseune {
     return reinterpret_cast<uintptr_t>(t);
   }
 
-  template <>
-  uintptr_t uintptr(thing t) {
-    return uintptr_t(t);
-  }
+  // template <>
+  // uintptr_t uintptr(thing t) {
+  //   return uintptr_t(t);
+  // }
   
   static constexpr size_t align_up(size_t num, size_t align) {
     return ((num) + ((align)-1)) & ~((align)-1);

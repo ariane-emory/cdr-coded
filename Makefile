@@ -15,12 +15,12 @@ CXXLAGS  = \
 	-Wshadow \
 	-Wpedantic \
   -Wconversion \
-	-Wno-unused-function \
-	-Wno-unused-parameter \
 	-DRESEUNE_CELL_LAST_ELEMENT_OPTIMIZATION \
 	-DWITH_RESEUNE_POOL \
 	-DRESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG 
 #	-DRESEUNE_SINGLETON_ALLOCATOR 
+#	-Wno-unused-function \
+#	-Wno-unused-parameter \
 
 ifeq ($(UNAME_S),Darwin)
 	CXX = g++-12

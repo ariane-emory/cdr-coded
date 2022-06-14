@@ -153,7 +153,7 @@ namespace reseune {
       assert(size > 0);
 #endif
       
-      size = align_up(size, sizeof(PVOID)); // Align the pointer
+      size = align_up(size * each, sizeof(PVOID)); // Align the pointer
 
       PRLINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
