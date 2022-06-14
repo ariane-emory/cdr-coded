@@ -114,16 +114,15 @@ namespace reseune {
       palloc_node last_block {nullptr}; 
  
       FOR_EACH_BLOCK { 
-        if (last_block == &block) {
+        if (last_block == &block) 
           DIE("last_blook == block, this is probably a logic error.\n");
-        }
 
         last_block = &block; 
           
         PRINT("Compare with", uintptr(&block));
               
         if (last_block <= pnew_block) 
-              continue;
+          continue;
                 
         PRINTF("Placed block is before this block.\n"); 
 
@@ -339,7 +338,7 @@ namespace reseune {
       strategy::release_block(*pnew_block, verbose);
       
       if (! defer_coalesce)
-          coalesce(verbose);
+        coalesce(verbose);
     }
 
     // =======================================================================================================
