@@ -15,11 +15,16 @@ namespace reseune {
   namespace tracking_strategies {
 
     // =========================================================================================================
-    template <template <typename> typename container, typename alloc_info, template <template <typename> typename, typename> typename placement>
+    template <
+      template <typename> typename container,
+      typename alloc_info,
+      template <template <typename> typename, typename> typename placement>
     struct standard {};
     
     // =========================================================================================================
-    template <typename alloc_info, template <template <typename> typename, typename> typename tplacement>
+    template <
+      typename alloc_info,
+      template <template <typename> typename, typename> typename tplacement>
     struct standard<doubly_linked, alloc_info, tplacement> {
       template <typename t> using tcontainer = doubly_linked<t>;
       using alloc_node = tcontainer<alloc_info>;
@@ -41,7 +46,6 @@ namespace reseune {
     };
 
     // =========================================================================================================
-    // template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
     template <template <template <typename> typename, typename> typename placement>
     struct standard<doubly_linked, alloc_info_with_unfree_flag, placement> {
       template <typename t> using container = doubly_linked<t>;
