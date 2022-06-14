@@ -78,7 +78,7 @@ namespace reseune {
     // =======================================================================================================
 
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
-      alloc_node & new_block {DEREF_ALLOC_NODEP((UINTPTR(BSTART(block)) + size))};
+      alloc_node & new_block DEREF_ALLOC_NODEP((UINTPTR(BSTART(block)) + size));
         
       SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
       SETBSIZE(block, size);
@@ -150,7 +150,7 @@ namespace reseune {
       ASSERTISNOTNULL(addr);
 
       // align the start addr of our pnew_block to the next pointer aligned addr
-      alloc_node & new_block {DEREF_ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(PVOID)))};
+      alloc_node & new_block DEREF_ALLOC_NODEP(align_up(UINTPTR(addr), sizeof(PVOID)));
           
       PRINT("Align pnew_block to", &new_block);
           
@@ -321,7 +321,7 @@ namespace reseune {
       // adding it to your own free list), but I haven't tried that yet (and whether doing so would ever be a
       // good idea seems kind of questionoable to me).
           
-      alloc_node & new_block {DEREF_ALLOC_NODEP(UINTPTR(addr) - ALLOC_HEADER_SZ)};
+      alloc_node & new_block DEREF_ALLOC_NODEP(UINTPTR(addr) - ALLOC_HEADER_SZ);
       
       PRLINE;
       PRINTF("RELEASING 0x%016lx = %ul!\n", addr);
@@ -335,15 +335,15 @@ namespace reseune {
       strategy::release_block(new_block, verbose);
       
       if (! defer_coalesce)
-      coalesce(verbose);
-  }
+        coalesce(verbose);
+    }
 
-  // =======================================================================================================
-};
+    // =======================================================================================================
+  };
 
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
-template <typename T>
-allocator<T>::alloc_node allocator<T>::root {};
+  template <typename T>
+  allocator<T>::alloc_node allocator<T>::root {};
 #endif
 }
 

@@ -8,7 +8,7 @@
 #define                    BSTARTP(pb)          (BSTART((*pb)))
 #define                    CONS(head, list)     head.insert_before(list)
 #define                    CONSP(headp, list)   CONS((*headp), list)
-#define                    DEREF_ALLOC_NODEP(x) (* (reinterpret_cast<alloc_node *>(x)))
+#define                    DEREF_ALLOC_NODEP(x) {(* (reinterpret_cast<alloc_node *>(x)))}
 #define                    DESCRIBE(block)      { if (verbose) { block.describe_instance(); block.data.describe_instance(); } }
 #define                    DESCRIBEP(pblock)    { DESCRIBE((*pblock)); }
 #define                    DIE(...)             { WARN(__VA_ARGS__); assert(false); }
