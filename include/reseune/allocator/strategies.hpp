@@ -50,8 +50,7 @@ namespace reseune {
     template <typename alloc_info>
     class track_by_marking /* : private base<alloc_info> */ {
     public:
-      using allocator_type = allocator<alloc_info, no_track>;
-      using alloc_node = typename allocator_type::container<alloc_info>;
+      using alloc_node = typename allocator<alloc_info, no_track>::container<alloc_info>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;
