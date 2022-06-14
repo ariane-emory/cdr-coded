@@ -41,6 +41,10 @@ namespace reseune {
       PLACE_BLOCK(block, verbose);
     }
     
+    INLINE bool is_free(alloc_node & block) {
+      return true;
+    }
+    
     // =======================================================================================================
 
     VOIDFUN(split_blockp, palloc_node pblock, SIZEARG, VERBOSEARG) {
@@ -156,18 +160,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-
-    INLINE bool is_free(alloc_node & block) {
-      return true;
-    }
-    
-    // =======================================================================================================
-
-    INLINE bool is_freep(alloc_node * block) {
-      return is_free(*block);
-    }
-    
-    // =======================================================================================================
     
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
       assert(size > 0);
@@ -259,7 +251,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (is_freep(plast_block) && is_free(block)) {
+          if (is_free(*plast_block) && is_free(block)) {
             if ((UINTPTR(BSTARTP(plast_block)) + BSIZEP(plast_block)) == UINTPTR(&block)) {
               SETBSIZEP(plast_block, BSIZEP(plast_block) + ALLOC_HEADER_SZ + BSIZE(block));
 
