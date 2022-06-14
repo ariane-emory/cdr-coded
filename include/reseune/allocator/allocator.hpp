@@ -331,17 +331,18 @@ namespace reseune {
       // good idea seems kind of questionoable to me).
           
       palloc_node pnew_block {PALLOC_NODE(UINTPTR(addr) - ALLOC_HEADER_SZ)};
-
+      alloc_node & new_block = *pnew_block;
+      
       PRLINE;
       PRINTF("RELEASING 0x%lx = %ul!\n", addr);
       PRLINE;
-      PRINT("It's node is at", pnew_block);
+      PRINT("It's node is at", &new_block);
       PRLINE;
       PRNL;
       
       ASSERTISNOTNULL(addr);
       
-      strategy::release_block(*pnew_block, verbose);
+      strategy::release_block(new_block, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
