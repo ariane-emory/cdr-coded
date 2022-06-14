@@ -33,15 +33,15 @@ namespace reseune {
 
   private:
 
-    VOIDFUN(commit_block, alloc_node & block) {
+    static inline void commit_block(alloc_node & block) {
       block.remove();
     }
-
-    VOIDFUN(release_block, alloc_node & block, VERBOSEARG) {
+    
+    static inline void release_block(alloc_node & block, VERBOSEARG) {
       place_block(block, verbose);
     }
     
-    INLINE bool block_is_free(alloc_node & block) {
+    static inline bool block_is_free(alloc_node const & block) {
       return true;
     }
     
