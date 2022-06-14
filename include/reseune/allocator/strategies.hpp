@@ -12,8 +12,7 @@ namespace reseune {
   struct strategies {
     template <template <typename> typename container, typename alloc_info>
     struct no_track {
-      using alloc_node = container<alloc_info>;
-      
+      using alloc_node     = container<alloc_info>;      
       using allocator_type = allocator<typename alloc_node::value_type>;
       
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
