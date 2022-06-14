@@ -39,8 +39,8 @@
 #define                    INLINE               inline 
 #endif
 #define                    MIN_ALLOC_SZ         (ALLOC_HEADER_SZ + 32)
-#define                    PFREE_LIST           (&free_list)
-#define                    PFREE_LIST_HEAD      (free_list.next)
+#define                    PFREE_LIST           (&root)
+#define                    PFREE_LIST_HEAD      (root.next)
 #define                    PRHLINE              { if (verbose) print_line('-'); }
 #define                    PRLINE               { if (verbose) print_line(); }
 #define                    PRNL                 PUTCHAR('\n')
