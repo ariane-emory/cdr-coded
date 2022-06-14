@@ -17,20 +17,20 @@ namespace reseune {
   namespace allocator_strategies {
 
     // =========================================================================================================
-    template <typename alloc_node, typename placement>
+    template <typename alloc_node, template <template <typename> typename, typename> typename placement, template <typename> typename container>
     struct ordinary {};
     
     // =========================================================================================================
-    template <typename placement>
-    struct ordinary<alloc_info, placement> {
-      using alloc_node = typename allocator<alloc_info_with_unfree_flag>::alloc_node;
+    template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
+    struct ordinary<alloc_info, placement, container> {
+      using alloc_node = container<alloc_info>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.remove();
       }
 
       static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-        placement::place_block(block, head, verbose);
+        placement<container, alloc_node>::place_block(block, head, verbose);
       }
 
       static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
@@ -39,9 +39,9 @@ namespace reseune {
     };
 
     // =========================================================================================================
-    template <typename placement>
-    struct ordinary<alloc_info_with_unfree_flag, placement> {
-      using alloc_node = typename allocator<alloc_info_with_unfree_flag>::alloc_node;
+    template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
+    struct ordinary<alloc_info_with_unfree_flag, placement, container> {
+      using alloc_node = container<alloc_info_with_unfree_flag>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         block.data.unfree = true;

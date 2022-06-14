@@ -21,11 +21,16 @@ namespace reseune {
   class allocator {
   public:
     using alloc_info = T;
-    using strategy   = allocator_strategies::ordinary<alloc_info>; // S<alloc_info>;
+
     template <typename t>
     using container  = doubly_linked<t>;
+
     using alloc_node = container<alloc_info>;
-    using placement  = placement_strategies::pointer_order<container, alloc_node>;
+
+    template <template <typename> typename c, typename a>
+    using tplacement = placement_strategies::pointer_order<c, a>;
+    using placement  = tplacement<container, alloc_node>;
+    using strategy   = allocator_strategies::ordinary<alloc_info, tplacement, container>; // S<alloc_info>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
