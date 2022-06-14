@@ -15,7 +15,7 @@
 #define                    IFISNULL(x)          if (ISNULL(x))
 #define                    ISNOTNULL(x)         (nullptr != x)
 #define                    ISNULL(x)            (nullptr == x)
-#define                    PALLOC_NODE(x)       (reinterpret_cast<alloc_node *>(x))
+#define                    UNREF_ALLOC_NODEP(x) (* (reinterpret_cast<alloc_node *>(x)))
 #define                    PRINT(x, y)          { if (verbose) print_bits<true, false>((x), UINTPTR(y)); }
 #define                    PRINTF(...)          { if (verbose) WARN(__VA_ARGS__); }
 #define                    PUTCHAR(c)           { if (verbose) putchar(c); }

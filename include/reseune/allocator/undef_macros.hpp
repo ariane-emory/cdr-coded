@@ -18,7 +18,7 @@
 #undef ISNOTNULL
 #undef ISNULL
 #undef MIN_ALLOC_SZ
-#undef PALLOC_NODE
+#undef UNREF_ALLOC_NODEP
 #undef PFREE_LIST_HEAD
 #undef PRHLINE
 #undef PRNL
