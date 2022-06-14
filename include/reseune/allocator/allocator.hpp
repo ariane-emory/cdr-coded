@@ -114,11 +114,11 @@ namespace reseune {
       palloc_node last_block {nullptr}; 
  
       FOR_EACH_BLOCK { 
-        last_block = &block; 
-
         if (last_block == &block) {
           DIE("last_blook == block, this is probably a logic error.\n");
         }
+
+        last_block = &block; 
           
         PRINT("Compare with", uintptr(&block));
               
