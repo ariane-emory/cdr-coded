@@ -116,7 +116,38 @@ namespace reseune {
       PRNL;
     }
 
+  private:
+
     // =======================================================================================================
+    alloc_node * find_first_fit(SIZEARG, VERBOSEARG) {
+      alloc_node * pblock {nullptr};
+      PVOID        pvoid  {nullptr};
+        
+      // try to find a big enough block to alloc
+      FOR_EACH_BLOCK(FREE_LIST_HEAD)
+        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
+        {
+          pblock = &block;
+          pvoid  = BSTART(block);
+
+          PRINT("Selected block at", pblock);
+          PRINT("With block start at", pvoid);
+          PRHLINE;
+          DESCRIBEP(pblock);
+          PRLINE;
+
+          return pblock;
+        }
+
+      IFISNULL(pblock)
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
+
+      return nullptr;
+    }
+
+  public:
+      
+    // =======================================================================================================    
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
 #ifndef NDEBUG
       assert(size > 0);
@@ -129,36 +160,15 @@ namespace reseune {
       PRLINE;
       PRINT("Bytes requested: ", size);
       
-      PVOID        pvoid  {nullptr};
-      alloc_node * pblock {nullptr};
 
-      {
-        // try to find a big enough block to alloc
-        FOR_EACH_BLOCK(FREE_LIST_HEAD)
-          if (strategy::block_is_free(block) && (BSIZE(block) >= size))
-          {
-            pblock = &block;
-            pvoid  = BSTART(block);
+      alloc_node * pblock {find_first_fit(size, verbose)};
 
-            PRINT("Selected block at", pblock);
-            PRINT("With block start at", pvoid);
-            PRHLINE;
-            DESCRIBEP(pblock);
-            PRLINE;
-
-            goto found_a_block;
-          }
-
-        IFISNULL(pblock) {
-          WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
-
-          return nullptr;
-        }
+      IFISNULL(pblock) {
+        return nullptr;
       }
-      
-    found_a_block:
-      
-      alloc_node & block {*pblock};
+
+      alloc_node & block  {*pblock};
+      PVOID       pvoid  {BSTART(block)};
       
       // Check if we can we split the block:
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
