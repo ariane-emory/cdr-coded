@@ -235,7 +235,7 @@ namespace reseune {
     inline PVOID valloc(SIZEARG = 1, VERBOSEARG) {
       // Is this function dumb? Maybe we don't really need it?
 
-      return valloc(size * sizeof(TT), verbose);
+      return valloc(size * sizeof(TT), 1, verbose);
     }
     
     // =======================================================================================================
@@ -281,7 +281,7 @@ namespace reseune {
   
     // =======================================================================================================
     
-    VOIDFUN(release, ADDRARG, bool defer_coalesce = false, VERBOSEARG) {
+    VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
       // WARNING: something bad will probably happen if you try to release an address that wasn't ever
       // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
       // allocated directly to it's left).

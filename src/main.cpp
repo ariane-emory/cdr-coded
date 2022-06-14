@@ -22,8 +22,8 @@
 constexpr size_t POOL_SIZE { 1<<8 }; // 256 cells, 8k memory
 
 using namespace    reseune;
+//using alloc_node = reseune::alloc_info;
 using alloc_node = reseune::alloc_info_with_unfree_flag;
-// using alloc_node = reseune::alloc_info;
 using string     = std::string;
 using cell       = reseune::cell;
 using tag        = cell::tag_type;
@@ -202,22 +202,23 @@ void test_allocator() {
   constexpr size_t buff_len = 1 << 14; // 16 kb
 
   char buff1[buff_len] {0};
-  char buff2[buff_len] {0};
+  // char buff2[buff_len] {0};
 
   LINE;
   PRINT("buff1 is at", buff1);
-  PRINT("buff2 is at", buff2);
+  // PRINT("buff2 is at", buff2);
   
-  ALLOC add_memory(buff2, buff_len, verbose);
+  // ALLOC add_memory(buff2, buff_len, verbose);
   ALLOC add_memory(buff1, buff_len, verbose);
 
-  if (verbose)
-    ALLOC describe_free_list();
+  if (verbose) ALLOC describe_free_list();
 
-  // Try allocating and  constructing a string ===================================================================
+// Try allocating and  constructing a string ===================================================================
   {
-    void * strblk = ALLOC valloc<string>(true);
+    void * strblk = ALLOC valloc<string>(1, true);
 
+    if (verbose) ALLOC describe_free_list();
+    
     new (strblk) string("This is the string.");
 
     cout << *reinterpret_cast<string *>(strblk) << endl;
@@ -227,16 +228,18 @@ void test_allocator() {
 
     // Free the string ===========================================================================================
 
-    ALLOC release(strblk);
+    ALLOC release(strblk, verbose, true);
   }
 
-  ALLOC describe_free_list();
-  
   printf("Before coalesce.\n");
+
+  if (verbose) ALLOC describe_free_list();
+  
   ALLOC coalesce(true);
+  
   printf("After coalesce.\n");
 
-  ALLOC describe_free_list();
+  if (verbose) ALLOC describe_free_list();
 
   return;
 
@@ -259,18 +262,17 @@ void test_allocator() {
         print_bits<verbose,false>("Received", uintptr(buffer));
         LINE;
         NEWLINE;
-        ALLOC describe_free_list();
-      }
 
-      // RELEASE(buffer, verbose);
-      // if (verbose) DESCRIBE;
+        if (verbose) ALLOC describe_free_list();
+      }
     } while (nullptr != buffer);
   }
   
   printf("Before coalesce.\n");
-  ALLOC coalesce(true);
+  ALLOC coalesce(verbose);
+  
   printf("After coalesce.\n");
-  ALLOC describe_free_list();
+  if (verbose) ALLOC describe_free_list();
   
 #undef ALLOC
 }
