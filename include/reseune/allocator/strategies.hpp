@@ -5,6 +5,7 @@
 #include "macros.hpp" // include last
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
+#include "reseune/doubly_linked/doubly_linked.hpp"
 
 // =============================================================================================================
 namespace reseune {
@@ -21,8 +22,9 @@ namespace reseune {
     struct ordinary {};
     
     // =========================================================================================================
-    template <template <template <typename> typename, typename> typename placement, template <typename> typename container>
-    struct ordinary<alloc_info, placement, container> {
+    template <template <template <typename> typename, typename> typename placement>
+    struct ordinary<alloc_info, placement, doubly_linked> {
+      template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
