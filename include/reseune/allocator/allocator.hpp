@@ -25,7 +25,7 @@ namespace reseune {
   class allocator {
   public:    
     using alloc_node  = tcontainer<alloc_info>;
-    using strategy    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
+    using track    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
     using placement   = tplacement<tcontainer, alloc_node>;
     using place_after = placement_strategies::after<tcontainer, alloc_node>;
     
@@ -47,7 +47,7 @@ namespace reseune {
 
         place_after::place_block(new_block, block, verbose);
 
-        strategy::commit_block(block);
+        track::commit_block(block);
         
         PRINT("Created new block at", &new_block);
         PRINT("With block start at", BSTART(new_block));
@@ -98,7 +98,7 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
+        if (track::block_is_free(block) && (BSIZE(block) >= size))
         {
           pblock = &block;
           PVOID pvoid {BSTART(block)};
@@ -195,7 +195,7 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (strategy::block_is_free(*plast_block) && strategy::block_is_free(block)) {
+          if (track::block_is_free(*plast_block) && track::block_is_free(block)) {
 
             alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
             
@@ -241,7 +241,7 @@ namespace reseune {
       
       ASSERTISNOTNULL(addr);
       
-      strategy::release_block(new_block, FREE_LIST_HEAD, verbose);
+      track::release_block(new_block, FREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
