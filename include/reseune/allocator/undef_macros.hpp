@@ -31,8 +31,6 @@
 #undef PVOIDFUN
 #undef RCONS
 #undef RCONSP
-#undef REMOVE
-#undef REMOVEP
 #undef PROOT
 #undef SETBSIZE
 #undef SETBSIZEP

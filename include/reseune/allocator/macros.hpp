@@ -22,8 +22,6 @@
 #define                    PVOIDFUN(name, ...)  INLINE PVOID name(__VA_ARGS__)
 #define                    RCONS(tail, list)    tail.insert_after(list)
 #define                    RCONSP(ptail, list)  RCONS((*ptail), list)
-#define                    REMOVE(b)            b.remove()
-#define                    REMOVEP(pb)          REMOVE((*pb))
 #define                    SETBSIZE(b, s)       b.data.size = s
 #define                    SETBSIZEP(pb, s)     SETBSIZE((*pb), s)
 #define                    UINTPTR(x)           (uintptr(x))

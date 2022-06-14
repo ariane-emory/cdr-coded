@@ -34,11 +34,11 @@ namespace reseune {
   private:
 
     VOIDFUN(commit_block, alloc_node & block) {
-      REMOVE(block);
+      block.remove();
     }
 
     VOIDFUN(release_block, alloc_node & block, VERBOSEARG) {
-      PLACE_BLOCKP(&block, verbose);
+      place_block(block, verbose);
     }
     
     INLINE bool is_free(alloc_node & block) {
@@ -63,8 +63,12 @@ namespace reseune {
       DESCRIBE(new_block);
       PRHLINE;
     }
-          
-    VOIDFUN(PLACE_BLOCKP, palloc_node pnew_block, VERBOSEARG) {
+
+    VOIDFUN(place_block, alloc_node & pnew_block, VERBOSEARG) {
+      place_blockp(&pnew_block, verbose);
+    }
+    
+    VOIDFUN(place_blockp, palloc_node pnew_block, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", pnew_block);
  
@@ -128,7 +132,7 @@ namespace reseune {
         - UINTPTR(pnew_block)
         - ALLOC_HEADER_SZ);
             
-      PLACE_BLOCKP(pnew_block, verbose);
+      place_blockp(pnew_block, verbose);
                     
       PRLINE;
       PRNL;
@@ -258,7 +262,7 @@ namespace reseune {
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);
 
-              REMOVE(block);
+              block.remove();
             }
           }
         
