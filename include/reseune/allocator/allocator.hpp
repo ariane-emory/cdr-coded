@@ -25,7 +25,8 @@ namespace reseune {
     template <typename t>
     using container  = doubly_linked<t>;
     using alloc_node = container<alloc_info>;
-
+    using placement  = placement_strategies::doubly_linked<alloc_node>;
+    
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static alloc_node root;
@@ -85,7 +86,7 @@ namespace reseune {
         return;
       } 
 
-      placement_strategies::doubly_linked<alloc_node>::place_block(new_block, FREE_LIST_HEAD, verbose);      
+      placement::place_block(new_block, FREE_LIST_HEAD, verbose);      
     
       PRLINE;
       PRNL;
