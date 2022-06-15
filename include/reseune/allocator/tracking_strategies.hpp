@@ -43,7 +43,7 @@ namespace reseune {
       }
 
       template <typename alloc_info>
-      static inline bool block_is_free(
+      static inline bool is_free(
         container<alloc_info> const & block,
         VERBOSEARG) {
         (std::ignore = verbose) = block;
@@ -65,7 +65,7 @@ namespace reseune {
         block.data.unfree = false;
       }
 
-      static inline bool block_is_free(
+      static inline bool is_free(
         container<alloc_info_with_unfree_flag> const & block,
         VERBOSEARG) {
         (std::ignore = verbose);        

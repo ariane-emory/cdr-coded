@@ -94,7 +94,7 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (track::block_is_free(block, verbose) && (BSIZE(block) >= size))
+        if (track::is_free(block, verbose) && (BSIZE(block) >= size))
         {
           pblock = &block;
           PVOID pvoid {BSTART(block)};
@@ -198,8 +198,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (track::block_is_free(*plast_block, true)
-              && track::block_is_free(block, true)) {
+          if (track::is_free(*plast_block, true)
+              && track::is_free(block, true)) {
 
             alloc_node & last_block {*plast_block};
             
