@@ -15,20 +15,21 @@ namespace reseune {
   namespace placement_strategies {
 
     // =========================================================================================================
-    template <template <typename> typename container, typename alloc_node>
+    template <template <typename> typename container>
     struct insert_in_pointer_order {};
     
     // =========================================================================================================
-    template <typename alloc_node>
-    struct insert_in_pointer_order<doubly_linked, alloc_node> {
+    template <>
+    struct insert_in_pointer_order<doubly_linked> {
       
-      // =======================================================================================================      
+      // =======================================================================================================
+      template <typename alloc_node>
       static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
         PRLINE;
         PRINT("Placing block", &new_block);
 
         alloc_node * plast_block {nullptr}; 
- 
+        
         FOR_EACH_BLOCK(head) {
 #ifndef NDEBUG
           if (plast_block == &block) 
@@ -56,16 +57,20 @@ namespace reseune {
         RCONS(new_block, plast_block); 
       }
     };
+    
     // =========================================================================================================
-    template <template <typename> typename container, typename alloc_node>
+    template <template <typename> typename container>
     struct after {};
     
     // =========================================================================================================
-    template <typename alloc_node>
-    struct after<doubly_linked, alloc_node> {
-      
-      // =======================================================================================================      
-      static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
+    template <>
+    struct after<doubly_linked> {      
+      // =======================================================================================================
+      template <typename alloc_node>
+      static inline void place_block(
+        doubly_linked<alloc_node> & new_block,
+        doubly_linked<alloc_node> & head,
+        VERBOSEARG) {
         PRINTF("Placing after given head.\n");
 
         RCONS(new_block, head); 

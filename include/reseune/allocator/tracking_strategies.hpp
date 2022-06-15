@@ -18,17 +18,17 @@ namespace reseune {
     template <
       template <typename> typename container,
       typename alloc_info,
-      template <template <typename> typename, typename> typename placement>
+      template <template <typename> typename> typename placement>
     struct standard {};
     
     // =========================================================================================================
     template <
       typename alloc_info,
-      template <template <typename> typename, typename> typename tplacement>
+      template <template <typename> typename> typename tplacement>
     struct standard<doubly_linked, alloc_info, tplacement> {
       template <typename t> using tcontainer = doubly_linked<t>;
       using alloc_node = tcontainer<alloc_info>;
-      using placement = tplacement<tcontainer, alloc_node>;
+      using placement = tplacement<tcontainer>;
 
       static inline void commit_block(alloc_node & block, VERBOSEARG) {
         (std::ignore = verbose);
@@ -46,7 +46,7 @@ namespace reseune {
     };
 
     // =========================================================================================================
-    template <template <template <typename> typename, typename> typename placement>
+    template <template <template <typename> typename> typename placement>
     struct standard<doubly_linked, alloc_info_with_unfree_flag, placement> {
       template <typename t> using container = doubly_linked<t>;
       using alloc_node = container<alloc_info_with_unfree_flag>;

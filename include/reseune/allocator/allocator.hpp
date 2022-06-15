@@ -21,14 +21,14 @@ namespace reseune {
   template <
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
-    template <template <typename> typename, typename> typename tplacement = placement_strategies::insert_in_pointer_order,
-    template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename ttracking = tracking_strategies::standard>
+    template <template <typename> typename> typename tplacement = placement_strategies::insert_in_pointer_order,
+    template <template <typename> typename, typename, template <template <typename> typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
     using alloc_node  = tcontainer<alloc_info>;
     using track       = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
-    using place       = tplacement<tcontainer, alloc_node>;
-    using place_after = placement_strategies::after<tcontainer, alloc_node>;
+    using place       = tplacement<tcontainer>;
+    using place_after = placement_strategies::after<tcontainer>;
     using remove      = removal_strategies::remove<tcontainer>;
     
   private:
@@ -280,8 +280,8 @@ namespace reseune {
   template <
     typename ai,
     template <typename> typename tc,
-    template <template <typename> typename, typename> typename tp,
-    template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename tt>
+    template <template <typename> typename> typename tp,
+    template <template <typename> typename, typename, template <template <typename> typename> typename> typename tt>
   allocator<ai, tc, tp, tt>::alloc_node allocator<ai, tc, tp, tt>::root {};
 #endif
 }
