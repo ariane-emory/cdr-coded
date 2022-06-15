@@ -35,14 +35,6 @@ namespace reseune {
       }
             
       template <typename alloc_info>
-      static inline void release_block(
-        container<alloc_info> & block,
-        container<alloc_info> & head,
-        VERBOSEARG) {
-        tplacement<container>::place(block, head, verbose);
-      }
-
-      template <typename alloc_info>
       static inline bool is_free(
         container<alloc_info> const & block,
         VERBOSEARG) {
@@ -55,14 +47,6 @@ namespace reseune {
         VERBOSEARG) {
         (std::ignore = verbose);
         block.data.unfree = true;
-      }
-
-      static inline void release_block(
-        container<alloc_info_with_unfree_flag> & block,
-        container<alloc_info_with_unfree_flag> & head,
-        VERBOSEARG) {
-        (std::ignore = verbose) = head;        
-        block.data.unfree = false;
       }
 
       static inline bool is_free(
