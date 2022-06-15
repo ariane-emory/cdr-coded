@@ -25,11 +25,11 @@ namespace reseune {
     template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
-    using alloc_node  = tcontainer<alloc_info>;
-    using tracking    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
-    using placement   = tplacement<tcontainer, alloc_node>;
-    using place_after = placement_strategies::after<tcontainer, alloc_node>;
-    using removal     = removal_strategy<tcontainer>;
+    using alloc_node   = tcontainer<alloc_info>;
+    using track       = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
+    using place       = tplacement<tcontainer, alloc_node>;
+    using place_after  = placement_strategies::after<tcontainer, alloc_node>;
+    using remove      = removal_strategies::remove<tcontainer>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -78,7 +78,7 @@ namespace reseune {
       IFISNULL(PFREE_LIST_HEAD)
         place_after::place_block(new_block, root, verbose);
       else
-        placement::place_block(new_block, root, verbose);      
+        place::place_block(new_block, root, verbose);      
     
       PRLINE;
       PRNL;
@@ -92,7 +92,7 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (tracking::block_is_free(block, verbose) && (BSIZE(block) >= size))
+        if (track::block_is_free(block, verbose) && (BSIZE(block) >= size))
         {
           pblock = &block;
           PVOID pvoid {BSTART(block)};
@@ -138,7 +138,7 @@ namespace reseune {
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         split_block(block, size, verbose);
 
-        tracking::commit_block(block, verbose);
+        track::commit_block(block, verbose);
         
         PRINT("Created new block at", &block);
         PRINT("With block start at", BSTART(block));
@@ -196,8 +196,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (tracking::block_is_free(*plast_block, true)
-              && tracking::block_is_free(block, true)) {
+          if (track::block_is_free(*plast_block, true)
+              && track::block_is_free(block, true)) {
 
             alloc_node & last_block {*plast_block};
             
@@ -207,8 +207,7 @@ namespace reseune {
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);
 
-              // block.remove(); // this is too coupled, make a removal_strategy!
-              removal::remove_item(block, verbose);
+              remove::remove_item(block, verbose);
             }
           }
         
@@ -244,7 +243,7 @@ namespace reseune {
       PRLINE;
       PRNL;
       
-      tracking::release_block(new_block, FREE_LIST_HEAD, verbose);
+      track::release_block(new_block, FREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
