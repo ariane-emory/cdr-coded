@@ -1,10 +1,10 @@
-#ifndef RESEUNE_ALLOCATOR_ALLOCATOR_UNFREE_STRATEGIES_HPP
-#define RESEUNE_ALLOCATOR_ALLOCATOR_UNFREE_STRATEGIES_HPP
+#ifndef RESEUNE_ALLOCATOR_ALLOCATOR_FREE_STRATEGIES_HPP
+#define RESEUNE_ALLOCATOR_ALLOCATOR_FREE_STRATEGIES_HPP
 
 #include "placement_strategies.hpp"
 #include "macros.hpp" // include last
 #include "reseune/alloc_info/alloc_info.hpp"
-#include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
+#include "reseune/alloc_info_with_free_flag/alloc_info_with_free_flag.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 #include <tuple>
 
@@ -12,7 +12,7 @@
 namespace reseune {
 
   // ===========================================================================================================
-  namespace unfree_strategies {
+  namespace free_strategies {
 
     // =========================================================================================================
     template <

@@ -11,7 +11,7 @@
 
 #include "placement_strategies.hpp"
 #include "removal_strategies.hpp"
-#include "tracking_strategies.hpp"
+#include "unfree_strategies.hpp"
 #include "macros.hpp" // include this last!
 // =============================================================================================================
 namespace reseune {
@@ -23,15 +23,15 @@ namespace reseune {
     template <template <typename> typename> typename tordered_insert = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename, template <template <typename> typename> typename> typename ttracking =
-    tracking_strategies::place_or_mark>
+    template <template <typename> typename, template <template <typename> typename> typename> typename tunfree =
+    unfree_strategies::place_or_mark>
   class allocator {
   public:    
     using alloc_node     = tcontainer<alloc_info>;
     using ordered_insert = tordered_insert<tcontainer>;
     using insert_after    = tinsert_after<tcontainer>;
     using remove         = tremoval<tcontainer>;
-    using track          = ttracking<tcontainer, tordered_insert>;
+    using track          = tunfree<tcontainer, tordered_insert>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
