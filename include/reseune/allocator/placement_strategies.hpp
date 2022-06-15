@@ -23,12 +23,12 @@ namespace reseune {
     struct insert_in_pointer_order<doubly_linked> {
       
       // =======================================================================================================
-      template <typename alloc_node>
-      static inline void place(alloc_node & new_item, alloc_node & head, VERBOSEARG) {
+      template <typename item_type>
+      static inline void place(doubly_linked<item_type> & new_item, doubly_linked<item_type> & head, VERBOSEARG) {
         PRLINE;
         PRINT("Placing block", &new_item);
 
-        alloc_node * plast_item {nullptr}; 
+        doubly_linked<item_type> * plast_item {nullptr}; 
         
         for (auto & item : head) {
 #ifndef NDEBUG
@@ -45,7 +45,7 @@ namespace reseune {
                 
           PRINTF("Item being placed is before this item.\n"); 
 
-          CONS(new_item, item); 
+          new_item.insert_before(item);
 
           return;
         } 
@@ -54,7 +54,7 @@ namespace reseune {
               
         PRINTF("Placed block is at the end.\n");
               
-        RCONS(new_item, plast_item); 
+        new_item.insert_after(plast_item); 
       }
     };
     
@@ -66,10 +66,10 @@ namespace reseune {
     template <>
     struct after<doubly_linked> {      
       // =======================================================================================================
-      template <typename alloc_node>
+      template <typename item_type>
       static inline void place(
-        doubly_linked<alloc_node> & new_item,
-        doubly_linked<alloc_node> & item,
+        doubly_linked<item_type> & new_item,
+        doubly_linked<item_type> & item,
         VERBOSEARG) {
         PRINTF("Placing after given item.\n");
 
@@ -85,10 +85,10 @@ namespace reseune {
     template <>
     struct before<doubly_linked> {      
       // =======================================================================================================
-      template <typename alloc_node>
+      template <typename item_type>
       static inline void place(
-        doubly_linked<alloc_node> & new_item,
-        doubly_linked<alloc_node> & item,
+        doubly_linked<item_type> & new_item,
+        doubly_linked<item_type> & item,
         VERBOSEARG) {
         PRINTF("Placing before given item.\n");
 
