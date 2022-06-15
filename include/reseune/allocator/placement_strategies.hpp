@@ -69,11 +69,30 @@ namespace reseune {
       template <typename alloc_node>
       static inline void place(
         doubly_linked<alloc_node> & new_item,
-        doubly_linked<alloc_node> & head,
+        doubly_linked<alloc_node> & item,
         VERBOSEARG) {
-        PRINTF("Placing after given head.\n");
+        PRINTF("Placing after given item.\n");
 
-        RCONS(new_item, head); 
+        new_item.insert_after(item);
+      }
+    };
+    
+    // =========================================================================================================
+    template <template <typename> typename container>
+    struct before {};
+    
+    // =========================================================================================================
+    template <>
+    struct before<doubly_linked> {      
+      // =======================================================================================================
+      template <typename alloc_node>
+      static inline void place(
+        doubly_linked<alloc_node> & new_item,
+        doubly_linked<alloc_node> & item,
+        VERBOSEARG) {
+        PRINTF("Placing before given item.\n");
+
+        new_item.insert_before(item);
       }
     };
     
