@@ -22,18 +22,17 @@ namespace reseune {
   template <
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
-    template <template <typename> typename> typename tordered_insert = placement_strategies::insert_in_pointer_order,
+    template <template <typename> typename> typename tinsert_in_order = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit =
-    commit_strategies::place_or_mark>
+    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit = commit_strategies::place_or_mark>
   class allocator {
  public:    
-    using alloc_node     = tcontainer<alloc_info>;
-    using ordered_insert = tordered_insert<tcontainer>;
-    using insert_after   = tinsert_after<tcontainer>;
-    using remove         = tremoval<tcontainer>;
-    using commit         = tcommit<tcontainer, tordered_insert>;
+    using alloc_node      = tcontainer<alloc_info>;
+    using insert_in_order = tinsert_in_order<tcontainer>;
+    using insert_after    = tinsert_after<tcontainer>;
+    using remove          = tremoval<tcontainer>;
+    using commit          = tcommit<tcontainer, tinsert_in_order>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -82,7 +81,7 @@ namespace reseune {
       IFISNULL(PFREE_LIST_HEAD)
         insert_after::place(new_block, root, verbose);
       else
-        ordered_insert::place(new_block, root, verbose);      
+        insert_in_order::place(new_block, root, verbose);      
     
       PRLINE;
       PRNL;
