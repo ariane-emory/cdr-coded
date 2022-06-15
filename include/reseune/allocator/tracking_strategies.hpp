@@ -25,7 +25,8 @@ namespace reseune {
       template <template <typename> typename> typename tplacement>
     struct place_or_mark<doubly_linked, tplacement> {
       template <typename t> using container = doubly_linked<t>;
-      
+
+      template <typename alloc_info>
       static inline void commit_block(
         container<alloc_info> & block,
         VERBOSEARG) {
@@ -33,6 +34,7 @@ namespace reseune {
         block.remove();
       }
             
+      template <typename alloc_info>
       static inline void release_block(
         container<alloc_info> & block,
         container<alloc_info> & head,
@@ -40,6 +42,7 @@ namespace reseune {
         tplacement<container>::place(block, head, verbose);
       }
 
+      template <typename alloc_info>
       static inline bool block_is_free(
         container<alloc_info> const & block,
         VERBOSEARG) {
