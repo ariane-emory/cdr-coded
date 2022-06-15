@@ -10,6 +10,7 @@
 #include "reseune/doubly_linked/doubly_linked.hpp"
 
 #include "placement_strategies.hpp"
+#include "removal_strategies.hpp"
 #include "tracking_strategies.hpp"
 #include "macros.hpp" // include this last!
 
@@ -28,6 +29,7 @@ namespace reseune {
     using tracking    = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
     using placement   = tplacement<tcontainer, alloc_node>;
     using place_after = placement_strategies::after<tcontainer, alloc_node>;
+    using removal     = removal_strategy<tcontainer>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -205,7 +207,8 @@ namespace reseune {
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);
 
-              block.remove(); // this is too coupled, make a removal_strategy!
+              // block.remove(); // this is too coupled, make a removal_strategy!
+              removal::remove_item(block, verbose);
             }
           }
         
