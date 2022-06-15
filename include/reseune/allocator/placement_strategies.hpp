@@ -30,22 +30,22 @@ namespace reseune {
 
         alloc_node * plast_item {nullptr}; 
         
-        FOR_EACH_BLOCK(head) {
+        for (auto & item : head) {
 #ifndef NDEBUG
-          if (plast_item == &block) 
-            DIE("last_item == block, this is probably a logic error.\n");
+          if (plast_item == &item) 
+            DIE("last_item == item, this is probably a logic error.\n");
 #endif
 
-          plast_item = &block; 
+          plast_item = &item; 
 
-          PRINT("Compare with", uintptr(&block));
+          PRINT("Compare with", uintptr(&item));
               
           if (plast_item <= &new_item) 
             continue;
                 
           PRINTF("Item being placed is before this item.\n"); 
 
-          CONS(new_item, block); 
+          CONS(new_item, item); 
 
           return;
         } 
