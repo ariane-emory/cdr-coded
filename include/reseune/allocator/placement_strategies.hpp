@@ -24,7 +24,10 @@ namespace reseune {
       
       // =======================================================================================================
       template <typename item_type>
-      static inline void place(doubly_linked<item_type> & new_item, doubly_linked<item_type> & head, VERBOSEARG) {
+      static inline void place(
+        doubly_linked<item_type> & new_item,
+        doubly_linked<item_type> & head,
+        VERBOSEARG) {
         PRLINE;
         PRINT("Placing block", &new_item);
 
