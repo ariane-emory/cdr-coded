@@ -13,7 +13,6 @@
 #include "removal_strategies.hpp"
 #include "tracking_strategies.hpp"
 #include "macros.hpp" // include this last!
-
 // =============================================================================================================
 namespace reseune {
 
@@ -22,7 +21,7 @@ namespace reseune {
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
     template <template <typename> typename> typename tplacement = placement_strategies::insert_in_pointer_order,
-    template <template <typename> typename> typename tremoval   = removal_strategies::remove,
+    template <template <typename> typename> typename tremoval = removal_strategies::unlink_or_mark,
     template <template <typename> typename, template <template <typename> typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
@@ -208,7 +207,7 @@ namespace reseune {
               PRINTF("Removing this block:.\n");
               DESCRIBE(block);
 
-              remove::remove_item(block, verbose);
+              remove::remove(block, verbose);
             }
           }
         

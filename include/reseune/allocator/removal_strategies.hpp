@@ -15,15 +15,15 @@ namespace reseune {
 
     // =========================================================================================================
     template <template <typename> typename container>
-    struct remove {};
+    struct unlink_or_mark {};
     
     // =========================================================================================================
     template <>
-    struct remove<doubly_linked> {
+    struct unlink_or_mark<doubly_linked> {
       
       // =======================================================================================================
       template <typename item_t>
-      static inline void remove_item(doubly_linked<item_t> & item, VERBOSEARG) {
+      static inline void remove(doubly_linked<item_t> & item, VERBOSEARG) {
         PRINTF("Removing item @ 0x%lx = %ul.\n", &item);
 
         item.remove();
