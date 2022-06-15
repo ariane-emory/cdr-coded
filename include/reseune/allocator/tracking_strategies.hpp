@@ -17,51 +17,54 @@ namespace reseune {
     // =========================================================================================================
     template <
       template <typename> typename container,
-      template <template <typename> typename> typename placement,
-      typename alloc_info>
+      template <template <typename> typename> typename placement>
     struct standard {};
     
     // =========================================================================================================
     template <
-      template <template <typename> typename> typename tplacement,
-      typename alloc_info>
-    struct standard<doubly_linked, tplacement, alloc_info> {
-      template <typename t> using tcontainer = doubly_linked<t>;
-      using alloc_node = tcontainer<alloc_info>;
-      using placement = tplacement<tcontainer>;
-
-      static inline void commit_block(alloc_node & block, VERBOSEARG) {
+      template <template <typename> typename> typename tplacement>
+    struct standard<doubly_linked, tplacement> {
+      template <typename t> using container = doubly_linked<t>;
+      
+      static inline void commit_block(
+        container<alloc_info> & block,
+        VERBOSEARG) {
         (std::ignore = verbose);
         block.remove();
       }
-
-      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
-        placement::place_block(block, head, verbose);
+            
+      static inline void release_block(
+        container<alloc_info> & block,
+        container<alloc_info> & head,
+        VERBOSEARG) {
+        tplacement<container>::place(block, head, verbose);
       }
 
-      static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
+      static inline bool block_is_free(
+        container<alloc_info> const & block,
+        VERBOSEARG) {
         (std::ignore = verbose) = block;
         return true;
       }
-    };
 
-    // =========================================================================================================
-    template <template <template <typename> typename> typename placement>
-    struct standard<doubly_linked, placement, alloc_info_with_unfree_flag> {
-      template <typename t> using container = doubly_linked<t>;
-      using alloc_node = container<alloc_info_with_unfree_flag>;
-
-      static inline void commit_block(alloc_node & block, VERBOSEARG) {
+      static inline void commit_block(
+        container<alloc_info_with_unfree_flag> & block,
+        VERBOSEARG) {
         (std::ignore = verbose);
         block.data.unfree = true;
       }
 
-      static inline void release_block(alloc_node & block, alloc_node & head, VERBOSEARG) {
+      static inline void release_block(
+        container<alloc_info_with_unfree_flag> & block,
+        container<alloc_info_with_unfree_flag> & head,
+        VERBOSEARG) {
         (std::ignore = verbose) = head;        
         block.data.unfree = false;
       }
 
-      static inline bool block_is_free(alloc_node const & block, VERBOSEARG) {
+      static inline bool block_is_free(
+        container<alloc_info_with_unfree_flag> const & block,
+        VERBOSEARG) {
         (std::ignore = verbose);        
         return ! block.data.unfree;
       }
