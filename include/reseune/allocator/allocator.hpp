@@ -21,12 +21,13 @@ namespace reseune {
   // ===========================================================================================================
   template <
     typename alloc_info,
-    template <typename> typename tcontainer = doubly_linked,
+    template <typename> typename                     tcontainer       = doubly_linked,
     template <template <typename> typename> typename tinsert_in_order = placement_strategies::insert_in_pointer_order,
-    template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
-    template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename> typename tcommit = commit_strategies,
-    template <template <typename> typename, template <template <typename> typename> typename> typename trelease = release_strategies>
+    template <template <typename> typename> typename tinsert_after    = placement_strategies::insert_after,
+    template <template <typename> typename> typename tremoval         = removal_strategies::unlink,
+    template <template <typename> typename> typename tcommit          = commit_strategies,
+    template <template <typename> typename,
+              template <template <typename> typename> typename> typename trelease = release_strategies>
   class allocator {
  public:    
     using alloc_node      = tcontainer<alloc_info>;
