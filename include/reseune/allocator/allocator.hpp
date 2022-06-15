@@ -22,6 +22,7 @@ namespace reseune {
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
     template <template <typename> typename> typename tplacement = placement_strategies::insert_in_pointer_order,
+    template <template <typename> typename> typename tremoval   = removal_strategies::remove,
     template <template <typename> typename, template <template <typename> typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
@@ -29,7 +30,7 @@ namespace reseune {
     using track          = ttracking<tcontainer, tplacement>; // S<alloc_info>;
     using ordered_insert = tplacement<tcontainer>;
     using place_after    = placement_strategies::after<tcontainer>;
-    using remove         = removal_strategies::remove<tcontainer>;
+    using remove         = tremoval<tcontainer>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -281,8 +282,9 @@ namespace reseune {
     typename ai,
     template <typename> typename tc,
     template <template <typename> typename> typename tp,
+    template <template <typename> typename> typename tr,
     template <template <typename> typename, template <template <typename> typename> typename> typename tt>
-  allocator<ai, tc, tp, tt>::alloc_node allocator<ai, tc, tp, tt>::root {};
+  allocator<ai, tc, tp, tr, tt>::alloc_node allocator<ai, tc, tp, tr, tt>::root {};
 #endif
 }
 
