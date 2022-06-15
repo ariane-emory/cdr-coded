@@ -16,11 +16,11 @@ namespace reseune {
 
     // =========================================================================================================
     template <template <typename> typename container>
-    struct place_or_mark {};
+    struct standard {};
     
     // =========================================================================================================
     template <>
-    struct place_or_mark<doubly_linked> {
+    struct standard<doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
 
       template <typename alloc_info>
