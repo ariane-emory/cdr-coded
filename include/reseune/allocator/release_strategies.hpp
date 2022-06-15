@@ -2,11 +2,12 @@
 #define RESEUNE_ALLOCATOR_ALLOCATOR_RELEASE_STRATEGIES_HPP
 
 #include "placement_strategies.hpp"
-#include "macros.hpp" // include last
 #include "reseune/alloc_info/alloc_info.hpp"
 #include "reseune/alloc_info_with_unfree_flag/alloc_info_with_unfree_flag.hpp"
 #include "reseune/doubly_linked/doubly_linked.hpp"
 #include <tuple>
+
+#include "macros.hpp" // include last
 
 // =============================================================================================================
 namespace reseune {
@@ -44,4 +45,5 @@ namespace reseune {
   // ===========================================================================================================
 }
 // =============================================================================================================
+#include "undef_macros.hpp"
 #endif
