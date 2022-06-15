@@ -24,37 +24,37 @@ namespace reseune {
       
       // =======================================================================================================
       template <typename alloc_node>
-      static inline void place(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
+      static inline void place(alloc_node & new_item, alloc_node & head, VERBOSEARG) {
         PRLINE;
-        PRINT("Placing block", &new_block);
+        PRINT("Placing block", &new_item);
 
-        alloc_node * plast_block {nullptr}; 
+        alloc_node * plast_item {nullptr}; 
         
         FOR_EACH_BLOCK(head) {
 #ifndef NDEBUG
-          if (plast_block == &block) 
-            DIE("last_blook == block, this is probably a logic error.\n");
+          if (plast_item == &block) 
+            DIE("last_item == block, this is probably a logic error.\n");
 #endif
 
-          plast_block = &block; 
+          plast_item = &block; 
 
           PRINT("Compare with", uintptr(&block));
               
-          if (plast_block <= &new_block) 
+          if (plast_item <= &new_item) 
             continue;
                 
-          PRINTF("Placed block is before this block.\n"); 
+          PRINTF("Item being placed is before this item.\n"); 
 
-          CONS(new_block, block); 
+          CONS(new_item, block); 
 
           return;
         } 
 
-        // There shouldn't be no way for plast_block to be null if we got this far, no null checks needed.
+        // There shouldn't be no way for plast_item to be null if we got this far, no null checks needed.
               
         PRINTF("Placed block is at the end.\n");
               
-        RCONS(new_block, plast_block); 
+        RCONS(new_item, plast_item); 
       }
     };
     
@@ -68,12 +68,12 @@ namespace reseune {
       // =======================================================================================================
       template <typename alloc_node>
       static inline void place(
-        doubly_linked<alloc_node> & new_block,
+        doubly_linked<alloc_node> & new_item,
         doubly_linked<alloc_node> & head,
         VERBOSEARG) {
         PRINTF("Placing after given head.\n");
 
-        RCONS(new_block, head); 
+        RCONS(new_item, head); 
       }
     };
     
