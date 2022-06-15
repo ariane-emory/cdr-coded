@@ -24,7 +24,7 @@ namespace reseune {
       
       // =======================================================================================================
       template <typename alloc_node>
-      static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
+      static inline void place(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
         PRLINE;
         PRINT("Placing block", &new_block);
 
@@ -67,7 +67,7 @@ namespace reseune {
     struct after<doubly_linked> {      
       // =======================================================================================================
       template <typename alloc_node>
-      static inline void place_block(
+      static inline void place(
         doubly_linked<alloc_node> & new_block,
         doubly_linked<alloc_node> & head,
         VERBOSEARG) {

@@ -25,11 +25,11 @@ namespace reseune {
     template <template <typename> typename, typename, template <template <typename> typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
-    using alloc_node  = tcontainer<alloc_info>;
-    using track       = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
-    using place       = tplacement<tcontainer>;
-    using place_after = placement_strategies::after<tcontainer>;
-    using remove      = removal_strategies::remove<tcontainer>;
+    using alloc_node     = tcontainer<alloc_info>;
+    using track          = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
+    using ordered_insert = tplacement<tcontainer>;
+    using place_after    = placement_strategies::after<tcontainer>;
+    using remove         = removal_strategies::remove<tcontainer>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -47,7 +47,7 @@ namespace reseune {
         SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
         SETBSIZE(block, size);
 
-        place_after::place_block(new_block, block, verbose);
+        place_after::place(new_block, block, verbose);
       }
         
   public:
@@ -76,9 +76,9 @@ namespace reseune {
         - ALLOC_HEADER_SZ);
 
       IFISNULL(PFREE_LIST_HEAD)
-        place_after::place_block(new_block, root, verbose);
+        place_after::place(new_block, root, verbose);
       else
-        place::place_block(new_block, root, verbose);      
+        ordered_insert::place(new_block, root, verbose);      
     
       PRLINE;
       PRNL;

@@ -22,8 +22,8 @@ namespace reseune {
     struct remove<doubly_linked> {
       
       // =======================================================================================================
-      template <typename T>
-      static inline void remove_item(doubly_linked<T> & item, VERBOSEARG) {
+      template <typename item_t>
+      static inline void remove_item(doubly_linked<item_t> & item, VERBOSEARG) {
         PRINTF("Removing item @ 0x%lx = %ul.\n", &item);
 
         item.remove();
