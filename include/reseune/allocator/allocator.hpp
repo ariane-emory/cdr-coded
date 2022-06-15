@@ -138,7 +138,7 @@ namespace reseune {
       }
 
       alloc_node & block  {*pblock};
-      PVOID       pvoid  {BSTART(block)};
+      PVOID        pvoid  {BSTART(block)};
       
       // Check if we can we split the block:
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
