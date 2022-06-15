@@ -12,6 +12,8 @@
 #include "placement_strategies.hpp"
 #include "removal_strategies.hpp"
 #include "commit_strategies.hpp"
+#include "release_strategies.hpp"
+
 #include "macros.hpp" // include this last!
 // =============================================================================================================
 namespace reseune {
