@@ -12,41 +12,36 @@
 namespace reseune {
 
   // ===========================================================================================================
-  namespace release_strategies {
-
-    // =========================================================================================================
-    template <
-      template <typename> typename container,
-      template <template <typename> typename> typename placement>
-    struct place_or_mark {};
+  template <
+    template <typename> typename container,
+    template <template <typename> typename> typename placement>
+  struct release_strategies {};
     
-    // =========================================================================================================
-    template <
-      template <template <typename> typename> typename tplacement>
-    struct place_or_mark<doubly_linked, tplacement> {
-      template <typename t> using container = doubly_linked<t>;
+  // ===========================================================================================================
+  template <
+    template <template <typename> typename> typename tplacement>
+  struct release_strategies<doubly_linked, tplacement> {
+    template <typename t> using container = doubly_linked<t>;
 
-      template <typename alloc_info>
-      static inline void release_block(
-        container<alloc_info> & block,
-        container<alloc_info> & head,
-        VERBOSEARG) {
-        tplacement<container>::place(block, head, verbose);
-      }
+    template <typename alloc_info>
+    static inline void release_block(
+      container<alloc_info> & block,
+      container<alloc_info> & head,
+      VERBOSEARG) {
+      tplacement<container>::place(block, head, verbose);
+    }
 
-      static inline void release_block(
-        container<alloc_info_with_unfree_flag> & block,
-        container<alloc_info_with_unfree_flag> & head,
-        VERBOSEARG) {
-        (std::ignore = verbose) = head;        
-        block.data.unfree = false;
-      }
+    static inline void release_block(
+      container<alloc_info_with_unfree_flag> & block,
+      container<alloc_info_with_unfree_flag> & head,
+      VERBOSEARG) {
+      (std::ignore = verbose) = head;        
+      block.data.unfree = false;
+    }
 
-      // =======================================================================================================
-    };
     // =========================================================================================================
   };
-// =============================================================================================================
+  // ===========================================================================================================
 }
 // =============================================================================================================
 #endif

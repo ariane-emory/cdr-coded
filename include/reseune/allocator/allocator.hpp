@@ -26,7 +26,7 @@ namespace reseune {
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
     template <template <typename> typename> typename tcommit = commit_strategies,
-    template <template <typename> typename, template <template <typename> typename> typename> typename trelease = release_strategies::place_or_mark>
+    template <template <typename> typename, template <template <typename> typename> typename> typename trelease = release_strategies>
   class allocator {
  public:    
     using alloc_node      = tcontainer<alloc_info>;
