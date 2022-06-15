@@ -16,11 +16,11 @@ namespace reseune {
 
     // =========================================================================================================
     template <template <typename> typename container, typename alloc_node>
-    struct pointer_order {};
+    struct insert_in_pointer_order {};
     
     // =========================================================================================================
     template <typename alloc_node>
-    struct pointer_order<doubly_linked, alloc_node> {
+    struct insert_in_pointer_order<doubly_linked, alloc_node> {
       
       // =======================================================================================================      
       static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {

@@ -21,14 +21,14 @@ namespace reseune {
   template <
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
-    template <template <typename> typename, typename> typename tplacement = placement_strategies::pointer_order,
+    template <template <typename> typename, typename> typename tplacement = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename, typename, template <template <typename> typename, typename> typename> typename ttracking = tracking_strategies::standard>
   class allocator {
   public:    
-    using alloc_node   = tcontainer<alloc_info>;
+    using alloc_node  = tcontainer<alloc_info>;
     using track       = ttracking<tcontainer, alloc_info, tplacement>; // S<alloc_info>;
     using place       = tplacement<tcontainer, alloc_node>;
-    using place_after  = placement_strategies::after<tcontainer, alloc_node>;
+    using place_after = placement_strategies::after<tcontainer, alloc_node>;
     using remove      = removal_strategies::remove<tcontainer>;
     
   private:
