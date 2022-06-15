@@ -15,15 +15,12 @@ namespace reseune {
   namespace commit_strategies {
 
     // =========================================================================================================
-    template <
-      template <typename> typename container,
-      template <template <typename> typename> typename placement>
+    template <template <typename> typename container>
     struct place_or_mark {};
     
     // =========================================================================================================
-    template <
-      template <template <typename> typename> typename tplacement>
-    struct place_or_mark<doubly_linked, tplacement> {
+    template <>
+    struct place_or_mark<doubly_linked> {
       template <typename t> using container = doubly_linked<t>;
 
       template <typename alloc_info>

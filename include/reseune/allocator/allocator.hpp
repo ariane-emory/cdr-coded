@@ -25,7 +25,7 @@ namespace reseune {
     template <template <typename> typename> typename tinsert_in_order = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit = commit_strategies::place_or_mark,
+    template <template <typename> typename> typename tcommit = commit_strategies::place_or_mark,
     template <template <typename> typename, template <template <typename> typename> typename> typename trelease = release_strategies::place_or_mark>
   class allocator {
  public:    
@@ -33,7 +33,7 @@ namespace reseune {
     using insert_in_order = tinsert_in_order<tcontainer>;
     using insert_after    = tinsert_after<tcontainer>;
     using remove          = tremoval<tcontainer>;
-    using commit_block    = tcommit<tcontainer, tinsert_in_order>;
+    using commit_block    = tcommit<tcontainer>;
     using release_block   = trelease<tcontainer, tinsert_in_order>;
     
   private:
@@ -288,7 +288,7 @@ namespace reseune {
     template <template <typename> typename> typename toi,
     template <template <typename> typename> typename tia,
     template <template <typename> typename> typename tr,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tcom,
+    template <template <typename> typename> typename tcom,
     template <template <typename> typename, template <template <typename> typename> typename> typename trel>
   allocator<ai, tc, toi, tia, tr, tcom, trel>::alloc_node allocator<ai, tc, toi, tia, tr, tcom, trel>::root {};
 #endif
