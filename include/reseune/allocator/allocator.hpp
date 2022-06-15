@@ -33,8 +33,8 @@ namespace reseune {
     using insert_in_order = tinsert_in_order<tcontainer>;
     using insert_after    = tinsert_after<tcontainer>;
     using remove          = tremoval<tcontainer>;
-    using commit          = tcommit<tcontainer, tinsert_in_order>;
-    using release_block = trelease<tcontainer, tinsert_in_order>;
+    using commit_block    = tcommit<tcontainer, tinsert_in_order>;
+    using release_block   = trelease<tcontainer, tinsert_in_order>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -97,19 +97,19 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-      if (commit::is_free(block, verbose) && (BSIZE(block) >= size))
-      {
-        pblock = &block;
-        PVOID pvoid {BSTART(block)};
+        if (commit_block::is_free(block, verbose) && (BSIZE(block) >= size))
+        {
+          pblock = &block;
+          PVOID pvoid {BSTART(block)};
 
-        PRINT("Selected block at", pblock);
-        PRINT("With block start at", pvoid);
-        PRHLINE;
-        DESCRIBEP(pblock);
-        PRLINE;
+          PRINT("Selected block at", pblock);
+          PRINT("With block start at", pvoid);
+          PRHLINE;
+          DESCRIBEP(pblock);
+          PRLINE;
 
-        return pblock;
-      }
+          return pblock;
+        }
 
       return nullptr;
     }
@@ -143,7 +143,7 @@ namespace reseune {
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         split_block(block, size, verbose);
 
-        commit::commit_block(block, verbose);
+        commit_block::commit_block(block, verbose);
         
         PRINT("Created new block at", &block);
         PRINT("With block start at", BSTART(block));
@@ -201,8 +201,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (commit::is_free(*plast_block, true)
-              && commit::is_free(block, true)) {
+          if (commit_block::is_free(*plast_block, true)
+              && commit_block::is_free(block, true)) {
 
             alloc_node & last_block {*plast_block};
             
