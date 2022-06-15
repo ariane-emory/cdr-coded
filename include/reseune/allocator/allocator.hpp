@@ -20,17 +20,18 @@ namespace reseune {
   template <
     typename alloc_info,
     template <typename> typename tcontainer = doubly_linked,
-    template <template <typename> typename> typename tplacement = placement_strategies::insert_in_pointer_order,
-    template <template <typename> typename> typename tremoval = removal_strategies::unlink_or_mark,
+    template <template <typename> typename> typename tordered_insert = placement_strategies::insert_in_pointer_order,
+    template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
+    template <template <typename> typename> typename tremoval = removal_strategies::unlink,
     template <template <typename> typename, template <template <typename> typename> typename> typename ttracking =
-    tracking_strategies::standard>
+    tracking_strategies::place_or_mark>
   class allocator {
   public:    
     using alloc_node     = tcontainer<alloc_info>;
-    using ordered_insert = tplacement<tcontainer>;
-    using place_after    = placement_strategies::after<tcontainer>;
+    using ordered_insert = tordered_insert<tcontainer>;
+    using insert_after    = tinsert_after<tcontainer>;
     using remove         = tremoval<tcontainer>;
-    using track          = ttracking<tcontainer, tplacement>;
+    using track          = ttracking<tcontainer, tordered_insert>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -48,7 +49,7 @@ namespace reseune {
         SETBSIZE(new_block, BSIZE(block) - size - ALLOC_HEADER_SZ); // What happens when this is 0?
         SETBSIZE(block, size);
 
-        place_after::place(new_block, block, verbose);
+        insert_after::place(new_block, block, verbose);
       }
         
   public:
@@ -77,7 +78,7 @@ namespace reseune {
         - ALLOC_HEADER_SZ);
 
       IFISNULL(PFREE_LIST_HEAD)
-        place_after::place(new_block, root, verbose);
+        insert_after::place(new_block, root, verbose);
       else
         ordered_insert::place(new_block, root, verbose);      
     
@@ -281,10 +282,11 @@ namespace reseune {
   template <
     typename ai,
     template <typename> typename tc,
-    template <template <typename> typename> typename tp,
+    template <template <typename> typename> typename toi,
+    template <template <typename> typename> typename tia,
     template <template <typename> typename> typename tr,
     template <template <typename> typename, template <template <typename> typename> typename> typename tt>
-  allocator<ai, tc, tp, tr, tt>::alloc_node allocator<ai, tc, tp, tr, tt>::root {};
+  allocator<ai, tc, toi, tia, tr, tt>::alloc_node allocator<ai, tc, toi, tia, tr, tt>::root {};
 #endif
 }
 

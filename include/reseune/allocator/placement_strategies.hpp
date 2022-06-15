@@ -63,11 +63,11 @@ namespace reseune {
     
     // =========================================================================================================
     template <template <typename> typename container>
-    struct after {};
+    struct insert_after {};
     
     // =========================================================================================================
     template <>
-    struct after<doubly_linked> {      
+    struct insert_after<doubly_linked> {      
       // =======================================================================================================
       template <typename item_type>
       static inline void place(
@@ -82,11 +82,11 @@ namespace reseune {
     
     // =========================================================================================================
     template <template <typename> typename container>
-    struct before {};
+    struct insert_before {};
     
     // =========================================================================================================
     template <>
-    struct before<doubly_linked> {      
+    struct insert_before<doubly_linked> {      
       // =======================================================================================================
       template <typename item_type>
       static inline void place(

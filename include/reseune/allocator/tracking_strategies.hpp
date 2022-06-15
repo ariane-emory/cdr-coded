@@ -18,12 +18,12 @@ namespace reseune {
     template <
       template <typename> typename container,
       template <template <typename> typename> typename placement>
-    struct standard {};
+    struct place_or_mark {};
     
     // =========================================================================================================
     template <
       template <template <typename> typename> typename tplacement>
-    struct standard<doubly_linked, tplacement> {
+    struct place_or_mark<doubly_linked, tplacement> {
       template <typename t> using container = doubly_linked<t>;
       
       static inline void commit_block(

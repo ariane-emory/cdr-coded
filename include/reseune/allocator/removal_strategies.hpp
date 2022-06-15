@@ -15,11 +15,11 @@ namespace reseune {
 
     // =========================================================================================================
     template <template <typename> typename container>
-    struct unlink_or_mark {};
+    struct unlink {};
     
     // =========================================================================================================
     template <>
-    struct unlink_or_mark<doubly_linked> {
+    struct unlink<doubly_linked> {
       
       // =======================================================================================================
       template <typename item_t>
