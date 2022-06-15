@@ -1,0 +1,42 @@
+#ifndef RESEUNE_ALLOCATOR_ALLOCATOR_REMOVAL_STRATEGIES_HPP
+#define RESEUNE_ALLOCATOR_ALLOCATOR_REMOVAL_STRATEGIES_HPP
+
+#include "reseune/doubly_linked/doubly_linked.hpp"
+#include "reseune/util/util.hpp"
+#include "removal_strategies.hpp"
+
+#include "macros.hpp" // include last
+
+// =============================================================================================================
+namespace reseune {
+
+  // ===========================================================================================================
+  namespace removal_strategies {
+
+    // =========================================================================================================
+    template <template <typename> typename container>
+    struct remove {};
+    
+    // =========================================================================================================
+    template <>
+    struct remove<doubly_linked> {
+      
+      // =======================================================================================================
+      template <typename T>
+      static inline void remove_item(doubly_linked<T> & item, VERBOSEARG) {
+        PRINTF("Removing item @ 0x%lx = %ul.\n", &item);
+
+        item.remove();
+      }
+
+    };
+    // =========================================================================================================
+
+  }
+  // ===========================================================================================================
+
+}
+// =============================================================================================================
+
+#include "undef_macros.hpp" 
+#endif
