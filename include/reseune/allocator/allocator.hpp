@@ -27,10 +27,10 @@ namespace reseune {
   class allocator {
   public:    
     using alloc_node     = tcontainer<alloc_info>;
-    using track          = ttracking<tcontainer, tplacement>; // S<alloc_info>;
     using ordered_insert = tplacement<tcontainer>;
     using place_after    = placement_strategies::after<tcontainer>;
     using remove         = tremoval<tcontainer>;
+    using track          = ttracking<tcontainer, tplacement>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
