@@ -11,52 +11,47 @@
 // =============================================================================================================
 namespace reseune {
 
-  // ===========================================================================================================
-  namespace commit_strategies {
-
-    // =========================================================================================================
-    template <template <typename> typename container>
-    struct standard {};
+  // =========================================================================================================
+  template <template <typename> typename container>
+  struct commit_strategies {};
     
-    // =========================================================================================================
-    template <>
-    struct standard<doubly_linked> {
-      template <typename t> using container = doubly_linked<t>;
+  // =========================================================================================================
+  template <>
+  struct commit_strategies<doubly_linked> {
+    template <typename t> using container = doubly_linked<t>;
 
-      template <typename alloc_info>
-      static inline void commit_block(
-        container<alloc_info> & block,
-        VERBOSEARG) {
-        (std::ignore = verbose);
-        block.remove();
-      }
+    template <typename alloc_info>
+    static inline void commit_block(
+      container<alloc_info> & block,
+      VERBOSEARG) {
+      (std::ignore = verbose);
+      block.remove();
+    }
             
-      template <typename alloc_info>
-      static inline bool is_free(
-        container<alloc_info> const & block,
-        VERBOSEARG) {
-        (std::ignore = verbose) = block;
-        return true;
-      }
+    template <typename alloc_info>
+    static inline bool is_free(
+      container<alloc_info> const & block,
+      VERBOSEARG) {
+      (std::ignore = verbose) = block;
+      return true;
+    }
 
-      static inline void commit_block(
-        container<alloc_info_with_unfree_flag> & block,
-        VERBOSEARG) {
-        (std::ignore = verbose);
-        block.data.unfree = true;
-      }
+    static inline void commit_block(
+      container<alloc_info_with_unfree_flag> & block,
+      VERBOSEARG) {
+      (std::ignore = verbose);
+      block.data.unfree = true;
+    }
 
-      static inline bool is_free(
-        container<alloc_info_with_unfree_flag> const & block,
-        VERBOSEARG) {
-        (std::ignore = verbose);        
-        return ! block.data.unfree;
-      }
-    };
-
-    // =========================================================================================================
+    static inline bool is_free(
+      container<alloc_info_with_unfree_flag> const & block,
+      VERBOSEARG) {
+      (std::ignore = verbose);        
+      return ! block.data.unfree;
+    }
   };
-// ===========================================================================================================
-}
+
+  // =========================================================================================================
+};
 // =============================================================================================================
 #endif
