@@ -25,7 +25,8 @@ namespace reseune {
     template <template <typename> typename> typename tinsert_in_order = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit = commit_strategies::place_or_mark>
+    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit = commit_strategies::place_or_mark,
+    template <template <typename> typename, template <template <typename> typename> typename> typename trelease = commit_strategies::place_or_mark>
   class allocator {
  public:    
     using alloc_node      = tcontainer<alloc_info>;
@@ -33,6 +34,7 @@ namespace reseune {
     using insert_after    = tinsert_after<tcontainer>;
     using remove          = tremoval<tcontainer>;
     using commit          = tcommit<tcontainer, tinsert_in_order>;
+    using release_block = trelease<tcontainer, tinsert_in_order>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -246,7 +248,7 @@ namespace reseune {
       PRLINE;
       PRNL;
       
-      commit::release_block(new_block, FREE_LIST_HEAD, verbose);
+      release_block::release_block(new_block, FREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
@@ -286,8 +288,9 @@ namespace reseune {
     template <template <typename> typename> typename toi,
     template <template <typename> typename> typename tia,
     template <template <typename> typename> typename tr,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tt>
-  allocator<ai, tc, toi, tia, tr, tt>::alloc_node allocator<ai, tc, toi, tia, tr, tt>::root {};
+    template <template <typename> typename, template <template <typename> typename> typename> typename tcom,
+    template <template <typename> typename, template <template <typename> typename> typename> typename trel>
+  allocator<ai, tc, toi, tia, tr, tcom, trel>::alloc_node allocator<ai, tc, toi, tia, tr, tcom, trel>::root {};
 #endif
 }
 
