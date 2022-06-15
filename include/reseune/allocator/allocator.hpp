@@ -22,7 +22,8 @@ namespace reseune {
     template <typename> typename tcontainer = doubly_linked,
     template <template <typename> typename> typename tplacement = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink_or_mark,
-    template <template <typename> typename, template <template <typename> typename> typename> typename ttracking = tracking_strategies::standard>
+    template <template <typename> typename, template <template <typename> typename> typename> typename ttracking =
+    tracking_strategies::standard>
   class allocator {
   public:    
     using alloc_node     = tcontainer<alloc_info>;
