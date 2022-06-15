@@ -11,7 +11,7 @@
 
 #include "placement_strategies.hpp"
 #include "removal_strategies.hpp"
-#include "unfree_strategies.hpp"
+#include "commit_strategies.hpp"
 #include "macros.hpp" // include this last!
 // =============================================================================================================
 namespace reseune {
@@ -23,15 +23,15 @@ namespace reseune {
     template <template <typename> typename> typename tordered_insert = placement_strategies::insert_in_pointer_order,
     template <template <typename> typename> typename tinsert_after = placement_strategies::insert_after,
     template <template <typename> typename> typename tremoval = removal_strategies::unlink,
-    template <template <typename> typename, template <template <typename> typename> typename> typename tunfree =
-    unfree_strategies::place_or_mark>
+    template <template <typename> typename, template <template <typename> typename> typename> typename tcommit =
+    commit_strategies::place_or_mark>
   class allocator {
-  public:    
+ public:    
     using alloc_node     = tcontainer<alloc_info>;
     using ordered_insert = tordered_insert<tcontainer>;
-    using insert_after    = tinsert_after<tcontainer>;
+    using insert_after   = tinsert_after<tcontainer>;
     using remove         = tremoval<tcontainer>;
-    using track          = tunfree<tcontainer, tordered_insert>;
+    using commit         = tcommit<tcontainer, tordered_insert>;
     
   private:
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
@@ -94,19 +94,19 @@ namespace reseune {
         
       // try to find a big enough block to alloc
       FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (track::is_free(block, verbose) && (BSIZE(block) >= size))
-        {
-          pblock = &block;
-          PVOID pvoid {BSTART(block)};
+      if (commit::is_free(block, verbose) && (BSIZE(block) >= size))
+      {
+        pblock = &block;
+        PVOID pvoid {BSTART(block)};
 
-          PRINT("Selected block at", pblock);
-          PRINT("With block start at", pvoid);
-          PRHLINE;
-          DESCRIBEP(pblock);
-          PRLINE;
+        PRINT("Selected block at", pblock);
+        PRINT("With block start at", pvoid);
+        PRHLINE;
+        DESCRIBEP(pblock);
+        PRLINE;
 
-          return pblock;
-        }
+        return pblock;
+      }
 
       return nullptr;
     }
@@ -140,7 +140,7 @@ namespace reseune {
       if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         split_block(block, size, verbose);
 
-        track::commit_block(block, verbose);
+        commit::commit_block(block, verbose);
         
         PRINT("Created new block at", &block);
         PRINT("With block start at", BSTART(block));
@@ -198,8 +198,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK(FREE_LIST_HEAD) {
         IFISNOTNULL(plast_block)
-          if (track::is_free(*plast_block, true)
-              && track::is_free(block, true)) {
+          if (commit::is_free(*plast_block, true)
+              && commit::is_free(block, true)) {
 
             alloc_node & last_block {*plast_block};
             
@@ -245,7 +245,7 @@ namespace reseune {
       PRLINE;
       PRNL;
       
-      track::release_block(new_block, FREE_LIST_HEAD, verbose);
+      commit::release_block(new_block, FREE_LIST_HEAD, verbose);
       
       if (! defer_coalesce)
         coalesce(verbose);
