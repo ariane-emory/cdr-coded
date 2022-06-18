@@ -18,13 +18,16 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    template <tokfun_t t1, tokfun_t t2>
-    inline char * either() { 
-      char * ret {(this->*t1)()};
+    template <tokfun_t left, tokfun_t right>
+    inline char * take_either() {
+      printf("Left %zu\n", left);
+      printf("Right %zu\n", right);
+
+      char * ret {(this->*left)()};
       return (nullptr == ret
-              ? (this->*t2)()
+              ? (this->*right)()
               : ret);
-              }
+    }
 
     // =============================================================================================================
     template <predicate_t p>
@@ -40,6 +43,10 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    template <predicate_t p>
+    inline char * take_one () {
+      return take_one(p);
+    }
     inline char * take_one (predicate_t predicate) {
       const char * begin = m_position;
 

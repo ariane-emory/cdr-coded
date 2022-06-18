@@ -302,10 +302,18 @@ int main() {
   do {
     tok.discard_whitespace();
 
-    word = tok.take_one(is_char<'('>);
+    // printf("fun @ %zu\n", &tokenizer::take_word);
+    // printf("fun @ %zu\n", &tokenizer::take_one<is_char<'('>>);
 
-    if (nullptr == word)
-      word = tok.take_word();
+    using t = tokenizer;
+    
+    tok.take_either<
+      &t::take_word,
+      &t::take_one<is_char<'('>>>();
+    
+    // word = tok.take_one(is_char<'('>);
+    // if (nullptr == word)
+    //   word = tok.take_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
