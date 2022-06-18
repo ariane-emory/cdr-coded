@@ -17,9 +17,14 @@ namespace reseune {
     using t = tokenizer;
 
   public:
+
+    struct span {
+      const char * const begin;
+      const char * const end;
+    };
     
     // =============================================================================================================
-    constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
+      constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
     template <charfun_t predicate>
@@ -97,8 +102,8 @@ namespace reseune {
   private: 
 
     // =============================================================================================================
-    inline char * create_new_c_str(const char * begin, const char * end) {      
-      size_t len  = uintptr(m_position) - uintptr(begin);
+    static inline char * create_new_c_str(const char * begin, const char * end) {      
+      size_t len  = uintptr(end) - uintptr(begin);
       
       if (0 == len) return nullptr;
   
