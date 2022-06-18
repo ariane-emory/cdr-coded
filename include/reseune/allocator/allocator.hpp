@@ -203,46 +203,37 @@ namespace reseune {
       PRLINE;
       PRINT("Bytes requested: ", size);
       
-      PVOID        pvoid  {nullptr};
-      alloc_node * pblock {nullptr};
-
-      // try to find a big enough block to alloc
-      FOR_EACH_BLOCK(FREE_LIST_HEAD)
-        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
-        {
-          pblock = &block;
-          pvoid  = BSTART(block);
-
-          PRINT("Selected block at", pblock);
-          PRINT("With block start at", pvoid);
-          PRHLINE;
-          DESCRIBEP(pblock);
-          PRLINE;
-
-          goto found_a_block;
-        }
+      alloc_node * pblock {find_first_fit(size, verbose)};
 
       IFISNULL(pblock) {
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
-
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);
         return nullptr;
       }
       
-    found_a_block:
       alloc_node & block {*pblock};
+      PVOID        pvoid  {BSTART(block)};
       
       // Check if we can we split the block:
-      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
+      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         split_block(block, size, verbose);
-          
+
+        strategy::commit_block(block, verbose);
+        
+        PRINT("Created new block at", &block);
+        PRINT("With block start at", BSTART(block));
+        PRHLINE;
+        DESCRIBE(block);
+        PRHLINE;
+      }
 #ifndef NDEBUG
-      else 
+      else {
         DIE(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
           BSIZE(block),
           size,
           (BSIZE(block) - size),
           MIN_ALLOC_SZ);
+      }
 #endif
       
       PRINT("Gave pointer to", pvoid);
