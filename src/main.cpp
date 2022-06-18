@@ -359,11 +359,11 @@ int main() {
   // measure_time(test_allocator);
   
   const char *  sexp   = "  \n  \t one two three four\n five six seven\n eight";
-
+  const char ** cursor = &sexp;
   for (size_t ix = 0; ix < 5; ix++) {
     char * word = slurp_word(sexp);
 
-  if (nullptr == word)
+    if (nullptr == word)
       printf("Word is null.\n");
     else
       printf("Word is '%s'.\n", word);
