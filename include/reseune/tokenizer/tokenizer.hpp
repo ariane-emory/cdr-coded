@@ -15,6 +15,7 @@
 #define MATCH(tf)          (this->*tf)()
 #define HERE              (**this)
 #define MOVED             (begin != m_position)
+#define UNMOVED           (! MOVED)
 #define REWIND            m_position = begin
 
 // =================================================================================================================
@@ -86,16 +87,10 @@ namespace reseune {
     TOKFUN(either) {
       BEGIN;
       MATCH(left);
-      if (MOVED) YIELD;
+      if (MOVED)
+        YIELD;
       MATCH(right);
       YIELD;
-        
-      
-      // span const ret {MATCH(left)};
-
-      // return (ret.empty()
-      //         ? MATCH(right)
-      //         : ret);
     }
 
     // =============================================================================================================
@@ -113,11 +108,14 @@ namespace reseune {
     TOKFUN(plus) {
       BEGIN;
       MATCH(tokfun);
-      NOTHING;
+      if (UNMOVED)
+        NOTHING;
+      MATCH(star<tokfun>);
+      YIELD;
     }
 
-      // =============================================================================================================
-      template <charfun_t predicate>
+    // =============================================================================================================
+    template <charfun_t predicate>
         TOKFUN(star) {
         
         BEGIN;
