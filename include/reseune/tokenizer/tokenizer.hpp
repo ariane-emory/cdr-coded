@@ -27,7 +27,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t p>
+    template <predicate_t predicate>
     inline void ignore_while() {
       char c;
 
@@ -37,11 +37,11 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t p>
+    template <predicate_t predicate>
     inline char * one () {
       const char * begin = m_position;
 
-      if (!p(*m_position)) return nullptr;
+      if (!predicate(*m_position)) return nullptr;
       
       (*this)++;
       
