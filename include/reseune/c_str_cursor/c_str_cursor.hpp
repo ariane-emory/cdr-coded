@@ -73,20 +73,8 @@ namespace reseune {
       do { c = (*this)++; }
       while (0 != c && !predicate(c));
       --*this;
-  
-      size_t len  = uintptr(m_position) - uintptr(begin);
 
-      if (0 == len)
-        return nullptr;
-  
-      size_t siz  = (len + 1) * sizeof(char);
-      char * word = static_cast<char *>(malloc(siz));
-
-      memcpy(word, begin, siz);
-
-      word[len] = 0;
-
-      return word;
+      return create_new_c_str(begin, m_position);
     }
 
     // =============================================================================================================
@@ -97,6 +85,24 @@ namespace reseune {
     // =============================================================================================================
     inline char * take_word () {
       return take_until(is_whitespace);
+    }
+
+  private: 
+
+    // =============================================================================================================
+    inline char * create_new_c_str(const char * begin, const char * end) {      
+      size_t len  = uintptr(m_position) - uintptr(begin);
+      
+      if (0 == len) return nullptr;
+  
+      size_t siz  = (len + 1) * sizeof(char);
+      char * word = static_cast<char *>(malloc(siz));
+
+      memcpy(word, begin, siz);
+
+      word[len] = 0;
+
+      return word;
     }
 
     // =============================================================================================================

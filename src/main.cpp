@@ -293,7 +293,7 @@ void test_allocator() {
 int main() {
   setup_allocator();
 
-  reseune::measure_time(test_allocator);
+  // reseune::measure_time(test_allocator);
   
   const char * const sexp { "one two three four\n five six seven\n eight" };
   c_str_cursor       curs { sexp };
