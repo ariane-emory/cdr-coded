@@ -10,7 +10,7 @@
 
 #define LINE        (reseune::print_line())
 #define HLINE       (reseune::print_line('-'))
-#define NEWLINE     putchar('\n')
+#define NEWLINE     (putchar('\n'))
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
 #define NOW         (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
