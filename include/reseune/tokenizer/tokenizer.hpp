@@ -128,12 +128,13 @@ namespace reseune {
       do {
         DO_MATCH;
       } while MOVED;
-
       YIELD;
     }
 
     // =============================================================================================================
-    T_CHAR_F MATCH_F(chars) { 
+    T_CHAR_F MATCH_F(chars) {
+      //return star<chr<CF>>();
+      
       BEGIN;
       while (NOT_NULL && CHAR_MATCHES)
         NEXT;      
