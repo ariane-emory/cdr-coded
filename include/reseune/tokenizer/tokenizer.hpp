@@ -6,23 +6,23 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
-#define TOKFUN(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN             char c; std::ignore = c; const char * const begin {m_position}
-#define NOTHING           return span{}
-#define BACK              (--*this)
-#define NEXT              (c = ((*this)++))
-#define YIELD             return span{begin, m_position}
-#define DO_MATCH(tf)         (this->*tf)()
-#define HERE              (**this)
-#define MOVED             (begin != m_position)
-#define UNMOVED           (! MOVED)
-#define REWIND            (m_position = begin)
-#define NOTNULL           (0 != HERE)
-#define PREDICATE         (predicate(HERE))
-#define T_CHAR_F            template <charfun_t predicate>
-#define TCHAR             template <char C>
-#define T_MATCH_F            template <tokfun_t tokfun>
-#define unless(expr)      if (! (expr))
+#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
+#define BEGIN              char c; std::ignore = c; const char * const begin {m_position}
+#define NOTHING            return span{}
+#define BACK               (--*this)
+#define NEXT               (c = ((*this)++))
+#define YIELD              return span{begin, m_position}
+#define DO_MATCH(tf)       (this->*tf)()
+#define HERE               (**this)
+#define MOVED              (begin != m_position)
+#define UNMOVED            (! MOVED)
+#define REWIND             (m_position = begin)
+#define NOTNULL            (0 != HERE)
+#define PREDICATE          (predicate(HERE))
+#define T_CHAR_F           template <charfun_t predicate>
+#define TCHAR              template <char C>
+#define T_MATCH_F           template <tokfun_t tokfun>
+#define unless(expr)       if (! (expr))
 
 // =================================================================================================================
 namespace reseune {
@@ -65,29 +65,29 @@ namespace reseune {
     }
     
     // =============================================================================================================
-    T_MATCH_F TOKFUN(ignore) {
+    T_MATCH_F MATCH_F(ignore) {
       DO_MATCH(tokfun);
       NOTHING;
     }
 
     // =============================================================================================================
-    TOKFUN(ignore_whitespace) {
+    MATCH_F(ignore_whitespace) {
       return ignore<&t::chars<is_whitespace>>();
     }
 
     // =============================================================================================================
-    TOKFUN(word) {
+    MATCH_F(word) {
       return until<is_whitespace>();
     }
 
     // =============================================================================================================
-    T_CHAR_F TOKFUN(until) {
+    T_CHAR_F MATCH_F(until) {
       return chars<negate<predicate>>();
     }
 
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
-    TOKFUN(either) {
+    MATCH_F(either) {
       BEGIN;
       DO_MATCH (left);
       if MOVED
@@ -98,12 +98,12 @@ namespace reseune {
 
 
     // =============================================================================================================
-    TCHAR TOKFUN(chr) {
+    TCHAR MATCH_F(chr) {
       return chr<is_char<C>>();
     }
     
     // =============================================================================================================
-    T_CHAR_F TOKFUN(chr) {
+    T_CHAR_F MATCH_F(chr) {
       BEGIN;      
       unless (PREDICATE)
         NOTHING;
@@ -112,7 +112,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F TOKFUN(plus) {
+    T_MATCH_F MATCH_F(plus) {
       BEGIN;
       DO_MATCH(tokfun);
       if UNMOVED
@@ -122,7 +122,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR_F TOKFUN(chars) { 
+    T_CHAR_F MATCH_F(chars) { 
       BEGIN;
       while (NOTNULL && PREDICATE)
         NEXT;      
@@ -151,7 +151,7 @@ namespace reseune {
 }
 // =================================================================================================================
 
-#undef TOKFUN
+#undef MATCH_F
 #undef BEGIN
 #undef NOTHING
 #undef BACK
