@@ -93,13 +93,13 @@ namespace reseune {
       DO_MATCH;
       if UNMOVED
         NOTHING;
-      return MATCH(star<MF>);
+      return MATCH(MF);
       YIELD;
     }
 
     // =============================================================================================================
     MATCH_F(word) {
-      return star<&t::non_whitespace>();
+      return plus<&t::non_whitespace>();
     }
 
     // =============================================================================================================
