@@ -241,10 +241,7 @@ namespace reseune {
 
     // =======================================================================================================
     template <typename TT>
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-    static
-#endif
-    inline PVOID valloc(SIZEARG = 1, VERBOSEARG) {
+    INLINE PVOID valloc(SIZEARG = 1, VERBOSEARG) {
       // Is this function dumb? Maybe we don't really need it?
 
       return valloc(size * sizeof(TT), 1, verbose);
@@ -252,10 +249,7 @@ namespace reseune {
     
     // =======================================================================================================
     template <typename TT>
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-    static
-#endif
-    inline TT * alloc(SIZEARG = 1, VERBOSEARG) {
+    INLINE TT * alloc(SIZEARG = 1, VERBOSEARG) {
       return reinterpret_cast<TT *>(valloc(size * sizeof(TT), verbose));
     }
     
