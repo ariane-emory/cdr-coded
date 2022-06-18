@@ -296,7 +296,7 @@ void measure_time(void(*fun)()) {
 
 // ===============================================================================================================
 
-char strgetc(const char ** cursor) {
+inline char strgetc(const char ** cursor) {
   char c = **cursor;
   (*cursor)++;
   return c;
@@ -312,7 +312,7 @@ int main() {
   // test_links();
   // measure_time(test_allocator);
 
-  const char * sexp = "(+ 2 3 (* 4 5))";
+  const char *  sexp   = "(+ 2 3 (* 4 5))";
   const char ** cursor = &sexp;
   
   // printf("Got '%c'.\n", strgetc(cursor));
