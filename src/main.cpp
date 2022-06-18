@@ -296,18 +296,18 @@ int main() {
   // reseune::measure_time(test_allocator);
   
   using t = tokenizer;
-  const char * const sexp { "aaaaone two three four\n five six seven\n eight" };
+  const char * const sexp { "(((aaaaone two three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            word {};
   
   do {
     tok.ignore_whitespace();
     
-    word = tok.star<&t::chr<'a'>>();
+    // word = tok.star<&t::chr<'a'>>();
     
-    // word = tok.either<
-    //   &t::chr<'('>,
-    //   &t::word>();
+    word = tok.either<
+      &t::chr<'('>,
+      &t::word>();
     
     if (word.empty()) {
       printf("Word is null.\n");

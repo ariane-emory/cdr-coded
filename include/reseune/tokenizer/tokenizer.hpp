@@ -105,7 +105,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR MATCH_F(chr) {
-      printf("1 Looking at '%c'.\n", HERE);
+      // printf("1 Looking at '%c'.\n", HERE);
       return chr<is_char<C>>();
     }
     
@@ -139,13 +139,14 @@ namespace reseune {
       do {
         last_pos = POS;
         DO_MATCH;
-      } while (POS != last_pos);
+      } while (NOT_NULL && POS != last_pos);
+      
       YIELD;
     }
 
     // =============================================================================================================
     T_CHAR_F MATCH_F(chars) {
-      //return star<chr<CF>>();
+      //return star<&t::chr<CF>>();
       
       BEGIN;
       while (NOT_NULL && CHAR_MATCHES)
