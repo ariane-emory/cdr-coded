@@ -300,17 +300,16 @@ int main() {
   char *             word { nullptr };
   
   do {
-    tok.discard_whitespace();
+    tok.ignore_whitespace();
 
     // printf("fun @ %zu\n", &tokenizer::take_word);
     // printf("fun @ %zu\n", &tokenizer::take_one<is_char<'('>>);
 
     using t = tokenizer;
     
-    tok.take_either<
-      &t::take_word,
-      &t::take_one<is_char<'('>>>();
-    
+    word = tok.take_either<
+      &t::take_one<is_char<'('>>,
+      &t::take_word>();
     // word = tok.take_one(is_char<'('>);
     // if (nullptr == word)
     //   word = tok.take_word();

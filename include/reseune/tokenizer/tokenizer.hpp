@@ -20,8 +20,8 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     inline char * take_either() {
-      printf("Left %zu\n", left);
-      printf("Right %zu\n", right);
+      // printf("Left %zu\n", left);
+      // printf("Right %zu\n", right);
 
       char * ret {(this->*left)()};
       return (nullptr == ret
@@ -31,10 +31,8 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline void discard_while() {
-      discard_while(p);
-    }
-    inline void discard_while(predicate_t predicate) {
+    inline void ignore_while() { ignore_while(p); }
+    inline void ignore_while(predicate_t predicate) {
       char c;
 
       do { c = (*this)++; }
@@ -44,10 +42,9 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_one () {
-      return take_one(p);
-    }
+    inline char * take_one () { return take_one(p); }
     inline char * take_one (predicate_t predicate) {
+      // printf("Take one.\n");
       const char * begin = m_position;
 
       if (!predicate(*m_position)) return nullptr;
@@ -59,9 +56,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_until() {
-      return take_until(p);
-    }
+    inline char * take_until() { return take_until(p); }
     inline char * take_until(predicate_t predicate) {
       char c;
   
@@ -76,9 +71,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_while() {
-      return take_while(p);
-    }
+    inline char * take_while() { return take_while(p); }
     inline char * take_while(predicate_t predicate) {
       char c;
   
@@ -92,12 +85,13 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline void discard_whitespace() {
-      discard_while<is_whitespace>();
+    inline void ignore_whitespace() {
+      take_while<is_whitespace>();
     }
 
     // =============================================================================================================
     inline char * take_word () {
+      // printf("Take word.\n");
       return take_until<is_whitespace>();
     }
 
@@ -116,6 +110,8 @@ namespace reseune {
 
       word[len] = 0;
 
+      // printf("Return word %zu: %s.\n", &word, word);
+      
       return word;
     }
 
