@@ -56,22 +56,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline char * create_new_c_str(const char * begin, const char * end) {      
-      size_t len  = uintptr(m_position) - uintptr(begin);
-      
-      if (0 == len) return nullptr;
-  
-      size_t siz  = (len + 1) * sizeof(char);
-      char * word = static_cast<char *>(malloc(siz));
-
-      memcpy(word, begin, siz);
-
-      word[len] = 0;
-
-      return word;
-    }
-
-    // =============================================================================================================
   };
   // ===============================================================================================================
 }
