@@ -314,35 +314,35 @@ inline bool is_whitespace(const char c) {
 
 // ===============================================================================================================
 struct c_str_cursor {
-  const char *  start;
-  const char ** position;
+  const char * const start;
+  const char * position;
   
   // =============================================================================================================
-  inline c_str_cursor(const char * const str) : start(str), position(&start) {}
+  inline c_str_cursor(const char * const str) : start(str), position(str) {}
 
   // =============================================================================================================
   inline char operator ++ () {
-    ++*position;
-    return **position;
+    ++position;
+    return *position;
   }
 
   // =============================================================================================================
   inline char operator ++ (int) {
-    char c = ** position;
-    ++*position;
+    char c = *position;
+    ++position;
     return c;
   }
   
   // =============================================================================================================
   inline char operator -- () {
-    --*position;
-    return **position;
+    --position;
+    return *position;
   }
 
   // =============================================================================================================
   inline char operator -- (int) {
-    char c = ** position;
-    --*position;
+    char c = *position;
+    --position;
     return c;
   }
   
@@ -359,13 +359,13 @@ struct c_str_cursor {
   inline char * take_until (bool (*predicate)(const char)) {
     char c;
   
-    const char * begin = *position;
+    const char * begin = position;
   
     do { c = (*this)++; }
     while (0 != c && !predicate(c));
     --*this;
   
-    size_t len  = uintptr(*position) - uintptr(begin);
+    size_t len  = uintptr(position) - uintptr(begin);
 
     if (0 == len)
       return nullptr;
