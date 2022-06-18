@@ -354,28 +354,18 @@ inline char * slurp_word (const char * str_pos) {
 
 int main() {
   setup_allocator();
-  measure_time(test_allocator);
 
-  {
-    const char *  sexp   = "one two three";
-
-    char * word = slurp_word(sexp);
-
-    if (nullptr == word)
-      printf("Word is null.\n");
-    else
-      printf("Word is '%s'.\n", word);
+// measure_time(test_allocator);
   
-  }
-  {  const char *  sexp   = "  \n  \t one two three";
+  const char *  sexp   = "  \n  \t one two three";
 
-    char * word = slurp_word(sexp);
+  char * word = slurp_word(sexp);
 
-    if (nullptr == word)
-      printf("Word is null.\n");
-    else
-      printf("Word is '%s'.\n", word);
-  }
+  if (nullptr == word)
+    printf("Word is null.\n");
+  else
+    printf("Word is '%s'.\n", word);
+    
   ALLOC describe_free_list();
 }
 
