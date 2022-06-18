@@ -10,7 +10,8 @@ namespace reseune {
     const char * const m_begin;
     const char * const m_end;
     const char *       m_position;
-
+    using predicate_t = bool(*)(const char);
+    
   public:
   
     // =============================================================================================================
@@ -56,7 +57,11 @@ namespace reseune {
     }
   
     // =============================================================================================================
-    inline void discard_while(bool (*predicate)(const char)) {
+    template <predicate_t p>
+    inline void discard_while() {
+      discard_while(p);
+    }
+    inline void discard_while(predicate_t predicate) {
       char c;
 
       do { c = (*this)++; }
@@ -65,7 +70,22 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline char * take_one (bool (*predicate)(const char)) {
+    inline char * take_one (predicate_t predicate) {
+      const char * begin = m_position;
+
+      if (!predicate(*m_position)) return nullptr;
+      
+      (*this)++;
+      
+      return create_new_c_str(begin, m_position);
+    }
+
+    // =============================================================================================================
+    template <predicate_t p>
+    inline char * take_until() {
+      return take_until(p);
+    }
+    inline char * take_until(predicate_t predicate) {
       char c;
   
       const char * begin = m_position;
@@ -78,40 +98,31 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline char * take_until (bool (*predicate)(const char)) {
-      char c;
-  
-      const char * begin = m_position;
-  
-      do { c = (*this)++; }
-      while (0 != c && !predicate(c));
-      --*this;
-
-      return create_new_c_str(begin, m_position);
+    template <predicate_t p>
+    inline char * take_while() {
+      return take_while(p);
     }
-
-    // =============================================================================================================
-    inline char * take_while (bool (*predicate)(const char)) {
+    inline char * take_while(predicate_t predicate) {
       char c;
   
       const char * begin = m_position;
   
       do { c = (*this)++; }
       while (0 != c && predicate(c));
-      --*this;
+        --*this;
 
-      return create_new_c_str(begin, m_position);
-    }
+        return create_new_c_str(begin, m_position);
+      }
 
-    // =============================================================================================================
-    inline void discard_whitespace() {
-      discard_while(is_whitespace);
-    }
+      // =============================================================================================================
+      inline void discard_whitespace() {
+        discard_while<is_whitespace>();
+      }
 
-    // =============================================================================================================
-    inline char * take_word () {
-      return take_until(is_whitespace);
-    }
+      // =============================================================================================================
+      inline char * take_word () {
+        return take_until<is_whitespace>();
+      }
 
   private: 
 

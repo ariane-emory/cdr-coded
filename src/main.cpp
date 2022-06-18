@@ -302,7 +302,7 @@ int main() {
   do {
     cursor.discard_whitespace();
 
-    word = cursor.take_while(is_char<'('>);
+    word = cursor.take_one(is_char<'('>);
 
     if (nullptr == word)
       word = cursor.take_word();
