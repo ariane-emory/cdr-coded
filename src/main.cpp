@@ -303,23 +303,29 @@ void measure_time(void(*fun)()) {
 // measure_time(test_allocator);
 
 // ===============================================================================================================
-inline bool is_whitespace(const char c) {
-  return ((c == ' ')
-          || (c == 9)
-          || (c == 10)
-          || (c == 11)
-          || (c == 12)
-          || (c == 13));
-}
-
-// ===============================================================================================================
-struct c_str_cursor {
-  const char * const start;
-  const char * position;
+class c_str_cursor {
+private:
+  const char * const m_start;
+  const char * const m_end;
+public:
+  const char *       position;
   
   // =============================================================================================================
-  inline c_str_cursor(const char * const str) : start(str), position(str) {}
+  inline c_str_cursor(const char * const str) :
+    m_start(str),
+    m_end(&m_start[strlen(str)]),
+    position(m_start) {}
 
+  // =============================================================================================================
+  const char * begin() const {
+    return m_start;
+  }
+
+  // =============================================================================================================
+  const char * end() const {
+    return m_end;
+  }
+  
   // =============================================================================================================
   inline char operator ++ () {
     ++position;
@@ -418,6 +424,16 @@ int main() {
   } while (nullptr != word);
 
   //ALLOC describe_free_list();
+
+  c_str_cursor cursor { "abc" };
+
+  printf("Start: %zu\n", cursor.begin());
+  printf("End: %zu\n", cursor.end());
+
+  for (char c : cursor)
+    putchar(c);
+
+  putchar('\n');
 }
 
 

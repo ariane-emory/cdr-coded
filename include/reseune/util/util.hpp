@@ -8,6 +8,15 @@
 #include <type_traits>
 
 namespace reseune {
+  inline bool is_whitespace(const char c) {
+    return ((c == ' ')
+            || (c == 9)
+            || (c == 10)
+            || (c == 11)
+            || (c == 12)
+            || (c == 13));
+  }
+
   template <typename T>
   static uintptr_t uintptr(T t) {
     return reinterpret_cast<uintptr_t>(t);
