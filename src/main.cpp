@@ -50,7 +50,7 @@ using pool       = std::conditional<
 allocator<alloc_node> alloc {};  
 #endif
 
-#define malloc      ALLOC valloc
+#define malloc(s) ALLOC valloc(s, 1, verbose)
 
 const bool verbose {false};
 
@@ -344,7 +344,7 @@ inline char * slurp_word (const char * str_pos) {
   if (0 == len) return nullptr;
   
   size_t siz  = (len + 1) * sizeof(char);
-  char * word = static_cast<char *>(malloc(siz, true));
+  char * word = static_cast<char *>(malloc(siz));
 
   memcpy(word, begin, siz);
 
