@@ -116,16 +116,15 @@ namespace reseune {
 
     // =============================================================================================================
     template <charfun_t predicate>
-        TOKFUN(star) {
+    TOKFUN(star) {        
+      BEGIN;
         
-        BEGIN;
-        
-        do { CHOMP; }
-        while (0 != c && predicate(c));
-        BACK;
+      do { CHOMP; }
+      while (0 != c && predicate(c));
+      BACK;
 
-        YIELD;
-      }
+      YIELD;
+    }
 
   private: 
 
