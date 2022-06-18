@@ -326,16 +326,15 @@ inline char * slurp_word (const char * str) {
   const char *  begin  = str;
   const char ** cursor = &str;
 
-  std::ignore = begin;
-  
   char c;
 
   printf("Cursor: %zu.\n", *cursor);
 
-  while (! is_whitespace(c = strgetc(cursor))) {
-    printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
-    printf("Cursor: %zu.\n", *cursor);
-  };
+  while (! is_whitespace(c = strgetc(cursor)));
+  // {
+  //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
+  //   printf("Cursor: %zu.\n", *cursor);
+  // };
 
   size_t len  = uintptr(str) - uintptr(begin);
 
@@ -346,7 +345,7 @@ inline char * slurp_word (const char * str) {
 
   memcpy(word, begin, siz);
 
-  word[len] = 0;
+  word[len - 1] = 0;
   
   printf("End: %zu\n", str);
   printf("Diff: %zu\n", len);
@@ -363,7 +362,8 @@ int main() {
   
   // char c;
 
-  slurp_word(sexp);
+  char * word = slurp_word(sexp);
+  printf("Word is '%s'.\n", word);
   
   // while ((c = strgetc(cursor)) != 0) {
   //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
