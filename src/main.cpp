@@ -311,13 +311,8 @@ inline char strgetc(const char ** cursor) {
   return c;
 }
 
-inline char * slurp_word (char * str) {
-  char ** cursor = &str;
-  char c;
-  
-}
 
-inline bool is_whitespace(char c) {
+inline bool is_whitespace(const char c) {
   return ((c == ' ')
           || (c == 9)
           || (c == 10)
@@ -326,19 +321,34 @@ inline bool is_whitespace(char c) {
           || (c == 13));
 }
 
+inline void slurp_word (const char * str) {
+  const char ** cursor = &str;
+  char c;
+
+  while (! is_whitespace(c = strgetc(cursor))) {
+    printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
+  };
+
+  printf("Start: %zu\n", str);
+  printf("End: %zu\n", *cursor);
+  printf("Diff: %zu\n", uintptr(*cursor) - uintptr(str));
+}
+
 int main() {
   // const char *  sexp   = "(+ 2 3 (* 4 5))";
   const char *  sexp   = "one two three";
-  const char ** cursor = &sexp;
+  // const char ** cursor = &sexp;
   
   // printf("Got '%c'.\n", strgetc(cursor));
   
-  char c;
+  // char c;
 
-  while ((c = strgetc(cursor)) != 0) {
-    printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
-    fflush(stdout);
-  } 
+  slurp_word(sexp);
+  
+  // while ((c = strgetc(cursor)) != 0) {
+  //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
+  //   fflush(stdout);
+  // } 
 }
 
 
