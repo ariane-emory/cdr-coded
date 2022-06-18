@@ -28,8 +28,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline void ignore_while() { ignore_while(p); }
-    inline void ignore_while(predicate_t predicate) {
+    inline void ignore_while() {
       char c;
 
       do { c = (*this)++; }
@@ -39,11 +38,10 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * one () { return one(p); }
-    inline char * one (predicate_t predicate) {
+    inline char * one () {
       const char * begin = m_position;
 
-      if (!predicate(*m_position)) return nullptr;
+      if (!p(*m_position)) return nullptr;
       
       (*this)++;
       
