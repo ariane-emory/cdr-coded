@@ -9,11 +9,12 @@
 #define TOKFUN(name, ...) inline span name(__VA_ARGS__)
 #define BEGIN             char c; std::ignore = c; const char * const begin {m_position}
 #define NOTHING           return span{}
-#define BACK              --*this
-#define CHOMP             (*this)++
+#define BACK              (--*this)
+#define CHOMP             (c = ((*this)++))
 #define YIELD             return span{begin, m_position}
 #define CALL(tf)          (this->*tf)()
-#define HERE              **this
+#define HERE              (**this)
+#define MOVED             (begin != m_position)
 
 // =================================================================================================================
 namespace reseune {
@@ -53,7 +54,7 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     inline static bool negate(char c) {
-      return !predicate(c);
+      return ! predicate(c);
     }
     
     // =============================================================================================================
@@ -92,10 +93,9 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(one) {
+      BEGIN;      
       if (negate<predicate>(HERE))
         NOTHING;
-
-      BEGIN;
       CHOMP;      
       YIELD;
     }
@@ -113,8 +113,8 @@ namespace reseune {
         TOKFUN(star) {
         
         BEGIN;
-  
-        do { c = CHOMP; }
+        
+        do { CHOMP; }
         while (0 != c && predicate(c));
         BACK;
 
@@ -153,4 +153,3 @@ namespace reseune {
 #undef HERE
 
 #endif
-
