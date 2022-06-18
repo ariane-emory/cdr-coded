@@ -324,14 +324,16 @@ inline char strgetc(const char ** cursor) {
 
 inline char * slurp_word (const char * str) {
   const char ** cursor = &str;
-  char          c;
+  char          c = ' ';
 
-  while (is_whitespace(c = strgetc(cursor)));
+  do { c = strgetc(cursor); }
+  while (0 != c && is_whitespace(c));
   --*cursor;
   
   const char * begin = *cursor;
  
-  while (! is_whitespace(c = strgetc(cursor)));
+  do { c = strgetc(cursor); }
+  while (0 != c && !is_whitespace(c = strgetc(cursor)));
   --*cursor;
   
   size_t len  = uintptr(str) - uintptr(begin);
