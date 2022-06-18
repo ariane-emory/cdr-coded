@@ -22,6 +22,36 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
+    template <charfun_t predicate>
+    inline static bool negate(char c) {
+      return !predicate(c);
+    }
+    
+    // =============================================================================================================
+    template <tokfun_t token>
+    TOKFUN(ignore) {
+      (this->*token)();
+
+      return nullptr;
+    }
+
+    // =============================================================================================================
+    TOKFUN(ignore_whitespace) {
+      return ignore<&t::star<is_whitespace>>();
+    }
+
+    // =============================================================================================================
+    TOKFUN(word) {
+      return until<is_whitespace>();
+    }
+
+    // =============================================================================================================
+    template <charfun_t predicate>
+    TOKFUN(until) {
+      return star<negate<predicate>>();
+    }
+
+    // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
       char * ret {(this->*left)()};
@@ -46,17 +76,6 @@ namespace reseune {
 
     // =============================================================================================================
     template <charfun_t predicate>
-    inline static bool negate(char c) {
-      return ! predicate(c);
-    }
-    // =============================================================================================================
-    template <charfun_t predicate>
-    TOKFUN(until) {
-      return star<negate<predicate>>();
-    }
-
-    // =============================================================================================================
-    template <charfun_t predicate>
     TOKFUN(star) {
       char c;
   
@@ -67,22 +86,6 @@ namespace reseune {
       --*this;
 
       return create_new_c_str(begin, m_position);
-    }
-
-    // =============================================================================================================
-    template <tokfun_t token>
-    TOKFUN(ignore) {
-      (this->*token)();
-      return nullptr;
-    }
-
-    TOKFUN(ignore_whitespace) {
-      return ignore<&t::star<is_whitespace>>();
-    }
-
-    // =============================================================================================================
-    TOKFUN(word) {
-      return until<is_whitespace>();
     }
 
   private: 
