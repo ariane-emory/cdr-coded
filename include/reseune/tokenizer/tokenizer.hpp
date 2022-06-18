@@ -32,7 +32,7 @@ namespace reseune {
       char c;
 
       do { c = (*this)++; }
-      while (is_whitespace(c));
+      while (predicate(c));
       --*this;
     }
 
@@ -49,9 +49,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t p>
-    inline char * until() { return until(p); }
-    inline char * until(predicate_t predicate) {
+    template <predicate_t predicate>
+    inline char * until() { 
       char c;
   
       const char * begin = m_position;
@@ -64,9 +63,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t p>
-    inline char * star() { return star(p); }
-    inline char * star(predicate_t predicate) {
+    template <predicate_t predicate>
+    inline char * star() {
       char c;
   
       const char * begin = m_position;
