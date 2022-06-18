@@ -296,23 +296,39 @@ void measure_time(void(*fun)()) {
 
 // ===============================================================================================================
 
+// describe_some_sizes();
+// cell::describe_class();
+// // describe_every_cell();
+// describe_list(POOL[0]); // list of 88s / Xs.
+// describe_list(POOL[4]); // list of 89s / Ys.
+// draw_the_pool();
+// test_links();
+// measure_time(test_allocator);
+
 inline char strgetc(const char ** cursor) {
   char c = **cursor;
   (*cursor)++;
   return c;
 }
 
-int main() {
-  // describe_some_sizes();
-  // cell::describe_class();
-  // // describe_every_cell();
-  // describe_list(POOL[0]); // list of 88s / Xs.
-  // describe_list(POOL[4]); // list of 89s / Ys.
-  // draw_the_pool();
-  // test_links();
-  // measure_time(test_allocator);
+inline char * slurp_word (char * str) {
+  char ** cursor = &str;
+  char c;
+  
+}
 
-  const char *  sexp   = "(+ 2 3 (* 4 5))";
+inline bool is_whitespace(char c) {
+  return ((c == ' ')
+          || (c == 9)
+          || (c == 10)
+          || (c == 11)
+          || (c == 12)
+          || (c == 13));
+}
+
+int main() {
+  // const char *  sexp   = "(+ 2 3 (* 4 5))";
+  const char *  sexp   = "one two three";
   const char ** cursor = &sexp;
   
   // printf("Got '%c'.\n", strgetc(cursor));
