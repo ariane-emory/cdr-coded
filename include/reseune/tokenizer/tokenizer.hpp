@@ -12,7 +12,7 @@
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return span{begin, m_position}
-#define DO_MATCH           (MATCH(tokfun))
+#define DO_MATCH           (MATCH(match_f))
 #define MATCH(tf)          (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != m_position)
@@ -22,7 +22,7 @@
 #define CHAR_MATCHES       (predicate(HERE))
 #define T_CHAR_F           template <char_f predicate>
 #define T_CHAR             template <char C>
-#define T_MATCH_F          template <match_f tokfun>
+#define T_MATCH_F          template <match_f match_f>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -115,10 +115,10 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       BEGIN;
-      MATCH(tokfun);
+      MATCH(match_f);
       if UNMOVED
         NOTHING;
-      MATCH(chars<tokfun>);
+      MATCH(chars<match_f>);
       YIELD;
     }
 
@@ -152,21 +152,23 @@ namespace reseune {
 }
 // =================================================================================================================
 
-#undef MATCH_F
-#undef BEGIN
-#undef NOTHING
 #undef BACK
-#undef NEXT
-#undef YIELD
-#undef MATCH
-#undef HERE
-#undef MOVED
-#undef UNMOVED
-#undef REWIND
-#undef NOT_NULL
+#undef BEGIN
 #undef CHAR_MATCHES
+#undef DO_MATCH
+#undef HERE
+#undef MATCH
+#undef MATCH_F
+#undef MOVED
+#undef NEXT
+#undef NOTHING
+#undef NOT_NULL
+#undef REWIND
+#undef T_CHAR
 #undef T_CHAR_F
 #undef T_MATCH_F
+#undef UNMOVED
+#undef YIELD
 #undef unless
 
 #endif
