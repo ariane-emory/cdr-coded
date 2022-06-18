@@ -14,8 +14,9 @@ namespace reseune {
     using charfun_t = bool(*)(const char);
     using tokfun_t = char* (tokenizer::*)();
     using t = tokenizer;
-  public:
-  
+
+    public:
+    
     // =============================================================================================================
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
@@ -77,7 +78,6 @@ namespace reseune {
 
     TOKFUN(ignore_whitespace) {
       return ignore<&t::star<is_whitespace>>();
-      //nmreturn nullptr;
     }
 
     // =============================================================================================================
