@@ -3,6 +3,8 @@
 
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
+#define TOKFUN(name, ...) inline char * name(__VA_ARGS__)
+
 // =================================================================================================================
 namespace reseune {
   
@@ -19,7 +21,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
-    inline char * either() {
+    TOKFUN(either) {
       char * ret {(this->*left)()};
       return (nullptr == ret
               ? (this->*right)()
@@ -38,7 +40,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t predicate>
-    inline char * one () {
+    TOKFUN(one) {
       const char * begin = m_position;
 
       if (!predicate(*m_position)) return nullptr;
@@ -50,7 +52,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t predicate>
-    inline char * until() { 
+    TOKFUN(until) { 
       char c;
   
       const char * begin = m_position;
@@ -109,5 +111,7 @@ namespace reseune {
   // ===============================================================================================================
 }
 // =================================================================================================================
+
+#undef TOKFUN
 
 #endif
