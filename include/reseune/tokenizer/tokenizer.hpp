@@ -30,9 +30,7 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t token>
     TOKFUN(ignore) {
-      (this->*token)();
-
-      return nullptr;
+      return (this->*token)(), nullptr;
     }
 
     // =============================================================================================================
@@ -64,12 +62,11 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(one) {
-      const char * begin = m_position;
-
-      if (!predicate(*m_position))
+      if (negate<predicate>(*m_position))
         return nullptr;
 
-      (*this)++;      
+      const char * begin = m_position;
+      ++m_position;
 
       return create_new_c_str(begin, m_position);
     }
