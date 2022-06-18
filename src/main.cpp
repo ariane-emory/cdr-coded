@@ -295,17 +295,17 @@ int main() {
 
   // reseune::measure_time(test_allocator);
   
-  const char * const sexp   { "(((one two three four\n five six seven\n eight" };
-  tokenizer          cursor { sexp };
-  char *             word   { nullptr };
+  const char * const sexp { "(((one two three four\n five six seven\n eight" };
+  tokenizer          tok  { sexp };
+  char *             word { nullptr };
   
   do {
-    cursor.discard_whitespace();
+    tok.discard_whitespace();
 
-    word = cursor.take_one(is_char<'('>);
+    word = tok.take_one(is_char<'('>);
 
     if (nullptr == word)
-      word = cursor.take_word();
+      word = tok.take_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
@@ -318,9 +318,9 @@ int main() {
 
   //ALLOC describe_free_list();
 
-  tokenizer cursor2 { "abc" };
+  tokenizer tok2 { "abc" };
 
-  for (char c : cursor2)
+  for (char c : tok2)
     putchar(c);
 
   putchar('\n');
