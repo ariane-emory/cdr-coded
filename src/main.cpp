@@ -356,7 +356,7 @@ int main() {
 
   // measure_time(test_allocator);
   
-  const char *  sexp   = "one two three four\n five six seven\n eight";
+  const char *  sexp   = "(one two three four\n five six seven\n eight";
   const char ** cursor = &sexp;
 
   for (size_t ix = 0; ix < 12; ix++) {
