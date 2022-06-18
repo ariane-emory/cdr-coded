@@ -331,14 +331,10 @@ inline char * slurp_word (const char * str) {
   printf("Cursor: %zu.\n", *cursor);
 
   while (! is_whitespace(c = strgetc(cursor)));
-  // {
-  //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
-  //   printf("Cursor: %zu.\n", *cursor);
-  // };
 
   size_t len  = uintptr(str) - uintptr(begin);
 
-  if (0 == len) return nullptr;
+  if (1 == len) return nullptr;
   
   size_t siz  = len * sizeof(char);
   char * word = static_cast<char *>(malloc(siz));
@@ -355,7 +351,7 @@ inline char * slurp_word (const char * str) {
 
 int main() {
   // const char *  sexp   = "(+ 2 3 (* 4 5))";
-  const char *  sexp   = "one two three";
+  const char *  sexp   = " one two three";
   // const char ** cursor = &sexp;
   
   // printf("Got '%c'.\n", strgetc(cursor));
@@ -363,7 +359,11 @@ int main() {
   // char c;
 
   char * word = slurp_word(sexp);
-  printf("Word is '%s'.\n", word);
+
+  if (nullptr == word)
+    printf("Word is null.\n");
+  else
+    printf("Word is '%s'.\n", word);
   
   // while ((c = strgetc(cursor)) != 0) {
   //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
