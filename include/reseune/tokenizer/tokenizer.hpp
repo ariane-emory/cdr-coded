@@ -10,7 +10,7 @@
 #define BEGIN             char c; std::ignore = c; const char * const begin {m_position}
 #define NOTHING           return span{}
 #define BACK              (--*this)
-#define NEXT             (c = ((*this)++))
+#define NEXT              (c = ((*this)++))
 #define YIELD             return span{begin, m_position}
 #define MATCH(tf)         (this->*tf)()
 #define HERE              (**this)
@@ -19,7 +19,9 @@
 #define REWIND            (m_position = begin)
 #define NOTNULL           (0 != HERE)
 #define PREDICATE         (predicate(HERE))
-#define PREDICATED        template <charfun_t predicate>
+#define CHARACTER         template <charfun_t predicate>
+#define MATCHING          template <tokfun_t tokfun>
+#define unless(expr)      if (! (expr))
 
 // =================================================================================================================
 namespace reseune {
@@ -57,13 +59,12 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    PREDICATED inline static bool negate(char c) {
+    CHARACTER inline static bool negate(char c) {
       return ! predicate(c);
     }
     
     // =============================================================================================================
-    template <tokfun_t tokfun>
-    TOKFUN(ignore) {
+    MATCHING TOKFUN(ignore) {
       MATCH(tokfun);
       NOTHING;
     }
@@ -79,7 +80,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    PREDICATED TOKFUN(until) {
+    CHARACTER TOKFUN(until) {
       return chars<negate<predicate>>();
     }
 
@@ -87,35 +88,34 @@ namespace reseune {
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
       BEGIN;
-      MATCH(left);
-      if (MOVED)
+      MATCH (left);
+      if MOVED
         YIELD;
-      MATCH(right);
+      MATCH (right);
       YIELD;
     }
 
     // =============================================================================================================
-    PREDICATED TOKFUN(one) {
+    CHARACTER TOKFUN(one) {
       BEGIN;      
-      if (! PREDICATE)
+      unless (PREDICATE)
         NOTHING;
       NEXT;      
       YIELD;
     }
 
     // =============================================================================================================
-    template <tokfun_t tokfun>
-    TOKFUN(plus) {
+    MATCHING TOKFUN(plus) {
       BEGIN;
       MATCH(tokfun);
-      if (UNMOVED)
+      if UNMOVED
         NOTHING;
       MATCH(chars<tokfun>);
       YIELD;
     }
 
     // =============================================================================================================
-    PREDICATED TOKFUN(chars) {        
+    CHARACTER TOKFUN(chars) { 
       BEGIN;
       while (NOTNULL && PREDICATE)
         NEXT;      
@@ -156,5 +156,9 @@ namespace reseune {
 #undef UNMOVED
 #undef REWIND
 #undef NOTNULL
+#undef PREDICATE
+#undef CHARACTER
+#undef MATCHING
+#undef unless
 
 #endif
