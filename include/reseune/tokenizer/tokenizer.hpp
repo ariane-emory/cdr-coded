@@ -10,7 +10,7 @@ namespace reseune {
   class tokenizer : public c_str_cursor {
   private:
     using predicate_t = bool(*)(const char);
-    using tokfun_t = char * (*)();
+    using tokfun_t = char* (tokenizer::*)();
     
   public:
   
@@ -20,11 +20,11 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t t1, tokfun_t t2>
     inline char * either() { 
-      char * ret {t1()};
+      char * ret {(this->*t1)()};
       return (nullptr == ret
-              ? t2()
+              ? (this->*t2)()
               : ret);
-    }
+              }
 
     // =============================================================================================================
     template <predicate_t p>
