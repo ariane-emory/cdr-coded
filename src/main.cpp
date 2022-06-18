@@ -304,7 +304,7 @@ int main() {
     tok.ignore_whitespace();
     
     word = tok.either<
-      &t::one<is_char<'('>>,
+      &t::chr<'('>,
       &t::word>();
     
     if (word.empty()) {

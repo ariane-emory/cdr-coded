@@ -19,8 +19,9 @@
 #define REWIND            (m_position = begin)
 #define NOTNULL           (0 != HERE)
 #define PREDICATE         (predicate(HERE))
-#define CHARACTER         template <charfun_t predicate>
-#define MATCHING          template <tokfun_t tokfun>
+#define TCHARP            template <charfun_t predicate>
+#define TCHAR             template <char C>
+#define TMATCH            template <tokfun_t tokfun>
 #define unless(expr)      if (! (expr))
 
 // =================================================================================================================
@@ -59,12 +60,12 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    CHARACTER inline static bool negate(char c) {
+    TCHARP inline static bool negate(char c) {
       return ! predicate(c);
     }
     
     // =============================================================================================================
-    MATCHING TOKFUN(ignore) {
+    TMATCH TOKFUN(ignore) {
       MATCH(tokfun);
       NOTHING;
     }
@@ -80,7 +81,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    CHARACTER TOKFUN(until) {
+    TCHARP TOKFUN(until) {
       return chars<negate<predicate>>();
     }
 
@@ -95,8 +96,14 @@ namespace reseune {
       YIELD;
     }
 
+
     // =============================================================================================================
-    CHARACTER TOKFUN(one) {
+    TCHAR TOKFUN(chr) {
+      return chr<is_char<C>>();
+    }
+    
+    // =============================================================================================================
+    TCHARP TOKFUN(chr) {
       BEGIN;      
       unless (PREDICATE)
         NOTHING;
@@ -105,7 +112,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    MATCHING TOKFUN(plus) {
+    TMATCH TOKFUN(plus) {
       BEGIN;
       MATCH(tokfun);
       if UNMOVED
@@ -115,7 +122,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    CHARACTER TOKFUN(chars) { 
+    TCHARP TOKFUN(chars) { 
       BEGIN;
       while (NOTNULL && PREDICATE)
         NEXT;      
@@ -157,8 +164,8 @@ namespace reseune {
 #undef REWIND
 #undef NOTNULL
 #undef PREDICATE
-#undef CHARACTER
-#undef MATCHING
+#undef TCHARP
+#undef TMATCH
 #undef unless
 
 #endif
