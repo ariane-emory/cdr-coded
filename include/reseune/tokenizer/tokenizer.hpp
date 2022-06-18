@@ -18,10 +18,10 @@
 #define MOVED              (begin != m_position)
 #define UNMOVED            (! MOVED)
 #define REWIND             (m_position = begin)
-#define NOTNULL            (0 != HERE)
-#define PREDICATE          (predicate(HERE))
+#define NOT_NULL           (0 != HERE)
+#define CHAR_MATCHES       (predicate(HERE))
 #define T_CHAR_F           template <char_f predicate>
-#define TCHAR              template <char C>
+#define T_CHAR             template <char C>
 #define T_MATCH_F          template <match_f tokfun>
 #define unless(expr)       if (! (expr))
 
@@ -99,14 +99,14 @@ namespace reseune {
 
 
     // =============================================================================================================
-    TCHAR MATCH_F(chr) {
+    T_CHAR MATCH_F(chr) {
       return chr<is_char<C>>();
     }
     
     // =============================================================================================================
     T_CHAR_F MATCH_F(chr) {
       BEGIN;      
-      unless (PREDICATE)
+      unless (CHAR_MATCHES)
         NOTHING;
       NEXT;      
       YIELD;
@@ -125,7 +125,7 @@ namespace reseune {
     // =============================================================================================================
     T_CHAR_F MATCH_F(chars) { 
       BEGIN;
-      while (NOTNULL && PREDICATE)
+      while (NOT_NULL && CHAR_MATCHES)
         NEXT;      
       YIELD;
     }
@@ -163,8 +163,8 @@ namespace reseune {
 #undef MOVED
 #undef UNMOVED
 #undef REWIND
-#undef NOTNULL
-#undef PREDICATE
+#undef NOT_NULL
+#undef CHAR_MATCHES
 #undef T_CHAR_F
 #undef T_MATCH_F
 #undef unless
