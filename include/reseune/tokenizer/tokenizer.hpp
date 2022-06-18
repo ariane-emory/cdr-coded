@@ -20,12 +20,12 @@ namespace reseune {
       const char * begin;
       const char * end;
 
-      size_t len() const {
+      size_t length() const {
         return end - begin;
       }
 
       bool empty() const {
-        return 0 ==len();
+        return 0 == length();
       }
 
       char * c_str() const {
@@ -127,13 +127,12 @@ namespace reseune {
     static inline char * create_new_c_str(span const & tok) {      
       if (tok.empty()) return nullptr;
   
-      const size_t len  {uintptr(tok.end) - uintptr(tok.begin)};      
-      const size_t siz  {(len + 1) * sizeof(char)};
+      const size_t siz  {(tok.length() + 1) * sizeof(char)};
       char * const word {static_cast<char *>(malloc(siz))};
 
       memcpy(word, tok.begin, siz);
 
-      word[len] = 0;
+      word[tok.length()] = 0;
 
       return word;
     }
