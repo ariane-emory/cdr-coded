@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdexcept>
-#include <chrono>
 #include <tuple>
 #include "reseune/reseune.hpp"
 
@@ -14,7 +13,6 @@
 #define HLINE       (reseune::print_line('-'))
 #define NEWLINE     (putchar('\n'))
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
-#define NOW         (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
 #define endl        (std::endl)
 #define uintptr(x)  (reseune::uintptr(x))
@@ -284,15 +282,6 @@ void test_allocator() {
 }
 
 // ===============================================================================================================
-void measure_time(void(*fun)()) {
-  auto before = NOW;
-  fun();
-  auto after  = NOW;
-
-  printf("Took %u ms.\n", after - before);
-}
-
-// ===============================================================================================================
 // describe_some_sizes();
 // cell::describe_class();
 // // describe_every_cell();
@@ -306,11 +295,11 @@ void measure_time(void(*fun)()) {
 int main() {
   setup_allocator();
 
-  // measure_time(test_allocator);
+  reseune::measure_time(test_allocator);
   
   const char * const sexp { "one two three four\n five six seven\n eight" };
+  c_str_cursor       curs { sexp };
   char *             word { nullptr };
-  c_str_cursor curs { sexp };
   
   do {
     curs.discard_whitespace();
@@ -328,9 +317,6 @@ int main() {
   //ALLOC describe_free_list();
 
   c_str_cursor cursor { "abc" };
-
-  printf("Start: %zu\n", cursor.begin());
-  printf("End: %zu\n", cursor.end());
 
   for (char c : cursor)
     putchar(c);

@@ -6,8 +6,19 @@
 #include <inttypes.h>
 #include <stdint.h>
 #include <type_traits>
+#include <chrono>
 
 namespace reseune {
+  void measure_time(void(*fun)()) {
+#define NOW (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))    
+    auto before = NOW;
+    fun();
+    auto after  = NOW;
+#undef NOW
+    
+    printf("Took %u ms.\n", after - before);
+  }
+
   inline bool is_whitespace(const char c) {
     return ((c == ' ')
             || (c == 9)
