@@ -324,8 +324,19 @@ struct c_str_cursor {
   const char *  start;
   const char ** position;
   
-  c_str_cursor(const char * const str) : start(str), position(&start) {}
+  // =============================================================================================================
+  inline c_str_cursor(const char * const str) : start(str), position(&start) {}
 
+  // =============================================================================================================
+  inline void operator -- () {
+    --*(position);
+  }
+
+// =============================================================================================================
+  inline void operator -- (int) {
+    --*(this);
+  }
+  
   // =============================================================================================================
   inline void discard_while(
     bool(*predicate)(const char)) {
@@ -333,12 +344,7 @@ struct c_str_cursor {
 
     do { c = strgetc(position); }
     while (is_whitespace(c));
-    --*(position);
-  }
-
-  // =============================================================================================================
-  inline void discard_whitespace() {
-    discard_while(is_whitespace);
+    --*this;
   }
 
   // =============================================================================================================
@@ -349,7 +355,7 @@ struct c_str_cursor {
   
     do { c = strgetc(position); }
     while (0 != c && !predicate(c));
-    --*(position);
+    --*this;
   
     size_t len  = uintptr(*position) - uintptr(begin);
 
@@ -364,6 +370,11 @@ struct c_str_cursor {
     word[len] = 0;
 
     return word;
+  }
+
+  // =============================================================================================================
+  inline void discard_whitespace() {
+    discard_while(is_whitespace);
   }
 
   // =============================================================================================================
