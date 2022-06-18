@@ -1,62 +1,22 @@
 #ifndef RESEUNE_TOKENIZER_HPP
 #define RESEUNE_TOKENIZER_HPP
 
+#include "reseune/c_str_cursor/c_str_cursor.hpp"
+
 // =================================================================================================================
 namespace reseune {
   
   // ===============================================================================================================
-  class tokenizer {
+  class tokenizer : public c_str_cursor {
   private:
-    const char * const m_begin;
-    const char * const m_end;
-    const char *       m_position;
     using predicate_t = bool(*)(const char);
     using tokfun_t = char * (*)();
     
   public:
   
     // =============================================================================================================
-    constexpr inline tokenizer(const char * const str) :
-      m_begin(str),
-      m_end(&m_begin[strlen(str)]),
-      m_position(m_begin) {}
+    constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
-    // =============================================================================================================
-    constexpr const char * begin() const {
-      return m_begin;
-    }
-
-    // =============================================================================================================
-    constexpr const char * end() const {
-      return m_end;
-    }
-  
-    // =============================================================================================================
-    inline char operator ++ () {
-      ++m_position;
-      return *m_position;
-    }
-
-    // =============================================================================================================
-    inline char operator ++ (int) {
-      char c = *m_position;
-      ++m_position;
-      return c;
-    }
-  
-    // =============================================================================================================
-    inline char operator -- () {
-      --m_position;
-      return *m_position;
-    }
-
-    // =============================================================================================================
-    inline char operator -- (int) {
-      char c = *m_position;
-      --m_position;
-      return c;
-    }
-  
     // =============================================================================================================
     template <tokfun_t t1, tokfun_t t2>
     inline char * either() { 

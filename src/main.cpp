@@ -296,7 +296,7 @@ int main() {
   // reseune::measure_time(test_allocator);
   
   const char * const sexp   { "(((one two three four\n five six seven\n eight" };
-  c_str_cursor       cursor { sexp };
+  tokenizer          cursor { sexp };
   char *             word   { nullptr };
   
   do {
@@ -318,7 +318,7 @@ int main() {
 
   //ALLOC describe_free_list();
 
-  c_str_cursor cursor2 { "abc" };
+  tokenizer cursor2 { "abc" };
 
   for (char c : cursor2)
     putchar(c);
