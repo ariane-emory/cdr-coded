@@ -14,7 +14,6 @@
 
 namespace reseune {
   // ===========================================================================================================
-  
   template <typename T, template <typename> typename S>
   class allocator {
   public:
@@ -33,10 +32,9 @@ namespace reseune {
     alloc_node root;
 #endif
     
-    // =======================================================================================================
-    
   private:
 
+    // =======================================================================================================
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
       ALLOC_NODEP_TO_REF(new_block, UINTPTR(BSTART(block)) + size);
         
@@ -53,10 +51,9 @@ namespace reseune {
       PRHLINE;
     }
 
-    // =======================================================================================================
-    
   public:
     
+    // =======================================================================================================
     static inline void place_block(alloc_node & new_block, alloc_node & head, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
@@ -92,6 +89,7 @@ namespace reseune {
 
   private:
     
+    // =======================================================================================================
     VOIDFUN(place_block, alloc_node & new_block, alloc_node * phead, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
@@ -106,11 +104,10 @@ namespace reseune {
 
       place_block(new_block, *phead, verbose);      
     }
-          
-    // =======================================================================================================
         
   public:
 
+    // =======================================================================================================
     VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
@@ -140,7 +137,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-    
     VOIDFUN(describe_free_list) {
       const bool verbose {true};
 
@@ -163,6 +159,7 @@ namespace reseune {
   
       PRNL;
     }
+
   private:
 
     // =======================================================================================================
@@ -243,7 +240,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-
     template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static
@@ -255,7 +251,6 @@ namespace reseune {
     }
     
     // =======================================================================================================
-
     template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static
@@ -265,7 +260,6 @@ namespace reseune {
     }
     
     // =======================================================================================================
-
     VOIDFUN(coalesce, VERBOSEARG) {
       PRLINE;
       PRINTF("COALESCING THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
@@ -299,7 +293,6 @@ namespace reseune {
     }
   
     // =======================================================================================================
-    
     VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
       // WARNING: something bad will probably happen if you try to release an address that wasn't ever
       // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
