@@ -66,7 +66,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t predicate>
-    inline char * star() {
+    TOKFUN(star) {
       char c;
   
       const char * begin = m_position;
@@ -84,7 +84,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline char * word () {
+    TOKFUN(word) {
       return until<is_whitespace>();
     }
 
