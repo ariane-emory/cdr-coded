@@ -15,7 +15,7 @@ namespace reseune {
     using tokfun_t = char* (tokenizer::*)();
     using t = tokenizer;
 
-    public:
+  public:
     
     // =============================================================================================================
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
@@ -24,6 +24,7 @@ namespace reseune {
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
       char * ret {(this->*left)()};
+
       return (nullptr == ret
               ? (this->*right)()
               : ret);
@@ -34,10 +35,11 @@ namespace reseune {
     TOKFUN(one) {
       const char * begin = m_position;
 
-      if (!predicate(*m_position)) return nullptr;
-      
-      (*this)++;
-      
+      if (!predicate(*m_position))
+        return nullptr;
+
+      (*this)++;      
+
       return create_new_c_str(begin, m_position);
     }
 
@@ -55,6 +57,12 @@ namespace reseune {
       return create_new_c_str(begin, m_position);
     }
 
+    // =============================================================================================================
+    template <charfun_t predicate>
+    bool negate(char const & c) {
+      return ! predicate(c);
+    }
+    
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(star) {
@@ -106,7 +114,7 @@ namespace reseune {
     // =============================================================================================================
   };
   // ===============================================================================================================
-  }
+}
 // =================================================================================================================
 
 #undef TOKFUN
