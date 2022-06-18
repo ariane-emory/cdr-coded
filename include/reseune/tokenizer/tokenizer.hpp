@@ -115,7 +115,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       BEGIN;
-      MATCH(match_f);
+      DO_MATCH;
       if UNMOVED
         NOTHING;
       MATCH(star<match_f>);
