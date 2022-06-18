@@ -359,17 +359,17 @@ int main() {
   const char * const sexp   = "one two three four\n five six seven\n eight";
   const char *       pos    = sexp;
   const char **      cursor = &pos;
-  
-  for (size_t ix = 0; ix < 12; ix++) {
-    char * word = slurp_word(cursor);
 
+  const char * word = nullptr;
+  
+  while ((word = slurp_word(cursor)) != nullptr) {
     if (nullptr == word)
       printf("Word is null.\n");
     else
       printf("Word is '%s'.\n", word);
   }
 
-  ALLOC describe_free_list();
+  // ALLOC describe_free_list();
 }
 
 
