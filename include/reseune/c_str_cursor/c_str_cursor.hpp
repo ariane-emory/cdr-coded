@@ -14,18 +14,18 @@ namespace reseune {
   public:
   
     // =============================================================================================================
-    inline c_str_cursor(const char * const str) :
+    constexpr inline c_str_cursor(const char * const str) :
       m_begin(str),
       m_end(&m_begin[strlen(str)]),
       m_position(m_begin) {}
 
     // =============================================================================================================
-    const char * begin() const {
+    constexpr const char * begin() const {
       return m_begin;
     }
 
     // =============================================================================================================
-    const char * end() const {
+    constexpr const char * end() const {
       return m_end;
     }
   
