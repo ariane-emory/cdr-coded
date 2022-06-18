@@ -16,8 +16,8 @@ namespace reseune {
   // ===============================================================================================================
   class tokenizer : public c_str_cursor {
   private:
-    using charfun_t = bool(*)(const char);
-    using tokfun_t = char* (tokenizer::*)();
+    using charfun_t = bool (*)(const char);
+    using tokfun_t = char * (tokenizer::*)();
     using t = tokenizer;
 
   public:
@@ -132,6 +132,6 @@ namespace reseune {
 #undef BEGIN
 #undef NULLP
 #undef BACK
-#undef FORWARD
+#undef CHOMP
 
 #endif
