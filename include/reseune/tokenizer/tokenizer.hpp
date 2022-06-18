@@ -52,17 +52,7 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(until) {
-      //return (this->*star<negate<predicate>>)();
-      
-      char c;
-
-      const char * begin = m_position;
-
-      do { c = (*this)++; }
-      while (0 != c && negate<predicate>(c));
-      --*this;
-
-      return create_new_c_str(begin, m_position);
+      return star<negate<predicate>>();
     }
 
     // =============================================================================================================
