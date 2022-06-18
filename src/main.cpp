@@ -323,11 +323,11 @@ int main() {
     }
   } while (! word.empty());
 
-//ALLOC describe_free_list();
+  // ALLOC describe_free_list();
 
-           tokenizer tok2 { "abc" };
+  tokenizer tok2 { "abc" };
 
-           for (char c : tok2)
+  for (char c : tok2)
     putchar(c);
 
   putchar('\n');
