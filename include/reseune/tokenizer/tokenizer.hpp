@@ -24,7 +24,7 @@ namespace reseune {
     };
     
     // =============================================================================================================
-      constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
+    constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
     template <charfun_t predicate>
@@ -70,27 +70,29 @@ namespace reseune {
       if (negate<predicate>(*m_position))
         return nullptr;
 
-      const char * begin = m_position;
+      const char * begin {m_position};
       ++m_position;
 
-      return create_new_c_str(span{begin, m_position});
+      return create_new_c_str(span{begin, m_position}
+);
     }
 
     // =============================================================================================================
-    template <charfun_t predicate>
+    template <tokfun_t tokfun>
     TOKFUN(plus) {
-      if (negate<predicate>(*m_position))
-        return nullptr;
+      const char * begin {m_position};
 
-      return star<predicate>();
+      (this->*tokfun)();
+
+      return nullptr;
     }
 
-    // =============================================================================================================
-    template <charfun_t predicate>
+      // =============================================================================================================
+      template <charfun_t predicate>
         TOKFUN(star) {
         char c;
   
-        const char * begin = m_position;
+        const char * begin {m_position};
   
         do { c = (*this)++; }
         while (0 != c && predicate(c));
