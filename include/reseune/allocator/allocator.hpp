@@ -109,13 +109,13 @@ namespace reseune {
         return;
       } 
 
-      place_block(new_block, verbose);
+      place_block_in_pointer_order(new_block, verbose);
     }
           
   private:
     
     // =======================================================================================================
-    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
+    VOIDFUN(place_block_in_pointer_order, alloc_node & new_block, VERBOSEARG) {
       alloc_node * plast_block {nullptr}; 
  
       FOR_EACH_BLOCK {
