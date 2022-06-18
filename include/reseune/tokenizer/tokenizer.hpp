@@ -118,7 +118,17 @@ namespace reseune {
       MATCH(match_f);
       if UNMOVED
         NOTHING;
-      MATCH(chars<match_f>);
+      MATCH(star<match_f>);
+      YIELD;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(star) {
+      BEGIN;
+      do {
+        DO_MATCH;
+      } while MOVED;
+
       YIELD;
     }
 
