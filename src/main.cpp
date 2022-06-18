@@ -321,9 +321,9 @@ inline char strgetc(const char ** cursor) {
 
 // ===============================================================================================================
 struct c_str_cursor {
-  const char *  pos;
-  const char ** cursor;
-  c_str_cursor(const char * const str) : pos(str), cursor(&pos) {}
+  const char *  start;
+  const char ** position;
+  c_str_cursor(const char * const str) : start(str), position(&start) {}
 };
 
 // ===============================================================================================================
@@ -332,9 +332,9 @@ inline void discard_while(
   c_str_cursor & cursor) {
   char c;
 
-  do { c = strgetc(cursor.cursor); }
+  do { c = strgetc(cursor.position); }
   while (is_whitespace(c));
-  --*(cursor.cursor);
+  --*(cursor.position);
 }
 
 // ===============================================================================================================
@@ -348,13 +348,13 @@ inline char * slurp_until (
   c_str_cursor & cursor) {
   char c;
   
-  const char * begin = *cursor.cursor;
+  const char * begin = *cursor.position;
   
-  do { c = strgetc(cursor.cursor); }
+  do { c = strgetc(cursor.position); }
   while (0 != c && !predicate(c));
-  --*(cursor.cursor);
+  --*(cursor.position);
   
-  size_t len  = uintptr(*cursor.cursor) - uintptr(begin);
+  size_t len  = uintptr(*cursor.position) - uintptr(begin);
 
   if (0 == len)
     return nullptr;
