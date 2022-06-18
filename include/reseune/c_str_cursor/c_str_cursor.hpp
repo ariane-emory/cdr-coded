@@ -65,6 +65,19 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    inline char * take_one (bool (*predicate)(const char)) {
+      char c;
+  
+      const char * begin = m_position;
+  
+      do { c = (*this)++; }
+      while (0 != c && !predicate(c));
+      --*this;
+
+      return create_new_c_str(begin, m_position);
+    }
+
+    // =============================================================================================================
     inline char * take_until (bool (*predicate)(const char)) {
       char c;
   
@@ -72,6 +85,19 @@ namespace reseune {
   
       do { c = (*this)++; }
       while (0 != c && !predicate(c));
+      --*this;
+
+      return create_new_c_str(begin, m_position);
+    }
+
+    // =============================================================================================================
+    inline char * take_while (bool (*predicate)(const char)) {
+      char c;
+  
+      const char * begin = m_position;
+  
+      do { c = (*this)++; }
+      while (0 != c && predicate(c));
       --*this;
 
       return create_new_c_str(begin, m_position);
