@@ -8,7 +8,7 @@
 
 #define TOKFUN(name, ...) inline span name(__VA_ARGS__)
 #define BEGIN   char c; std::ignore = c; const char * const begin {m_position}
-#define NOTHING return span{}
+#define FAIL return span{}
 #define BACK    --*this
 #define CHOMP   (*this)++
 #define SUCCEED return span{begin, m_position}
@@ -59,7 +59,7 @@ namespace reseune {
     TOKFUN(ignore) {
       (this->*tokfun)();
 
-      NOTHING;
+      FAIL;
     }
 
     // =============================================================================================================
@@ -92,7 +92,7 @@ namespace reseune {
     template <charfun_t predicate>
     TOKFUN(one) {
       if (negate<predicate>(*m_position))
-        NOTHING;
+        FAIL;
 
       BEGIN;
       CHOMP;
@@ -107,7 +107,7 @@ namespace reseune {
 
       (this->*tokfun)();
 
-      NOTHING;
+      FAIL;
     }
 
       // =============================================================================================================
@@ -147,8 +147,9 @@ namespace reseune {
 
 #undef TOKFUN
 #undef BEGIN
-#undef NOTHING
+#undef FAIL
 #undef BACK
 #undef CHOMP
+#undef SUCCEED
 
 #endif
