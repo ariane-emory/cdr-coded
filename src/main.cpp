@@ -323,58 +323,59 @@ inline char strgetc(const char ** cursor) {
 struct c_str_cursor {
   const char *  start;
   const char ** position;
+  
   c_str_cursor(const char * const str) : start(str), position(&start) {}
+
+  // =============================================================================================================
+  inline void discard_while(
+    bool(*predicate)(const char)) {
+    char c;
+
+    do { c = strgetc(position); }
+    while (is_whitespace(c));
+    --*(position);
+  }
+
+  // =============================================================================================================
+  inline void discard_whitespace() {
+    discard_while(is_whitespace);
+  }
+
+  // =============================================================================================================
+  inline char * slurp_until (bool (*predicate)(const char)) {
+    char c;
+  
+    const char * begin = *position;
+  
+    do { c = strgetc(position); }
+    while (0 != c && !predicate(c));
+    --*(position);
+  
+    size_t len  = uintptr(*position) - uintptr(begin);
+
+    if (0 == len)
+      return nullptr;
+  
+    size_t siz  = (len + 1) * sizeof(char);
+    char * word = static_cast<char *>(malloc(siz));
+
+    memcpy(word, begin, siz);
+
+    word[len] = 0;
+
+    return word;
+  }
+
+  // =============================================================================================================
+  inline char * slurp_word () {
+    return slurp_until(is_whitespace);
+  }
+
+  // =============================================================================================================
 };
+// ===============================================================================================================
 
 // ===============================================================================================================
-inline void discard_while(
-  bool(*predicate)(const char),
-  c_str_cursor & cursor) {
-  char c;
-
-  do { c = strgetc(cursor.position); }
-  while (is_whitespace(c));
-  --*(cursor.position);
-}
-
-// ===============================================================================================================
-inline void discard_whitespace(c_str_cursor & cursor) {
-  discard_while(is_whitespace, cursor);
-}
-
-// ===============================================================================================================
-inline char * slurp_until (
-  bool(*predicate)(const char),
-  c_str_cursor & cursor) {
-  char c;
-  
-  const char * begin = *cursor.position;
-  
-  do { c = strgetc(cursor.position); }
-  while (0 != c && !predicate(c));
-  --*(cursor.position);
-  
-  size_t len  = uintptr(*cursor.position) - uintptr(begin);
-
-  if (0 == len)
-    return nullptr;
-  
-  size_t siz  = (len + 1) * sizeof(char);
-  char * word = static_cast<char *>(malloc(siz));
-
-  memcpy(word, begin, siz);
-
-  word[len] = 0;
-
-  return word;
-}
-
-
-inline char * slurp_word (c_str_cursor & cursor) {
-  return slurp_until(is_whitespace, cursor);
-}
-
-
 int main() {
   setup_allocator();
 
@@ -385,8 +386,8 @@ int main() {
   c_str_cursor curs { sexp };
   
   do {
-    discard_whitespace(curs);  
-    word = slurp_word(curs);
+    curs.discard_whitespace();
+    word = curs.slurp_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
