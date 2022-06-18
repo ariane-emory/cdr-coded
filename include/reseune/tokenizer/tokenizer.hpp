@@ -12,9 +12,10 @@
 #define BACK              (--*this)
 #define CHOMP             (c = ((*this)++))
 #define YIELD             return span{begin, m_position}
-#define CALL(tf)          (this->*tf)()
+#define MATCH(tf)          (this->*tf)()
 #define HERE              (**this)
 #define MOVED             (begin != m_position)
+#define REWIND            m_position = begin
 
 // =================================================================================================================
 namespace reseune {
@@ -60,7 +61,7 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t tokfun>
     TOKFUN(ignore) {
-      CALL(tokfun);
+      MATCH(tokfun);
       NOTHING;
     }
 
@@ -83,11 +84,18 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
-      span const ret {CALL(left)};
+      BEGIN;
+      MATCH(left);
+      if (MOVED) YIELD;
+      MATCH(right);
+      YIELD;
+        
+      
+      // span const ret {MATCH(left)};
 
-      return (ret.empty()
-              ? CALL(right)
-              : ret);
+      // return (ret.empty()
+      //         ? MATCH(right)
+      //         : ret);
     }
 
     // =============================================================================================================
@@ -104,7 +112,7 @@ namespace reseune {
     template <tokfun_t tokfun>
     TOKFUN(plus) {
       BEGIN;
-      CALL(tokfun);
+      MATCH(tokfun);
       NOTHING;
     }
 
@@ -149,7 +157,9 @@ namespace reseune {
 #undef BACK
 #undef CHOMP
 #undef YIELD
-#undef CALL
+#undef MATCH
 #undef HERE
+#undef MOVED
+#undef REWIND
 
 #endif
