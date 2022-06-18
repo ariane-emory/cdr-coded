@@ -73,7 +73,7 @@ namespace reseune {
       const char * begin = m_position;
       ++m_position;
 
-      return create_new_c_str(begin, m_position);
+      return create_new_c_str(span{begin, m_position});
     }
 
     // =============================================================================================================
@@ -96,21 +96,21 @@ namespace reseune {
         while (0 != c && predicate(c));
         --*this;
 
-        return create_new_c_str(begin, m_position);
-      }
+        return create_new_c_str(span{begin, m_position});
+    }
 
   private: 
 
     // =============================================================================================================
-    static inline char * create_new_c_str(const char * begin, const char * end) {      
-      size_t len  = uintptr(end) - uintptr(begin);
+    static inline char * create_new_c_str(span const & tok) {      
+      size_t len  = uintptr(tok.end) - uintptr(tok.begin);
       
       if (0 == len) return nullptr;
   
       size_t siz  = (len + 1) * sizeof(char);
       char * word = static_cast<char *>(malloc(siz));
 
-      memcpy(word, begin, siz);
+      memcpy(word, tok.begin, siz);
 
       word[len] = 0;
 
