@@ -28,9 +28,9 @@ namespace reseune {
     }
     
     // =============================================================================================================
-    template <tokfun_t token>
+    template <tokfun_t tokfun>
     TOKFUN(ignore) {
-      return (this->*token)(), nullptr;
+      return (this->*tokfun)(), nullptr;
     }
 
     // =============================================================================================================
@@ -73,17 +73,26 @@ namespace reseune {
 
     // =============================================================================================================
     template <charfun_t predicate>
-    TOKFUN(star) {
-      char c;
-  
-      const char * begin = m_position;
-  
-      do { c = (*this)++; }
-      while (0 != c && predicate(c));
-      --*this;
+    TOKFUN(plus) {
+      if (negate<predicate>(*m_position))
+        return nullptr;
 
-      return create_new_c_str(begin, m_position);
+      return star<predicate>();
     }
+
+    // =============================================================================================================
+    template <charfun_t predicate>
+        TOKFUN(star) {
+        char c;
+  
+        const char * begin = m_position;
+  
+        do { c = (*this)++; }
+        while (0 != c && predicate(c));
+        --*this;
+
+        return create_new_c_str(begin, m_position);
+      }
 
   private: 
 
