@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <stdio.h>
 #include <inttypes.h>
 #include <stdexcept>
@@ -321,7 +322,7 @@ inline char strgetc(const char ** cursor) {
   return c;
 }
 
-inline void slurp_word (const char * str) {
+inline char * slurp_word (const char * str) {
   const char *  begin  = str;
   const char ** cursor = &str;
 
@@ -336,11 +337,21 @@ inline void slurp_word (const char * str) {
     printf("Cursor: %zu.\n", *cursor);
   };
 
-  size_t size = uintptr(str) - uintptr(begin);
+  size_t len  = uintptr(str) - uintptr(begin);
+
+  if (0 == len) return nullptr;
   
-  printf("Start: %zu\n", begin);
+  size_t siz  = len * sizeof(char);
+  char * word = static_cast<char *>(malloc(siz));
+
+  memcpy(word, begin, siz);
+
+  word[len] = 0;
+  
   printf("End: %zu\n", str);
-  printf("Diff: %zu\n", size);
+  printf("Diff: %zu\n", len);
+
+  return word;
 }
 
 int main() {
