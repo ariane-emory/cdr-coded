@@ -50,6 +50,8 @@ using pool       = std::conditional<
 allocator<alloc_node> alloc {};  
 #endif
 
+#define malloc      ALLOC valloc
+
 const bool verbose {true};
 constexpr size_t buff_len = 1 << 14; // 16 kb
 
@@ -283,8 +285,6 @@ void test_allocator() {
   
   printf("After coalesce.\n");
   if (verbose) ALLOC describe_free_list();
-  
-#undef ALLOC
 }
 
 // ===============================================================================================================
@@ -376,6 +376,7 @@ int main() {
     else
       printf("Word is '%s'.\n", word);
   }
+  ALLOC describe_free_list();
 }
 
 
