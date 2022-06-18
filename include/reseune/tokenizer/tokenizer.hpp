@@ -19,6 +19,7 @@
 #define REWIND            (m_position = begin)
 #define NOTNULL           (0 != HERE)
 #define PREDICATE         (predicate(HERE))
+#define PREDICATED        template <charfun_t predicate>
 
 // =================================================================================================================
 namespace reseune {
@@ -56,8 +57,7 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    template <charfun_t predicate>
-    inline static bool negate(char c) {
+    PREDICATED inline static bool negate(char c) {
       return ! predicate(c);
     }
     
@@ -79,8 +79,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <charfun_t predicate>
-    TOKFUN(until) {
+    PREDICATED TOKFUN(until) {
       return chars<negate<predicate>>();
     }
 
@@ -96,8 +95,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <charfun_t predicate>
-    TOKFUN(one) {
+    PREDICATED TOKFUN(one) {
       BEGIN;      
       if (! PREDICATE)
         NOTHING;
@@ -117,8 +115,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <charfun_t predicate>
-    TOKFUN(chars) {        
+    PREDICATED TOKFUN(chars) {        
       BEGIN;
       while (NOTNULL && PREDICATE)
         NEXT;      
