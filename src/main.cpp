@@ -12,7 +12,7 @@
 #define HLINE       (reseune::print_line('-'))
 #define NEWLINE     putchar('\n')
 #define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
-#define NOW         (duration_cast<milliseconds>(system_clock::now().time_since_epoch()))
+#define NOW         (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))
 #define cout        (std::cout)
 #define endl        (std::endl)
 #define uintptr(x)  (reseune::uintptr(x))
@@ -287,8 +287,6 @@ void test_allocator() {
 // ===============================================================================================================
 
 void measure_time(void(*fun)()) {
-  using namespace std::chrono;
-  
   auto before = NOW;
   fun();
   auto after  = NOW;
