@@ -12,17 +12,17 @@
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return span{begin, m_position}
-#define DO_MATCH           (MATCH(match_ff))
+#define DO_MATCH           (MATCH(MF))
 #define MATCH(tf)          (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != m_position)
 #define UNMOVED            (! MOVED)
 #define REWIND             (m_position = begin)
 #define NOT_NULL           (0 != HERE)
-#define CHAR_MATCHES       (predicate(HERE))
-#define T_CHAR_F           template <char_f predicate>
+#define CHAR_MATCHES       (CF(HERE))
+#define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
-#define T_MATCH_F          template <match_f match_ff>
+#define T_MATCH_F          template <match_f MF>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -62,7 +62,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR_F inline static bool negate(char c) {
-      return ! predicate(c);
+      return ! CF(c);
     }
     
     // =============================================================================================================
@@ -83,7 +83,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR_F MATCH_F(until) {
-      return chars<negate<predicate>>();
+      return chars<negate<CF>>();
     }
 
     // =============================================================================================================
@@ -118,7 +118,7 @@ namespace reseune {
       DO_MATCH;
       if UNMOVED
         NOTHING;
-      MATCH(star<match_ff>);
+      MATCH(star<MF>);
       YIELD;
     }
 
