@@ -12,11 +12,13 @@
 #define BACK              (--*this)
 #define CHOMP             (c = ((*this)++))
 #define YIELD             return span{begin, m_position}
-#define MATCH(tf)          (this->*tf)()
+#define MATCH(tf)         (this->*tf)()
 #define HERE              (**this)
 #define MOVED             (begin != m_position)
 #define UNMOVED           (! MOVED)
-#define REWIND            m_position = begin
+#define REWIND            (m_position = begin)
+#define NOTNULL           (0 != HERE)
+#define PREDICATE         (predicate(HERE))
 
 // =================================================================================================================
 namespace reseune {
@@ -68,7 +70,7 @@ namespace reseune {
 
     // =============================================================================================================
     TOKFUN(ignore_whitespace) {
-      return ignore<&t::star<is_whitespace>>();
+      return ignore<&t::starchar<is_whitespace>>();
     }
 
     // =============================================================================================================
@@ -79,7 +81,7 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(until) {
-      return star<negate<predicate>>();
+      return starchar<negate<predicate>>();
     }
 
     // =============================================================================================================
@@ -110,19 +112,16 @@ namespace reseune {
       MATCH(tokfun);
       if (UNMOVED)
         NOTHING;
-      MATCH(star<tokfun>);
+      MATCH(starchar<tokfun>);
       YIELD;
     }
 
     // =============================================================================================================
     template <charfun_t predicate>
-    TOKFUN(star) {        
+    TOKFUN(starchar) {        
       BEGIN;
-        
-      do { CHOMP; }
-      while (0 != c && predicate(c));
-      BACK;
-
+      while (NOTNULL && PREDICATE)
+        CHOMP;      
       YIELD;
     }
 
@@ -157,6 +156,8 @@ namespace reseune {
 #undef MATCH
 #undef HERE
 #undef MOVED
+#undef UNMOVED
 #undef REWIND
+#undef NOTNULL
 
 #endif
