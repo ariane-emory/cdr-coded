@@ -295,13 +295,14 @@ int main() {
 
   // reseune::measure_time(test_allocator);
   
-  const char * const sexp { "one two three four\n five six seven\n eight" };
-  c_str_cursor       curs { sexp };
-  char *             word { nullptr };
+  const char * const sexp   { "(((one two three four\n five six seven\n eight" };
+  c_str_cursor       cursor { sexp };
+  char *             word   { nullptr };
   
   do {
-    curs.discard_whitespace();
-    word = curs.take_word();
+    cursor.discard_whitespace();
+    
+    word = cursor.take_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
@@ -314,9 +315,9 @@ int main() {
 
   //ALLOC describe_free_list();
 
-  c_str_cursor cursor { "abc" };
+  c_str_cursor cursor2 { "abc" };
 
-  for (char c : cursor)
+  for (char c : cursor2)
     putchar(c);
 
   putchar('\n');
