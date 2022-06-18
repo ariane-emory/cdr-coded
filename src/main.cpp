@@ -191,7 +191,6 @@ void test_links() {
   m.remove();
 
 #define DESCRIBE(x) { x.describe_instance(); printf("Value               : %c\n", x.data); }
-
   DESCRIBE(l);
   DESCRIBE(m);
   DESCRIBE(n);
@@ -200,7 +199,6 @@ void test_links() {
   NEWLINE;
   
   for (const link & i : l) DESCRIBE(i);
-  
 #undef DESCRIBE
 }
 
@@ -323,5 +321,3 @@ int main() {
 
   putchar('\n');
 }
-
-

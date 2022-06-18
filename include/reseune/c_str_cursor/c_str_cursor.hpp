@@ -7,21 +7,21 @@ namespace reseune {
   // ===============================================================================================================
   class c_str_cursor {
   private:
-    const char * const m_start;
+    const char * const m_begin;
     const char * const m_end;
+    const char *       m_position;
 
   public:
-    const char *       position;
   
     // =============================================================================================================
     inline c_str_cursor(const char * const str) :
-      m_start(str),
-      m_end(&m_start[strlen(str)]),
-      position(m_start) {}
+      m_begin(str),
+      m_end(&m_begin[strlen(str)]),
+      m_position(m_begin) {}
 
     // =============================================================================================================
     const char * begin() const {
-      return m_start;
+      return m_begin;
     }
 
     // =============================================================================================================
@@ -31,27 +31,27 @@ namespace reseune {
   
     // =============================================================================================================
     inline char operator ++ () {
-      ++position;
-      return *position;
+      ++m_position;
+      return *m_position;
     }
 
     // =============================================================================================================
     inline char operator ++ (int) {
-      char c = *position;
-      ++position;
+      char c = *m_position;
+      ++m_position;
       return c;
     }
   
     // =============================================================================================================
     inline char operator -- () {
-      --position;
-      return *position;
+      --m_position;
+      return *m_position;
     }
 
     // =============================================================================================================
     inline char operator -- (int) {
-      char c = *position;
-      --position;
+      char c = *m_position;
+      --m_position;
       return c;
     }
   
@@ -68,13 +68,13 @@ namespace reseune {
     inline char * take_until (bool (*predicate)(const char)) {
       char c;
   
-      const char * begin = position;
+      const char * begin = m_position;
   
       do { c = (*this)++; }
       while (0 != c && !predicate(c));
       --*this;
   
-      size_t len  = uintptr(position) - uintptr(begin);
+      size_t len  = uintptr(m_position) - uintptr(begin);
 
       if (0 == len)
         return nullptr;
