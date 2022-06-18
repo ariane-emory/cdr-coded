@@ -22,7 +22,7 @@ namespace reseune {
   struct strategies {
     template <typename alloc_node_t>
     struct no_track {
-      static inline void commit_block(alloc_node_t & block) {
+      static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.remove();
       }
 
@@ -30,14 +30,14 @@ namespace reseune {
         allocator<alloc_node_t>::place_block(block, verbose);
       }
 
-      static inline bool block_is_free(alloc_node_t const & block) {
+      static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
         return true;
       }
     };
 
     template <typename alloc_node_t>
     struct track_by_marking {
-      static inline void commit_block(alloc_node_t & block) {
+      static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.data.unfree = true;
       }
 
@@ -45,7 +45,7 @@ namespace reseune {
         block.data.unfree = false;
       }
 
-      static inline bool block_is_free(alloc_node_t const & block) {
+      static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
         return ! block.data.unfree;
       }
     };
@@ -85,7 +85,7 @@ namespace reseune {
       SETBSIZE(block, size);
       RCONS(new_block, block);
       
-      strategy::commit_block(block);
+      strategy::commit_block(block, verbose);
 
       PRINT("Created new block at", &new_block);
       PRINT("With block start at", BSTART(new_block));
@@ -109,13 +109,13 @@ namespace reseune {
         return;
       } 
 
-      place_block_strategy(new_block, verbose);
+      place_block(new_block, verbose);
     }
           
   private:
     
     // =======================================================================================================
-    VOIDFUN(place_block_strategy, alloc_node & new_block, VERBOSEARG) {
+    VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       alloc_node * plast_block {nullptr}; 
  
       FOR_EACH_BLOCK {
@@ -227,59 +227,50 @@ namespace reseune {
 
   public:
     
-    // =======================================================================================================
+    // =======================================================================================================    
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
 #ifndef NDEBUG
       assert(size > 0);
 #endif
       
-      size = align_up(size, sizeof(PVOID)); // Align the pointer
+      size = align_up(size * each, sizeof(PVOID)); // Align the pointer
 
       PRLINE;
       PRINTF("ALLOCATING MEMORY FROM THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
       PRLINE;
       PRINT("Bytes requested: ", size);
       
-      PVOID        pvoid  {nullptr};
-      alloc_node * pblock {nullptr};
-
-      // try to find a big enough block to alloc
-      FOR_EACH_BLOCK
-        if (strategy::block_is_free(block) && (BSIZE(block) >= size))
-        {
-          pblock = &block;
-          pvoid  = BSTART(block);
-
-          PRINT("Selected block at", pblock);
-          PRINT("With block start at", pvoid);
-          PRHLINE;
-          DESCRIBEP(pblock);
-          PRLINE;
-
-          goto found_a_block;
-        }
+      alloc_node * pblock {find_first_fit(size, verbose)};
 
       IFISNULL(pblock) {
-        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);        
-
+        WARN("OUT OF MEMORY IN FREE LIST @ 0x%016lx = %ul!!!!!!\n", PROOT, PROOT);
         return nullptr;
       }
-      
-    found_a_block:
-      alloc_node & block {*pblock};
+
+      alloc_node & block  {*pblock};
+      PVOID        pvoid  {BSTART(block)};
       
       // Check if we can we split the block:
-      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ)
+      if ((BSIZE(block) - size) >= MIN_ALLOC_SZ) {
         split_block(block, size, verbose);
-          
+
+        strategy::commit_block(block, verbose);
+        
+        PRINT("Created new block at", &block);
+        PRINT("With block start at", BSTART(block));
+        PRHLINE;
+        DESCRIBE(block);
+        PRHLINE;
+      }
 #ifndef NDEBUG
-      else 
+      else {
         DIE(
           "SUSPICIOUS ALLOC: not %zu - %zu = %zu >= %zu.\n",
           BSIZE(block),
           size,
           (BSIZE(block) - size),
           MIN_ALLOC_SZ);
+      }
 #endif
       
       PRINT("Gave pointer to", pvoid);
@@ -318,7 +309,8 @@ namespace reseune {
 
       FOR_EACH_BLOCK {
         IFISNOTNULL(plast_block)
-          if (strategy::block_is_free(*plast_block) && strategy::block_is_free(block)) {
+          if (strategy::block_is_free(*plast_block, verbose)
+              && strategy::block_is_free(block, verbose)) {
 
             alloc_node & last_block {(*reinterpret_cast<alloc_node *>(plast_block))};
             
