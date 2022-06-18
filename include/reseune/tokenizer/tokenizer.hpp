@@ -81,7 +81,7 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
-      span const ret {CALL(right)};
+      span const ret {CALL(left)};
 
       return (ret.empty()
               ? CALL(right)
