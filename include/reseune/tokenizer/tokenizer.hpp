@@ -124,7 +124,7 @@ namespace reseune {
       // printf("2 Looking at '%c'.\n", HERE);
       
       BEGIN;      
-      unless (CHAR_MATCHES)
+      unless (NOT_NULL & CHAR_MATCHES)
         NOTHING;
       NEXT;      
       YIELD;
