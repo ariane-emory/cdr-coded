@@ -394,7 +394,8 @@ int main() {
   char *             word   = nullptr;
 
   do {
-    word = slurp_word(cursor);
+    // word = slurp_word(cursor);
+    word = slurp_until_not(is_whitespace);
     
     if (nullptr == word) {
       printf("Word is null.\n");
