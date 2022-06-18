@@ -73,14 +73,13 @@ namespace reseune {
       const char * begin {m_position};
       ++m_position;
 
-      return create_new_c_str(span{begin, m_position}
-);
+      return create_new_c_str(span{begin, m_position});
     }
 
     // =============================================================================================================
     template <tokfun_t tokfun>
     TOKFUN(plus) {
-      const char * begin {m_position};
+      const char * const begin {m_position};
 
       (this->*tokfun)();
 
@@ -92,7 +91,7 @@ namespace reseune {
         TOKFUN(star) {
         char c;
   
-        const char * begin {m_position};
+        const char * const begin {m_position};
   
         do { c = (*this)++; }
         while (0 != c && predicate(c));
@@ -105,11 +104,11 @@ namespace reseune {
 
     // =============================================================================================================
     static inline char * create_new_c_str(span const & tok) {      
-      size_t len  = uintptr(tok.end) - uintptr(tok.begin);
+      const size_t len  = uintptr(tok.end) - uintptr(tok.begin);
       
       if (0 == len) return nullptr;
   
-      size_t siz  = (len + 1) * sizeof(char);
+      const size_t siz  = (len + 1) * sizeof(char);
       char * word = static_cast<char *>(malloc(siz));
 
       memcpy(word, tok.begin, siz);
