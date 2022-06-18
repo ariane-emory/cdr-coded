@@ -200,6 +200,34 @@ namespace reseune {
       PRNL;
     }
 
+  private:
+
+    // =======================================================================================================
+    INLINE alloc_node * find_first_fit(SIZEARG, VERBOSEARG) {
+      // alloc_node * pblock {nullptr};
+        
+      // // try to find a big enough block to alloc
+      // FOR_EACH_BLOCK(PFREE_LIST_HEAD) {
+      //   if (strategy::block_is_free(block, verbose) && (BSIZE(block) >= size))
+      //   {
+      //     pblock = &block;
+      //     PVOID pvoid {BSTART(block)};
+
+      //     PRINT("Selected block at", pblock);
+      //     PRINT("With block start at", pvoid);
+      //     PRHLINE;
+      //     DESCRIBEP(pblock);
+      //     PRLINE;
+
+      //     return pblock;
+      //   }
+      // }
+      
+      return nullptr;
+    }
+
+  public:
+    
     // =======================================================================================================
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
 #ifndef NDEBUG
