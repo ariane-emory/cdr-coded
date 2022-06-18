@@ -19,7 +19,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
-    inline char * take_either() {
+    inline char * either() {
       char * ret {(this->*left)()};
       return (nullptr == ret
               ? (this->*right)()
@@ -39,8 +39,8 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_one () { return take_one(p); }
-    inline char * take_one (predicate_t predicate) {
+    inline char * one () { return one(p); }
+    inline char * one (predicate_t predicate) {
       const char * begin = m_position;
 
       if (!predicate(*m_position)) return nullptr;
@@ -52,8 +52,8 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_until() { return take_until(p); }
-    inline char * take_until(predicate_t predicate) {
+    inline char * until() { return until(p); }
+    inline char * until(predicate_t predicate) {
       char c;
   
       const char * begin = m_position;
@@ -67,8 +67,8 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-    inline char * take_while() { return take_while(p); }
-    inline char * take_while(predicate_t predicate) {
+    inline char * star() { return star(p); }
+    inline char * star(predicate_t predicate) {
       char c;
   
       const char * begin = m_position;
@@ -82,12 +82,12 @@ namespace reseune {
 
     // =============================================================================================================
     inline void ignore_whitespace() {
-      take_while<is_whitespace>();
+      star<is_whitespace>();
     }
 
     // =============================================================================================================
-    inline char * take_word () {
-      return take_until<is_whitespace>();
+    inline char * word () {
+      return until<is_whitespace>();
     }
 
   private: 

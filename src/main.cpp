@@ -307,9 +307,9 @@ int main() {
 
     using t = tokenizer;
     
-    word = tok.take_either<
-      &t::take_one<is_char<'('>>,
-      &t::take_word>();
+    word = tok.either<
+      &t::one<is_char<'('>>,
+      &t::word>();
     // word = tok.take_one(is_char<'('>);
     // if (nullptr == word)
     //   word = tok.take_word();
