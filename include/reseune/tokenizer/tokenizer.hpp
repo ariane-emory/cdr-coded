@@ -5,6 +5,9 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define TOKFUN(name, ...) inline char * name(__VA_ARGS__)
+#define BEGIN   const char * const begin {m_position}
+#define NULLP   return nullptr
+#define BACK    --*this
 
 // =================================================================================================================
 namespace reseune {
@@ -57,7 +60,7 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
-      char * ret {(this->*left)()};
+      char * const ret {(this->*left)()};
 
       return (nullptr == ret
               ? (this->*right)()
@@ -68,34 +71,34 @@ namespace reseune {
     template <charfun_t predicate>
     TOKFUN(one) {
       if (negate<predicate>(*m_position))
-        return nullptr;
+        NULLP;
 
-      const char * begin {m_position};
-      ++m_position;
-
+      BEGIN;
+      (*this)++;
+      
       return create_new_c_str(span{begin, m_position});
     }
 
     // =============================================================================================================
     template <tokfun_t tokfun>
     TOKFUN(plus) {
-      const char * const begin {m_position};
+      BEGIN;
 
       (this->*tokfun)();
 
-      return nullptr;
+      NULLP;
     }
 
       // =============================================================================================================
       template <charfun_t predicate>
         TOKFUN(star) {
         char c;
-  
-        const char * const begin {m_position};
+        
+        BEGIN;
   
         do { c = (*this)++; }
         while (0 != c && predicate(c));
-        --*this;
+        BACK;
 
         return create_new_c_str(span{begin, m_position});
     }
@@ -106,10 +109,10 @@ namespace reseune {
     static inline char * create_new_c_str(span const & tok) {      
       const size_t len  {uintptr(tok.end) - uintptr(tok.begin)};
       
-      if (0 == len) return nullptr;
+      if (0 == len) NULLP;
   
       const size_t siz  {(len + 1) * sizeof(char)};
-      char *       word {static_cast<char *>(malloc(siz))};
+      char * const word {static_cast<char *>(malloc(siz))};
 
       memcpy(word, tok.begin, siz);
 
@@ -125,5 +128,9 @@ namespace reseune {
 // =================================================================================================================
 
 #undef TOKFUN
+#undef BEGIN
+#undef NULLP
+#undef BACK
+#undef FORWARD
 
 #endif
