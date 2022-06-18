@@ -88,6 +88,16 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(plus) {
+      BEGIN;
+      DO_MATCH;
+      if UNMOVED
+        NOTHING;
+      return MATCH(star<MF>);
+      YIELD;
+    }
+
+    // =============================================================================================================
     MATCH_F(word) {
       return star<&t::non_whitespace>();
     }
@@ -117,16 +127,6 @@ namespace reseune {
       unless (CHAR_MATCHES)
         NOTHING;
       NEXT;      
-      YIELD;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(plus) {
-      BEGIN;
-      DO_MATCH;
-      if UNMOVED
-        NOTHING;
-      MATCH(star<MF>);
       YIELD;
     }
 
