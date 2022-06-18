@@ -4,6 +4,7 @@
 #include <type_traits>
 
 #include "reseune/util/util.hpp"
+#include "reseune/c_str_cursor/c_str_cursor.hpp"
 #include "reseune/iterator_base/iterator_base.hpp"
 #include "reseune/const_iterator_base/const_iterator_base.hpp"
 #include "reseune/array_forward_iterator/array_forward_iterator.hpp"
