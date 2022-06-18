@@ -52,7 +52,8 @@ allocator<alloc_node> alloc {};
 
 #define malloc      ALLOC valloc
 
-const bool verbose {true};
+const bool verbose {false};
+
 constexpr size_t buff_len = 1 << 14; // 16 kb
 
 char buff1[buff_len] {0};
@@ -343,7 +344,7 @@ inline char * slurp_word (const char * str_pos) {
   if (0 == len) return nullptr;
   
   size_t siz  = (len + 1) * sizeof(char);
-  char * word = static_cast<char *>(malloc(siz));
+  char * word = static_cast<char *>(malloc(siz, true));
 
   memcpy(word, begin, siz);
 
