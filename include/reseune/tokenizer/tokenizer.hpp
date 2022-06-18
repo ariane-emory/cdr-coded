@@ -1,14 +1,17 @@
 #ifndef RESEUNE_TOKENIZER_HPP
 #define RESEUNE_TOKENIZER_HPP
 
+#include <tuple>
+
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define TOKFUN(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN   const char * const begin {m_position}
+#define BEGIN   char c; std::ignore = c; const char * const begin {m_position}
 #define NOTHING return span{}
 #define BACK    --*this
 #define CHOMP   (*this)++
+#define SUCCEED return span{begin, m_position}
 
 // =================================================================================================================
 namespace reseune {
@@ -94,7 +97,7 @@ namespace reseune {
       BEGIN;
       CHOMP;
       
-      return span{begin, m_position};
+      SUCCEED;
     }
 
     // =============================================================================================================
@@ -110,7 +113,6 @@ namespace reseune {
       // =============================================================================================================
       template <charfun_t predicate>
         TOKFUN(star) {
-        char c;
         
         BEGIN;
   
@@ -118,7 +120,7 @@ namespace reseune {
         while (0 != c && predicate(c));
         BACK;
 
-        return span{begin, m_position};
+        SUCCEED;
       }
 
   private: 
