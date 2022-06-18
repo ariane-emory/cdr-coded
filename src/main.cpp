@@ -43,6 +43,19 @@ using pool       = std::conditional<
   reseune::pool<cell, POOL_SIZE>,
   cell[POOL_SIZE]>::type;
 
+#ifdef RESEUNE_SINGLETON_ALLOCATOR
+#define ALLOC allocator<alloc_node>::
+#else
+#define ALLOC alloc. 
+allocator<alloc_node> alloc {};  
+#endif
+
+const bool verbose {true};
+constexpr size_t buff_len = 1 << 14; // 16 kb
+
+char buff1[buff_len] {0};
+char buff2[buff_len] {0};
+
 // ===============================================================================================================
 
 ::pool POOL { 
@@ -196,33 +209,21 @@ void test_links() {
 }
 
 // ===============================================================================================================
+void setup_allocator() {
+  // Give the allocator 2 blocks of memory =======================================================================
+  ALLOC add_memory(buff1, buff_len, verbose);
+  ALLOC add_memory(buff2, buff_len, verbose);
+}
 
+// ===============================================================================================================
 void test_allocator() {
-  const bool verbose {true};
-
-#ifdef RESEUNE_SINGLETON_ALLOCATOR
-#define ALLOC allocator<alloc_node>::
-#else
-#define ALLOC alloc. 
-  allocator<alloc_node> alloc {};  
-#endif
-  
-  // Give the allocator with 2 blocks of memory ==================================================================
-  constexpr size_t buff_len = 1 << 14; // 16 kb
-
-  char buff1[buff_len] {0};
-  // char buff2[buff_len] {0};
-
-  LINE;
-  PRINT("buff1 is at", buff1);
+  // LINE;
+  // PRINT("buff1 is at", buff1);
   // PRINT("buff2 is at", buff2);
   
-  // ALLOC add_memory(buff2, buff_len, verbose);
-  ALLOC add_memory(buff1, buff_len, verbose);
-
   if (verbose) ALLOC describe_free_list();
 
-// Try allocating and  constructing a string ===================================================================
+  // Try allocating and  constructing a string ===================================================================
   {
     void * strblk = ALLOC valloc<string>(1, true);
 
@@ -334,7 +335,7 @@ inline char * slurp_word (const char * str_pos) {
   str_pos = *cursor;
   
   do { c = strgetc(cursor); }
-  while (0 != c && !is_whitespace(c = strgetc(cursor)));
+  while (0 != c && !is_whitespace(c));
   --*cursor;
   
   size_t len  = uintptr(str_pos) - uintptr(begin);
@@ -352,6 +353,9 @@ inline char * slurp_word (const char * str_pos) {
 }
 
 int main() {
+  setup_allocator();
+  measure_time(test_allocator);
+
   {
     const char *  sexp   = "one two three";
 
