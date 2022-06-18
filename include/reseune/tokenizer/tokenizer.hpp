@@ -20,9 +20,6 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     inline char * take_either() {
-      // printf("Left %zu\n", left);
-      // printf("Right %zu\n", right);
-
       char * ret {(this->*left)()};
       return (nullptr == ret
               ? (this->*right)()
@@ -44,7 +41,6 @@ namespace reseune {
     template <predicate_t p>
     inline char * take_one () { return take_one(p); }
     inline char * take_one (predicate_t predicate) {
-      // printf("Take one.\n");
       const char * begin = m_position;
 
       if (!predicate(*m_position)) return nullptr;
@@ -91,7 +87,6 @@ namespace reseune {
 
     // =============================================================================================================
     inline char * take_word () {
-      // printf("Take word.\n");
       return take_until<is_whitespace>();
     }
 
@@ -110,8 +105,6 @@ namespace reseune {
 
       word[len] = 0;
 
-      // printf("Return word %zu: %s.\n", &word, word);
-      
       return word;
     }
 
