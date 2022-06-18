@@ -32,6 +32,7 @@ namespace reseune {
   }
   
   inline bool is_whitespace(const char c) {
+    // printf("Examine '%c' (%u).\n", c, c);
     return ((c == ' ')
             || (c == 9)
             || (c == 10)

@@ -74,12 +74,13 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(whitespace) {
-      return chars<is_whitespace>();
+      // return chars<is_whitespace>();
+      return star<&t::chr_f<is_whitespace>>();
     }
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return plus<&t::chr_f<negate<is_whitespace>>>();
+      return star<&t::chr_f<negate<is_whitespace>>>();
     }
 
     // =============================================================================================================
@@ -93,7 +94,6 @@ namespace reseune {
       DO_MATCH;
       if UNMOVED
         NOTHING;
-      return MATCH(MF);
       YIELD;
     }
 
@@ -135,6 +135,7 @@ namespace reseune {
       const char * last_pos;
       
       do {
+        // printf("Star...\n");
         last_pos = POS;
         DO_MATCH;
       } while (NOT_NULL && POS != last_pos);

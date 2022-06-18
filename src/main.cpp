@@ -302,10 +302,9 @@ int main() {
   
   do {
     tok.ignore_whitespace();
-    
-    // word = tok.word();
-    
-    word = tok.either<&t::chr<'('>, &t::word>();
+    word = tok.word();
+    // word = tok.either<&t::chr<'('>, &t::word>();
+    // word = tok.either<&t::word, &t::word>();
     
     if (word.empty()) {
       printf("Word is null.\n");
