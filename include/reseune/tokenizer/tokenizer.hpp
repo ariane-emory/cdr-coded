@@ -7,11 +7,12 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define TOKFUN(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN   char c; std::ignore = c; const char * const begin {m_position}
-#define NOTHING return span{}
-#define BACK    --*this
-#define CHOMP   (*this)++
-#define YIELD   return span{begin, m_position}
+#define BEGIN             char c; std::ignore = c; const char * const begin {m_position}
+#define NOTHING           return span{}
+#define BACK              --*this
+#define CHOMP             (*this)++
+#define YIELD             return span{begin, m_position}
+#define CALL(tf)          (this->*tf)()
 
 // =================================================================================================================
 namespace reseune {
@@ -57,7 +58,7 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t tokfun>
     TOKFUN(ignore) {
-      (this->*tokfun)();
+      CALL(tokfun);
       NOTHING;
     }
 
@@ -80,10 +81,10 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
-      span const ret {(this->*left)()};
+      span const ret {CALL(right)};
 
       return (ret.empty()
-              ? (this->*right)()
+              ? CALL(right)
               : ret);
     }
 
@@ -94,8 +95,7 @@ namespace reseune {
         NOTHING;
 
       BEGIN;
-      CHOMP;
-      
+      CHOMP;      
       YIELD;
     }
 
