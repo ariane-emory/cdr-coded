@@ -20,31 +20,35 @@ namespace reseune {
 
   // ===========================================================================================================
   struct strategies {
-    template <typename alloc_node_t>
     struct no_track {
+      template <typename alloc_node_t>
       static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.remove();
       }
 
+      template <typename alloc_node_t>
       static inline void release_block(alloc_node_t & block, VERBOSEARG) {
         allocator<alloc_node_t>::place_block(block, verbose);
       }
 
+      template <typename alloc_node_t>
       static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
         return true;
       }
     };
 
-    template <typename alloc_node_t>
     struct track_by_marking {
+      template <typename alloc_node_t>
       static inline void commit_block(alloc_node_t & block, VERBOSEARG) {
         block.data.unfree = true;
       }
 
+      template <typename alloc_node_t>
       static inline void release_block(alloc_node_t & block, VERBOSEARG) {
         block.data.unfree = false;
       }
 
+      template <typename alloc_node_t>
       static inline bool block_is_free(alloc_node_t const & block, VERBOSEARG) {
         return ! block.data.unfree;
       }
@@ -69,9 +73,9 @@ namespace reseune {
       
     using strategy = typename
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
-      strategies::track_by_marking<alloc_node>
+      strategies::track_by_marking
 #else
-      strategies::no_track<alloc_node>
+      strategies::no_track
 #endif
       ;
     
