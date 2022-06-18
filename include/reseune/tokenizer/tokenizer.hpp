@@ -1,6 +1,7 @@
 #ifndef RESEUNE_TOKENIZER_HPP
 #define RESEUNE_TOKENIZER_HPP
 
+#include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define TOKFUN(name, ...) inline char * name(__VA_ARGS__)
@@ -45,24 +46,25 @@ namespace reseune {
 
     // =============================================================================================================
     template <charfun_t predicate>
-    TOKFUN(until) { 
+    inline static bool negate(char c) {
+      return ! predicate(c);
+    }
+    // =============================================================================================================
+    template <charfun_t predicate>
+    TOKFUN(until) {
+      //return (this->*star<negate<predicate>>)();
+      
       char c;
-  
+
       const char * begin = m_position;
-  
+
       do { c = (*this)++; }
-      while (0 != c && !predicate(c));
+      while (0 != c && negate<predicate>(c));
       --*this;
 
       return create_new_c_str(begin, m_position);
     }
 
-    // =============================================================================================================
-    template <charfun_t predicate>
-    bool negate(char const & c) {
-      return ! predicate(c);
-    }
-    
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(star) {
