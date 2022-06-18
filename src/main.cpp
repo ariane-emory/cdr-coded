@@ -61,7 +61,6 @@ char buff1[buff_len] {0};
 char buff2[buff_len] {0};
 
 // ===============================================================================================================
-
 ::pool POOL { 
   /*  0 */ 88,
   /*  1 */ 88,
@@ -95,7 +94,6 @@ char buff2[buff_len] {0};
 };
 
 // ===============================================================================================================
-
 void describe_some_sizes() {
   LINE;
   
@@ -116,7 +114,6 @@ void describe_some_sizes() {
 }
 
 // ===============================================================================================================
-
 void describe_every_cell()   
 {
   uint8_t ix { 0 };
@@ -129,7 +126,6 @@ void describe_every_cell()
 
   LINE;
 }
-
 // ===============================================================================================================
 
 void describe_list(const cell & head) {
@@ -143,7 +139,6 @@ void describe_list(const cell & head) {
 }
 
 // ===============================================================================================================
-
 void draw_the_pool() {
   LINE;
     
@@ -182,7 +177,6 @@ void draw_the_pool() {
 }
 
 // ===============================================================================================================
-
 void test_links() {
   link l; l.data = 'l';
   link m; m.data = 'm';
@@ -290,7 +284,6 @@ void test_allocator() {
 }
 
 // ===============================================================================================================
-
 void measure_time(void(*fun)()) {
   auto before = NOW;
   fun();
@@ -300,7 +293,6 @@ void measure_time(void(*fun)()) {
 }
 
 // ===============================================================================================================
-
 // describe_some_sizes();
 // cell::describe_class();
 // // describe_every_cell();
@@ -310,6 +302,7 @@ void measure_time(void(*fun)()) {
 // test_links();
 // measure_time(test_allocator);
 
+// ===============================================================================================================
 inline bool is_whitespace(const char c) {
   return ((c == ' ')
           || (c == 9)
@@ -319,43 +312,17 @@ inline bool is_whitespace(const char c) {
           || (c == 13));
 }
 
+// ===============================================================================================================
 inline char strgetc(const char ** cursor) {
   char c = **cursor;
   (*cursor)++;
   return c;
 }
 
-inline char * slurp_word (const char ** cursor) {
-  char c;
-
-  do { c = strgetc(cursor); }
-  while (is_whitespace(c));
-  --*cursor;
-  
-  const char * begin = *cursor;
-  
-  do { c = strgetc(cursor); }
-  while (0 != c && !is_whitespace(c));
-  --*cursor;
-  
-  size_t len  = uintptr(*cursor) - uintptr(begin);
-
-  if (0 == len)
-    return nullptr;
-  
-  size_t siz  = (len + 1) * sizeof(char);
-  char * word = static_cast<char *>(malloc(siz));
-
-  memcpy(word, begin, siz);
-
-  word[len] = 0;
-
-  return word;
-}
-
-inline char * slurp_until_not (
-  const char ** cursor,
-  bool(*predicate)(const char)) {
+// ===============================================================================================================
+inline char * slurp_until (
+  bool(*predicate)(const char),
+  const char ** cursor) {
   char c;
 
   do { c = strgetc(cursor); }
@@ -383,6 +350,11 @@ inline char * slurp_until_not (
   return word;
 }
 
+
+inline char * slurp_word (const char ** cursor) {
+  return slurp_until(is_whitespace, cursor);
+}
+
 int main() {
   setup_allocator();
 
@@ -394,8 +366,8 @@ int main() {
   char *             word   = nullptr;
 
   do {
-    // word = slurp_word(cursor);
-    word = slurp_until_not(is_whitespace);
+    // word = slurp_until(is_whitespace, cursor);
+    word = slurp_word(cursor);
     
     if (nullptr == word) {
       printf("Word is null.\n");
