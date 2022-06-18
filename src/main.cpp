@@ -326,33 +326,24 @@ inline char * slurp_word (const char * str) {
   const char ** cursor = &str;
   char          c;
 
-  while (is_whitespace(c = strgetc(cursor))) {
-    // printf("Skip past '%c' (%u).\n", c, c);
-  }
-  
+  while (is_whitespace(c = strgetc(cursor)));
   --*cursor;
   
-  // printf("Looking at '%c' (%u).\n", **cursor, **cursor);
-
   const char * begin = *cursor;
  
-  // printf("Cursor: %zu.\n", *cursor);
-
   while (! is_whitespace(c = strgetc(cursor)));
-
+  --*cursor;
+  
   size_t len  = uintptr(str) - uintptr(begin);
 
-  if (1 == len) return nullptr;
+  if (0 == len) return nullptr;
   
-  size_t siz  = len * sizeof(char);
+  size_t siz  = (len + 1) * sizeof(char);
   char * word = static_cast<char *>(malloc(siz));
 
   memcpy(word, begin, siz);
 
-  word[len - 1] = 0;
-  
-  // printf("End: %zu\n", str);
-  // printf("Diff: %zu\n", len);
+  word[len] = 0;
 
   return word;
 }
