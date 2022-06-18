@@ -10,7 +10,7 @@
 #define BEGIN             char c; std::ignore = c; const char * const begin {m_position}
 #define NOTHING           return span{}
 #define BACK              (--*this)
-#define CHOMP             (c = ((*this)++))
+#define NEXT             (c = ((*this)++))
 #define YIELD             return span{begin, m_position}
 #define MATCH(tf)         (this->*tf)()
 #define HERE              (**this)
@@ -70,7 +70,7 @@ namespace reseune {
 
     // =============================================================================================================
     TOKFUN(ignore_whitespace) {
-      return ignore<&t::starchar<is_whitespace>>();
+      return ignore<&t::chars<is_whitespace>>();
     }
 
     // =============================================================================================================
@@ -81,7 +81,7 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(until) {
-      return starchar<negate<predicate>>();
+      return chars<negate<predicate>>();
     }
 
     // =============================================================================================================
@@ -99,9 +99,9 @@ namespace reseune {
     template <charfun_t predicate>
     TOKFUN(one) {
       BEGIN;      
-      if (negate<predicate>(HERE))
+      if (! PREDICATE)
         NOTHING;
-      CHOMP;      
+      NEXT;      
       YIELD;
     }
 
@@ -112,16 +112,16 @@ namespace reseune {
       MATCH(tokfun);
       if (UNMOVED)
         NOTHING;
-      MATCH(starchar<tokfun>);
+      MATCH(chars<tokfun>);
       YIELD;
     }
 
     // =============================================================================================================
     template <charfun_t predicate>
-    TOKFUN(starchar) {        
+    TOKFUN(chars) {        
       BEGIN;
       while (NOTNULL && PREDICATE)
-        CHOMP;      
+        NEXT;      
       YIELD;
     }
 
@@ -151,7 +151,7 @@ namespace reseune {
 #undef BEGIN
 #undef NOTHING
 #undef BACK
-#undef CHOMP
+#undef NEXT
 #undef YIELD
 #undef MATCH
 #undef HERE
