@@ -71,6 +71,7 @@ namespace reseune {
       NOTHING;
     }
 
+    
     // =============================================================================================================
     MATCH_F(ignore_whitespace) {
       return ignore<&t::chars<is_whitespace>>();
@@ -88,58 +89,58 @@ namespace reseune {
 
     // =============================================================================================================
     template <match_f left, match_f right>
-    MATCH_F(either) {
-      BEGIN;
-      MATCH (left);
-      if MOVED
+        MATCH_F(either) {
+        BEGIN;
+        MATCH (left);
+        if MOVED
+          YIELD;
+        MATCH (right);
         YIELD;
-      MATCH (right);
-      YIELD;
-    }
+      }
 
 
-    // =============================================================================================================
-    T_CHAR MATCH_F(chr) {
-      return chr<is_char<C>>();
-    }
+      // =============================================================================================================
+      T_CHAR MATCH_F(chr) {
+        return chr<is_char<C>>();
+      }
     
-    // =============================================================================================================
-    T_CHAR_F MATCH_F(chr) {
-      BEGIN;      
-      unless (CHAR_MATCHES)
-        NOTHING;
-      NEXT;      
-      YIELD;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(plus) {
-      BEGIN;
-      DO_MATCH;
-      if UNMOVED
-        NOTHING;
-      MATCH(star<MF>);
-      YIELD;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(star) {
-      BEGIN;
-      do {
-        DO_MATCH;
-      } while MOVED;
-      YIELD;
-    }
-
-    // =============================================================================================================
-    T_CHAR_F MATCH_F(chars) {
-      //return star<chr<CF>>();
-      
-      BEGIN;
-      while (NOT_NULL && CHAR_MATCHES)
+      // =============================================================================================================
+      T_CHAR_F MATCH_F(chr) {
+        BEGIN;      
+        unless (CHAR_MATCHES)
+          NOTHING;
         NEXT;      
-      YIELD;
-    }
+        YIELD;
+      }
+
+      // =============================================================================================================
+      T_MATCH_F MATCH_F(plus) {
+        BEGIN;
+        DO_MATCH;
+        if UNMOVED
+          NOTHING;
+        MATCH(star<MF>);
+        YIELD;
+      }
+
+      // =============================================================================================================
+      T_MATCH_F MATCH_F(star) {
+        BEGIN;
+        do {
+          DO_MATCH;
+        } while MOVED;
+        YIELD;
+      }
+
+      // =============================================================================================================
+      T_CHAR_F MATCH_F(chars) {
+        //return star<chr<CF>>();
+      
+        BEGIN;
+        while (NOT_NULL && CHAR_MATCHES)
+          NEXT;      
+        YIELD;
+      }
 
   private: 
 
