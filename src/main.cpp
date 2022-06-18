@@ -296,7 +296,7 @@ int main() {
   // reseune::measure_time(test_allocator);
   
   using t = tokenizer;
-  const char * const sexp { "(((one two three four\n five six seven\n eight" };
+  const char * const sexp { "one two three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            word {};
   
