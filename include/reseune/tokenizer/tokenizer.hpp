@@ -11,7 +11,7 @@ namespace reseune {
   // ===============================================================================================================
   class tokenizer : public c_str_cursor {
   private:
-    using predicate_t = bool(*)(const char);
+    using charfun_t = bool(*)(const char);
     using tokfun_t = char* (tokenizer::*)();
     
   public:
@@ -29,17 +29,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t predicate>
-    inline void ignore_while() {
-      char c;
-
-      do { c = (*this)++; }
-      while (predicate(c));
-      --*this;
-    }
-
-    // =============================================================================================================
-    template <predicate_t predicate>
+    template <charfun_t predicate>
     TOKFUN(one) {
       const char * begin = m_position;
 
@@ -51,7 +41,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t predicate>
+    template <charfun_t predicate>
     TOKFUN(until) { 
       char c;
   
@@ -65,7 +55,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <predicate_t predicate>
+    template <charfun_t predicate>
     TOKFUN(star) {
       char c;
   
@@ -79,8 +69,17 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    inline void ignore_whitespace() {
+    template <tokfun_t token>
+    TOKFUN(ignore) {
+      (this->*token)();
+      
+      return nullptr;
+    }
+
+    // =============================================================================================================
+    TOKFUN(ignore_whitespace) {
       star<is_whitespace>();
+      return nullptr;
     }
 
     // =============================================================================================================
