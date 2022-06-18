@@ -69,14 +69,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <tokfun_t token>
-    TOKFUN(ignore) {
-      (this->*token)();
-      
-      return nullptr;
-    }
-
-    // =============================================================================================================
     TOKFUN(ignore_whitespace) {
       star<is_whitespace>();
       return nullptr;
