@@ -323,12 +323,20 @@ inline char strgetc(const char ** cursor) {
 }
 
 inline char * slurp_word (const char * str) {
-  const char *  begin  = str;
   const char ** cursor = &str;
+  char          c;
 
-  char c;
+  while (is_whitespace(c = strgetc(cursor))) {
+    // printf("Skip past '%c' (%u).\n", c, c);
+  }
+  
+  --*cursor;
+  
+  // printf("Looking at '%c' (%u).\n", **cursor, **cursor);
 
-  printf("Cursor: %zu.\n", *cursor);
+  const char * begin = *cursor;
+ 
+  // printf("Cursor: %zu.\n", *cursor);
 
   while (! is_whitespace(c = strgetc(cursor)));
 
@@ -343,32 +351,33 @@ inline char * slurp_word (const char * str) {
 
   word[len - 1] = 0;
   
-  printf("End: %zu\n", str);
-  printf("Diff: %zu\n", len);
+  // printf("End: %zu\n", str);
+  // printf("Diff: %zu\n", len);
 
   return word;
 }
 
 int main() {
-  // const char *  sexp   = "(+ 2 3 (* 4 5))";
-  const char *  sexp   = "one two three";
-  // const char ** cursor = &sexp;
-  
-  // printf("Got '%c'.\n", strgetc(cursor));
-  
-  // char c;
+  {
+    const char *  sexp   = "one two three";
 
-  char * word = slurp_word(sexp);
+    char * word = slurp_word(sexp);
 
-  if (nullptr == word)
-    printf("Word is null.\n");
-  else
-    printf("Word is '%s'.\n", word);
+    if (nullptr == word)
+      printf("Word is null.\n");
+    else
+      printf("Word is '%s'.\n", word);
   
-  // while ((c = strgetc(cursor)) != 0) {
-  //   printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
-  //   fflush(stdout);
-  // } 
+  }
+  {  const char *  sexp   = "  \n  \t one two three";
+
+    char * word = slurp_word(sexp);
+
+    if (nullptr == word)
+      printf("Word is null.\n");
+    else
+      printf("Word is '%s'.\n", word);
+  }
 }
 
 
