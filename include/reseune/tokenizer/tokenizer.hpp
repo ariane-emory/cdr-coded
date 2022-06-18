@@ -62,7 +62,7 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    T_CHAR_F inline static bool negate(char c) {
+    T_CHAR_F inline static bool negate(const char c) {
       return ! CF(c);
     }
     
