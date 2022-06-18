@@ -320,31 +320,41 @@ inline char strgetc(const char ** cursor) {
 }
 
 // ===============================================================================================================
+struct c_str_cursor {
+  const char *  pos;
+  const char ** cursor;
+  c_str_cursor(const char * const str) : pos(str), cursor(&pos) {}
+};
+
+// ===============================================================================================================
 inline void discard_while(
   bool(*predicate)(const char),
-  const char ** cursor) {
+  c_str_cursor & cursor) {
   char c;
 
-  do { c = strgetc(cursor); }
+  do { c = strgetc(cursor.cursor); }
   while (is_whitespace(c));
-  --*cursor;
+  --*(cursor.cursor);
+}
+
+// ===============================================================================================================
+inline void discard_whitespace(c_str_cursor & cursor) {
+  discard_while(is_whitespace, cursor);
 }
 
 // ===============================================================================================================
 inline char * slurp_until (
   bool(*predicate)(const char),
-  const char ** cursor) {
-  discard_while(is_whitespace, cursor);
-  
+  c_str_cursor & cursor) {
   char c;
   
-  const char * begin = *cursor;
+  const char * begin = *cursor.cursor;
   
-  do { c = strgetc(cursor); }
+  do { c = strgetc(cursor.cursor); }
   while (0 != c && !predicate(c));
-  --*cursor;
+  --*(cursor.cursor);
   
-  size_t len  = uintptr(*cursor) - uintptr(begin);
+  size_t len  = uintptr(*cursor.cursor) - uintptr(begin);
 
   if (0 == len)
     return nullptr;
@@ -360,23 +370,23 @@ inline char * slurp_until (
 }
 
 
-inline char * slurp_word (const char ** cursor) {
+inline char * slurp_word (c_str_cursor & cursor) {
   return slurp_until(is_whitespace, cursor);
 }
+
 
 int main() {
   setup_allocator();
 
   // measure_time(test_allocator);
   
-  const char * const sexp   = "one two three four\n five six seven\n eight";
-  const char *       pos    = sexp;
-  const char **      cursor = &pos;
-  char *             word   = nullptr;
-
+  const char * const sexp { "one two three four\n five six seven\n eight" };
+  char *             word { nullptr };
+  c_str_cursor curs { sexp };
+  
   do {
-    // word = slurp_until(is_whitespace, cursor);
-    word = slurp_word(cursor);
+    discard_whitespace(curs);  
+    word = slurp_word(curs);
     
     if (nullptr == word) {
       printf("Word is null.\n");
