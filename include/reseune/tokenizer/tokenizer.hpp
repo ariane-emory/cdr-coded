@@ -8,6 +8,7 @@
 #define BEGIN   const char * const begin {m_position}
 #define NULLP   return nullptr
 #define BACK    --*this
+#define CHOMP   (*this)++
 
 // =================================================================================================================
 namespace reseune {
@@ -74,7 +75,7 @@ namespace reseune {
         NULLP;
 
       BEGIN;
-      (*this)++;
+      CHOMP;
       
       return create_new_c_str(span{begin, m_position});
     }
@@ -96,7 +97,7 @@ namespace reseune {
         
         BEGIN;
   
-        do { c = (*this)++; }
+        do { c = CHOMP; }
         while (0 != c && predicate(c));
         BACK;
 
