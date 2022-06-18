@@ -11,14 +11,14 @@
 
 #include "macros.hpp"
 
+// =============================================================================================================
 namespace reseune {
-  // ===========================================================================================================
   
+  // ===========================================================================================================
   template <typename T>
   class allocator;
 
   // ===========================================================================================================
-
   struct strategies {
     template <typename alloc_node_t>
     struct no_track {
@@ -52,7 +52,6 @@ namespace reseune {
   };
 
   // ===========================================================================================================
-  
   template <typename T>
   class allocator {
   public:
@@ -76,10 +75,9 @@ namespace reseune {
 #endif
       ;
     
-    // =======================================================================================================
-    
   private:
 
+    // =======================================================================================================
     VOIDFUN(split_block, alloc_node & block, SIZEARG, VERBOSEARG) {
       ALLOC_NODEP_TO_REF(new_block, UINTPTR(BSTART(block)) + size);
         
@@ -95,11 +93,10 @@ namespace reseune {
       DESCRIBE(new_block);
       PRHLINE;
     }
-
-    // =======================================================================================================
     
   public:
     
+    // =======================================================================================================
     VOIDFUN(place_block, alloc_node & new_block, VERBOSEARG) {
       PRLINE;
       PRINT("Placing block", &new_block);
@@ -115,10 +112,9 @@ namespace reseune {
       place_block_strategy(new_block, verbose);
     }
           
-    // =======================================================================================================
-
   private:
     
+    // =======================================================================================================
     VOIDFUN(place_block_strategy, alloc_node & new_block, VERBOSEARG) {
       alloc_node * plast_block {nullptr}; 
  
@@ -149,10 +145,9 @@ namespace reseune {
       RCONS(new_block, plast_block); 
     }
           
-    // =======================================================================================================
-        
   public:
 
+    // =======================================================================================================
     VOIDFUN(add_memory, ADDRARG, SIZEARG, VERBOSEARG) {
       PRLINE;
       PRINTF("ADDING NEW MEMORY TO THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
@@ -182,7 +177,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-    
     VOIDFUN(describe_free_list) {
       const bool verbose {true};
 
@@ -207,7 +201,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-    
     PVOIDFUN(valloc, SIZEARG, size_t each =  1, VERBOSEARG) {
 #ifndef NDEBUG
       assert(size > 0);
@@ -269,7 +262,6 @@ namespace reseune {
     }
 
     // =======================================================================================================
-
     template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static
@@ -281,7 +273,6 @@ namespace reseune {
     }
     
     // =======================================================================================================
-
     template <typename TT>
 #ifdef RESEUNE_SINGLETON_ALLOCATOR
     static
@@ -291,7 +282,6 @@ namespace reseune {
     }
     
     // =======================================================================================================
-
     VOIDFUN(coalesce, VERBOSEARG) {
       PRLINE;
       PRINTF("COALESCING THE FREE LIST @ 0x%016lx = %ul!\n", PROOT, PROOT);
@@ -325,7 +315,6 @@ namespace reseune {
     }
   
     // =======================================================================================================
-    
     VOIDFUN(release, ADDRARG, VERBOSEARG, bool defer_coalesce = false) {
       // WARNING: something bad will probably happen if you try to release an address that wasn't ever
       // by one of these allocators (such that the addr does not have an alloc_info in the memory loction
