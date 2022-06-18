@@ -313,13 +313,6 @@ inline bool is_whitespace(const char c) {
 }
 
 // ===============================================================================================================
-inline char strgetc(const char ** cursor) {
-  char c = **cursor;
-  (*cursor)++;
-  return c;
-}
-
-// ===============================================================================================================
 struct c_str_cursor {
   const char *  start;
   const char ** position;
@@ -328,32 +321,47 @@ struct c_str_cursor {
   inline c_str_cursor(const char * const str) : start(str), position(&start) {}
 
   // =============================================================================================================
-  inline void operator -- () {
-    --*(position);
+  inline char operator ++ () {
+    ++*position;
+    return **position;
   }
 
-// =============================================================================================================
-  inline void operator -- (int) {
-    --*(this);
+  // =============================================================================================================
+  inline char operator ++ (int) {
+    char c = ** position;
+    ++*position;
+    return c;
   }
   
   // =============================================================================================================
-  inline void discard_while(
-    bool(*predicate)(const char)) {
+  inline char operator -- () {
+    --*position;
+    return **position;
+  }
+
+  // =============================================================================================================
+  inline char operator -- (int) {
+    char c = ** position;
+    --*position;
+    return c;
+  }
+  
+  // =============================================================================================================
+  inline void discard_while(bool (*predicate)(const char)) {
     char c;
 
-    do { c = strgetc(position); }
+    do { c = (*this)++; }
     while (is_whitespace(c));
     --*this;
   }
 
   // =============================================================================================================
-  inline char * slurp_until (bool (*predicate)(const char)) {
+  inline char * take_until (bool (*predicate)(const char)) {
     char c;
   
     const char * begin = *position;
   
-    do { c = strgetc(position); }
+    do { c = (*this)++; }
     while (0 != c && !predicate(c));
     --*this;
   
@@ -378,8 +386,8 @@ struct c_str_cursor {
   }
 
   // =============================================================================================================
-  inline char * slurp_word () {
-    return slurp_until(is_whitespace);
+  inline char * take_word () {
+    return take_until(is_whitespace);
   }
 
   // =============================================================================================================
@@ -398,7 +406,7 @@ int main() {
   
   do {
     curs.discard_whitespace();
-    word = curs.slurp_word();
+    word = curs.take_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
