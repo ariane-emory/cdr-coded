@@ -322,21 +322,22 @@ inline char strgetc(const char ** cursor) {
   return c;
 }
 
-inline char * slurp_word (const char * str) {
-  const char ** cursor = &str;
-  char          c = ' ';
+inline char * slurp_word (const char * str_pos) {
+  const char ** cursor = &str_pos;
+  char          c      = ' ';
 
   do { c = strgetc(cursor); }
-  while (0 != c && is_whitespace(c));
+  while (is_whitespace(c));
   --*cursor;
   
   const char * begin = *cursor;
- 
+  str_pos = *cursor;
+  
   do { c = strgetc(cursor); }
   while (0 != c && !is_whitespace(c = strgetc(cursor)));
   --*cursor;
   
-  size_t len  = uintptr(str) - uintptr(begin);
+  size_t len  = uintptr(str_pos) - uintptr(begin);
 
   if (0 == len) return nullptr;
   
