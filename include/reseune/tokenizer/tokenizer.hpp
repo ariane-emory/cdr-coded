@@ -93,14 +93,14 @@ namespace reseune {
 
     // =============================================================================================================
     template <match_f left, match_f right>
-        MATCH_F(either) {
-        BEGIN;
-        MATCH (left);
-        if MOVED
-          YIELD;
-        MATCH (right);
+    MATCH_F(either) {
+      BEGIN;
+      MATCH (left);
+      if MOVED
         YIELD;
-      }
+      MATCH (right);
+      YIELD;
+    }
 
     // =============================================================================================================
     T_CHAR MATCH_F(chr) {
