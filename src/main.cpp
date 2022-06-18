@@ -324,8 +324,7 @@ inline char strgetc(const char ** cursor) {
   return c;
 }
 
-inline char * slurp_word (const char * str_pos) {
-  const char ** cursor = &str_pos;
+inline char * slurp_word (const char ** cursor) {
   char          c      = ' ';
 
   do { c = strgetc(cursor); }
@@ -333,13 +332,12 @@ inline char * slurp_word (const char * str_pos) {
   --*cursor;
   
   const char * begin = *cursor;
-  str_pos = *cursor;
   
   do { c = strgetc(cursor); }
   while (0 != c && !is_whitespace(c));
   --*cursor;
   
-  size_t len  = uintptr(str_pos) - uintptr(begin);
+  size_t len  = uintptr(*cursor) - uintptr(begin);
 
   if (0 == len) return nullptr;
   
@@ -358,10 +356,11 @@ int main() {
 
   // measure_time(test_allocator);
   
-  const char *  sexp   = "  \n  \t one two three four\n five six seven\n eight";
+  const char *  sexp   = "one two three four\n five six seven\n eight";
   const char ** cursor = &sexp;
-  for (size_t ix = 0; ix < 5; ix++) {
-    char * word = slurp_word(sexp);
+
+  for (size_t ix = 0; ix < 12; ix++) {
+    char * word = slurp_word(cursor);
 
     if (nullptr == word)
       printf("Word is null.\n");
