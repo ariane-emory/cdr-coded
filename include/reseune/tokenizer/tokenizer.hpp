@@ -14,7 +14,6 @@ namespace reseune {
     using charfun_t = bool(*)(const char);
     using tokfun_t = char* (tokenizer::*)();
     using t = tokenizer;
-    
   public:
   
     // =============================================================================================================
