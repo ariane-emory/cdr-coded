@@ -1,11 +1,11 @@
-#ifndef RESEUNE_C_STR_CURSOR_HPP
-#define RESEUNE_C_STR_CURSOR_HPP
+#ifndef RESEUNE_TOKENIZER_HPP
+#define RESEUNE_TOKENIZER_HPP
 
 // =================================================================================================================
 namespace reseune {
   
   // ===============================================================================================================
-  class c_str_cursor {
+  class tokenizer {
   private:
     const char * const m_begin;
     const char * const m_end;
@@ -16,7 +16,7 @@ namespace reseune {
   public:
   
     // =============================================================================================================
-    constexpr inline c_str_cursor(const char * const str) :
+    constexpr inline tokenizer(const char * const str) :
       m_begin(str),
       m_end(&m_begin[strlen(str)]),
       m_position(m_begin) {}
@@ -68,71 +68,71 @@ namespace reseune {
 
     // =============================================================================================================
     template <predicate_t p>
-        inline void discard_while() {
-        discard_while(p);
-      }
-      inline void discard_while(predicate_t predicate) {
-        char c;
+    inline void discard_while() {
+      discard_while(p);
+    }
+    inline void discard_while(predicate_t predicate) {
+      char c;
 
-        do { c = (*this)++; }
-        while (is_whitespace(c));
-        --*this;
-      }
+      do { c = (*this)++; }
+      while (is_whitespace(c));
+      --*this;
+    }
 
-      // =============================================================================================================
-      inline char * take_one (predicate_t predicate) {
-        const char * begin = m_position;
+    // =============================================================================================================
+    inline char * take_one (predicate_t predicate) {
+      const char * begin = m_position;
 
-        if (!predicate(*m_position)) return nullptr;
+      if (!predicate(*m_position)) return nullptr;
       
-        (*this)++;
+      (*this)++;
       
-        return create_new_c_str(begin, m_position);
-      }
+      return create_new_c_str(begin, m_position);
+    }
 
-      // =============================================================================================================
-      template <predicate_t p>
-        inline char * take_until() {
-        return take_until(p);
-      }
-      inline char * take_until(predicate_t predicate) {
-        char c;
+    // =============================================================================================================
+    template <predicate_t p>
+    inline char * take_until() {
+      return take_until(p);
+    }
+    inline char * take_until(predicate_t predicate) {
+      char c;
   
-        const char * begin = m_position;
+      const char * begin = m_position;
   
-        do { c = (*this)++; }
-        while (0 != c && !predicate(c));
-        --*this;
+      do { c = (*this)++; }
+      while (0 != c && !predicate(c));
+      --*this;
 
-        return create_new_c_str(begin, m_position);
-      }
+      return create_new_c_str(begin, m_position);
+    }
 
-      // =============================================================================================================
-      template <predicate_t p>
-        inline char * take_while() {
-        return take_while(p);
-      }
-      inline char * take_while(predicate_t predicate) {
-        char c;
+    // =============================================================================================================
+    template <predicate_t p>
+    inline char * take_while() {
+      return take_while(p);
+    }
+    inline char * take_while(predicate_t predicate) {
+      char c;
   
-        const char * begin = m_position;
+      const char * begin = m_position;
   
-        do { c = (*this)++; }
-        while (0 != c && predicate(c));
-        --*this;
+      do { c = (*this)++; }
+      while (0 != c && predicate(c));
+      --*this;
 
-        return create_new_c_str(begin, m_position);
-      }
+      return create_new_c_str(begin, m_position);
+    }
 
-      // =============================================================================================================
-      inline void discard_whitespace() {
-        discard_while<is_whitespace>();
-      }
+    // =============================================================================================================
+    inline void discard_whitespace() {
+      discard_while<is_whitespace>();
+    }
 
-      // =============================================================================================================
-      inline char * take_word () {
-        return take_until<is_whitespace>();
-      }
+    // =============================================================================================================
+    inline char * take_word () {
+      return take_until<is_whitespace>();
+    }
 
   private: 
 
