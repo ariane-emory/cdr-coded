@@ -296,14 +296,14 @@ int main() {
   // reseune::measure_time(test_allocator);
   
   using t = tokenizer;
-  const char * const sexp { "abcdefg two three four\n five six seven\n eight" };
+  const char * const sexp { "(((abcdefg two three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            word {};
   
   do {
     tok.ignore_whitespace();
-    word = tok.word();
-    // word = tok.either<&t::chr<'('>, &t::word>();
+    //word = tok.word();
+    word = tok.either<&t::chr<'('>, &t::word>();
     // word = tok.either<&t::word, &t::word>();
     
     if (word.empty()) {

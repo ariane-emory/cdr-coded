@@ -74,7 +74,6 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(whitespace) {
-      // return chars<is_whitespace>();
       return star<&t::chr_f<is_whitespace>>();
     }
 
@@ -115,7 +114,6 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR MATCH_F(chr) {
-      // printf("1 Looking at '%c'.\n", HERE);
       return chr_f<is_char<C>>();
     }
     
@@ -135,21 +133,10 @@ namespace reseune {
       const char * last_pos;
       
       do {
-        // printf("Star...\n");
         last_pos = POS;
         DO_MATCH;
       } while (NOT_NULL && POS != last_pos);
       
-      YIELD;
-    }
-
-    // =============================================================================================================
-    T_CHAR_F MATCH_F(chars) {
-      //return star<&t::chr<CF>>();
-      
-      BEGIN;
-      while (NOT_NULL && CHAR_MATCHES)
-        NEXT;      
       YIELD;
     }
 
