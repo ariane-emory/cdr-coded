@@ -13,6 +13,7 @@
 #define CHOMP             (*this)++
 #define YIELD             return span{begin, m_position}
 #define CALL(tf)          (this->*tf)()
+#define HERE              **this
 
 // =================================================================================================================
 namespace reseune {
@@ -91,7 +92,7 @@ namespace reseune {
     // =============================================================================================================
     template <charfun_t predicate>
     TOKFUN(one) {
-      if (negate<predicate>(*m_position))
+      if (negate<predicate>(HERE))
         NOTHING;
 
       BEGIN;
@@ -149,5 +150,7 @@ namespace reseune {
 #undef CHOMP
 #undef YIELD
 #undef CALL
+#undef HERE
 
 #endif
+
