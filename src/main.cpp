@@ -320,6 +320,17 @@ inline char strgetc(const char ** cursor) {
 }
 
 // ===============================================================================================================
+inline char * discard_while(
+  bool(*predicate)(const char),
+  const char ** cursor) {
+  char c;
+
+  do { c = strgetc(cursor); }
+  while (is_whitespace(c));
+  --*cursor;
+}
+
+// ===============================================================================================================
 inline char * slurp_until (
   bool(*predicate)(const char),
   const char ** cursor) {
