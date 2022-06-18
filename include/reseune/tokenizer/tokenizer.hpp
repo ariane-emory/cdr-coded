@@ -104,12 +104,12 @@ namespace reseune {
 
     // =============================================================================================================
     static inline char * create_new_c_str(span const & tok) {      
-      const size_t len  = uintptr(tok.end) - uintptr(tok.begin);
+      const size_t len  {uintptr(tok.end) - uintptr(tok.begin)};
       
       if (0 == len) return nullptr;
   
-      const size_t siz  = (len + 1) * sizeof(char);
-      char * word = static_cast<char *>(malloc(siz));
+      const size_t siz  {(len + 1) * sizeof(char)};
+      char *       word {static_cast<char *>(malloc(siz))};
 
       memcpy(word, tok.begin, siz);
 
