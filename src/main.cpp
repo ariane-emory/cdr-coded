@@ -313,14 +313,13 @@ int main() {
   // measure_time(test_allocator);
 
   const char * sexp = "(+ 2 3 (* 4 5))";
-  const char ** cursor = &sexp;
 
   // printf("Got '%c'.\n", strgetc(cursor));
   
   char c;
 
-  while ((c = strgetc(cursor)) != 0) {
-    printf("Got '%c' (%u).\n", strgetc(cursor), static_cast<uint64_t>(c));
+  while ((c = strgetc(&sexp)) != 0) {
+    printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
     fflush(stdout);
   } 
 }
