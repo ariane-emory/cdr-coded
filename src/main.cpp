@@ -296,6 +296,12 @@ void measure_time(void(*fun)()) {
 
 // ===============================================================================================================
 
+char strgetc(const char ** cursor) {
+  char c = **cursor;
+  (*cursor)++;
+  return c;
+}
+
 int main() {
   // describe_some_sizes();
   // cell::describe_class();
@@ -304,10 +310,19 @@ int main() {
   // describe_list(POOL[4]); // list of 89s / Ys.
   // draw_the_pool();
   // test_links();
-  measure_time(test_allocator);
+  // measure_time(test_allocator);
 
-  // LINE;
-  // print_bits("This thing", uintptr(mything));
+  const char * sexp = "(+ 2 3 (* 4 5))";
+  const char ** cursor = &sexp;
+
+  // printf("Got '%c'.\n", strgetc(cursor));
+  
+  char c;
+
+  while ((c = strgetc(cursor)) != 0) {
+    printf("Got '%c'.\n", strgetc(cursor));
+    fflush(stdout);
+  } 
 }
 
 
