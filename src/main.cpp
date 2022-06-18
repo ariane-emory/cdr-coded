@@ -306,8 +306,6 @@ int main() {
   // test_links();
   measure_time(test_allocator);
 
-  // thing mything { 15, 7, 3, 1 };
-
   // LINE;
   // print_bits("This thing", uintptr(mything));
 }
