@@ -27,7 +27,6 @@ using string     = std::string;
 using cell       = reseune::cell;
 using tag        = cell::tag_type;
 using link       = reseune::doubly_linked<char>;
-using thing      = reseune::thing;
 
 using alloc_node = 
 #ifdef RESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
