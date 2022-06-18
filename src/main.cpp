@@ -351,7 +351,7 @@ inline char * slurp_word (const char * str) {
 
 int main() {
   // const char *  sexp   = "(+ 2 3 (* 4 5))";
-  const char *  sexp   = " one two three";
+  const char *  sexp   = "one two three";
   // const char ** cursor = &sexp;
   
   // printf("Got '%c'.\n", strgetc(cursor));
