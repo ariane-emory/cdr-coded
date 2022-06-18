@@ -295,31 +295,24 @@ int main() {
 
   // reseune::measure_time(test_allocator);
   
+  using t = tokenizer;
   const char * const sexp { "(((one two three four\n five six seven\n eight" };
-  tokenizer          tok  { sexp };
-  tokenizer::span word {};
+  t                  tok  { sexp };
+  t::span            word {};
   
   do {
     tok.ignore_whitespace();
-
-    // printf("fun @ %zu\n", &tokenizer::take_word);
-    // printf("fun @ %zu\n", &tokenizer::take_one<is_char<'('>>);
-
-    using t = tokenizer;
     
     word = tok.either<
       &t::one<is_char<'('>>,
       &t::word>();
-    // word = tok.take_one(is_char<'('>);
-    // if (nullptr == word)
-    //   word = tok.take_word();
     
     if (word.empty()) {
       printf("Word is null.\n");
     }
     else {
       printf("Word is '%s'.\n", word.c_str());
-      free(reinterpret_cast<void *>(&word));
+      // free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
     }
   } while (! word.empty());
 
