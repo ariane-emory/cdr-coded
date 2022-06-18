@@ -356,10 +356,10 @@ int main() {
 
   // measure_time(test_allocator);
   
-  const char *  sexp   = "one two three four\n five six seven\n eight";
-  const char *  pos    = sexp;
-  const char ** cursor = &pos;
-
+  const char * const sexp   = "one two three four\n five six seven\n eight";
+  const char *       pos    = sexp;
+  const char **      cursor = &pos;
+  
   for (size_t ix = 0; ix < 12; ix++) {
     char * word = slurp_word(cursor);
 
@@ -368,7 +368,8 @@ int main() {
     else
       printf("Word is '%s'.\n", word);
   }
-  // ALLOC describe_free_list();
+
+  ALLOC describe_free_list();
 }
 
 
