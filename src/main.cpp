@@ -4,6 +4,7 @@
 #include <inttypes.h>
 #include <stdexcept>
 #include <chrono>
+#include <tuple>
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
@@ -305,13 +306,6 @@ void measure_time(void(*fun)()) {
 // test_links();
 // measure_time(test_allocator);
 
-inline char strgetc(const char ** cursor) {
-  char c = **cursor;
-  (*cursor)++;
-  return c;
-}
-
-
 inline bool is_whitespace(const char c) {
   return ((c == ' ')
           || (c == 9)
@@ -321,17 +315,30 @@ inline bool is_whitespace(const char c) {
           || (c == 13));
 }
 
+inline char strgetc(const char ** cursor) {
+  char c = **cursor;
+  (*cursor)++;
+  return c;
+}
+
 inline void slurp_word (const char * str) {
+  const char *  begin  = str;
   const char ** cursor = &str;
+
+  std::ignore = begin;
+  
   char c;
+
+  printf("Cursor: %zu.\n", *cursor);
 
   while (! is_whitespace(c = strgetc(cursor))) {
     printf("Got '%c' (%u).\n", c, static_cast<uint64_t>(c));
+    printf("Cursor: %zu.\n", *cursor);
   };
 
-  printf("Start: %zu\n", str);
-  printf("End: %zu\n", *cursor);
-  printf("Diff: %zu\n", uintptr(*cursor) - uintptr(str));
+  printf("Start: %zu\n", begin);
+  printf("End: %zu\n", str);
+  printf("Diff: %zu\n", uintptr(str) - uintptr(begin));
 }
 
 int main() {
