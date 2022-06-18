@@ -28,16 +28,21 @@ namespace reseune {
     constexpr const char * end() const {
       return m_end;
     }
-  
+    
+    // =============================================================================================================
+    constexpr char operator * () const {
+      return *m_position;
+    }
+    
     // =============================================================================================================
     inline char operator ++ () {
       ++m_position;
-      return *m_position;
+      return **this;
     }
 
     // =============================================================================================================
     inline char operator ++ (int) {
-      char c = *m_position;
+      char c = **this;
       ++m_position;
       return c;
     }
@@ -50,7 +55,7 @@ namespace reseune {
 
     // =============================================================================================================
     inline char operator -- (int) {
-      char c = *m_position;
+      char c = **this;
       --m_position;
       return c;
     }

@@ -103,9 +103,7 @@ namespace reseune {
     template <tokfun_t tokfun>
     TOKFUN(plus) {
       BEGIN;
-
-      (this->*tokfun)();
-
+      CALL(tokfun);
       NOTHING;
     }
 
@@ -150,5 +148,6 @@ namespace reseune {
 #undef BACK
 #undef CHOMP
 #undef YIELD
+#undef CALL
 
 #endif
