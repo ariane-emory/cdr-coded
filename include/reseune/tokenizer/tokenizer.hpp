@@ -7,17 +7,18 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN              char c; std::ignore = c; const char * const begin {m_position}
+#define BEGIN              char c; std::ignore = c; const char * const begin {POS}
 #define NOTHING            return span{}
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
-#define YIELD              return span{begin, m_position}
+#define YIELD              return span{begin, POS}
 #define DO_MATCH           (MATCH(MF))
 #define MATCH(tf)          (this->*tf)()
 #define HERE               (**this)
-#define MOVED              (begin != m_position)
+#define MOVED              (begin != POS)
+#define POS                (m_position)         
 #define UNMOVED            (! MOVED)
-#define REWIND             (m_position = begin)
+#define REWIND             (POS = begin)
 #define NOT_NULL           (0 != HERE)
 #define CHAR_MATCHES       (CF(HERE))
 #define T_CHAR_F           template <char_f CF>
@@ -104,11 +105,14 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR MATCH_F(chr) {
+      printf("1 Looking at '%c'.\n", HERE);
       return chr<is_char<C>>();
     }
     
     // =============================================================================================================
     T_CHAR_F MATCH_F(chr) {
+      // printf("2 Looking at '%c'.\n", HERE);
+      
       BEGIN;      
       unless (CHAR_MATCHES)
         NOTHING;
@@ -129,9 +133,13 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(star) {
       BEGIN;
+
+      const char * last_pos;
+      
       do {
+        last_pos = POS;
         DO_MATCH;
-      } while MOVED;
+      } while (POS != last_pos);
       YIELD;
     }
 
