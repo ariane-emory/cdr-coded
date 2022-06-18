@@ -340,7 +340,38 @@ inline char * slurp_word (const char ** cursor) {
   
   size_t len  = uintptr(*cursor) - uintptr(begin);
 
-  if (0 == len) return nullptr;
+  if (0 == len)
+    return nullptr;
+  
+  size_t siz  = (len + 1) * sizeof(char);
+  char * word = static_cast<char *>(malloc(siz));
+
+  memcpy(word, begin, siz);
+
+  word[len] = 0;
+
+  return word;
+}
+
+inline char * slurp_until_not (
+  const char ** cursor,
+  bool(*predicate)(const char)) {
+  char c;
+
+  do { c = strgetc(cursor); }
+  while (is_whitespace(c));
+  --*cursor;
+  
+  const char * begin = *cursor;
+  
+  do { c = strgetc(cursor); }
+  while (0 != c && !predicate(c));
+  --*cursor;
+  
+  size_t len  = uintptr(*cursor) - uintptr(begin);
+
+  if (0 == len)
+    return nullptr;
   
   size_t siz  = (len + 1) * sizeof(char);
   char * word = static_cast<char *>(malloc(siz));
@@ -361,10 +392,10 @@ int main() {
   const char *       pos    = sexp;
   const char **      cursor = &pos;
   char *             word   = nullptr;
-  
+
   do {
     word = slurp_word(cursor);
-
+    
     if (nullptr == word) {
       printf("Word is null.\n");
     }
@@ -374,7 +405,7 @@ int main() {
     }
   } while (nullptr != word);
 
-  // ALLOC describe_free_list();
+  //ALLOC describe_free_list();
 }
 
 
