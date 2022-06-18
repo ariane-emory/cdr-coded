@@ -12,16 +12,17 @@
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return span{begin, m_position}
-#define DO_MATCH(tf)       (this->*tf)()
+#define DO_MATCH           (MATCH(tokfun))
+#define MATCH(tf)          (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != m_position)
 #define UNMOVED            (! MOVED)
 #define REWIND             (m_position = begin)
 #define NOTNULL            (0 != HERE)
 #define PREDICATE          (predicate(HERE))
-#define T_CHAR_F           template <charfun_t predicate>
+#define T_CHAR_F           template <char_f predicate>
 #define TCHAR              template <char C>
-#define T_MATCH_F           template <tokfun_t tokfun>
+#define T_MATCH_F          template <match_f tokfun>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -50,8 +51,8 @@ namespace reseune {
   private:
 
     // ===============================================================================================================
-    using charfun_t = bool (*)(const char);
-    using tokfun_t = span (tokenizer::*)();
+    using char_f = bool (*)(const char);
+    using match_f = span (tokenizer::*)();
     using t = tokenizer;
 
   public:
@@ -66,7 +67,7 @@ namespace reseune {
     
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
-      DO_MATCH(tokfun);
+      DO_MATCH;
       NOTHING;
     }
 
@@ -86,13 +87,13 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <tokfun_t left, tokfun_t right>
+    template <match_f left, match_f right>
     MATCH_F(either) {
       BEGIN;
-      DO_MATCH (left);
+      MATCH (left);
       if MOVED
         YIELD;
-      DO_MATCH (right);
+      MATCH (right);
       YIELD;
     }
 
@@ -114,10 +115,10 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       BEGIN;
-      DO_MATCH(tokfun);
+      MATCH(tokfun);
       if UNMOVED
         NOTHING;
-      DO_MATCH(chars<tokfun>);
+      MATCH(chars<tokfun>);
       YIELD;
     }
 
@@ -157,7 +158,7 @@ namespace reseune {
 #undef BACK
 #undef NEXT
 #undef YIELD
-#undef DO_MATCH
+#undef MATCH
 #undef HERE
 #undef MOVED
 #undef UNMOVED
