@@ -51,6 +51,7 @@ allocator<alloc_node> alloc {};
 #endif
 
 #define malloc(s) ALLOC valloc(s, 1, verbose)
+#define free(s) ALLOC release(s, verbose)
 
 const bool verbose {false};
 
@@ -325,7 +326,7 @@ inline char strgetc(const char ** cursor) {
 }
 
 inline char * slurp_word (const char ** cursor) {
-  char          c      = ' ';
+  char c;
 
   do { c = strgetc(cursor); }
   while (is_whitespace(c));
@@ -359,15 +360,19 @@ int main() {
   const char * const sexp   = "one two three four\n five six seven\n eight";
   const char *       pos    = sexp;
   const char **      cursor = &pos;
-
-  const char * word = nullptr;
+  char *             word   = nullptr;
   
-  while ((word = slurp_word(cursor)) != nullptr) {
-    if (nullptr == word)
+  do {
+    word = slurp_word(cursor);
+
+    if (nullptr == word) {
       printf("Word is null.\n");
-    else
+    }
+    else {
       printf("Word is '%s'.\n", word);
-  }
+      free(word);
+    }
+  } while (nullptr != word);
 
   // ALLOC describe_free_list();
 }
