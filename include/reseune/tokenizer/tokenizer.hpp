@@ -12,7 +12,7 @@
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return span{begin, m_position}
-#define DO_MATCH           (MATCH(match_f))
+#define DO_MATCH           (MATCH(match_ff))
 #define MATCH(tf)          (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != m_position)
@@ -22,7 +22,7 @@
 #define CHAR_MATCHES       (predicate(HERE))
 #define T_CHAR_F           template <char_f predicate>
 #define T_CHAR             template <char C>
-#define T_MATCH_F          template <match_f match_f>
+#define T_MATCH_F          template <match_f match_ff>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -118,7 +118,7 @@ namespace reseune {
       DO_MATCH;
       if UNMOVED
         NOTHING;
-      MATCH(star<match_f>);
+      MATCH(star<match_ff>);
       YIELD;
     }
 
