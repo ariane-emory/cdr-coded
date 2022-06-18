@@ -336,9 +336,11 @@ inline void slurp_word (const char * str) {
     printf("Cursor: %zu.\n", *cursor);
   };
 
+  size_t size = uintptr(str) - uintptr(begin);
+  
   printf("Start: %zu\n", begin);
   printf("End: %zu\n", str);
-  printf("Diff: %zu\n", uintptr(str) - uintptr(begin));
+  printf("Diff: %zu\n", size);
 }
 
 int main() {
