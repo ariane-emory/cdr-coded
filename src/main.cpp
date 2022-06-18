@@ -320,7 +320,7 @@ int main() {
   char c;
 
   while ((c = strgetc(cursor)) != 0) {
-    printf("Got '%c'.\n", strgetc(cursor));
+    printf("Got '%c' (%u).\n", strgetc(cursor), static_cast<uint64_t>(c));
     fflush(stdout);
   } 
 }
