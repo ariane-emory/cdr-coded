@@ -79,7 +79,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return plus<&t::chrf<negate<is_whitespace>>>();
+      return plus<&t::chr_f<negate<is_whitespace>>>();
     }
 
     // =============================================================================================================
@@ -116,13 +116,11 @@ namespace reseune {
     // =============================================================================================================
     T_CHAR MATCH_F(chr) {
       // printf("1 Looking at '%c'.\n", HERE);
-      return chrf<is_char<C>>();
+      return chr_f<is_char<C>>();
     }
     
     // =============================================================================================================
-    T_CHAR_F MATCH_F(chrf) {
-      // printf("2 Looking at '%c'.\n", HERE);
-      
+    T_CHAR_F MATCH_F(chr_f) {
       BEGIN;      
       unless (NOT_NULL & CHAR_MATCHES)
         NOTHING;
