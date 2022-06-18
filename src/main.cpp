@@ -297,7 +297,7 @@ int main() {
   
   const char * const sexp { "(((one two three four\n five six seven\n eight" };
   tokenizer          tok  { sexp };
-  char *             word { nullptr };
+  tokenizer::span word {};
   
   do {
     tok.ignore_whitespace();
@@ -314,20 +314,20 @@ int main() {
     // if (nullptr == word)
     //   word = tok.take_word();
     
-    if (nullptr == word) {
+    if (word.empty()) {
       printf("Word is null.\n");
     }
     else {
-      printf("Word is '%s'.\n", word);
-      free(word);
+      printf("Word is '%s'.\n", word.c_str());
+      free(reinterpret_cast<void *>(&word));
     }
-  } while (nullptr != word);
+  } while (! word.empty());
 
-  //ALLOC describe_free_list();
+//ALLOC describe_free_list();
 
-  tokenizer tok2 { "abc" };
+           tokenizer tok2 { "abc" };
 
-  for (char c : tok2)
+           for (char c : tok2)
     putchar(c);
 
   putchar('\n');

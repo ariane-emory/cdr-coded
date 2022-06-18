@@ -4,9 +4,9 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
-#define TOKFUN(name, ...) inline char * name(__VA_ARGS__)
+#define TOKFUN(name, ...) inline span name(__VA_ARGS__)
 #define BEGIN   const char * const begin {m_position}
-#define NULLP   return nullptr
+#define NOTHING return span{}
 #define BACK    --*this
 #define CHOMP   (*this)++
 
@@ -15,17 +15,32 @@ namespace reseune {
   
   // ===============================================================================================================
   class tokenizer : public c_str_cursor {
+  public:
+    struct span {
+      const char * begin;
+      const char * end;
+
+      size_t len() const {
+        return end - begin;
+      }
+
+      bool empty() const {
+        return 0 ==len();
+      }
+
+      char * c_str() const {
+        return create_new_c_str(*this);
+      }
+    };
+
   private:
+
+    // ===============================================================================================================
     using charfun_t = bool (*)(const char);
-    using tokfun_t = char * (tokenizer::*)();
+    using tokfun_t = span (tokenizer::*)();
     using t = tokenizer;
 
   public:
-
-    struct span {
-      const char * const begin;
-      const char * const end;
-    };
     
     // =============================================================================================================
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
@@ -40,7 +55,8 @@ namespace reseune {
     template <tokfun_t tokfun>
     TOKFUN(ignore) {
       (this->*tokfun)();
-      NULLP;
+
+      NOTHING;
     }
 
     // =============================================================================================================
@@ -62,9 +78,9 @@ namespace reseune {
     // =============================================================================================================
     template <tokfun_t left, tokfun_t right>
     TOKFUN(either) {
-      char * const ret {(this->*left)()};
+      span const ret {(this->*left)()};
 
-      return (nullptr == ret
+      return (ret.empty()
               ? (this->*right)()
               : ret);
     }
@@ -73,12 +89,12 @@ namespace reseune {
     template <charfun_t predicate>
     TOKFUN(one) {
       if (negate<predicate>(*m_position))
-        NULLP;
+        NOTHING;
 
       BEGIN;
       CHOMP;
       
-      return create_new_c_str(span{begin, m_position});
+      return span{begin, m_position};
     }
 
     // =============================================================================================================
@@ -88,7 +104,7 @@ namespace reseune {
 
       (this->*tokfun)();
 
-      NULLP;
+      NOTHING;
     }
 
       // =============================================================================================================
@@ -102,17 +118,16 @@ namespace reseune {
         while (0 != c && predicate(c));
         BACK;
 
-        return create_new_c_str(span{begin, m_position});
-    }
+        return span{begin, m_position};
+      }
 
   private: 
 
     // =============================================================================================================
     static inline char * create_new_c_str(span const & tok) {      
-      const size_t len  {uintptr(tok.end) - uintptr(tok.begin)};
-      
-      if (0 == len) NULLP;
+      if (tok.empty()) return nullptr;
   
+      const size_t len  {uintptr(tok.end) - uintptr(tok.begin)};      
       const size_t siz  {(len + 1) * sizeof(char)};
       char * const word {static_cast<char *>(malloc(siz))};
 
@@ -131,7 +146,7 @@ namespace reseune {
 
 #undef TOKFUN
 #undef BEGIN
-#undef NULLP
+#undef NOTHING
 #undef BACK
 #undef CHOMP
 
