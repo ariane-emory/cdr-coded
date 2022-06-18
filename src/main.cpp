@@ -301,8 +301,11 @@ int main() {
   
   do {
     cursor.discard_whitespace();
-    
-    word = cursor.take_word();
+
+    word = cursor.take_while(is_char<'('>);
+
+    if (nullptr == word)
+      word = cursor.take_word();
     
     if (nullptr == word) {
       printf("Word is null.\n");
