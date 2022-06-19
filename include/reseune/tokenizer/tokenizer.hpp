@@ -139,7 +139,7 @@ namespace reseune {
       // Match a C-style char predicate function.
 
       // We will never, ever permit maching a null character here!
-      // If you want to do that you will need to write some other function.
+      // If you want to do that you ought write some other function.
       unless (NOT_NULL)
         return NOTHING;      
       START;      
