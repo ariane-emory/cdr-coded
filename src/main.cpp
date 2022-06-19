@@ -305,7 +305,7 @@ int main() {
   using l = label_t;
   using t = tokenizer<l>;
 
-  const char * const sexp { "(((abcdefg 9two99 three four\n five six seven\n eight" };
+  const char * const sexp { "(((abcdefg two99 three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            result {};
   
