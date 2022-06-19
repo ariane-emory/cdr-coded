@@ -175,7 +175,7 @@ namespace reseune {
     T_2_MATCH_F MATCH_F(optional_prefix) {
       START;
       ignore<left>();
-      DO_MATCH(ignore<left>);
+      ignore<left>();;
       DO_MATCH(right);
       return SPAN;
     }
@@ -191,6 +191,11 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(positive_integer) {
       return zero_padded<&t::digits>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(integer) {
+      return optional_prefix<&t::character<'-'>, &t::positive_integer>();
     }
 
     // =============================================================================================================

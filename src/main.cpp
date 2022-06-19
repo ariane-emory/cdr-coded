@@ -18,7 +18,7 @@ using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  const char * const input    {"(((abcdefg wo_go_99 0001234 three four\n (five six) seven\n eight)" };
+  const char * const input    {"(((abcdefg wo_go_99 -1234 three four\n (five six) seven\n eight)" };
   t                  tokenizer{input};
   t::span            result   {};
   
@@ -27,7 +27,7 @@ int main() {
       tok either<
         tok label<symbol,  tok c_style_identifier>,
         tok either <
-          tok label<integer, tok positive_integer>,
+          tok label<integer, tok integer>,
           tok either<
             tok label<l_paren, tok character<'('>>,
             tok label<r_paren, tok character<')'>>>>>>();
