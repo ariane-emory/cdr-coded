@@ -164,9 +164,11 @@ namespace reseune {
     // Convenience match functions
     // =============================================================================================================
     MATCH_F(ignore_whites) {
+      // Ignore any number of whitespace characers.
       return ignore<&t::whitespaces>();
     }    
 
+    // Manufacture functions of type match_f for various C-style string predicate functions.
     FROM_C_CHAR_F(alnum,          isalnum);
     FROM_C_CHAR_F(alpha,          isalpha);
     FROM_C_CHAR_F(digit,          isdigit);
@@ -176,15 +178,16 @@ namespace reseune {
 
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(optional_prefix) {
+      // Match against left and then match against right (whether or not left moved the cursor).
       START;
       ignore<left>();
-      ignore<left>();;
       DO_MATCH(right);
       return SPAN;
     }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
+      // Ignore any number of 0s and then match against MF.
       MARK(restore);
       ignore<&t::star<&t::character<'0'>>>();
       START;
@@ -198,7 +201,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
-      
+      // Match a positive integer (but without a leading '+', for now).
       return either<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
@@ -207,7 +210,6 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-
       return either<&t::character<'+'>,
                     &t::either<&t::character<'-'>,
                                &t::either<&t::character<'/'>,
