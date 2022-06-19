@@ -34,6 +34,7 @@
 namespace reseune {
   
   // ===============================================================================================================
+  template <typename LABEL_T>
   class tokenizer : public c_str_cursor {
   public:
     struct span {
