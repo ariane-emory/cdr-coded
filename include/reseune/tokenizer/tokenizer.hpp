@@ -167,10 +167,10 @@ namespace reseune {
       return star<&t::name>();                                                  \
     }
 
-    FROM_C_CHAR_F(alnum, isalnum);
-    FROM_C_CHAR_F(alpha, isalpha);
-    FROM_C_CHAR_F(digit, isdigit);
-    FROM_C_CHAR_F(xdigit, isxdigit);
+    FROM_C_CHAR_F(alnum,      isalnum);
+    FROM_C_CHAR_F(alpha,      isalpha);
+    FROM_C_CHAR_F(digit,      isdigit);
+    FROM_C_CHAR_F(xdigit,     isxdigit);
     FROM_C_CHAR_F(whitespace, iswhitespace);
 
     // =============================================================================================================
