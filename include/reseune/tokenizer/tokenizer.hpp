@@ -75,10 +75,10 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against match_f while ignoring any surrounding whitespace (before and after).
-      ignore_white();
+      ignore_whites();
       START;
       MATCH;
-      ignore_white();
+      ignore_whites();
       return match;
     }
 
@@ -151,9 +151,7 @@ namespace reseune {
     // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
- 
-    // =============================================================================================================
-    MATCH_F(ignore_white) {
+    MATCH_F(ignore_whites) {
       return ignore<&t::whitespaces>();
     }    
 

@@ -25,12 +25,6 @@ namespace reseune {
     printf("Took %u ms.\n", after - before);
   }
 
-  // template <char c>
-  // inline bool is_char(const char other_c) {
-  //   return c == other_c;
-
-  // }
-
   template <char c>
   inline int ischar(int other_c) {
     return c == other_c;
