@@ -23,11 +23,11 @@ int main() {
     integer    // 4
   };
   
-  using   t = reseune::tokenizer<token_type>;
+  using t = reseune::tokenizer<token_type>;
   
-  t       tokenizer {input};
-  t::span token     {};
-  size_t  token_num {1};
+  t       tokenizer{input};
+  t::span token{};
+  size_t  token_num{1};
   
   do {
     token = tokenizer.strip<
@@ -38,8 +38,6 @@ int main() {
           read either<
             read label<l_paren, read character<'('>>,
             read label<r_paren, read character<')'>>>>>>();
-    
-    if (token)
-      printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
+    if (token) printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
 }
