@@ -164,7 +164,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(alpha) {
-      // Match onme alphabetic character.
+      // Match one alphabetic character.
       return character_f<boolified<isalpha>>();
     }
 
