@@ -302,7 +302,8 @@ int main() {
     word
   };
   
-  using t = tokenizer<label_t>;
+  using l = label_t;
+  using t = tokenizer<l>;
   const char * const sexp { "(((abcdefg two three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            word {};
@@ -310,13 +311,17 @@ int main() {
   do {
     tok.ignore_whitespace();
 
-    word = tok.strip<&t::either<&t::c<'('>, &t::word>>();
+    word = tok.strip<
+      &t::either<
+        &t::label<l::l_paren, &t::c<'('>>,
+        &t::label<l::word,    &t::word>>>();
     
     if (word.empty()) {
       printf("Word is null.\n");
     }
     else {
       printf("Word is '%s' (%u).\n", word.c_str(), word.label);
+      printf("Word is(%zu, %zu, %u).\n", word.begin, word.end, word.label);
       free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
     }
   } while (! word.empty());

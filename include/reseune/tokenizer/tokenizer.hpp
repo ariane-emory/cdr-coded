@@ -13,7 +13,7 @@
 #define NEXT               (c = ((*this)++))
 #define YIELD              return SPAN
 #define SPAN               span{begin, POS}
-#define STASH              const span stashed{begin, POS}
+#define STASH              span stashed{begin, POS}
 #define UNSTASH            return stashed
 #define MATCH              (DO_MATCH(MF))
 #define DO_MATCH(tf)       (this->*tf)()
@@ -110,6 +110,7 @@ namespace reseune {
       MATCH;
       STASH;
       stashed.label = l;
+      printf("stashed(%zu, %zu, %u).\n", stashed.begin, stashed.end, stashed.label);
       UNSTASH;
     }
 
