@@ -32,7 +32,7 @@ int main() {
   do {
     token = tokenizer.strip<
       read either<
-        read label<symbol,  read lispesque_identifier>,
+        read label<symbol, read lispesque_identifier>,
         read either <
           read label<integer, read integer>,
           read either<
