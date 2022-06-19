@@ -40,8 +40,18 @@ namespace reseune {
     struct span {
       const char * begin;
       const char * end;
+      LABEL_T label;
 
-      span(const char * b = nullptr, const char * e = nullptr) : begin(b), end(e) {}
+      span(
+        const char * b = nullptr,
+        const char * e = nullptr,
+        LABEL_T l = static_cast<LABEL_T>(0)) : begin(b), end(e), label(l) {}
+
+      // span & operator = (const span & other) {
+      //   begin = other.begin;
+      //   label = other.end;
+      //   end   = other.label;
+      // }
       
       size_t length() const {
         return end - begin;
