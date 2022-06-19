@@ -300,17 +300,17 @@ namespace reseune {
       }
 
       // ===========================================================================================================
-      constexpr operator bool() const {
-        // True iff the span is not empty.
-        return ! empty();
-      }
-
-      // ===========================================================================================================
       constexpr char * c_str() const {
         // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETUENED C STRING!
         return create_new_c_str(*this);
       }
       
+      // ===========================================================================================================
+      constexpr operator bool() const {
+        // True iff the span is not empty.
+        return ! empty();
+      }
+
       // ===========================================================================================================
     };
 
