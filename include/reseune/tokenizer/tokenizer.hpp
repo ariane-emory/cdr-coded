@@ -137,9 +137,16 @@ namespace reseune {
     // =============================================================================================================
     T_CHAR_F MATCH_F(character_f) {
       // Match a C-style char predicate function.
+
+
+      // We will never, ever permit maching a null character here!
+      // If you want to do that you will need to write some other function.
+      unless (NOT_NULL)
+        return NOTHING;
+      
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
-        return NOTHING;
+          return NOTHING;
       NEXT;      
       return SPAN;
     }
