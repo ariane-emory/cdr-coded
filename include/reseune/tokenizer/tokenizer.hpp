@@ -6,6 +6,7 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
+#define ABORT              { REWIND(restore); return NOTHING; }
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
@@ -13,7 +14,8 @@
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NULL_HERE          (0 == HERE)
-#define POS                (m_position)         
+#define POS                (m_position)
+#define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match{NOTHING}
 #define T_CHAR_F           template <char_f CF>
@@ -164,16 +166,14 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
       // Ignore any number of 0s and then match against MF.
-      MARK(restore);
+      SAVE;
       ignore<&t::star<&t::character<'0'>>>();
       START;
       MATCH;
-      unless (MOVED) {
-        REWIND(restore);
-        return NOTHING;
-      }
+      unless (MOVED)
+        ABORT;
       return match;
-    }
+      }
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
@@ -334,6 +334,7 @@ namespace reseune {
 }
 // =================================================================================================================
 
+#undef ABORT
 #undef CHAR_MATCHES
 #undef MOVED
 #undef HERE
@@ -343,6 +344,7 @@ namespace reseune {
 #undef NULL_HERE
 #undef POS
 #undef REWIND
+#undef SAVE
 #undef SPAN
 #undef START
 #undef T_CHAR_F
