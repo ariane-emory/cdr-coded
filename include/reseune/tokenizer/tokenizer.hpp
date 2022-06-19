@@ -284,7 +284,9 @@ namespace reseune {
     // =============================================================================================================
     // Static functions
     // =============================================================================================================
-    static inline char * create_new_c_str(span const & tok) {      
+    static inline char * create_new_c_str(span const & tok) {
+      // Create a *new* C string from a span. The caller owns the returned string!
+
       if (tok.empty()) return nullptr;
   
       const size_t siz  {(tok.length() + 1) * sizeof(char)};
