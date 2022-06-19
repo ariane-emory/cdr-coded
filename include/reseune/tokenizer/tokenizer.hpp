@@ -145,7 +145,7 @@ namespace reseune {
       // If you want to do that you ought write some other function.
       if (NULL_HERE)
         return NOTHING;
-      
+     
       START;      
       unless (CHAR_MATCHES)
         return NOTHING;
