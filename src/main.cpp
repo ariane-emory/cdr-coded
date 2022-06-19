@@ -18,8 +18,17 @@ using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  const char * const input    {"(((abcdefg wo-go-99 0 0 123 00123 1+ -12 -012 -33 three four\n (five six) seven\n eight 1+)" };
-  // const char * const input    {"0 123 00123 -12 -012 -33"};
+  // const char * const input    {"(((abcdefg wo-go-99 0 0 123 00123 1+ -12 -012 -33 three four\n (five six) seven\n eight 1+)" };
+  const char * const input    {
+    "b "
+    "(+ 2 4) "
+    "(* 2 581) "
+    "(let (a (- 6 1))) "
+    "(/ a (% a 3)) "
+    "5 "
+    "a "
+  };
+  
   t                  tokenizer{input};
   t::span            result   {};
   

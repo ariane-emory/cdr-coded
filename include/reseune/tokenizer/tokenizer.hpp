@@ -231,7 +231,7 @@ namespace reseune {
       return either<&t::character<'+'>,
                     &t::either<&t::character<'-'>,
                                &t::either<&t::character<'/'>,
-                                          &t::character<'%'>>>>();
+                                          &t::character<'*'>>>>();
     }
 
     // =============================================================================================================
