@@ -222,7 +222,7 @@ namespace reseune {
     MATCH_F(plain_symbol) {
       // return plus<&t::character_f<negate<is_whitespace>>>();
       START;
-      match_f MF{&t::star<&t::alnum>};
+      match_f MF{&t::both<&t::alpha, &t::star<&t::alnum>>};
       DO_MATCH(MF);
       return match;
     }
