@@ -225,6 +225,15 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    MATCH_F(basic_math_op) {
+      return
+        either<&t::character<'+'>,
+               &t::either<&t::character<'-'>,
+                          &t::either<&t::character<'*'>
+                                     &t::character<'%'>>>>();
+    }
+
+    // =============================================================================================================
     MATCH_F(integer) {
       return optional_prefix<&t::character<'-'>, &t::positive_integer>();
     }
