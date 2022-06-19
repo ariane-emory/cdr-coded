@@ -72,28 +72,6 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    // Character predicate functions
-    // =============================================================================================================
-    template <int (*fun)(int c)>
-    static bool boolified(char c) {
-      // Make a negated version of a character predicate function.
-      return 0 != fun(c);
-    }
-     
-    // =============================================================================================================
-      T_CHAR_F CHAR_F(negate) {
-        // Make a negated version of a character predicate function.
-        return ! CF(c);
-      }
-     
-    // =============================================================================================================
-    template <char_f left, char_f right>
-    CHAR_F(disjoin) {
-      // Make a char_f for the disjunction of left and right.
-      return left(c) || right(c);
-    }
-     
-    // =============================================================================================================
     // Match functions
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
@@ -216,6 +194,28 @@ namespace reseune {
       return both<&t::alpha, &t::star<&t::alnum>>();
     }
 
+    // =============================================================================================================
+    // Character predicate functions
+    // =============================================================================================================
+    template <int (*fun)(int c)>
+    static bool boolified(char c) {
+      // Convert a C-style character predicate with an 'int f(int)' type into one with a 'bool f(char)' type.
+      return 0 != fun(c);
+    }
+     
+    // =============================================================================================================
+    T_CHAR_F CHAR_F(negate) {
+      // Make a negated version of a character predicate function.
+      return ! CF(c);
+    }
+     
+    // =============================================================================================================
+    template <char_f left, char_f right>
+    CHAR_F(disjoin) {
+      // Make a char_f for the disjunction of left and right.
+      return left(c) || right(c);
+    }
+     
   private: 
 
     // =============================================================================================================
