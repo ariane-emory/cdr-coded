@@ -96,7 +96,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_2_MATCH_F MATCH_F(both) {
+    T_2_MATCH_F MATCH_F(both_of) {
       // Match against left and, if it matched, match against right.
       START;
       DO_MATCH(left);
@@ -134,7 +134,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       // Match against match_f one or more times
-      return both<MF, &t::star<MF>>();
+      return both_of<MF, &t::star<MF>>();
     }
 
     // =============================================================================================================
@@ -205,13 +205,15 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
-      return optional_prefix<&t::character<'-'>, &t::positive_integer>();
+      return optional_prefix
+        <&t::character<'-'>,
+         &t::positive_integer>();
     }
 
     // =============================================================================================================
     MATCH_F(c_style_identifier) {
       // Match C-style identifiers.
-      return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
+      return both_of<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
     }
 
     // =============================================================================================================
@@ -219,10 +221,10 @@ namespace reseune {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
       // Currently, identifiers must either:
       //   1. Consist of solely a basic math operator or, 
-      //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
-      return either<
+        //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
+        return either<
         &t::basic_math_op,
-        &t::both<
+        &t::both_of<
           &t::alpha,
           &t::star<&t::either<&t::character<'-'>,
                               &t::alnums>>>>();
