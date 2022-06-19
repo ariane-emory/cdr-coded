@@ -20,12 +20,12 @@ int main() {
     integer,   // 4
   };
   
-  using t            = reseune::tokenizer<token_type>;
-  t                    tokenizer{input};
-  t::span              token{};
-  size_t               token_num{1};
+  using t = reseune::tokenizer<token_type>;
+  t         tokenizer{input};
+  t::span   token{};
+  size_t    token_num{1};
   
-  #define read &t::
+#define read &t::
   
   do {
     token = tokenizer.strip<
