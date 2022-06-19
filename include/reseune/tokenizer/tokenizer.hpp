@@ -177,15 +177,6 @@ namespace reseune {
     FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
-    T_2_MATCH_F MATCH_F(optional_prefix) {
-      // Match against left and then match against right (whether or not left moved the cursor).
-      START;
-      ignore<left>();
-      DO_MATCH(right);
-      return SPAN;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
       // Ignore any number of 0s and then match against MF.
       MARK(restore);
@@ -215,6 +206,15 @@ namespace reseune {
                                &t::either<&t::character<'/'>,
                                           &t::either<&t::character<'*'>,
                                                      &t::character<'%'>>>>>();
+    }
+
+    // =============================================================================================================
+    T_2_MATCH_F MATCH_F(optional_prefix) {
+      // Match against left and then match against right (whether or not left moved the cursor).
+      START;
+      ignore<left>();
+      DO_MATCH(right);
+      return SPAN;
     }
 
     // =============================================================================================================
