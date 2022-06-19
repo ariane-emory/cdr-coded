@@ -79,12 +79,6 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(ignore) {
-      MATCH;
-      NOTHING;
-    }
-
-    // =============================================================================================================
     MATCH_F(whitespace) {
       return star<&t::c_f<is_whitespace>>();
     }
@@ -105,12 +99,17 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(ignore) {
+      MATCH;
+      NOTHING;
+    }
+
+    // =============================================================================================================
     template<LABEL_T l, match_f MF> MATCH_F(label) {
       START;
       MATCH;
       STASH;
       stashed.label = l;
-      // printf("stashed(%zu, %zu, %u).\n", stashed.begin, stashed.end, stashed.label);
       UNSTASH;
     }
 
