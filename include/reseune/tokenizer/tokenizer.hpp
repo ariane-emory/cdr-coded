@@ -227,6 +227,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(lispesque_identifier) {
+      // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
       return either<
         &t::basic_math_op,
         &t::both<
