@@ -145,7 +145,7 @@ namespace reseune {
     // =============================================================================================================
     T_CHAR MATCH_F(character) {
       // Match a particular character.
-      return character_f<is_char<C>>();
+      return character_f<boolified<ischar<C>>>();
     }
 
     // =============================================================================================================

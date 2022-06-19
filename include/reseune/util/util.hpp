@@ -25,22 +25,17 @@ namespace reseune {
     printf("Took %u ms.\n", after - before);
   }
 
-  template <char c>
-  inline bool is_char(const char other_c) {
-    return c == other_c;
+  // template <char c>
+  // inline bool is_char(const char other_c) {
+  //   return c == other_c;
 
-  }
-  
-  // inline bool is_whitespace(const char c) {
-  //   // printf("Examine '%c' (%u).\n", c, c);
-  //   return ((c == ' ')
-  //           || (c == 9)
-  //           || (c == 10)
-  //           || (c == 11)
-  //           || (c == 12)
-  //           || (c == 13));
   // }
 
+  template <char c>
+  inline int ischar(int other_c) {
+    return c == other_c;
+  }
+  
   // C-style type
   inline int iswhitespace(int c) {
     return ((c == ' ')
