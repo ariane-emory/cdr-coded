@@ -1,9 +1,6 @@
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
-#define read &t::
-
-// ===============================================================================================================
 int main() {
   const char * const input {
     "b\n"
@@ -23,13 +20,23 @@ int main() {
     integer    // 4
   };
   
-  class lisp_tokenizer : public reseune::tokenizer<token_type> {
+  struct lisp_tokenizer : public reseune::tokenizer<token_type> {
+    using base_t = reseune::tokenizer<token_type>;
+    inline base_t::span lispesque_identifier() {
+      return either<
+        &base_t::basic_math_op,
+        &base_t::both<
+          &base_t::alpha,
+            &base_t::star<&base_t::either<&base_t::character<'-'>,
+                                          &base_t::alnums>>>>();
+    }
   };
 
-  using t = reseune::tokenizer<token_type>;
-  
+  using t = lisp_tokenizer; 
+  #define read &lisp_tokenizer::base_t::
+ 
   t       tokenizer{input};
-  t::span token{};
+  lisp_tokenizer::span token{};
   size_t  token_num{1};
   
   do {
