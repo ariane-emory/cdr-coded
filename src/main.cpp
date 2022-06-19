@@ -295,7 +295,7 @@ int main() {
 
   // reseune::measure_time(test_allocator);
 
-  enum class label_t {
+  enum label_t {
     unlabeled,
     l_paren,
     r_paren,
@@ -304,25 +304,27 @@ int main() {
   
   using l = label_t;
   using t = tokenizer<l>;
+
   const char * const sexp { "(((abcdefg two three four\n five six seven\n eight" };
   t                  tok  { sexp };
-  t::span            word {};
+  t::span            result {};
   
   do {
     tok.ignore_whitespace();
 
-    word = tok.strip<
+    result = tok.strip<
       &t::either<
-        &t::label<l::l_paren, &t::c<'('>>,
-        &t::label<l::word,    &t::word>>>();
+        &t::label<l_paren, &t::c<'('>>,
+        &t::label<word,    &t::word>>>();
     
-    if (word.empty()) {
+    if (result.empty()) {
       printf("Word is null.\n");
     }
     else {
-      printf("Word is '%s' (%u).\n", word.c_str(), word.label);
-      printf("Word is(%zu, %zu, %u).\n", word.begin, word.end, word.label);
-      free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
+      // printf("Word is '%s' (%u).\n", result.c_str(), result.label);
+      // printf("Word is(%zu, %zu, %u).\n", result.begin, result.end, result.label);
+      printf("Word is(%u, '%s').\n", result.label, result.c_str());
+      free(reinterpret_cast<void *>(&result)); // Fix alloocator link!
     }
-  } while (! word.empty());
+  } while (! result.empty());
 }

@@ -7,13 +7,13 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN              char c; std::ignore = c; MARK(begin)
+#define START              char c; std::ignore = c; MARK(begin)
 #define NOTHING            return span{}
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return SPAN
 #define SPAN               span{begin, POS}
-#define STASH              span stashed{begin, POS}
+#define STASH              span stashed{match}
 #define UNSTASH            return stashed
 #define MATCH              span match {(this->*MF)()}
 #define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
@@ -28,7 +28,7 @@
 #define T_CHAR             template <char C>
 #define T_MATCH_F          template <match_f MF>
 #define unless(expr)       if (! (expr))
-#define MARK(name)         const char * const name {POS}
+#define MARK(name)         const char * const name{POS}; std::ignore = name
 
 // =================================================================================================================
 namespace reseune {
@@ -106,18 +106,18 @@ namespace reseune {
 
     // =============================================================================================================
     template<LABEL_T l, match_f MF> MATCH_F(label) {
-      BEGIN;
+      START;
       MATCH;
       STASH;
       stashed.label = l;
-      printf("stashed(%zu, %zu, %u).\n", stashed.begin, stashed.end, stashed.label);
+      // printf("stashed(%zu, %zu, %u).\n", stashed.begin, stashed.end, stashed.label);
       UNSTASH;
     }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       ignore_whitespace();
-      BEGIN;
+      START;
       MATCH;
       STASH;
       ignore_whitespace();
@@ -126,7 +126,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
-      BEGIN;
+      START;
       MATCH;
       if UNMOVED
         NOTHING;
@@ -136,12 +136,12 @@ namespace reseune {
     // =============================================================================================================
     template <match_f left, match_f right>
     MATCH_F(either) {
-      BEGIN;
+      START;
       DO_MATCH (left);
       if MOVED
-        YIELD;
+        return left_match;
       DO_MATCH (right);
-      YIELD;
+      return right_match;
     }
 
     // =============================================================================================================
@@ -156,7 +156,7 @@ namespace reseune {
     
     // =============================================================================================================
     T_CHAR_F MATCH_F(c_f) {
-      BEGIN;      
+      START;      
       unless (NOT_NULL & CHAR_MATCHES)
         NOTHING;
       NEXT;      
@@ -165,7 +165,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(star) {
-      BEGIN;
+      START;
 
       const char * last_pos;
       
@@ -200,7 +200,7 @@ namespace reseune {
 // =================================================================================================================
 
 #undef BACK
-#undef BEGIN
+#undef START
 #undef CHAR_MATCHES
 #undef MATCH
 #undef HERE
