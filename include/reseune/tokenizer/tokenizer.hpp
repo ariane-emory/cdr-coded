@@ -100,8 +100,11 @@ namespace reseune {
       // Match left and, if it did not match, match against right.
       START;
       DO_MATCH(left);
-      if MOVED
+      if (MOVED) {
+        printf("Either moved.\n");
         return match;
+      }
+      printf("Either didn't move.\n");
       DO_MATCH(right);
       return match;
     }
@@ -186,10 +189,10 @@ namespace reseune {
       START;
       MATCH;
       unless (MOVED) {
-        printf("Didn't move.\n");
+        printf("ZP Didn't move.\n");
         return NOTHING;
       }
-      printf("Moved.\n");
+      printf("ZP Moved.\n");
       return match;
     }
 
