@@ -44,6 +44,7 @@
 // Not yet used, but I may want them in the future, maybe:
 // #define BACK               (--*this)
 // #define STASH              span stashed{match}
+// #define UNSTASH            return stashed
 
 // =================================================================================================================
 namespace reseune {
