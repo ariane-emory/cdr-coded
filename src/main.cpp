@@ -34,11 +34,11 @@ int main() {
   };
 
   using t = lisp_tokenizer; 
-#define read &lisp_tokenizer::b::
+  #define read &lisp_tokenizer::b::
  
-  t       tokenizer{input};
+  t                    tokenizer{input};
   lisp_tokenizer::span token{};
-  size_t  token_num{1};
+  size_t               token_num{1};
   
   do {
     token = tokenizer.strip<
