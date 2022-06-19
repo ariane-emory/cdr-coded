@@ -239,13 +239,6 @@ namespace reseune {
     // =============================================================================================================
     // Character predicate helper functions
     // =============================================================================================================
-    template <int (*fun)(int c)>
-    static bool boolified(char c) {
-      // Convert a C-style character predicate with an 'int f(int)' type into one with a 'bool f(char)' type.
-      return 0 != fun(c);
-    }
-     
-    // =============================================================================================================
     template <int (*fun)(int)>
     int negate(int c) {
       // Make a negated version of a C-style character predicate function.
