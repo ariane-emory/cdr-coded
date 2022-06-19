@@ -314,7 +314,7 @@ int main() {
 
     result = tok.strip<
       &t::either<
-        &t::label<l_paren, &t::c<'('>>,
+        &t::label<l_paren, &t::character<'('>>,
         &t::label<word,    &t::word>>>();
     
     if (result.empty()) {

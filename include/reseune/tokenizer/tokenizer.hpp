@@ -6,29 +6,29 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
-#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define START              char c; std::ignore = c; MARK(start)
-#define NOTHING            return span{}
 #define BACK               (--*this)
-#define NEXT               (c = ((*this)++))
-#define YIELD              return SPAN
-#define SPAN               span{start, POS}
-#define STASH              span stashed{match}
-#define UNSTASH            return stashed
-#define MATCH              span match {(this->*MF)()}
+#define CHAR_MATCHES       (CF(HERE))
 #define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
 #define HERE               (**this)
-#define MOVED              (start != POS)
-#define POS                (m_position)         
-#define UNMOVED            (! MOVED)
-#define REWIND(name)       (POS = name)
-#define NOT_NULL           (0 != HERE)
-#define CHAR_MATCHES       (CF(HERE))
-#define T_CHAR_F           template <char_f CF>
-#define T_CHAR             template <char C>
-#define T_MATCH_F          template <match_f MF>
-#define unless(expr)       if (! (expr))
 #define MARK(name)         const char * const name{POS}; std::ignore = name
+#define MATCH              span match {(this->*MF)()}
+#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
+#define MOVED              (start != POS)
+#define NEXT               (c = ((*this)++))
+#define NOTHING            return span{}
+#define NOT_NULL           (0 != HERE)
+#define POS                (m_position)         
+#define REWIND(name)       (POS = name)
+#define SPAN               span{start, POS}
+#define START              char c; std::ignore = c; MARK(start)
+#define STASH              span stashed{match}
+#define T_CHAR             template <char C>
+#define T_CHAR_F           template <char_f CF>
+#define T_MATCH_F          template <match_f MF>
+#define UNMOVED            (! MOVED)
+#define UNSTASH            return stashed
+#define YIELD              return SPAN
+#define unless(expr)       if (! (expr))
 
 // =================================================================================================================
 namespace reseune {
@@ -79,26 +79,25 @@ namespace reseune {
     constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
 
     // =============================================================================================================
-    MATCH_F(whitespace) {
-      return star<&t::c_f<is_whitespace>>();
+    // Character predicate functions
+    // =============================================================================================================
+    T_CHAR_F inline static bool negate(const char c) {
+      // Make a negated version of a character predicate function.
+      
+      return ! CF(c);
+    }
+     
+    // =============================================================================================================
+    // Match functions
+    // =============================================================================================================
+    T_CHAR MATCH_F(character) {
+      // Make a match_t for a particular character.
+      
+      return c_f<is_char<C>>();
     }
 
     // =============================================================================================================
-    MATCH_F(non_whitespace) {
-      return star<&t::c_f<negate<is_whitespace>>>();
-    }
-
-    // =============================================================================================================
-    MATCH_F(word) {
-      return plus<&t::non_whitespace>();
-    }
-
-    // =============================================================================================================
-    MATCH_F(ignore_whitespace) {
-      return ignore<&t::whitespace>();
-    }
-
-    // =============================================================================================================
+    
     T_MATCH_F MATCH_F(ignore) {
       MATCH;
       NOTHING;
@@ -144,16 +143,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR_F inline static bool negate(const char c) {
-      return ! CF(c);
-    }
-    
-    // =============================================================================================================
-    T_CHAR MATCH_F(c) {
-      return c_f<is_char<C>>();
-    }
-    
-    // =============================================================================================================
     T_CHAR_F MATCH_F(c_f) {
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
@@ -176,8 +165,32 @@ namespace reseune {
       YIELD;
     }
 
+    // =============================================================================================================
+    // Convenience match functions
+    // =============================================================================================================
+    MATCH_F(whitespace) {
+      return star<&t::c_f<is_whitespace>>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(non_whitespace) {
+      return star<&t::c_f<negate<is_whitespace>>>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(word) {
+      return plus<&t::non_whitespace>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(ignore_whitespace) {
+      return ignore<&t::whitespace>();
+    }
+
   private: 
 
+    // =============================================================================================================
+    // Static functions
     // =============================================================================================================
     static inline char * create_new_c_str(span const & tok) {      
       if (tok.empty()) return nullptr;
@@ -198,23 +211,28 @@ namespace reseune {
 }
 // =================================================================================================================
 
-#undef BACK
-#undef START
-#undef CHAR_MATCHES
-#undef MATCH
-#undef HERE
-#undef DO_MATCH
-#undef MATCH_F
-#undef MOVED
-#undef NEXT
-#undef NOTHING
-#undef NOT_NULL
-#undef REWIND
-#undef T_CHAR
-#undef T_CHAR_F
-#undef T_MATCH_F
-#undef UNMOVED
-#undef YIELD
-#undef unless
+#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
+#define START              char c; std::ignore = c; MARK(start)
+#define NOTHING            return span{}
+#define BACK               (--*this)
+#define NEXT               (c = ((*this)++))
+#define YIELD              return SPAN
+#define SPAN               span{start, POS}
+#define STASH              span stashed{match}
+#define UNSTASH            return stashed
+#define MATCH              span match {(this->*MF)()}
+#define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
+#define HERE               (**this)
+#define MOVED              (start != POS)
+#define POS                (m_position)         
+#define UNMOVED            (! MOVED)
+#define REWIND(name)       (POS = name)
+#define NOT_NULL           (0 != HERE)
+#define CHAR_MATCHES       (CF(HERE))
+#define T_CHAR_F           template <char_f CF>
+#define T_CHAR             template <char C>
+#define T_MATCH_F          template <match_f MF>
+#define unless(expr)       if (! (expr))
+#define MARK(name)         const char * const name{POS}; std::ignore = name
 
 #endif
