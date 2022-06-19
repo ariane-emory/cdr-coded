@@ -237,10 +237,10 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    // Character predicate helper functions
+    // Character predicate helper static functions
     // =============================================================================================================
     template <int (*fun)(int)>
-    int negate(int c) {
+    static int negate(int c) {
       // Make a negated version of a C-style character predicate function.
       return 0 == fun(c) ? 1 : 0;
     }
@@ -259,18 +259,22 @@ namespace reseune {
         LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
       
       size_t length() const {
+        // Return the length of the span.
         return end - begin;
       }
 
       bool empty() const {
+        // True iff the span's length is 0.
         return 0 == length();
       }
 
       operator bool() const {
+        // True iff the span is not empty.
         return ! empty();
       }
 
       char * c_str() const {
+        // Return a *new* C string containing the string that matched. YOU own the C string!
         return create_new_c_str(*this);
       }
     };
