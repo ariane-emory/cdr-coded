@@ -15,15 +15,16 @@ int main() {
     "a\n"
   };
   
-  enum l {
-    unlabeled,
-    symbol,
-    l_paren,
-    r_paren,
-    integer
+  enum token_type {
+    unlabeled, // 0
+    symbol,    // 1
+    l_paren,   // 2
+    r_paren,   // 3
+    integer    // 4
   };
   
-  using   t       = reseune::tokenizer<l>;
+  using   t = reseune::tokenizer<token_type>;
+  
   t       tokenizer {input};
   t::span token     {};
   size_t  token_num {1};
