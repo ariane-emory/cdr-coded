@@ -14,13 +14,13 @@
 #define MATCH              span match {(this->*MF)()}
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define MOVED              (start != POS)
-#define NEXT               (c = ((*this)++))
+#define NEXT               (ch = ((*this)++))
 #define NOTHING            return span{}
 #define NOT_NULL           (0 != HERE)
 #define POS                (m_position)         
 #define REWIND(name)       (POS = name)
 #define SPAN               span{start, POS}
-#define START              char c; std::ignore = c; MARK(start)
+#define START              char ch; std::ignore = ch; MARK(start)
 #define STASH              span stashed{match}
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
@@ -129,10 +129,10 @@ namespace reseune {
     MATCH_F(either) {
       // Match either left or right.
       START;
-      DO_MATCH (left);
+      DO_MATCH(left);
       if MOVED
         return left_match;
-      DO_MATCH (right);
+      DO_MATCH(right);
       return right_match;
     }
 
