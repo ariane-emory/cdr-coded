@@ -24,13 +24,14 @@ namespace reseune {
     
     printf("Took %u ms.\n", after - before);
   }
-
+  
+  // C-style prototype!
   template <char c>
   inline int ischar(int other_c) {
     return c == other_c;
   }
   
-  // C-style type
+  // C-style prototype!
   inline int iswhitespace(int c) {
     return ((c == ' ')
             || (c == 9)
