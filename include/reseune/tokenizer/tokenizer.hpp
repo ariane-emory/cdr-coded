@@ -214,7 +214,7 @@ namespace reseune {
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it would accept '__' or '___', etc., I'm not immediately certain if those
-      // are legal in C.
+      // are legal in C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
       return both_of<
         &t::either<
           &t::character<'_'>,
