@@ -105,6 +105,15 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    template<LABEL_T l, match_f MF> MATCH_F(label) {
+      BEGIN;
+      MATCH;
+      STASH;
+      stashed.label = l;
+      UNSTASH;
+    }
+
+    // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       ignore_whitespace();
       BEGIN;
