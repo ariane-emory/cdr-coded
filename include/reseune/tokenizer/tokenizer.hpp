@@ -12,8 +12,8 @@
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return span{begin, POS}
-#define DO_MATCH           (MATCH(MF))
-#define MATCH(tf)          (this->*tf)()
+#define MATCH              (DO_MATCH(MF))
+#define DO_MATCH(tf)       (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != POS)
 #define POS                (m_position)         
@@ -63,7 +63,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
-      DO_MATCH;
+      MATCH;
       NOTHING;
     }
 
@@ -90,7 +90,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       BEGIN;
-      DO_MATCH;
+      MATCH;
       if UNMOVED
         NOTHING;
       YIELD;
@@ -100,10 +100,10 @@ namespace reseune {
     template <match_f left, match_f right>
     MATCH_F(either) {
       BEGIN;
-      MATCH (left);
+      DO_MATCH (left);
       if MOVED
         YIELD;
-      MATCH (right);
+      DO_MATCH (right);
       YIELD;
     }
 
@@ -134,7 +134,7 @@ namespace reseune {
       
       do {
         last_pos = POS;
-        DO_MATCH;
+        MATCH;
       } while (NOT_NULL && POS != last_pos);
       
       YIELD;
@@ -165,9 +165,9 @@ namespace reseune {
 #undef BACK
 #undef BEGIN
 #undef CHAR_MATCHES
-#undef DO_MATCH
-#undef HERE
 #undef MATCH
+#undef HERE
+#undef DO_MATCH
 #undef MATCH_F
 #undef MOVED
 #undef NEXT

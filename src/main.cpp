@@ -303,15 +303,15 @@ int main() {
   do {
     tok.ignore_whitespace();
     //word = tok.word();
+
     word = tok.either<&t::chr<'('>, &t::word>();
-    // word = tok.either<&t::word, &t::word>();
     
     if (word.empty()) {
       printf("Word is null.\n");
     }
     else {
       printf("Word is '%s'.\n", word.c_str());
-      // free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
+      free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
     }
   } while (! word.empty());
 
