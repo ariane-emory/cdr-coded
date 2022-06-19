@@ -13,9 +13,10 @@ enum label_t {
 using l = label_t;
 using t = tokenizer<l>;
 
+#define token &t::
+
 // ===============================================================================================================
 int main() {
-
   const char * const input    {"(((abcdefg wo99 three four\n five six seven\n eight" };
   t                  tokenizer{input};
   t::span            result   {};
@@ -24,11 +25,11 @@ int main() {
     tokenizer.ignore_whitespace();
 
     result = tokenizer.strip<
-      &t::either<
-        &t::label<l_paren, &t::character<'('>>,
-        &t::either<
-          &t::label<l_paren, &t::character<')'>>,
-          &t::label<word,    &t::plain_symbol>>>>();
+      token either<
+        token label<l_paren,   token character<'('>>,
+        token either<
+          token label<l_paren, token character<')'>>,
+          token label<word,    token plain_symbol>>>>();
     
     if (result.empty())
       printf("Word is null.\n");
