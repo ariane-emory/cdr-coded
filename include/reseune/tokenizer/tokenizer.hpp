@@ -140,7 +140,8 @@ namespace reseune {
 
       unless (MOVED)
         return NOTHING;
-      
+
+      // Why do I have to use this awkward syntax ahead?
       match_f mf = &t::star<MF>;
       (this->*mf)();
 
