@@ -305,7 +305,7 @@ int main() {
   using l = label_t;
   using t = tokenizer<l>;
 
-  const char * const sexp { "(((abcdefg two three four\n five six seven\n eight" };
+  const char * const sexp { "(((abcdefg 9two99 three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            result {};
   
@@ -315,7 +315,7 @@ int main() {
     result = tok.strip<
       &t::either<
         &t::label<l_paren, &t::character<'('>>,
-        &t::label<word,    &t::non_whitespace>>>();
+        &t::label<word,    &t::alnum>>>();
     
     if (result.empty()) {
     printf("Word is null.\n");

@@ -74,15 +74,22 @@ namespace reseune {
     // =============================================================================================================
     // Character predicate functions
     // =============================================================================================================
-    T_CHAR_F CHAR_F(negation) {
-      // Make a negationd version of a character predicate function.
-      return ! CF(c);
+    template <int (*fun)(int c)>
+    static bool boolified(char c) {
+      // Make a negated version of a character predicate function.
+      return 0 == fun(c);
     }
      
     // =============================================================================================================
+      T_CHAR_F CHAR_F(negate) {
+        // Make a negated version of a character predicate function.
+        return ! CF(c);
+      }
+     
+    // =============================================================================================================
     template <char_f left, char_f right>
-    CHAR_F(conjunction) {
-      // Make a negationd version of a character predicate function.
+    CHAR_F(disjoin) {
+      // Make a char_f for the disjunction of left and right.
       return left(c) || right(c);
     }
      
@@ -188,8 +195,24 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return plus<&t::character_f<negation<is_whitespace>>>();
+      return plus<&t::character_f<negate<is_whitespace>>>();
     }
+
+    // =============================================================================================================
+    MATCH_F(alnum) {
+      // bool x = boolified<isalnum>('a');
+      // return NOTHING;
+      START;
+      match_f MF{&t::plus<&t::character_f<boolified<isalnum>>>};
+      DO_MATCH(MF);
+      return match;
+    }
+
+    // // =============================================================================================================
+    // MATCH_F(plain_symbol) {
+    //   // return plus<&t::character_f<negate<is_whitespace>>>();
+    //   return both<&t::character_f<isalpha>, &t::star<&t::character_f<isalnum>>>();
+    // }
 
   private: 
 
