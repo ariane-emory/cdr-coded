@@ -27,7 +27,7 @@ int main() {
       tok either<
         tok label<symbol,  tok c_style_identifier>,
         tok either <
-          tok label<integer, tok zp_positive_integer>,
+          tok label<integer, tok positive_integer>,
           tok either<
             tok label<l_paren, tok character<'('>>,
             tok label<r_paren, tok character<')'>>>>>>();

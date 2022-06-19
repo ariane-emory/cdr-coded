@@ -172,14 +172,25 @@ namespace reseune {
     FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
-    MATCH_F(positive_integer) {
-      return digits();
+    T_2_MATCH_F MATCH_F(optional_prefix) {
+      START;
+      ignore<left>();
+      DO_MATCH(ignore<left>);
+      DO_MATCH(right);
+      return SPAN;
     }
 
     // =============================================================================================================
-    MATCH_F(zp_positive_integer) {
+    T_MATCH_F MATCH_F(zero_padded) {
       ignore<&t::star<&t::character<'0'>>>();
-      return positive_integer();
+      START;
+      MATCH;
+      return match;
+    }
+
+    // =============================================================================================================
+    MATCH_F(positive_integer) {
+      return zero_padded<&t::digits>();
     }
 
     // =============================================================================================================
