@@ -25,7 +25,7 @@ int main() {
   t::span   token{};
   size_t    token_num{1};
   
-#define read &t::
+  #define read &t::
   
   do {
     token = tokenizer.strip<
