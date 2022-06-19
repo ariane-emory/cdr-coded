@@ -83,7 +83,7 @@ namespace reseune {
     // Match functions
     // =============================================================================================================
     T_CHAR_F MATCH_F(character_f) {
-      // Make a match_f from a char predicate function.
+      // Match a char predicate function.
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
         NOTHING;
@@ -94,21 +94,21 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR MATCH_F(character) {
-      // Make a match_f for a particular character.
+      // Match a particular character.
       return character_f<is_char<C>>();
     }
 
     // =============================================================================================================
     
     T_MATCH_F MATCH_F(ignore) {
-      // Match a match_f and ignore the result.
+      // Match against match_f and ignore the result.
       MATCH;
       NOTHING;
     }
 
     // =============================================================================================================
     template<LABEL_T l, match_f MF> MATCH_F(label) {
-      // Label the token type of a match_f
+      // Match against match_𝑓 and label the token type.
       START;
       MATCH;
       if MOVED
@@ -118,6 +118,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
+      // Match against match_f while ignoring any surrounding whitespace (before and after).
       ignore_whitespace();
       START;
       MATCH;
