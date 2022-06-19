@@ -80,23 +80,6 @@ namespace reseune {
     // =============================================================================================================
     // Match functions
     // =============================================================================================================
-    T_CHAR MATCH_F(character) {
-      // Match a particular character.
-      return character_f<is_char<C>>();
-    }
-
-    // =============================================================================================================
-    T_CHAR_F MATCH_F(character_f) {
-      // Match a char predicate function.
-      START;      
-      unless (NOT_NULL & CHAR_MATCHES)
-        return NOTHING;
-      NEXT;      
-      return SPAN;
-    }
-
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against match_f and ignore the result.
       MATCH;
@@ -157,7 +140,23 @@ namespace reseune {
       MATCH;
       if UNMOVED
         return NOTHING;
-      return match;
+      return SPAN;
+    }
+
+    // =============================================================================================================
+    T_CHAR_F MATCH_F(character_f) {
+      // Match a char predicate function.
+      START;      
+      unless (NOT_NULL & CHAR_MATCHES)
+        return NOTHING;
+      NEXT;      
+      return SPAN;
+    }
+
+    // =============================================================================================================
+    T_CHAR MATCH_F(character) {
+      // Match a particular character.
+      return character_f<is_char<C>>();
     }
 
     // =============================================================================================================
