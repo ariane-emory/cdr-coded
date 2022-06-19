@@ -13,7 +13,6 @@
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NULL_HERE          (0 == HERE)
-#define NOT_NULL_HERE      (! NULL_HERE)
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
@@ -260,7 +259,6 @@ namespace reseune {
 #undef MATCH
 #undef NEXT
 #undef NOTHING
-#undef NOT_NULL_HERE
 #undef POS
 #undef SPAN
 #undef START
