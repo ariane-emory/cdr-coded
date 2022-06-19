@@ -90,10 +90,20 @@ namespace reseune {
     // =============================================================================================================
     // Match functions
     // =============================================================================================================
+    T_CHAR_F MATCH_F(character_f) {
+      // Make a match_f from a char predicate function.
+      START;      
+      unless (NOT_NULL & CHAR_MATCHES)
+        NOTHING;
+      NEXT;      
+      YIELD;
+    }
+
+
+    // =============================================================================================================
     T_CHAR MATCH_F(character) {
-      // Make a match_t for a particular character.
-      
-      return c_f<is_char<C>>();
+      // Make a match_f for a particular character.
+      return character_f<is_char<C>>();
     }
 
     // =============================================================================================================
@@ -143,15 +153,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR_F MATCH_F(c_f) {
-      START;      
-      unless (NOT_NULL & CHAR_MATCHES)
-        NOTHING;
-      NEXT;      
-      YIELD;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(star) {
       START;
 
@@ -169,12 +170,12 @@ namespace reseune {
     // Convenience match functions
     // =============================================================================================================
     MATCH_F(whitespace) {
-      return star<&t::c_f<is_whitespace>>();
+      return star<&t::character_f<is_whitespace>>();
     }
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return star<&t::c_f<negate<is_whitespace>>>();
+      return star<&t::character_f<negate<is_whitespace>>>();
     }
 
     // =============================================================================================================
