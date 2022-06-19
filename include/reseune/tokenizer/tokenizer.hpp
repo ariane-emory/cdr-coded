@@ -111,10 +111,9 @@ namespace reseune {
       // Label the token type of a match_f
       START;
       MATCH;
-      STASH;
-      unless (stashed.empty())
-        stashed.label = l;
-      UNSTASH;
+      if MOVED
+        match.label = l;
+      return match;
     }
 
     // =============================================================================================================
