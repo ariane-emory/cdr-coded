@@ -41,7 +41,7 @@
 // #define BACK               (--*this)
 // #define REWIND(name)       (POS = name)
 // #define STASH              span stashed{match}
-#define REWIND       (POS = start)
+#define REWIND       printf("Rewind from %zu to %zu.\n", POS, start); (POS = start)
 
 // =================================================================================================================
 namespace reseune {
@@ -188,8 +188,11 @@ namespace reseune {
     T_MATCH_F MATCH_F(zero_padded) {
       ignore<&t::star<&t::character<'0'>>>();
       START;
+      printf("ZP is looking at '%c' (%u).\n", HERE, HERE);
       MATCH;
+      printf("ZP is now looking at '%c' (%u).\n", HERE, HERE);
       unless (MOVED) {
+        REWIND;
         printf("ZP did not move, we are looking at '%c' (%u).\n", HERE, HERE);
         return NOTHING;
       }
