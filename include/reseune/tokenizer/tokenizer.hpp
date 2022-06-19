@@ -23,7 +23,7 @@
 #define CHAR_F(name)       inline static bool name(const char c)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define MARK(name)         const char * const name{POS}; std::ignore = name
-#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
+#define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
 #define REWIND(name) (POS = name)
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
@@ -258,7 +258,7 @@ namespace reseune {
     // Character predicate helper static functions
     // =============================================================================================================
     template <int (*fun)(int)>
-    static int negate(int c) {
+    constexpr static int negate(int c) {
       // Make a negated version of a C-style character predicate function.
       return 0 == fun(c) ? 1 : 0;
     }
@@ -274,7 +274,7 @@ namespace reseune {
       // ===========================================================================================================
       // Constructors
       // ===========================================================================================================
-      span(
+      constexpr span(
         const char * bb = nullptr,
         const char * ee = nullptr,
         LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
@@ -313,7 +313,7 @@ namespace reseune {
     // =============================================================================================================
     // Static functions
     // =============================================================================================================
-    static inline char * create_new_c_str(span const & tok) {
+    constexpr static inline char * create_new_c_str(span const & tok) {
       // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
 
       if (tok.empty()) return nullptr;
