@@ -183,7 +183,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
-      // Match a positive integer (but without a leading '+', for now).
+      // Match a positive integer. Does not permit a leading '+' presently!
       return either<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
