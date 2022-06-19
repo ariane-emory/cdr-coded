@@ -315,7 +315,7 @@ int main() {
     result = tok.strip<
       &t::either<
         &t::label<l_paren, &t::character<'('>>,
-        &t::label<word,    &t::alnum>>>();
+        &t::label<word,    &t::plain_symbol>>>();
     
     if (result.empty()) {
     printf("Word is null.\n");
