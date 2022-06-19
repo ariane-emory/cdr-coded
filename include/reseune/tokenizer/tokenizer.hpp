@@ -56,9 +56,9 @@ namespace reseune {
     // ===============================================================================================================
     // Types
     // ===========================================================================================================
-    using char_f  = bool (*)(const char);
-    using match_f = span (tokenizer::*)();
-    using t       = tokenizer;
+    using char_f = int (*)(int);
+    using match_f  = span (tokenizer::*)();
+    using t        = tokenizer;
 
   public:
     
@@ -182,12 +182,6 @@ namespace reseune {
       // Make a negated version of a C-style character predicate function.
       return 0 == fun(c) ? 1 : 0;
     }
-     
-    // // =============================================================================================================
-    // T_CHAR_F CHAR_F(negate) {
-    //   // Make a negated version of a character predicate function.
-    //   return ! CF(c);
-    // }
      
     // =============================================================================================================
     T_2_CHAR_F CHAR_F(disjoin) {
