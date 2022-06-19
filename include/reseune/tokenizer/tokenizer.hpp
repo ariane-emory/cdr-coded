@@ -20,8 +20,8 @@
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
-#define T_CHAR_F           template <c_char_f CF>
-#define T_2_CHAR_F         template <c_char_f left, c_char_f right>
+#define T_CHAR_F           template <char_f CF>
+#define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
 #define unless(expr)       if (! (expr))
@@ -57,8 +57,7 @@ namespace reseune {
     // ===============================================================================================================
     // Types
     // ===========================================================================================================
-    using char_f   = bool (*)(const char);
-    using c_char_f = int (*)(int);
+    using char_f = int (*)(int);
     using match_f  = span (tokenizer::*)();
     using t        = tokenizer;
 
