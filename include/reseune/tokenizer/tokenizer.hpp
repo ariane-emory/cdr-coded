@@ -20,7 +20,6 @@
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
-#define STASH              span stashed{match}
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <c_char_f CF>
 #define T_2_CHAR_F         template <c_char_f left, c_char_f right>
@@ -41,8 +40,9 @@
 // Not yet used, but I may want them in the future, maybe:
 // #define BACK               (--*this)
 // #define REWIND(name)       (POS = name)
+// #define STASH              span stashed{match}
 
- // =================================================================================================================
+// =================================================================================================================
 namespace reseune {
   
   // ===============================================================================================================
@@ -246,27 +246,5 @@ namespace reseune {
 }
 // =================================================================================================================
 
-#undef MATCH_F
-#undef BACK
-#undef CHAR_MATCHES
-#undef DO_MATCH
-#undef HERE
-#undef MARK
-#undef MATCH
-#undef MOVED
-#undef NEXT
-#undef NOTHING
-#undef NOT_NULL
-#undef POS
-#undef REWIND
-#undef SPAN
-#undef START
-#undef STASH
-#undef T_CHAR
-#undef T_CHAR_F
-#undef T_2_CHAR_F
-#undef T_MATCH_F
-#undef T_2_MATCH_F
-#undef unless
 
 #endif
