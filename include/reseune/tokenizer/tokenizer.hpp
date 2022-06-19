@@ -301,7 +301,7 @@ namespace reseune {
 
       // ===========================================================================================================
       char * c_str() const {
-        // Return a *new* C string containing the string that matched. YOU own the C string!
+        // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETUENED C STRING!
         return create_new_c_str(*this);
       }
       
@@ -314,7 +314,7 @@ namespace reseune {
     // Static functions
     // =============================================================================================================
     static inline char * create_new_c_str(span const & tok) {
-      // Create a *new* C string from a span. The caller owns the returned C string!
+      // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
 
       if (tok.empty()) return nullptr;
   
