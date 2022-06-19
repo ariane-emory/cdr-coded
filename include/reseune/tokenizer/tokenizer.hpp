@@ -8,7 +8,7 @@
 
 #define BACK               (--*this)
 #define CHAR_MATCHES       (CF(HERE))
-#define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
+#define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define HERE               (**this)
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define MATCH              match = {(this->*MF)()}
@@ -114,9 +114,9 @@ namespace reseune {
       START;
       DO_MATCH(left);
       if MOVED
-        return left_match;
+        return match;
       DO_MATCH(right);
-      return right_match;
+      return match;
     }
 
     // =============================================================================================================
