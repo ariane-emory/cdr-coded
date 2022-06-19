@@ -210,7 +210,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(integer) {
-      // Match any integer (with or without leading zeroes).
+      // Match any integer (with or without leading zeroes). Does not permit a leading '+' presently!
       return optional_prefix
         <&t::character<'-'>,
          &t::positive_integer>();
