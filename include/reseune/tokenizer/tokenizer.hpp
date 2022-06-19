@@ -159,6 +159,9 @@ namespace reseune {
 #define FROM_C_CHAR_F(name, fun)                                                \
     MATCH_F(name) {                                                             \
       return character_f<boolified<fun>>();                                     \
+    }                                                                           \
+    MATCH_F(name ## s) {                                                        \
+      return plus<&t::name>();                                                  \
     }
 
     FROM_C_CHAR_F(alnum, isalnum);
