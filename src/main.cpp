@@ -15,9 +15,9 @@ int main() {
   enum token_type {
     unlabeled, // 0
     symbol,    // 1
-    l_paren,   // 2
-    r_paren,   // 3
-    integer    // 4
+    integer,   // 2
+    l_paren,   // 3
+    r_paren,   // 4
   };
   
   using t            = reseune::tokenizer<token_type>;
