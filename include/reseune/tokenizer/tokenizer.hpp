@@ -35,42 +35,21 @@ namespace reseune {
   template <typename LABEL_T>
   class tokenizer : public c_str_cursor {
   public:
-    struct span {
-      const char * begin;
-      const char * end;
-      LABEL_T label;
 
-      span(
-        const char * b = nullptr,
-        const char * e = nullptr,
-        LABEL_T l = static_cast<LABEL_T>(0)) : begin(b), end(e), label(l) {}
-      size_t length() const {
-        return end - begin;
-      }
-
-      bool empty() const {
-        return 0 == length();
-      }
-
-      char * c_str() const {
-        return create_new_c_str(*this);
-      }
-    };
-
+    // ===============================================================================================================
+    struct span;
+    
   private:
 
     // ===============================================================================================================
+    // Types
+    // ===========================================================================================================
     using char_f  = bool (*)(const char);
     using match_f = span (tokenizer::*)();
     using t       = tokenizer;
 
   public:
     
-    // =============================================================================================================
-    // Constructors
-    // =========================================================================================================
-    constexpr inline tokenizer(const char * const str) : c_str_cursor(str) {}
-
     // =============================================================================================================
     // Match functions
     // =============================================================================================================
@@ -82,22 +61,23 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template<LABEL_T l, match_f MF> MATCH_F(label) {
-      // Match against match_𝑓 and label the token type.
-      START;
-      MATCH;
-      if MOVED
-        match.label = l;
-      return match;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against match_f while ignoring any surrounding whitespace (before and after).
       ignore_whitespace();
       START;
       MATCH;
       ignore_whitespace();
+      return match;
+    }
+
+    // =============================================================================================================
+    template<LABEL_T l, match_f MF>
+    MATCH_F(label) {
+      // Match against match_𝑓 and label the token type.
+      START;
+      MATCH;
+      if MOVED
+        match.label = l;
       return match;
     }
 
@@ -215,7 +195,32 @@ namespace reseune {
       // Make a char_f for the disjunction of left and right.
       return left(c) || right(c);
     }
-     
+
+    // =============================================================================================================
+    // Span struct 
+       // =============================================================================================================
+    struct span {
+      const char * begin;
+      const char * end;
+      LABEL_T label;
+
+      span(
+        const char * b = nullptr,
+        const char * e = nullptr,
+        LABEL_T l = static_cast<LABEL_T>(0)) : begin(b), end(e), label(l) {}
+      size_t length() const {
+        return end - begin;
+      }
+
+      bool empty() const {
+        return 0 == length();
+      }
+
+      char * c_str() const {
+        return create_new_c_str(*this);
+      }
+    };
+
   private: 
 
     // =============================================================================================================
