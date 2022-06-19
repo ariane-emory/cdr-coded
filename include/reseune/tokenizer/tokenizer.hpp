@@ -40,6 +40,8 @@ namespace reseune {
       const char * begin;
       const char * end;
 
+      span(const char * b = nullptr, const char * e = nullptr) : begin(b), end(e) {}
+      
       size_t length() const {
         return end - begin;
       }
