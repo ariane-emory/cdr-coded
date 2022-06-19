@@ -106,7 +106,7 @@ namespace reseune {
       DO_MATCH(right);
       if (MOVED)
         return match;
-      return match;
+      return NOTHING;
     }
 
     T_2_MATCH_F MATCH_F(both) {
