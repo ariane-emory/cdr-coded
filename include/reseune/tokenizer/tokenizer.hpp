@@ -99,26 +99,26 @@ namespace reseune {
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(either) {
       // Match left and, if it did not match, match against right.
-      printf("Either is looking at '%c' (%u).\n", HERE, HERE);
+      // printf("Either is looking at '%c' (%u).\n", HERE, HERE);
       START;
-      printf("Before left.\n");
+      // printf("Before left.\n");
       DO_MATCH(left);
       if (MOVED) {
-        printf("Either's left moved, we are looking at '%c' (%u).\n", HERE, HERE);
+        // printf("Either's left moved, we are looking at '%c' (%u).\n", HERE, HERE);
         return match;
       }
-      printf("Either's left did not move, we are looking at '%c' (%u).\n", HERE, HERE);
+      // printf("Either's left did not move, we are looking at '%c' (%u).\n", HERE, HERE);
       DO_MATCH(right);
       if (MOVED) {
-        printf("Either's right moved, we are looking at '%c' (%u).\n", HERE, HERE);
-        printf(
-          "Since either's right moved we will return match(%zu/'%c', %zu/'%c', %zu).\n",
-          match.begin, match.begin,
-          match.end,   match.end,
-                        match.length());
+        // printf("Either's right moved, we are looking at '%c' (%u).\n", HERE, HERE);
+        // printf(
+        //   "Since either's right moved we will return match(%zu/'%c', %zu/'%c', %zu).\n",
+        //   match.begin, match.begin,
+        //   match.end,   match.end,
+        //   match.length());
         return match;
-          }
-      printf("Either's left right not move, we are looking at '%c' (%u).\n", HERE, HERE);
+      }
+      // printf("Either's left right not move, we are looking at '%c' (%u).\n", HERE, HERE);
       return match;
     }
 
@@ -162,7 +162,7 @@ namespace reseune {
       START;      
       unless (CHAR_MATCHES)
         return NOTHING;
-      printf("'%c' is okay,  move ahead!\n", HERE);
+      // printf("'%c' is okay,  move ahead!\n", HERE);
       NEXT;      
       return SPAN;
     }
@@ -199,25 +199,25 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
-      printf("Enter ZP.\n");
+      // printf("Enter ZP.\n");
       MARK(restore);
       ignore<&t::star<&t::character<'0'>>>();
       START;
-      printf("ZP is looking at '%c' (%u).\n", HERE, HERE);
+      // printf("ZP is looking at '%c' (%u).\n", HERE, HERE);
       MATCH;
-      printf("ZP is now looking at '%c' (%u).\n", HERE, HERE);
+      // printf("ZP is now looking at '%c' (%u).\n", HERE, HERE);
       unless (MOVED) {
         REWIND(restore);
-        printf("ZP did not move, we are looking at '%c' (%u).\n", HERE, HERE);
+        // printf("ZP did not move, we are looking at '%c' (%u).\n", HERE, HERE);
         return NOTHING;
       }
-      printf("ZP Moved, we are looking at '%c' (%u).\n", HERE, HERE);
+      // printf("ZP Moved, we are looking at '%c' (%u).\n", HERE, HERE);
       return match;
     }
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
-      printf("PI is looking at '%c' (%u).\n", HERE, HERE);
+      // printf("PI is looking at '%c' (%u).\n", HERE, HERE);
       
       return either<
         &t::zero_padded<&t::digits>,
