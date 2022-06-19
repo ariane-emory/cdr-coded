@@ -25,7 +25,6 @@
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
 #define T_MATCH_F          template <match_f MF>
-#define UNMOVED            (! MOVED)
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -141,9 +140,9 @@ namespace reseune {
       // Match against match_f one or more times.
       START;
       MATCH;
-      if UNMOVED
-        return NOTHING;
-      return SPAN;
+      if MOVED
+        return SPAN;
+      return NOTHING;
     }
 
     // =============================================================================================================
@@ -227,7 +226,6 @@ namespace reseune {
 #undef T_CHAR
 #undef T_CHAR_F
 #undef T_MATCH_F
-#undef UNMOVED
 #undef unless
 
 #endif
