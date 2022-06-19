@@ -87,7 +87,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
-      // Match against match_f while ignoring any surrounding whitespace (before and after).
+      // Match against MF while ignoring any surrounding whitespace (before and after).
       ignore_whites();
       START;
       MATCH;
