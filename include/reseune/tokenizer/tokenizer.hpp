@@ -177,6 +177,12 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    MATCH_F(zp_positive_integer) {
+      ignore<&t::star<&t::character<'0'>>>();
+      return positive_integer();
+    }
+
+    // =============================================================================================================
     MATCH_F(c_style_identifier) {
       return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
     }
