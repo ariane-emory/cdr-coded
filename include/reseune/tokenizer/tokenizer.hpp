@@ -15,7 +15,7 @@
 #define SPAN               span{begin, POS}
 #define STASH              span stashed{begin, POS}
 #define UNSTASH            return stashed
-#define MATCH              span match   {(this->*MF)()}
+#define MATCH              span match {(this->*MF)()}
 #define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
 #define HERE               (**this)
 #define MOVED              (begin != POS)
