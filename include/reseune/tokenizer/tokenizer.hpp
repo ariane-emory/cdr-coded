@@ -26,6 +26,7 @@
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
 #define T_MATCH_F          template <match_f MF>
+#define T_2_MATCH_F      template <match_f left, match_f right>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -82,9 +83,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <match_f left, match_f right>
-    MATCH_F(either) {
-      // Match either left and, if fit did not match, match against right.
+    T_2_MATCH_F MATCH_F(either) {
+      // Match left and, if it did not match, match against right.
       START;
       DO_MATCH(left);
       if MOVED
@@ -93,8 +93,7 @@ namespace reseune {
       return match;
     }
 
-    template <match_f left, match_f right>
-    MATCH_F(both) {
+    T_2_MATCH_F MATCH_F(both) {
       // Match against left and, if it matched, match against right.
       START;
       DO_MATCH(left);
@@ -116,7 +115,6 @@ namespace reseune {
       return SPAN;
     }
 
-    // =============================================================================================================
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       // Match against match_f one or more times
@@ -175,7 +173,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    // Character predicate functions
+    // Character predicate helper functions
     // =============================================================================================================
     template <int (*fun)(int c)>
     static bool boolified(char c) {
@@ -197,8 +195,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    // Span struct 
-       // =============================================================================================================
+    // Span struct
+    // =============================================================================================================
     struct span {
       const char * begin;
       const char * end;
