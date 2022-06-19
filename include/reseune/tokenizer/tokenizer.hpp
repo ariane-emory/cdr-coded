@@ -12,7 +12,8 @@
 #define MATCH              match = {(this->*MF)()}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
-#define NOT_NULL           (0 != HERE)
+#define NOT_NULL_HERE      (! NULL_HERE)
+#define NULL_HERE          (0 == HERE)
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
@@ -124,7 +125,7 @@ namespace reseune {
       do {
         last_pos = POS;
         MATCH;
-      } while (NOT_NULL && POS != last_pos);
+      } while (NOT_NULL_HERE && POS != last_pos);
       return SPAN;
     }
 
@@ -140,8 +141,9 @@ namespace reseune {
 
       // We will never, ever permit maching a null character here!
       // If you want to do that you ought write some other function.
-      unless (NOT_NULL)
-        return NOTHING;      
+      if (NULL_HERE)
+        return NOTHING;
+      
       START;      
       unless (CHAR_MATCHES)
         return NOTHING;
@@ -257,7 +259,7 @@ namespace reseune {
 #undef MATCH
 #undef NEXT
 #undef NOTHING
-#undef NOT_NULL
+#undef NOT_NULL_HERE
 #undef POS
 #undef SPAN
 #undef START
