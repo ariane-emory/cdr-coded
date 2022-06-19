@@ -309,7 +309,7 @@ int main() {
       printf("Word is null.\n");
     }
     else {
-      printf("Word is '%s'.\n", word.c_str());
+      printf("Word is '%s' (%u).\n", word.c_str(), word.label);
       free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
     }
   } while (! word.empty());
