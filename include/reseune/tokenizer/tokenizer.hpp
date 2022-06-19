@@ -142,7 +142,8 @@ namespace reseune {
       // Match a C-style char predicate function.
 
       //We will never, ever, permit maching a null character here!
-      // If you want to do that you ought write some other function.
+      // If you want to do that you ought write some new function.
+      // But you probably ought not want to.
       if (NULL_HERE)
         return NOTHING;
      
