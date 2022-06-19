@@ -11,7 +11,7 @@
 #define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
 #define HERE               (**this)
 #define MARK(name)         const char * const name{POS}; std::ignore = name
-#define MATCH              span match {(this->*MF)()}
+#define MATCH              match = {(this->*MF)()}
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define MOVED              (start != POS)
 #define NEXT               ((*this)++)
@@ -20,7 +20,7 @@
 #define POS                (m_position)         
 #define REWIND(name)       (POS = name)
 #define SPAN               span{start, POS}
-#define START              MARK(start)
+#define START              MARK(start); span match {NOTHING}
 #define STASH              span stashed{match}
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
@@ -82,6 +82,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against match_f and ignore the result.
+      START;
       MATCH;
       return NOTHING;
     }
