@@ -33,7 +33,7 @@
 #define unless(expr)       if (! (expr))
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
-    return character_f<boolified<fun>>();                                       \
+    return c_character_f<fun>();                                                \
   }                                                                             \
   MATCH_F(name ## s) {                                                          \
     return plus<&t::name>();                                                    \
@@ -136,14 +136,14 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR_F MATCH_F(character_f) {
-      // Match a char predicate function.
-      START;      
-      unless (NOT_NULL & CHAR_MATCHES)
-        return NOTHING;
-      NEXT;      
-      return SPAN;
-    }
+    // T_CHAR_F MATCH_F(character_f) {
+    //   // Match a char predicate function.
+    //   START;      
+    //   unless (NOT_NULL & CHAR_MATCHES)
+    //     return NOTHING;
+    //   NEXT;      
+    //   return SPAN;
+    // }
 
     // =============================================================================================================
     T_C_CHAR_F MATCH_F(c_character_f) {
