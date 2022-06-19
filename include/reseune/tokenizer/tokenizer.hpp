@@ -48,7 +48,7 @@ namespace reseune {
   
   // ===============================================================================================================
   template <typename LABEL_T>
-  class tokenizer : public c_str_cursor {
+    class tokenizer : public c_str_cursor {
   public:
 
     // ===============================================================================================================
@@ -87,7 +87,7 @@ namespace reseune {
 
     // =============================================================================================================
     template<LABEL_T L, match_f MF>
-    MATCH_F(label) {
+      MATCH_F(label) {
       // Match against match_𝑓 and label the token type.
       START;
       MATCH;
@@ -169,7 +169,7 @@ namespace reseune {
 
     // =============================================================================================================
     template <char C>
-    MATCH_F(character) {
+      MATCH_F(character) {
       // Match a particular character.
       return character_f<ischar<C>>();
     }
@@ -226,11 +226,16 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(basic_math_op) {
-      return
-        either<&t::character<'+'>,
-               &t::either<&t::character<'-'>,
-                          &t::either<&t::character<'*'>
-                                     &t::character<'%'>>>>();
+      // Match basic math ops.
+
+      // My editor completely murders the indentation of the following template function call.
+      // I'm not sure if it's emacs' fault or something in my config, but I can't be bothered to fix it yet.
+      // Sorry.
+      
+      return either<&t::character<'+'>,
+        &t::either<&t::character<'-'>,
+        &t::either<&t::character<'*'>
+        &t::character<'%'>>>>();
     }
 
     // =============================================================================================================
@@ -252,14 +257,14 @@ namespace reseune {
     // Character predicate helper functions
     // =============================================================================================================
     template <int (*fun)(int c)>
-    static bool boolified(char c) {
+      static bool boolified(char c) {
       // Convert a C-style character predicate with an 'int f(int)' type into one with a 'bool f(char)' type.
       return 0 != fun(c);
     }
      
     // =============================================================================================================
     template <int (*fun)(int)>
-    int negate(int c) {
+      int negate(int c) {
       // Make a negated version of a C-style character predicate function.
       return 0 == fun(c) ? 1 : 0;
     }
@@ -278,10 +283,10 @@ namespace reseune {
       const char * end;
       LABEL_T label;
 
-      span(
-        const char * bb = nullptr,
-        const char * ee = nullptr,
-        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
+    span(
+      const char * bb = nullptr,
+      const char * ee = nullptr,
+      LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
       
       size_t length() const {
         return end - begin;
