@@ -138,6 +138,9 @@ namespace reseune {
       START;
       MATCH;
 
+      unless (MOVED)
+        return NOTHING;
+      
       match_f mf = &t::star<MF>;
       (this->*mf)();
 
