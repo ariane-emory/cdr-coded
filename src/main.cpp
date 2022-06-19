@@ -27,12 +27,14 @@ int main() {
     // result = tokenizer.strip<tok label<integer, tok integer>>();
     result = tokenizer.strip<
       tok either<
-        tok label<symbol,  tok lispesque_identifier>,
-        tok either <
-          tok label<integer, tok integer>,
-          tok either<
-            tok label<l_paren, tok character<'('>>,
-            tok label<r_paren, tok character<')'>>>>>>();
+        tok basic_math_op,
+        tok either<
+          tok label<symbol,  tok lispesque_identifier>,
+          tok either <
+            tok label<integer, tok integer>,
+            tok either<
+              tok label<l_paren, tok character<'('>>,
+              tok label<r_paren, tok character<')'>>>>>>>();
     
     if (result)
       printf("Token is (%u, '%s').\n", result.label, result.c_str());
