@@ -214,11 +214,11 @@ namespace reseune {
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are 
-      // legal in C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
-      return both_of<
-        &t::either<
-          &t::character<'_'>,
-          &t::alpha>,
+                                                                                                                 // legal in C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
+                                                                                                                 return both_of<
+                                                                                                                   &t::either<
+                                                                                                                     &t::character<'_'>,
+                                                                                                                     &t::alpha>,
         &t::plus<
           &t::either<&t::character<'_'>,
                      &t::alnums>>>();
@@ -230,8 +230,8 @@ namespace reseune {
       // Currently, identifiers must either:
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
-        return either<
-          &t::basic_math_op,
+      return either<
+        &t::basic_math_op,
         &t::both_of<
           &t::alpha,
           &t::star<&t::either<&t::character<'-'>,
@@ -271,30 +271,41 @@ namespace reseune {
       const char * end;
       LABEL_T label;
 
+      // ===========================================================================================================
+      // Constructors
+      // ===========================================================================================================
       span(
         const char * bb = nullptr,
         const char * ee = nullptr,
         LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
       
+      // ===========================================================================================================
+      // Member functions
+      // ===========================================================================================================
       size_t length() const {
         // Return the length of the span.
         return end - begin;
       }
 
+      // ===========================================================================================================
       bool empty() const {
         // True iff the span's length is 0.
         return 0 == length();
       }
 
+      // ===========================================================================================================
       operator bool() const {
         // True iff the span is not empty.
         return ! empty();
       }
 
+      // ===========================================================================================================
       char * c_str() const {
         // Return a *new* C string containing the string that matched. YOU own the C string!
         return create_new_c_str(*this);
       }
+      
+      // ===========================================================================================================
     };
 
   private: 
