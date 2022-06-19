@@ -17,23 +17,21 @@ using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  const char * const input    {"(((abcdefg wo99 three four\n five six seven\n eight" };
+  const char * const input    {"(((abcdefg wo99 three four\n (five six) seven\n eight)" };
   t                  tokenizer{input};
   t::span            result   {};
   
   do {
-    tokenizer.ignore_whitespace();
-
     result = tokenizer.strip<
       token either<
         token label<l_paren,   token character<'('>>,
         token either<
-          token label<l_paren, token character<')'>>,
+          token label<r_paren, token character<')'>>,
           token label<word,    token plain_symbol>>>>();
     
     if (result)
       printf("Word is(%u, '%s').\n", result.label, result.c_str());
     else
       printf("Word is null.\n");
-  } while (! result.empty());
+  } while (result);
 }
