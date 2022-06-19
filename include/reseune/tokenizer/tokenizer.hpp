@@ -213,11 +213,11 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(c_style_identifier) {
       // Match C-style identifiers.
-      return both_of
-        <&t::either<
+      return both_of<
+        &t::either<
           &t::character<'_'>,
-           &t::alpha>,
-         &t::star<
+          &t::alpha>,
+        &t::star<
           &t::either<&t::character<'_'>,
                      &t::alnums>>>();
     }
