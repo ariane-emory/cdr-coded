@@ -1,7 +1,7 @@
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
-#define tok &t::
+#define read &t::
 
 // ===============================================================================================================
 int main() {
@@ -31,17 +31,15 @@ int main() {
   
   do {
     token = tokenizer.strip<
-      tok either<
-        tok label<symbol,  tok lispesque_identifier>,
-        tok either <
-          tok label<integer, tok integer>,
-          tok either<
-              tok label<l_paren, tok character<'('>>,
-              tok label<r_paren, tok character<')'>>>>>>();
+      read either<
+        read label<symbol,  read lispesque_identifier>,
+        read either <
+          read label<integer, read integer>,
+          read either<
+            read label<l_paren, read character<'('>>,
+            read label<r_paren, read character<')'>>>>>>();
     
     if (token)
-      printf("Token #%zu is (%u, '%s').\n", token_num++, token.label, token.c_str());
-    else
-      printf("Token #zu is null.\n", token_num++);
+      printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
 }
