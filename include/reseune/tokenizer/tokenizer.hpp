@@ -127,18 +127,9 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(plus) {
-      // Match against match_f one or more times.
-      START;
-      MATCH;
-      if UNMOVED
-        NOTHING;
-      return match;
-    }
-
-    // =============================================================================================================
     template <match_f left, match_f right>
     MATCH_F(either) {
+      // Match either left or right.
       START;
       DO_MATCH (left);
       if MOVED
@@ -149,6 +140,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(star) {
+      // Match against match_f zero or more times.
       START;
 
       const char * last_pos;
@@ -162,10 +154,25 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(plus) {
+      // Match against match_f one or more times.
+      START;
+      MATCH;
+      if UNMOVED
+        NOTHING;
+      return match;
+    }
+
+    // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
     MATCH_F(whitespace) {
       return star<&t::character_f<is_whitespace>>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(ignore_whitespace) {
+      return ignore<&t::whitespace>();
     }
 
     // =============================================================================================================
@@ -176,11 +183,6 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(word) {
       return plus<&t::non_whitespace>();
-    }
-
-    // =============================================================================================================
-    MATCH_F(ignore_whitespace) {
-      return ignore<&t::whitespace>();
     }
 
   private: 
