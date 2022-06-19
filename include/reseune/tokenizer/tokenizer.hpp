@@ -12,8 +12,8 @@
 #define MATCH              match = {(this->*MF)()}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
-#define NOT_NULL_HERE      (! NULL_HERE)
 #define NULL_HERE          (0 == HERE)
+#define NOT_NULL_HERE      (! NULL_HERE)
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
@@ -27,6 +27,7 @@
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define unless(expr)       if (! (expr))
+#define until(expr)        while (! (expr))
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
     return character_f<fun>();                                                  \
