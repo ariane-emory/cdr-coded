@@ -8,6 +8,7 @@
 
 #define BACK               (--*this)
 #define CHAR_MATCHES       (CF(HERE))
+#define CHAR_F(name)       inline static bool name(const char c)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define HERE               (**this)
 #define MARK(name)         const char * const name{POS}; std::ignore = name
@@ -73,9 +74,16 @@ namespace reseune {
     // =============================================================================================================
     // Character predicate functions
     // =============================================================================================================
-    T_CHAR_F inline static bool negate(const char c) {
-      // Make a negated version of a character predicate function.
+    T_CHAR_F CHAR_F(negation) {
+      // Make a negationd version of a character predicate function.
       return ! CF(c);
+    }
+     
+    // =============================================================================================================
+    template <char_f left, char_f right>
+    CHAR_F(conjunction) {
+      // Make a negationd version of a character predicate function.
+      return left(c) || right(c);
     }
      
     // =============================================================================================================
@@ -180,7 +188,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return plus<&t::character_f<negate<is_whitespace>>>();
+      return plus<&t::character_f<negation<is_whitespace>>>();
     }
 
   private: 
