@@ -162,6 +162,9 @@ namespace reseune {
     }                                                                           \
     MATCH_F(name ## s) {                                                        \
       return plus<&t::name>();                                                  \
+    }                                                                           \
+    MATCH_F(star_ ## name ## s) {                                               \
+      return star<&t::name>();                                                  \
     }
 
     FROM_C_CHAR_F(alnum, isalnum);
@@ -171,7 +174,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(plain_symbol) {
-      return both<&t::alpha, &t::star<&t::alnum>>();
+      return both<&t::alpha, &t::star_alnums>();
     }
 
     // =============================================================================================================
