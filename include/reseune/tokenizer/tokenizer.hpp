@@ -124,14 +124,11 @@ namespace reseune {
     T_MATCH_F MATCH_F(star) {
       // Match against match_f zero or more times.
       START;
-
       const char * last_pos;
-      
       do {
         last_pos = POS;
         MATCH;
       } while (NOT_NULL && POS != last_pos);
-      
       return SPAN;
     }
 
@@ -140,8 +137,10 @@ namespace reseune {
       // Match against match_f one or more times.
       START;
       MATCH;
-      unless (MOVED)
-        return NOTHING;
+
+      match_f mf = &t::star<MF>;
+      (this->*mf)();
+
       return SPAN;
     }
 
