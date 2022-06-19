@@ -173,12 +173,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return star<&t::character_f<negate<is_whitespace>>>();
-    }
-
-    // =============================================================================================================
-    MATCH_F(word) {
-      return plus<&t::non_whitespace>();
+      return plus<&t::character_f<negate<is_whitespace>>>();
     }
 
   private: 

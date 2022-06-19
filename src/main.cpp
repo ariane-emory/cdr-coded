@@ -315,13 +315,13 @@ int main() {
     result = tok.strip<
       &t::either<
         &t::label<l_paren, &t::character<'('>>,
-        &t::label<word,    &t::word>>>();
+        &t::label<word,    &t::non_whitespace>>>();
     
     if (result.empty()) {
-      printf("Word is null.\n");
-    }
+    printf("Word is null.\n");
+  }
     else {
-      // printf("Word is '%s' (%u).\n", result.c_str(), result.label);
+    // printf("Word is '%s' (%u).\n", result.c_str(), result.label);
       // printf("Word is(%zu, %zu, %u).\n", result.begin, result.end, result.label);
       printf("Word is(%u, '%s').\n", result.label, result.c_str());
       free(reinterpret_cast<void *>(&result)); // Fix alloocator link!
