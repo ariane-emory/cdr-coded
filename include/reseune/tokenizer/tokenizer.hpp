@@ -111,13 +111,24 @@ namespace reseune {
     // =============================================================================================================
     template <match_f left, match_f right>
     MATCH_F(either) {
-      // Match either left or right.
+      // Match either left and, if fit did not match, match against right.
       START;
       DO_MATCH(left);
       if MOVED
         return match;
       DO_MATCH(right);
       return match;
+    }
+
+    template <match_f left, match_f right>
+    MATCH_F(both) {
+      // Match against left and, if it matched, match against right.
+      START;
+      DO_MATCH(left);
+      unless (MOVED)
+        return NOTHING;
+      DO_MATCH(right); 
+      return SPAN;
     }
 
     // =============================================================================================================
@@ -133,20 +144,10 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <match_f left, match_f right>
-    MATCH_F(sequence) {
-      // Match against left and, if fit matched, match with right.
-      START;
-      DO_MATCH(left);
-      unless (MOVED)
-        return NOTHING;
-      DO_MATCH(right); 
-      return SPAN;
-    }
-
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
-      return sequence<MF, &t::star<MF>>();
+      // Match against match_f one or more times
+      return both<MF, &t::star<MF>>();
     }
 
     // =============================================================================================================
