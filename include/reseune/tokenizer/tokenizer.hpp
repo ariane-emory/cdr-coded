@@ -77,7 +77,9 @@ namespace reseune {
     template <int (*fun)(int c)>
     static bool boolified(char c) {
       // Make a negated version of a character predicate function.
-      return 0 == fun(c);
+      int tmp = fun(c);
+      // printf("Passed '%c' (%u) to fun@%zu: %d.\n", c, c, fun, tmp);
+      return 0 != tmp;
     }
      
     // =============================================================================================================
@@ -200,8 +202,6 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(alnum) {
-      // bool x = boolified<isalnum>('a');
-      // return NOTHING;
       START;
       match_f MF{&t::plus<&t::character_f<boolified<isalnum>>>};
       DO_MATCH(MF);
