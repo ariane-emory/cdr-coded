@@ -7,24 +7,28 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define BEGIN              char c; std::ignore = c; const char * const begin {POS}
+#define BEGIN              char c; std::ignore = c; MARK(begin)
 #define NOTHING            return span{}
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
-#define YIELD              return span{begin, POS}
+#define YIELD              return SPAN
+#define SPAN               span{begin, POS}
+#define STASH              const span stashed{begin, POS}
+#define UNSTASH            return stashed
 #define MATCH              (DO_MATCH(MF))
 #define DO_MATCH(tf)       (this->*tf)()
 #define HERE               (**this)
 #define MOVED              (begin != POS)
 #define POS                (m_position)         
 #define UNMOVED            (! MOVED)
-#define REWIND             (POS = begin)
+#define REWIND(name)       (POS = name)
 #define NOT_NULL           (0 != HERE)
 #define CHAR_MATCHES       (CF(HERE))
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
 #define T_MATCH_F          template <match_f MF>
 #define unless(expr)       if (! (expr))
+#define MARK(name)         const char * const name {POS}
 
 // =================================================================================================================
 namespace reseune {
@@ -85,6 +89,16 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(ignore_whitespace) {
       return ignore<&t::whitespace>();
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(with_ignored_whitespace) {
+      ignore_whitespace();
+      BEGIN;
+      MATCH;
+      STASH;
+      ignore_whitespace();
+      UNSTASH;
     }
 
     // =============================================================================================================
