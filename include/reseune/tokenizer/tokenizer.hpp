@@ -32,11 +32,11 @@
     return character_f<fun>();                                                  \
   }                                                                             \
   MATCH_F(name ## s) {                                                          \
-return plus<&t::name>();                                                        \
-}                                                                               \
-MATCH_F(star_ ## name ## s) {                                                   \
-  return star<&t::name>();                                                      \
-}
+    return plus<&t::name>();                                                    \
+  }                                                                             \
+  MATCH_F(star_ ## name ## s) {                                                 \
+    return star<&t::name>();                                                    \
+  }
 
 // Not yet used, but I may want them in the future, maybe:
 // #define BACK               (--*this)
@@ -213,7 +213,13 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(c_style_identifier) {
       // Match C-style identifiers.
-      return both_of<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
+      return both_of
+        <&t::either<
+          &t::character<'_'>,
+           &t::alpha>,
+         &t::star<
+          &t::either<&t::character<'_'>,
+                     &t::alnums>>>();
     }
 
     // =============================================================================================================
@@ -223,7 +229,7 @@ namespace reseune {
       //   1. Consist of solely a basic math operator or, 
         //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
         return either<
-        &t::basic_math_op,
+          &t::basic_math_op,
         &t::both_of<
           &t::alpha,
           &t::star<&t::either<&t::character<'-'>,
