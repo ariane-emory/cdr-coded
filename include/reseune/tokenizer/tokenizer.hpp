@@ -41,6 +41,7 @@
 // #define BACK               (--*this)
 // #define REWIND(name)       (POS = name)
 // #define STASH              span stashed{match}
+#define REWIND       (POS = start)
 
 // =================================================================================================================
 namespace reseune {
@@ -101,10 +102,10 @@ namespace reseune {
       START;
       DO_MATCH(left);
       if (MOVED) {
-        printf("Either moved.\n");
+        printf("Either moved, we are looking at '%c' (%u).\n", HERE, HERE);
         return match;
       }
-      printf("Either didn't move.\n");
+      printf("Either did not move, we are looking at '%c' (%u).\n", HERE, HERE);
       DO_MATCH(right);
       return match;
     }
@@ -141,7 +142,7 @@ namespace reseune {
     T_CHAR_F MATCH_F(character_f) {
       // Match a C-style char predicate function.
 
-      // We will never, ever permit maching a null character here!
+      //We will never, ever permit maching a null character here!
       // If you want to do that you ought write some other function.
       if (NULL_HERE)
         return NOTHING;
@@ -189,15 +190,17 @@ namespace reseune {
       START;
       MATCH;
       unless (MOVED) {
-        printf("ZP Didn't move.\n");
+        printf("ZP did not move, we are looking at '%c' (%u).\n", HERE, HERE);
         return NOTHING;
       }
-      printf("ZP Moved.\n");
+      printf("ZP Moved, we are looking at '%c' (%u).\n", HERE, HERE);
       return match;
     }
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
+      printf("PI id looking at '%c' (%u).\n", HERE, HERE);
+      
       return either<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
@@ -297,6 +300,7 @@ namespace reseune {
 #undef NOTHING
 #undef NULL_HERE
 #undef POS
+#undef REWIND
 #undef SPAN
 #undef START
 #undef T_CHAR_F
@@ -311,5 +315,4 @@ namespace reseune {
 #undef unless
 #undef until
 #undef FROM_C_CHAR_F
-
 #endif
