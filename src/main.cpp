@@ -1,24 +1,11 @@
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
-using namespace reseune;
-
-// ===============================================================================================================
 #define tok &t::
 
 // ===============================================================================================================
 int main() {
-  enum l {
-    unlabeled,
-    symbol,
-    l_paren,
-    r_paren,
-    integer
-  };
-  
-  using t = tokenizer<l>;
-
-  const char * const input    {
+  const char * const input {
     "b\n"
     "(+ 2 4)\n"
     "(* 2 581)\n"
@@ -28,9 +15,18 @@ int main() {
     "a\n"
   };
   
-  t       tokenizer{input};
-  t::span token   {};
-  size_t  token_num{1};
+  enum l {
+    unlabeled,
+    symbol,
+    l_paren,
+    r_paren,
+    integer
+  };
+  
+  using   t       = reseune::tokenizer<l>;
+  t       tokenizer {input};
+  t::span token     {};
+  size_t  token_num {1};
   
   do {
     token = tokenizer.strip<
