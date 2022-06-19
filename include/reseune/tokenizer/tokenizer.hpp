@@ -46,13 +46,6 @@ namespace reseune {
         const char * b = nullptr,
         const char * e = nullptr,
         LABEL_T l = static_cast<LABEL_T>(0)) : begin(b), end(e), label(l) {}
-
-      // span & operator = (const span & other) {
-      //   begin = other.begin;
-      //   label = other.end;
-      //   end   = other.label;
-      // }
-      
       size_t length() const {
         return end - begin;
       }
@@ -69,9 +62,9 @@ namespace reseune {
   private:
 
     // ===============================================================================================================
-    using char_f = bool (*)(const char);
+    using char_f  = bool (*)(const char);
     using match_f = span (tokenizer::*)();
-    using t = tokenizer;
+    using t       = tokenizer;
 
   public:
     
@@ -82,9 +75,8 @@ namespace reseune {
     // Character predicate functions
     // =============================================================================================================
     T_CHAR_F inline static bool negate(const char c) {
-      // Make a negated version of a character predicate function.
-      
-      return ! CF(c);
+      // Make a negated version of a character predicate function.      
+        return ! CF(c);
     }
      
     // =============================================================================================================
@@ -109,16 +101,19 @@ namespace reseune {
     // =============================================================================================================
     
     T_MATCH_F MATCH_F(ignore) {
+      // Match a match_f and ignore the result.
       MATCH;
       NOTHING;
     }
 
     // =============================================================================================================
     template<LABEL_T l, match_f MF> MATCH_F(label) {
+      // Label the token type of a match_f
       START;
       MATCH;
       STASH;
-      stashed.label = l;
+      unless (stashed.empty())
+        stashed.label = l;
       UNSTASH;
     }
 
