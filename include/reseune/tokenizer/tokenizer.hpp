@@ -258,6 +258,7 @@ namespace reseune {
 #undef MATCH
 #undef NEXT
 #undef NOTHING
+#undef NULL_HERE
 #undef POS
 #undef SPAN
 #undef START
@@ -271,6 +272,7 @@ namespace reseune {
 #undef MARK
 #undef MATCH_F
 #undef unless
+#undef until
 #undef FROM_C_CHAR_F
 
 #endif
