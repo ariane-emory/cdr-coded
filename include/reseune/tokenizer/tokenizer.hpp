@@ -7,18 +7,18 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define START              char c; std::ignore = c; MARK(begin)
+#define START              char c; std::ignore = c; MARK(start)
 #define NOTHING            return span{}
 #define BACK               (--*this)
 #define NEXT               (c = ((*this)++))
 #define YIELD              return SPAN
-#define SPAN               span{begin, POS}
+#define SPAN               span{start, POS}
 #define STASH              span stashed{match}
 #define UNSTASH            return stashed
 #define MATCH              span match {(this->*MF)()}
 #define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
 #define HERE               (**this)
-#define MOVED              (begin != POS)
+#define MOVED              (start != POS)
 #define POS                (m_position)         
 #define UNMOVED            (! MOVED)
 #define REWIND(name)       (POS = name)
