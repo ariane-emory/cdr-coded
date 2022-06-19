@@ -27,7 +27,6 @@
 #define T_MATCH_F          template <match_f MF>
 #define UNMOVED            (! MOVED)
 #define UNSTASH            return stashed
-#define YIELD              return SPAN
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -82,24 +81,23 @@ namespace reseune {
     // =============================================================================================================
     // Match functions
     // =============================================================================================================
-    T_CHAR_F MATCH_F(character_f) {
-      // Match a char predicate function.
-      START;      
-      unless (NOT_NULL & CHAR_MATCHES)
-        NOTHING;
-      NEXT;      
-      YIELD;
-    }
-
-
-    // =============================================================================================================
     T_CHAR MATCH_F(character) {
       // Match a particular character.
       return character_f<is_char<C>>();
     }
 
     // =============================================================================================================
-    
+    T_CHAR_F MATCH_F(character_f) {
+      // Match a char predicate function.
+      START;      
+      unless (NOT_NULL & CHAR_MATCHES)
+        NOTHING;
+      NEXT;      
+      return SPAN;
+    }
+
+
+    // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against match_f and ignore the result.
       MATCH;
@@ -150,7 +148,7 @@ namespace reseune {
         MATCH;
       } while (NOT_NULL && POS != last_pos);
       
-      YIELD;
+      return SPAN;
     }
 
     // =============================================================================================================
@@ -230,7 +228,6 @@ namespace reseune {
 #undef T_MATCH_F
 #undef UNMOVED
 #undef UNSTASH
-#undef YIELD
 #undef unless
 
 #endif
