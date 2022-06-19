@@ -294,8 +294,15 @@ int main() {
   setup_allocator();
 
   // reseune::measure_time(test_allocator);
+
+  enum class label_t {
+    unlabeled,
+    l_paren,
+    r_paren,
+    word
+  };
   
-  using t = tokenizer<char>;
+  using t = tokenizer<label_t>;
   const char * const sexp { "(((abcdefg two three four\n five six seven\n eight" };
   t                  tok  { sexp };
   t::span            word {};
