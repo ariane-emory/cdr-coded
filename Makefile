@@ -8,6 +8,7 @@ CXXLAGS  = \
 	-funroll-loops \
 	-fdata-sections \
 	-ffunction-sections \
+	-Wfatal-errors \
   -Wno-terminate \
 	-Wno-format \
 	-Wall \

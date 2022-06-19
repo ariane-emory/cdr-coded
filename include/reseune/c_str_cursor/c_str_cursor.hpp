@@ -1,6 +1,8 @@
 #ifndef RESEUNE_C_STR_CURSOR_HPP
 #define RESEUNE_C_STR_CURSOR_HPP
 
+#include <string.h>
+
 // =================================================================================================================
 namespace reseune {
   
