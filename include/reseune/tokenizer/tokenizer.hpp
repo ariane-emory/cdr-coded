@@ -250,9 +250,8 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(lispesque_identifier) {
-      return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
+      return both<&t::either<&t::character<'-'>, &t::alpha>, &t::star<&t::either<&t::character<'-'>, &t::alnums>>>();
     }
-
 
     // =============================================================================================================
     // Character predicate helper functions
