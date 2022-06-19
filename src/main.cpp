@@ -7,6 +7,7 @@ enum label_t {
   unlabeled,
   l_paren,
   r_paren,
+  integer,
   symbol
 };
   
@@ -17,17 +18,19 @@ using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  const char * const input    {"(((abcdefg wo_go_99 three four\n (five six) seven\n eight)" };
+  const char * const input    {"(((abcdefg wo_go_99 1234 three four\n (five six) seven\n eight)" };
   t                  tokenizer{input};
   t::span            result   {};
   
   do {
     result = tokenizer.strip<
       tok either<
-        tok label<symbol,    tok c_style_identifier>,
-        tok either<
-          tok label<l_paren, tok character<'('>>,
-          tok label<r_paren, tok character<')'>>>>>();
+        tok label<symbol,  tok c_style_identifier>,
+        tok either <
+          tok label<integer, tok digits>,
+          tok either<
+            tok label<l_paren, tok character<'('>>,
+            tok label<r_paren, tok character<')'>>>>>>();
     
     if (result)
       printf("Token is(%u, '%s').\n", result.label, result.c_str());
