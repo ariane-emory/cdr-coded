@@ -26,7 +26,6 @@
 #define T_CHAR_F           template <char_f CF>
 #define T_MATCH_F          template <match_f MF>
 #define UNMOVED            (! MOVED)
-#define UNSTASH            return stashed
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -227,7 +226,6 @@ namespace reseune {
 #undef T_CHAR_F
 #undef T_MATCH_F
 #undef UNMOVED
-#undef UNSTASH
 #undef unless
 
 #endif
