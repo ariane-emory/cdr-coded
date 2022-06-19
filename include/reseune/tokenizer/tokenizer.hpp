@@ -87,7 +87,7 @@ namespace reseune {
     // =============================================================================================================
     template<LABEL_T L, match_f MF>
     MATCH_F(label) {
-      // Match against match_f and label the token type.
+      // Match against match_f and, if it matches label the token type of the resulting span as L.
       START;
       MATCH;
       if MOVED
