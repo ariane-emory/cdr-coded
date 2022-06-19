@@ -21,19 +21,20 @@ int main() {
   };
   
   struct lisp_tokenizer : public reseune::tokenizer<token_type> {
-    using base_t = reseune::tokenizer<token_type>;
-    inline base_t::span lispesque_identifier() {
+    using b = reseune::tokenizer<token_type>;
+    
+    inline b::span lispesque_identifier() {
       return either<
-        &base_t::basic_math_op,
-        &base_t::both<
-          &base_t::alpha,
-            &base_t::star<&base_t::either<&base_t::character<'-'>,
-                                          &base_t::alnums>>>>();
+        &b::basic_math_op,
+        &b::both<
+          &b::alpha,
+          &b::star<&b::either<&b::character<'-'>,
+                              &b::alnums>>>>();
     }
   };
 
   using t = lisp_tokenizer; 
-  #define read &lisp_tokenizer::base_t::
+#define read &lisp_tokenizer::b::
  
   t       tokenizer{input};
   lisp_tokenizer::span token{};
