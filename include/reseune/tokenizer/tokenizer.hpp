@@ -77,7 +77,7 @@ namespace reseune {
     // Match functions
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
-      // Match against match_f and ignore the result.
+      // Match against MF and ignore the result.
       START;
       MATCH;
       return NOTHING;
@@ -96,7 +96,7 @@ namespace reseune {
     // =============================================================================================================
     template<LABEL_T L, match_f MF>
     MATCH_F(label) {
-      // Match against match_f and, if it matches label the token type of the resulting span as L.
+      // Match against MF and, if it matches, label the token type of the resulting span as L.
       START;
       MATCH;
       if MOVED
@@ -130,7 +130,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(star) {
-      // Match against match_f zero or more times.
+      // Match against MF zero or more times.
       START;
       const char * last_pos;
       do {
@@ -142,13 +142,13 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
-      // Match against match_f one or more times
+      // Match against MF one or more times.
       return both_of<MF, &t::star<MF>>();
     }
 
     // =============================================================================================================
     T_CHAR_F MATCH_F(character_f) {
-      // Match a C-style char predicate function.
+      // Match a C-style char predicate function CF.
 
       //We will never, ever, permit maching a null character here!
       // If you want to do that you ought write some new function.
@@ -165,7 +165,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_CHAR MATCH_F(character) {
-      // Match a particular character.
+      // Match a particular character C.
       return character_f<ischar<C>>();
     }
 
