@@ -77,9 +77,7 @@ namespace reseune {
     template <int (*fun)(int c)>
     static bool boolified(char c) {
       // Make a negated version of a character predicate function.
-      int tmp = fun(c);
-      // printf("Passed '%c' (%u) to fun@%zu: %d.\n", c, c, fun, tmp);
-      return 0 != tmp;
+      return 0 != fun(c);
     }
      
     // =============================================================================================================
@@ -197,6 +195,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
+      // Match one or more non-white characters.
       return plus<&t::character_f<negate<is_whitespace>>>();
     }
 
