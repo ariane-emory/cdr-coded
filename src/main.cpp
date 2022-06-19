@@ -17,14 +17,14 @@ using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  const char * const input    {"(((abcdefg wo99 three four\n (five six) seven\n eight)" };
+  const char * const input    {"(((abcdefg wo_go_99 three four\n (five six) seven\n eight)" };
   t                  tokenizer{input};
   t::span            result   {};
   
   do {
     result = tokenizer.strip<
       tok either<
-        tok label<symbol,    tok plain_symbol>,
+        tok label<symbol,    tok c_style_identifier>,
         tok either<
           tok label<l_paren, tok character<'('>>,
           tok label<r_paren, tok character<')'>>>>>();

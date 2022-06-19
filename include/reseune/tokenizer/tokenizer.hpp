@@ -172,8 +172,8 @@ namespace reseune {
     FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
-    MATCH_F(plain_symbol) {
-      return both<&t::alpha, &t::star<&t::alnums>>();
+    MATCH_F(c_style_identifier) {
+      return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
     }
 
     // =============================================================================================================
