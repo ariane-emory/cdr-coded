@@ -33,17 +33,19 @@ int main() {
   using l = label_t;
   using t = tokenizer<l>;
 
-  const char * const sexp { "(((abcdefg wo99 three four\n five six seven\n eight" };
-  t                  tok  { sexp };
+  const char * const input { "(((abcdefg wo99 three four\n five six seven\n eight" };
+  t                  tokenizer  { input };
   t::span            result {};
   
   do {
-    tok.ignore_whitespace();
+    tokenizer.ignore_whitespace();
 
-    result = tok.strip<
+    result = tokenizer.strip<
       &t::either<
         &t::label<l_paren, &t::character<'('>>,
-        &t::label<word,    &t::plain_symbol>>>();
+        &t::either<
+          &t::label<l_paren, &t::character<')'>>,
+          &t::label<word,    &t::plain_symbol>>>>();
     
     if (result.empty())
       printf("Word is null.\n");
