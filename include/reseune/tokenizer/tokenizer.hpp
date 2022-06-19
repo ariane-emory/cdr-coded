@@ -194,11 +194,15 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-      return either<&t::character<'+'>,
-                    &t::either<&t::character<'-'>,
-                               &t::either<&t::character<'/'>,
-                                          &t::either<&t::character<'*'>,
-                                                     &t::character<'%'>>>>>();
+#define c character
+#define e either
+      return e<&t::c<'+'>,
+                    &t::e<&t::c<'-'>,
+                          &t::e<&t::c<'/'>,
+                                     &t::e<&t::c<'*'>,
+                                           &t::c<'%'>>>>>();
+#undef c
+#undef e
     }
 
     // =============================================================================================================
