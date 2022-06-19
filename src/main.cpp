@@ -1,7 +1,9 @@
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
-using namespace    reseune;
+using namespace reseune;
+
+// ===============================================================================================================
 #define tok &t::
 
 // ===============================================================================================================
@@ -26,23 +28,23 @@ int main() {
     "a\n"
   };
   
-  t                  tokenizer{input};
-  t::span            result   {};
+  t       tokenizer{input};
+  t::span token   {};
+  size_t  token_num{1};
   
   do {
-    // result = tokenizer.strip<tok label<integer, tok integer>>();
-    result = tokenizer.strip<
+    token = tokenizer.strip<
       tok either<
         tok label<symbol,  tok lispesque_identifier>,
-          tok either <
-            tok label<integer, tok integer>,
-            tok either<
+        tok either <
+          tok label<integer, tok integer>,
+          tok either<
               tok label<l_paren, tok character<'('>>,
               tok label<r_paren, tok character<')'>>>>>>();
     
-    if (result)
-      printf("Token is (%u, '%s').\n", result.label, result.c_str());
+    if (token)
+      printf("Token #%zu is (%u, '%s').\n", token_num++, token.label, token.c_str());
     else
-      printf("Token is null.\n");
-  } while (result);
+      printf("Token #zu is null.\n", token_num++);
+  } while (token);
 }
