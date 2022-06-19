@@ -152,6 +152,22 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_C_CHAR_F MATCH_F(c_character_f) {
+      // Match a char predicate function.
+      START;      
+      unless (NOT_NULL & CHAR_MATCHES)
+        return NOTHING;
+      NEXT;      
+      return SPAN;
+    }
+
+    // =============================================================================================================
+    T_CHAR MATCH_F(c_character) {
+      // Match a particular character.
+      return c_character_f<boolified<ischar<C>>>();
+    }
+
+    // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
     MATCH_F(ignore_whites) {
