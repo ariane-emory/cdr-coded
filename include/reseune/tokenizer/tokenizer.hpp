@@ -7,13 +7,9 @@
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
 #define CHAR_MATCHES       (CF(HERE))
-#define CHAR_F(name)       inline static bool name(const char c)
-#define DO_MATCH(match_f)  match = {(this->*match_f)()}
-#define HERE               (**this)
-#define MARK(name)         const char * const name{POS}; std::ignore = name
-#define MATCH              match = {(this->*MF)()}
-#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define MOVED              (start != POS)
+#define HERE               (**this)
+#define MATCH              match = {(this->*MF)()}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NOT_NULL           (0 != HERE)
@@ -24,6 +20,11 @@
 #define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
+
+#define CHAR_F(name)       inline static bool name(const char c)
+#define DO_MATCH(match_f)  match = {(this->*match_f)()}
+#define MARK(name)         const char * const name{POS}; std::ignore = name
+#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define unless(expr)       if (! (expr))
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
@@ -245,5 +246,26 @@ namespace reseune {
 }
 // =================================================================================================================
 
+#undef CHAR_MATCHES
+#undef MOVED
+#undef HERE
+#undef MATCH
+#undef NEXT
+#undef NOTHING
+#undef NOT_NULL
+#undef POS
+#undef SPAN
+#undef START
+#undef T_CHAR_F
+#undef T_2_CHAR_F
+#undef T_MATCH_F
+#undef T_2_MATCH_F
+
+#undef CHAR_F
+#undef DO_MATCH
+#undef MARK
+#undef MATCH_F
+#undef unless
+#undef FROM_C_CHAR_F
 
 #endif
