@@ -25,8 +25,9 @@
 #define STASH              span stashed{match}
 #define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
+#define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
-#define T_2_MATCH_F      template <match_f left, match_f right>
+#define T_2_MATCH_F        template <match_f left, match_f right>
 #define unless(expr)       if (! (expr))
 
 // =================================================================================================================
@@ -188,8 +189,7 @@ namespace reseune {
     }
      
     // =============================================================================================================
-    template <char_f left, char_f right>
-    CHAR_F(disjoin) {
+    T_2_CHAR_F CHAR_F(disjoin) {
       // Make a char_f for the disjunction of left and right.
       return left(c) || right(c);
     }
@@ -261,7 +261,9 @@ namespace reseune {
 #undef STASH
 #undef T_CHAR
 #undef T_CHAR_F
+#undef T_2_CHAR_F
 #undef T_MATCH_F
+#undef T_2_MATCH_F
 #undef unless
 
 #endif
