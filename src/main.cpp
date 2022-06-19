@@ -40,3 +40,5 @@ int main() {
       printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
 }
+
+#undef read
