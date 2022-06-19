@@ -97,7 +97,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(either) {
-      // Match left and, if it did not match, match against right.
+      // Match against left and, if it did not match, match against right.
       START;
       DO_MATCH(left);
       if (MOVED)
