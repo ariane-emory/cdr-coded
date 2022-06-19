@@ -74,8 +74,8 @@ namespace reseune {
     // Character predicate functions
     // =============================================================================================================
     T_CHAR_F inline static bool negate(const char c) {
-      // Make a negated version of a character predicate function.      
-        return ! CF(c);
+      // Make a negated version of a character predicate function.
+      return ! CF(c);
     }
      
     // =============================================================================================================
@@ -137,14 +137,9 @@ namespace reseune {
       // Match against match_f one or more times.
       START;
       MATCH;
-
       unless (MOVED)
         return NOTHING;
-
-      // Why do I have to use this awkward syntax ahead?
-      match_f mf = &t::star<MF>;
-      (this->*mf)();
-
+      DO_MATCH(static_cast<match_f>(&t::star<MF>)); // Why does this need static_cast?
       return SPAN;
     }
 
