@@ -41,7 +41,7 @@
 // #define BACK               (--*this)
 // #define REWIND(name)       (POS = name)
 // #define STASH              span stashed{match}
-#define REWIND(name)       printf("Rewind from '%c' @ %zu to '%c' @ %zu.\n", *POS, POS, *name, name); (POS = name)
+#define REWIND(name)       /* printf("Rewind from '%c' @ %zu to '%c' @ %zu.\n", *POS, POS, *name, name); */ (POS = name)
 
 // =================================================================================================================
 namespace reseune {
