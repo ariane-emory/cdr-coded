@@ -20,7 +20,6 @@
 #define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
-
 #define CHAR_F(name)       inline static bool name(const char c)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define MARK(name)         const char * const name{POS}; std::ignore = name
