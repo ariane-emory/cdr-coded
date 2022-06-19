@@ -13,7 +13,7 @@ enum label_t {
 using l = label_t;
 using t = tokenizer<l>;
 
-#define token &t::
+#define tok &t::
 
 // ===============================================================================================================
 int main() {
@@ -23,11 +23,11 @@ int main() {
   
   do {
     result = tokenizer.strip<
-      token either<
-        token label<l_paren,   token character<'('>>,
-        token either<
-          token label<r_paren, token character<')'>>,
-          token label<word,    token plain_symbol>>>>();
+      tok either<
+        tok label<l_paren,   tok character<'('>>,
+        tok either<
+          tok label<r_paren, tok character<')'>>,
+          tok label<word,    tok plain_symbol>>>>();
     
     if (result)
       printf("Word is(%u, '%s').\n", result.label, result.c_str());
