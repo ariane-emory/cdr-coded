@@ -27,7 +27,7 @@ int main() {
     // result = tokenizer.strip<tok label<integer, tok integer>>();
     result = tokenizer.strip<
       tok either<
-        tok label<symbol,  tok c_style_identifier>,
+        tok label<symbol,  tok lispesque_identifier>,
         tok either <
           tok label<integer, tok integer>,
           tok either<
