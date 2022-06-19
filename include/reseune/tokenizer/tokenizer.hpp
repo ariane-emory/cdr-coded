@@ -228,8 +228,8 @@ namespace reseune {
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
       // Currently, identifiers must either:
-      //   1. Consist of solely a basic math operator or, 
-        //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
+      //   1. Consist of solely a basic math operator or,
+      //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
         return either<
           &t::basic_math_op,
         &t::both_of<
@@ -246,7 +246,7 @@ namespace reseune {
       return ignore<&t::whitespaces>();
     }    
 
-    // Manufacture functions of type match_f for various C-style string predicate functions.
+    // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
     FROM_C_CHAR_F(alnum,          isalnum);
     FROM_C_CHAR_F(alpha,          isalpha);
     FROM_C_CHAR_F(digit,          isdigit);
