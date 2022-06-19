@@ -15,7 +15,7 @@
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
 #define MOVED              (start != POS)
 #define NEXT               (ch = ((*this)++))
-#define NOTHING            return span{}
+#define NOTHING            (span{})
 #define NOT_NULL           (0 != HERE)
 #define POS                (m_position)         
 #define REWIND(name)       (POS = name)
@@ -91,7 +91,7 @@ namespace reseune {
       // Match a char predicate function.
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
-        NOTHING;
+        return NOTHING;
       NEXT;      
       return SPAN;
     }
@@ -101,7 +101,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(ignore) {
       // Match against match_f and ignore the result.
       MATCH;
-      NOTHING;
+      return NOTHING;
     }
 
     // =============================================================================================================
@@ -157,7 +157,7 @@ namespace reseune {
       START;
       MATCH;
       if UNMOVED
-        NOTHING;
+        return NOTHING;
       return match;
     }
 
