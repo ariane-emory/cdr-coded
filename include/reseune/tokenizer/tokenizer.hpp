@@ -16,8 +16,8 @@
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match{NOTHING}
-#define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
+#define T_CHAR             template <char C>
 #define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
