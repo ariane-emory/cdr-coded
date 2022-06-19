@@ -96,6 +96,17 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_2_MATCH_F MATCH_F(both) {
+      // Match against left and, if it matched, match against right.
+      START;
+      DO_MATCH(left);
+      unless (MOVED)
+        return NOTHING;
+      DO_MATCH(right); 
+      return SPAN;
+    }
+
+    // =============================================================================================================
     T_2_MATCH_F MATCH_F(either) {
       // Match against left and, if it did not match, match against right.
       START;
@@ -106,16 +117,6 @@ namespace reseune {
       if MOVED
         return match;
       return NOTHING;
-    }
-
-    T_2_MATCH_F MATCH_F(both) {
-      // Match against left and, if it matched, match against right.
-      START;
-      DO_MATCH(left);
-      unless (MOVED)
-        return NOTHING;
-      DO_MATCH(right); 
-      return SPAN;
     }
 
     // =============================================================================================================
