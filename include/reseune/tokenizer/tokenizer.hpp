@@ -16,11 +16,12 @@
 #define POS                (m_position)         
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match{NOTHING}
+#define T_CHAR             template <char C>
 #define T_CHAR_F           template <char_f CF>
 #define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
-#define CHAR_F(name)       inline static bool name(const char c)
+#define CHAR_F(name)       constexpr inline static bool name(const char c)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
@@ -155,8 +156,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <char C>
-    MATCH_F(character) {
+    T_CHAR MATCH_F(character) {
       // Match a particular character.
       return character_f<ischar<C>>();
     }
