@@ -16,9 +16,9 @@ using t = tokenizer<l>;
 // ===============================================================================================================
 int main() {
 
-  const char * const input { "(((abcdefg wo99 three four\n five six seven\n eight" };
-  t                  tokenizer  { input };
-  t::span            result {};
+  const char * const input    {"(((abcdefg wo99 three four\n five six seven\n eight" };
+  t                  tokenizer{input};
+  t::span            result   {};
   
   do {
     tokenizer.ignore_whitespace();
