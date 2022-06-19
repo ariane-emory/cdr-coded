@@ -302,7 +302,6 @@ int main() {
   
   do {
     tok.ignore_whitespace();
-    //word = tok.word();
 
     word = tok.either<&t::chr<'('>, &t::word>();
     
@@ -314,13 +313,4 @@ int main() {
       free(reinterpret_cast<void *>(&word)); // Fix alloocator link!
     }
   } while (! word.empty());
-
-  // ALLOC describe_free_list();
-
-  tokenizer tok2 { "abc" };
-
-  for (char c : tok2)
-    putchar(c);
-
-  putchar('\n');
 }
