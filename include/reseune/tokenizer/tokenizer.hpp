@@ -172,6 +172,11 @@ namespace reseune {
     FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
+    MATCH_F(positive_integer) {
+      return digits();
+    }
+
+    // =============================================================================================================
     MATCH_F(c_style_identifier) {
       return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
     }
