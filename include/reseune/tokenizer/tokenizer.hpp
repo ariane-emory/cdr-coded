@@ -217,7 +217,7 @@ namespace reseune {
         &t::either<
           &t::character<'_'>,
           &t::alpha>,
-        &t::star<
+        &t::plus<
           &t::either<&t::character<'_'>,
                      &t::alnums>>>();
     }
