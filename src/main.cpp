@@ -31,9 +31,9 @@ int main() {
           token label<l_paren, token character<')'>>,
           token label<word,    token plain_symbol>>>>();
     
-    if (result.empty())
-      printf("Word is null.\n");
-    else
+    if (result)
       printf("Word is(%u, '%s').\n", result.label, result.c_str());
+    else
+      printf("Word is null.\n");
   } while (! result.empty());
 }

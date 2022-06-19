@@ -215,6 +215,10 @@ namespace reseune {
         return 0 == length();
       }
 
+      operator bool() const {
+        return ! empty();
+      }
+
       char * c_str() const {
         return create_new_c_str(*this);
       }
