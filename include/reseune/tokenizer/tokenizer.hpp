@@ -126,7 +126,7 @@ namespace reseune {
       do {
         last_pos = POS;
         MATCH;
-      } while (NOT_NULL_HERE && POS != last_pos);
+      } until (NULL_HERE || POS == last_pos);
       return SPAN;
     }
 
