@@ -33,7 +33,7 @@ int main() {
             tok label<r_paren, tok character<')'>>>>>>();
     
     if (result)
-      printf("Token is(%u, '%s').\n", result.label, result.c_str());
+      printf("Token is (%u, '%s').\n", result.label, result.c_str());
     else
       printf("Token is null.\n");
   } while (result);

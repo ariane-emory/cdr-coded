@@ -185,6 +185,11 @@ namespace reseune {
       ignore<&t::star<&t::character<'0'>>>();
       START;
       MATCH;
+      unless (MOVED) {
+        printf("Didn't move.\n");
+        return NOTHING;
+      }
+      printf("Moved.\n");
       return match;
     }
 
@@ -192,7 +197,7 @@ namespace reseune {
     MATCH_F(positive_integer) {
       return either<
         &t::zero_padded<&t::digits>,
-        &t::zero_padded<&t::digits>>();
+        &t::plus<&t::character<'0'>>>();
     }
 
     // =============================================================================================================
