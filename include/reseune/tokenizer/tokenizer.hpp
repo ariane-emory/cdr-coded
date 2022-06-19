@@ -24,10 +24,8 @@
 #define START              MARK(start); span match {NOTHING}
 #define STASH              span stashed{match}
 #define T_CHAR             template <char C>
-#define T_CHAR_F           template <char_f CF>
-#define T_C_CHAR_F         template <c_char_f CF>
-#define T_2_CHAR_F         template <char_f left, char_f right>
-#define T_2_C_CHAR_F       template <c_char_f left, c_char_f right>
+#define T_CHAR_F         template <c_char_f CF>
+#define T_2_CHAR_F       template <c_char_f left, c_char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
 #define unless(expr)       if (! (expr))
@@ -136,7 +134,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_C_CHAR_F MATCH_F(character_f) {
+    T_CHAR_F MATCH_F(character_f) {
       // Match a C-style char predicate function.
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
