@@ -92,7 +92,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(with_ignored_whitespace) {
+    T_MATCH_F MATCH_F(strip) {
       ignore_whitespace();
       BEGIN;
       MATCH;
