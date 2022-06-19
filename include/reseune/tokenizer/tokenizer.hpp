@@ -162,22 +162,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    // Convenience match functions
-    // =============================================================================================================
-    MATCH_F(ignore_whites) {
-      // Ignore any number of whitespace characers.
-      return ignore<&t::whitespaces>();
-    }    
-
-    // Manufacture functions of type match_f for various C-style string predicate functions.
-    FROM_C_CHAR_F(alnum,          isalnum);
-    FROM_C_CHAR_F(alpha,          isalpha);
-    FROM_C_CHAR_F(digit,          isdigit);
-    FROM_C_CHAR_F(xdigit,         isxdigit);
-    FROM_C_CHAR_F(whitespace,     iswhitespace);
-    FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
       // Ignore any number of 0s and then match against MF.
       MARK(restore);
@@ -240,6 +224,22 @@ namespace reseune {
           &t::star<&t::either<&t::character<'-'>,
                               &t::alnums>>>>();
     }
+
+    // =============================================================================================================
+    // Convenience match functions
+    // =============================================================================================================
+    MATCH_F(ignore_whites) {
+      // Ignore any number of whitespace characers.
+      return ignore<&t::whitespaces>();
+    }    
+
+    // Manufacture functions of type match_f for various C-style string predicate functions.
+    FROM_C_CHAR_F(alnum,          isalnum);
+    FROM_C_CHAR_F(alpha,          isalpha);
+    FROM_C_CHAR_F(digit,          isdigit);
+    FROM_C_CHAR_F(xdigit,         isxdigit);
+    FROM_C_CHAR_F(whitespace,     iswhitespace);
+    FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
     // Character predicate helper static functions
