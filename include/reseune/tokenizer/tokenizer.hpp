@@ -140,9 +140,9 @@ namespace reseune {
       // Match against match_f one or more times.
       START;
       MATCH;
-      if MOVED
-        return SPAN;
-      return NOTHING;
+      unless (MOVED)
+        return NOTHING;
+      return SPAN;
     }
 
     // =============================================================================================================
