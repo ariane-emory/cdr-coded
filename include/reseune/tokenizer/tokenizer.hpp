@@ -217,6 +217,9 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
+      // Currently, identifiers must either:
+      //   1. Consist of solely a basic math operator or, 
+      //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters or dashes.
       return either<
         &t::basic_math_op,
         &t::both<
