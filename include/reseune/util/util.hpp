@@ -31,15 +31,15 @@ namespace reseune {
 
   }
   
-  inline bool is_whitespace(const char c) {
-    // printf("Examine '%c' (%u).\n", c, c);
-    return ((c == ' ')
-            || (c == 9)
-            || (c == 10)
-            || (c == 11)
-            || (c == 12)
-            || (c == 13));
-  }
+  // inline bool is_whitespace(const char c) {
+  //   // printf("Examine '%c' (%u).\n", c, c);
+  //   return ((c == ' ')
+  //           || (c == 9)
+  //           || (c == 10)
+  //           || (c == 11)
+  //           || (c == 12)
+  //           || (c == 13));
+  // }
 
   // C-style type
   inline int iswhitespace(int c) {

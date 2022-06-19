@@ -29,6 +29,16 @@
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
 #define unless(expr)       if (! (expr))
+#define FROM_C_CHAR_F(name, fun)                                                \
+  MATCH_F(name) {                                                               \
+    return character_f<boolified<fun>>();                                       \
+  }                                                                             \
+  MATCH_F(name ## s) {                                                          \
+    return plus<&t::name>();                                                    \
+  }                                                                             \
+  MATCH_F(star_ ## name ## s) {                                                 \
+    return star<&t::name>();                                                    \
+  }
 
 // =================================================================================================================
 namespace reseune {
@@ -141,37 +151,18 @@ namespace reseune {
     // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
-    MATCH_F(white) {
-      return star<&t::character_f<is_whitespace>>();
-    }
-
+ 
     // =============================================================================================================
     MATCH_F(ignore_white) {
-      return ignore<&t::whitespace>();
-    }
-    
-    // =============================================================================================================
-    MATCH_F(non_whitespace) {
-      // Match one or more non-white characters.
-      return plus<&t::character_f<negate<is_whitespace>>>();
-    }
+      return ignore<&t::whitespaces>();
+    }    
 
-#define FROM_C_CHAR_F(name, fun)                                                \
-    MATCH_F(name) {                                                             \
-      return character_f<boolified<fun>>();                                     \
-    }                                                                           \
-    MATCH_F(name ## s) {                                                        \
-      return plus<&t::name>();                                                  \
-    }                                                                           \
-    MATCH_F(star_ ## name ## s) {                                               \
-      return star<&t::name>();                                                  \
-    }
-
-    FROM_C_CHAR_F(alnum,      isalnum);
-    FROM_C_CHAR_F(alpha,      isalpha);
-    FROM_C_CHAR_F(digit,      isdigit);
-    FROM_C_CHAR_F(xdigit,     isxdigit);
-    FROM_C_CHAR_F(whitespace, iswhitespace);
+    FROM_C_CHAR_F(alnum,          isalnum);
+    FROM_C_CHAR_F(alpha,          isalpha);
+    FROM_C_CHAR_F(digit,          isdigit);
+    FROM_C_CHAR_F(xdigit,         isxdigit);
+    FROM_C_CHAR_F(whitespace,     iswhitespace);
+    FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
     // =============================================================================================================
     MATCH_F(plain_symbol) {
@@ -188,10 +179,17 @@ namespace reseune {
     }
      
     // =============================================================================================================
-    T_CHAR_F CHAR_F(negate) {
-      // Make a negated version of a character predicate function.
-      return ! CF(c);
+    template <int (*fun)(int)>
+    int negate(int c) {
+      // Make a negated version of a C-style character predicate function.
+      return 0 == fun(c) ? 1 : 0;
     }
+     
+    // // =============================================================================================================
+    // T_CHAR_F CHAR_F(negate) {
+    //   // Make a negated version of a character predicate function.
+    //   return ! CF(c);
+    // }
      
     // =============================================================================================================
     T_2_CHAR_F CHAR_F(disjoin) {
