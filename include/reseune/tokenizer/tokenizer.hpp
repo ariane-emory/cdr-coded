@@ -100,10 +100,10 @@ namespace reseune {
       // Match against left and, if it did not match, match against right.
       START;
       DO_MATCH(left);
-      if (MOVED)
+      if MOVED
         return match;
       DO_MATCH(right);
-      if (MOVED)
+      if MOVED
         return match;
       return NOTHING;
     }
