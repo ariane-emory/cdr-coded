@@ -24,6 +24,7 @@
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define MATCH_F(name, ...) inline span name(__VA_ARGS__)
+#define REWIND(name) (POS = name)
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
 #define FROM_C_CHAR_F(name, fun)                                                \
@@ -31,17 +32,15 @@
     return character_f<fun>();                                                  \
   }                                                                             \
   MATCH_F(name ## s) {                                                          \
-    return plus<&t::name>();                                                    \
-  }                                                                             \
-  MATCH_F(star_ ## name ## s) {                                                 \
-    return star<&t::name>();                                                    \
-  }
+return plus<&t::name>();                                                        \
+}                                                                               \
+MATCH_F(star_ ## name ## s) {                                                   \
+  return star<&t::name>();                                                      \
+}
 
 // Not yet used, but I may want them in the future, maybe:
 // #define BACK               (--*this)
-// #define REWIND(name)       (POS = name)
 // #define STASH              span stashed{match}
-#define REWIND(name) (POS = name)
 
 // =================================================================================================================
 namespace reseune {
