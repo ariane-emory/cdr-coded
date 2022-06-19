@@ -73,12 +73,12 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(whitespace) {
-      return star<&t::chr_f<is_whitespace>>();
+      return star<&t::c_f<is_whitespace>>();
     }
 
     // =============================================================================================================
     MATCH_F(non_whitespace) {
-      return star<&t::chr_f<negate<is_whitespace>>>();
+      return star<&t::c_f<negate<is_whitespace>>>();
     }
 
     // =============================================================================================================
@@ -127,12 +127,12 @@ namespace reseune {
     }
     
     // =============================================================================================================
-    T_CHAR MATCH_F(chr) {
-      return chr_f<is_char<C>>();
+    T_CHAR MATCH_F(c) {
+      return c_f<is_char<C>>();
     }
     
     // =============================================================================================================
-    T_CHAR_F MATCH_F(chr_f) {
+    T_CHAR_F MATCH_F(c_f) {
       BEGIN;      
       unless (NOT_NULL & CHAR_MATCHES)
         NOTHING;

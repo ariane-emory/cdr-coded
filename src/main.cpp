@@ -303,7 +303,7 @@ int main() {
   do {
     tok.ignore_whitespace();
 
-    word = tok.strip<&t::either<&t::chr<'('>, &t::word>>();
+    word = tok.strip<&t::either<&t::c<'('>, &t::word>>();
     
     if (word.empty()) {
       printf("Word is null.\n");
