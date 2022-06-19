@@ -282,25 +282,25 @@ namespace reseune {
       // ===========================================================================================================
       // Member functions
       // ===========================================================================================================
-      size_t length() const {
+      constexpr size_t length() const {
         // Return the length of the span.
         return end - begin;
       }
 
       // ===========================================================================================================
-      bool empty() const {
+      constexpr bool empty() const {
         // True iff the span's length is 0.
         return 0 == length();
       }
 
       // ===========================================================================================================
-      operator bool() const {
+      constexpr operator bool() const {
         // True iff the span is not empty.
         return ! empty();
       }
 
       // ===========================================================================================================
-      char * c_str() const {
+      constexpr char * c_str() const {
         // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETUENED C STRING!
         return create_new_c_str(*this);
       }
