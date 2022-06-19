@@ -149,24 +149,22 @@ namespace reseune {
     MATCH_F(ignore_whitespace) {
       return ignore<&t::whitespace>();
     }
-
+    
     // =============================================================================================================
     MATCH_F(non_whitespace) {
       // Match one or more non-white characters.
       return plus<&t::character_f<negate<is_whitespace>>>();
     }
 
-    // =============================================================================================================
-    MATCH_F(alnum) {
-      // Match one alphanumeric character.
-      return character_f<boolified<isalnum>>();
+#define FROM_C_CHAR_F(name, fun)                                                \
+    MATCH_F(name) {                                                             \
+      return character_f<boolified<fun>>();                                     \
     }
 
-    // =============================================================================================================
-    MATCH_F(alpha) {
-      // Match one alphabetic character.
-      return character_f<boolified<isalpha>>();
-    }
+    FROM_C_CHAR_F(alnum, isalnum);
+    FROM_C_CHAR_F(alpha, isalpha);
+    FROM_C_CHAR_F(digit, isdigit);
+    FROM_C_CHAR_F(xdigit, isxdigit);
 
     // =============================================================================================================
     MATCH_F(plain_symbol) {
