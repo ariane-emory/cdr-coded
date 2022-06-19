@@ -202,28 +202,19 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(alnum) {
-      // Match an alphanumeric character.
-      START;
-      match_f MF{&t::plus<&t::character_f<boolified<isalnum>>>};
-      DO_MATCH(MF);
-      return match;
+      // Match one alphanumeric character.
+      return character_f<boolified<isalnum>>();
     }
 
     // =============================================================================================================
     MATCH_F(alpha) {
-      // Match an alphabetic character.
-      START;
-      match_f MF{&t::plus<&t::character_f<boolified<isalpha>>>};
-      DO_MATCH(MF);
-      return match;
+      // Match onme alphabetic character.
+      return character_f<boolified<isalpha>>();
     }
 
     // =============================================================================================================
     MATCH_F(plain_symbol) {
-      START;
-      match_f MF{&t::both<&t::alpha, &t::star<&t::alnum>>};
-      DO_MATCH(MF);
-      return match;
+      return both<&t::alpha, &t::star<&t::alnum>>();
     }
 
   private: 
