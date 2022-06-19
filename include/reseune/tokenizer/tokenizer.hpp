@@ -225,6 +225,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(c_style_identifier) {
+      // Match C-style identifiers.
       return both<&t::either<&t::character<'_'>, &t::alpha>, &t::star<&t::either<&t::character<'_'>, &t::alnums>>>();
     }
 
