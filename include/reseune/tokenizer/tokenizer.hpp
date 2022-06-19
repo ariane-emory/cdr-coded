@@ -146,14 +146,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR MATCH_F(character) {
-      // Match a particular character.
-      return character_f<boolified<ischar<C>>>();
-    }
-
-    // =============================================================================================================
     T_C_CHAR_F MATCH_F(c_character_f) {
-      // Match a char predicate function.
+      // Match a C-style char predicate function.
       START;      
       unless (NOT_NULL & CHAR_MATCHES)
         return NOTHING;
@@ -164,7 +158,7 @@ namespace reseune {
     // =============================================================================================================
     T_CHAR MATCH_F(c_character) {
       // Match a particular character.
-      return c_character_f<boolified<ischar<C>>>();
+      return c_character_f<ischar<C>>();
     }
 
     // =============================================================================================================

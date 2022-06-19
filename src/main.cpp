@@ -26,8 +26,8 @@ int main() {
       tok either<
         tok label<symbol,    tok plain_symbol>,
         tok either<
-          tok label<l_paren, tok character<'('>>,
-          tok label<r_paren, tok character<')'>>>>>();
+          tok label<l_paren, tok c_character<'('>>,
+          tok label<r_paren, tok c_character<')'>>>>>();
     
     if (result)
       printf("Token is(%u, '%s').\n", result.label, result.c_str());
