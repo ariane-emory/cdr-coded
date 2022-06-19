@@ -6,7 +6,6 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
-#define BACK               (--*this)
 #define CHAR_MATCHES       (CF(HERE))
 #define CHAR_F(name)       inline static bool name(const char c)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
@@ -19,7 +18,6 @@
 #define NOTHING            (span{})
 #define NOT_NULL           (0 != HERE)
 #define POS                (m_position)         
-#define REWIND(name)       (POS = name)
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match {NOTHING}
 #define STASH              span stashed{match}
@@ -40,7 +38,11 @@
     return star<&t::name>();                                                    \
   }
 
-// =================================================================================================================
+// Not yet used, but I may want them in the future, maybe:
+// #define BACK               (--*this)
+// #define REWIND(name)       (POS = name)
+
+ // =================================================================================================================
 namespace reseune {
   
   // ===============================================================================================================
