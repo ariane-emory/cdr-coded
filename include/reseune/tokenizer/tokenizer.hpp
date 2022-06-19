@@ -229,8 +229,8 @@ namespace reseune {
       // Match basic math ops.
 
       return either<&t::character<'+'>,
-                    &t::either<&t::character<'+'>,
-                               &t::either<&t::character<'+'>,
+                    &t::either<&t::character<'-'>,
+                               &t::either<&t::character<'/'>,
                                           &t::character<'%'>>>>();
     }
 
@@ -246,10 +246,12 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(lispesque_identifier) {
-      return both<
-        &t::alpha,
-        &t::star<&t::either<&t::character<'-'>,
-                            &t::alnums>>>();
+      return either<
+        &t::basic_math_op,
+        &t::both<
+          &t::alpha,
+          &t::star<&t::either<&t::character<'-'>,
+                              &t::alnums>>>>();
     }
 
     // =============================================================================================================
