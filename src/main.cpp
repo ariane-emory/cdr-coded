@@ -5,7 +5,6 @@
 
 // ===============================================================================================================
 int main() {
-  class blah {};
   const char * const input {
     "b\n"
     "(+ 2 4)\n"
@@ -24,6 +23,9 @@ int main() {
     integer    // 4
   };
   
+  class lisp_tokenizer : public reseune::tokenizer<token_type> {
+  };
+
   using t = reseune::tokenizer<token_type>;
   
   t       tokenizer{input};
