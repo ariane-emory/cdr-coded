@@ -219,6 +219,7 @@ namespace reseune {
 
     // =============================================================================================================
     MATCH_F(integer) {
+      // Match any integer (with or without leading zeroes).
       return optional_prefix<&t::character<'-'>, &t::positive_integer>();
     }
 
