@@ -122,18 +122,18 @@ namespace reseune {
       ignore_whitespace();
       START;
       MATCH;
-      STASH;
       ignore_whitespace();
-      UNSTASH;
+      return match;
     }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
+      // Match against match_f one or more times.
       START;
       MATCH;
       if UNMOVED
         NOTHING;
-      YIELD;
+      return match;
     }
 
     // =============================================================================================================
@@ -207,28 +207,28 @@ namespace reseune {
 }
 // =================================================================================================================
 
-#define MATCH_F(name, ...) inline span name(__VA_ARGS__)
-#define START              char c; std::ignore = c; MARK(start)
-#define NOTHING            return span{}
-#define BACK               (--*this)
-#define NEXT               (c = ((*this)++))
-#define YIELD              return SPAN
-#define SPAN               span{start, POS}
-#define STASH              span stashed{match}
-#define UNSTASH            return stashed
-#define MATCH              span match {(this->*MF)()}
-#define DO_MATCH(match_f)  span match_f ## _match {(this->*match_f)()}
-#define HERE               (**this)
-#define MOVED              (start != POS)
-#define POS                (m_position)         
-#define UNMOVED            (! MOVED)
-#define REWIND(name)       (POS = name)
-#define NOT_NULL           (0 != HERE)
-#define CHAR_MATCHES       (CF(HERE))
-#define T_CHAR_F           template <char_f CF>
-#define T_CHAR             template <char C>
-#define T_MATCH_F          template <match_f MF>
-#define unless(expr)       if (! (expr))
-#define MARK(name)         const char * const name{POS}; std::ignore = name
+#undef MATCH_F
+#undef BACK
+#undef CHAR_MATCHES
+#undef DO_MATCH
+#undef HERE
+#undef MARK
+#undef MATCH
+#undef MOVED
+#undef NEXT
+#undef NOTHING
+#undef NOT_NULL
+#undef POS
+#undef REWIND
+#undef SPAN
+#undef START
+#undef STASH
+#undef T_CHAR
+#undef T_CHAR_F
+#undef T_MATCH_F
+#undef UNMOVED
+#undef UNSTASH
+#undef YIELD
+#undef unless
 
 #endif
