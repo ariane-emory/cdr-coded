@@ -133,14 +133,20 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(plus) {
-      // Match against match_f one or more times.
+    template <match_f left, match_f right>
+    MATCH_F(sequence) {
+      // Match against left and, if fit matched, match with right.
       START;
-      MATCH;
+      DO_MATCH(left);
       unless (MOVED)
         return NOTHING;
-      DO_MATCH(static_cast<match_f>(&t::star<MF>)); // Why does this need static_cast?
+      DO_MATCH(right); 
       return SPAN;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(plus) {
+      return sequence<MF, &t::star<MF>>();
     }
 
     // =============================================================================================================
