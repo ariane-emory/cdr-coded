@@ -7,7 +7,7 @@ enum label_t {
   unlabeled,
   l_paren,
   r_paren,
-  word
+  symbol
 };
   
 using l = label_t;
@@ -24,14 +24,14 @@ int main() {
   do {
     result = tokenizer.strip<
       tok either<
-        tok label<l_paren,   tok character<'('>>,
+        tok label<symbol,    tok plain_symbol>,
         tok either<
-          tok label<r_paren, tok character<')'>>,
-          tok label<word,    tok plain_symbol>>>>();
+          tok label<l_paren,   tok character<'('>>,
+          tok label<r_paren, tok character<')'>>>>>();
     
     if (result)
-      printf("Word is(%u, '%s').\n", result.label, result.c_str());
+      printf("Token is(%u, '%s').\n", result.label, result.c_str());
     else
-      printf("Word is null.\n");
+      printf("Token is null.\n");
   } while (result);
 }
