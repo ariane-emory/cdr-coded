@@ -1,37 +1,20 @@
-#include <iostream>
-#include <string>
-#include <string.h>
-#include <stdio.h>
-#include <inttypes.h>
-#include <stdexcept>
-#include <tuple>
 #include "reseune/reseune.hpp"
 
 // ===============================================================================================================
-
-#define LINE        (reseune::print_line())
-#define HLINE       (reseune::print_line('-'))
-#define NEWLINE     (putchar('\n'))
-#define PRINT(x, y) (print_bits<true,false>(x, uintptr(y)))
-#define cout        (std::cout)
-#define endl        (std::endl)
-#define uintptr(x)  (reseune::uintptr(x))
-
-// ===============================================================================================================
-
 using namespace    reseune;
+
+enum label_t {
+  unlabeled,
+  l_paren,
+  r_paren,
+  word
+};
+  
+using l = label_t;
+using t = tokenizer<l>;
 
 // ===============================================================================================================
 int main() {
-  enum label_t {
-    unlabeled,
-    l_paren,
-    r_paren,
-    word
-  };
-  
-  using l = label_t;
-  using t = tokenizer<l>;
 
   const char * const input { "(((abcdefg wo99 three four\n five six seven\n eight" };
   t                  tokenizer  { input };

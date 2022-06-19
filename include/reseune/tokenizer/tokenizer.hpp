@@ -73,13 +73,13 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template<LABEL_T l, match_f MF>
+    template<LABEL_T L, match_f MF>
     MATCH_F(label) {
       // Match against match_𝑓 and label the token type.
       START;
       MATCH;
       if MOVED
-        match.label = l;
+        match.label = L;
       return match;
     }
 
@@ -203,9 +203,10 @@ namespace reseune {
       LABEL_T label;
 
       span(
-        const char * b = nullptr,
-        const char * e = nullptr,
-        LABEL_T l = static_cast<LABEL_T>(0)) : begin(b), end(e), label(l) {}
+        const char * bb = nullptr,
+        const char * ee = nullptr,
+        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
+      
       size_t length() const {
         return end - begin;
       }
