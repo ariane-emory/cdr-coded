@@ -168,6 +168,7 @@ namespace reseune {
         RETURN_NO_MATCH;
       RETURN_SPAN;
     }
+    
     template <typename... nil>
     MATCH_F(all_of) {
       START;
@@ -185,6 +186,7 @@ namespace reseune {
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
+    
     template <typename... nil>
     MATCH_F(any_of) {
       START;
@@ -195,9 +197,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(star) {
       // Match against MF zero or more times.
       START;
-      // const char * last_pos;
       do {
-        // last_pos = POS;
         MATCH;
       } until (NUL_HERE || (! match));
       RETURN_SPAN;
@@ -207,7 +207,8 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      match = both_of<MF, &t::star<MF>>();
+      auto const mf = &t::both_of<MF, &t::star<MF>>;
+      CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
 
@@ -220,7 +221,7 @@ namespace reseune {
       // But you probably ought not want to.
       START;      
       if (NUL_HERE)
-        return NO_MATCH;
+        RETURN_NO_MATCH;
       unless (CF(HERE)) {
         log("character_f did not match '%c'.", HERE, HERE);
         RETURN_NO_MATCH;
