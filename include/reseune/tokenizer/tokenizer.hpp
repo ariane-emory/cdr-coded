@@ -274,7 +274,7 @@ namespace reseune {
       MATCH;
       if (match.nothing())
         RETURN_SPAN;
-      RETURN_NOTHING;
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
