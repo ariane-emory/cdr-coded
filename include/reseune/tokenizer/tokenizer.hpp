@@ -113,13 +113,13 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against MF while ignoring any surrounding whitespace (before and after).
+      START;
       if (NUL_HERE) 
         RETURN_NOTHING;
       ignore_whites();
-      START;
       MATCH;
       if (NUL_HERE)
-        RETURN_NOTHING;
+        RETURN_MATCH;
       ignore_whites();
       RETURN_MATCH;
     }
