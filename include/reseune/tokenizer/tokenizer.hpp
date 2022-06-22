@@ -26,7 +26,7 @@
 #define SPAN                  span{start, POS}
 #define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NOMATCH};
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
-#define RETURN_NOMATCH        {log("Returning nothing after moving %zu from %s.", POS - start, __FUNCTION__); return NOMATCH;}
+#define RETURN_NOMATCH        {log("Returning nomatch after moving %zu from %s.", POS - start, __FUNCTION__); return NOMATCH;}
 #define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__);    return SPAN;}
 
 #define T_CHAR_F              template <char_f CF>
@@ -110,7 +110,7 @@ namespace reseune {
       START;
       MATCH;
       RETURN_NOMATCH; // Maybe this should return empty instead? Not sure yet.
-        }
+    }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
@@ -133,7 +133,7 @@ namespace reseune {
       START;
       log("Would label as '%u'", L);
       MATCH;
-      unless (MOVED) 
+      unless (match)
         RETURN_NOMATCH;
       log("Label as '%u' was moved", L);
       match.label = L;
@@ -145,10 +145,10 @@ namespace reseune {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
       CALL_MATCH_F(LEFT_MF);
-      if (match.nothing())
+      unless (match)
         goto fail;
       CALL_MATCH_F(RIGHT_MF);
-      if (match.nothing())
+      unless (match)
         goto fail;
       RETURN_SPAN;
     fail:
@@ -165,7 +165,7 @@ namespace reseune {
       unless (MOVED)
         RETURN_NOMATCH;
       const span rest = all_of<MFs...>();
-      if (rest.nothing())
+      if (rest.nomatch())
         RETURN_NOMATCH;
       RETURN_SPAN;
     }
@@ -278,7 +278,7 @@ namespace reseune {
       // Match against MF and if it returns NOMATCH, return an empty span instead.
       START;
       MATCH;
-      if (match.nothing())
+      if (match.nomatch())
         RETURN_SPAN;
       RETURN_MATCH;
     }
@@ -288,7 +288,7 @@ namespace reseune {
       // Match against MF and if it returns a match, rewind and return empty.
       START;
       MATCH;
-      if (match.nothing())
+      if (match.nomatch())
         RETURN_NOMATCH;
       REWIND;
       RETURN_SPAN;
@@ -393,7 +393,7 @@ namespace reseune {
       }
 
       // ===========================================================================================================
-      constexpr bool nothing() const {
+      constexpr bool nomatch() const {
         // True iff the span's beginning and end are both nullptr.
         return ! matched;
       }
@@ -407,7 +407,7 @@ namespace reseune {
       // ===========================================================================================================
       constexpr operator bool() const {
         // True iff the span is not empty.
-        return ! empty();
+        return ! nomatch();
       }
 
       // ===========================================================================================================
