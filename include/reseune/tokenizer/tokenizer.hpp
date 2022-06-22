@@ -9,17 +9,6 @@
 // ===============================================================================================================
 // Macros
 // ===============================================================================================================
-#define RESEUNE_VERBOSE_TOKENIZE 1
-
-#ifdef RESEUNE_VERBOSE_TOKENIZE
-#define VERBOSE            true
-#else
-#define VERBOSE            false
-#endif
-
-#define PRINTF(...)        { INDENT; if (VERBOSE) printf(__VA_ARGS__); }
-#define PUTCHAR(c)         { INDENT; if (VERBOSE) putchar(c); }
-#define INDENT             { for (size_t ix = 0; ix < indentation; ix++) PUTCHAR(' '); }
 
 #define ABORT              {REWIND(restore); return NOTHING;}
 #define CHAR_MATCHES       (CF(HERE))
