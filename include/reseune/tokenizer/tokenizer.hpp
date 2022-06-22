@@ -283,6 +283,17 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(optional) {
+      // Match against MF and if it returns NOTHING, return an empty span instead.
+      START;
+      MATCH;
+      if (NOTHING == match) {
+        RETURN_SPAN;
+      }
+      RETURN_NOTHING;
+    }
+
+    // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes). Does not permit a leading '+' presently!
       return optional_prefix
@@ -371,6 +382,12 @@ namespace reseune {
       constexpr bool empty() const {
         // True iff the span's length is 0.
         return 0 == length();
+      }
+
+      // ===========================================================================================================
+      constexpr bool nothing() const {
+        // True iff the span's beginning and end are both nullptr.
+        return (nullptr == begin) && (nullptr == end);
       }
 
       // ===========================================================================================================
