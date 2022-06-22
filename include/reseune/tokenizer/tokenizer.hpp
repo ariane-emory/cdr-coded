@@ -17,8 +17,8 @@
 #define VERBOSE            false
 #endif
 
-#define PRINTF(...)        { INDENT; if constexpr (VERBOSE) PRINTF(__VA_ARGS__); }
-#define PUTCHAR(c)         { INDENT; if constexpr (VERBOSE) putchar(c); }
+#define PRINTF(...)        { INDENT; if (VERBOSE) printf(__VA_ARGS__); }
+#define PUTCHAR(c)         { INDENT; if (VERBOSE) putchar(c); }
 #define INDENT             { for (size_t ix = 0; ix < indentation; ix++) PUTCHAR(' '); }
 
 #define ABORT              {REWIND(restore); return NOTHING;}
@@ -76,13 +76,18 @@ namespace reseune {
   public:
 
     // ===========================================================================================================
+    // Constructors
+    // ===========================================================================================================
+    tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(true) {}
+    
+    // ===========================================================================================================
     // Forward declarations
     // ===========================================================================================================
     struct span;
     
   private:
-    static size_t indentation;
-    
+    size_t indentation;
+    bool verbose;
     // ===========================================================================================================
     // Types
     // ===========================================================================================================
@@ -232,7 +237,7 @@ namespace reseune {
       unless (MOVED)
         ABORT;
       return match;
-      }
+    }
 
     // =============================================================================================================
     MATCH_F(positive_integer) {
@@ -395,8 +400,6 @@ namespace reseune {
     // =============================================================================================================
   };
   // ===============================================================================================================
-
-  template <typename LABEL_T> size_t reseune::tokenizer<LABEL_T>::indentation = 0;
 }
 // =================================================================================================================
 
