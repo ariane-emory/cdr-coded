@@ -147,15 +147,12 @@ namespace reseune {
     T_2_MATCH_F MATCH_F(both_of) {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
-
       DO_MATCH(LEFT_MF);
       unless (MOVED)
         RETURN_NOTHING;
-
       DO_MATCH(RIGHT_MF);
       unless (MOVED)
         RETURN_NOTHING;
-
       RETURN_SPAN;
     }
 
