@@ -146,12 +146,10 @@ namespace reseune {
       START;
       CALL_MATCH_F(LEFT_MF);
       unless (match)
-        goto fail;
+        RETURN_NO_MATCH;
       CALL_MATCH_F(RIGHT_MF);
-      unless (match)
-        goto fail;
-      RETURN_SPAN;
-    fail:
+      if (match)
+        RETURN_SPAN;
       REWIND;
       RETURN_NO_MATCH;
     }
@@ -455,6 +453,7 @@ namespace reseune {
 #undef SAVE
 #undef SPAN
 #undef START
+#undef RETURN_EMPTY
 #undef RETURN_MATCH
 #undef RETURN_NO_MATCH
 #undef RETURN_SPAN
