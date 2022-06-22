@@ -59,7 +59,7 @@ namespace reseune {
   // =============================================================================================================
   // tokenizer class
   // =============================================================================================================
-  template <typename LABEL_T>
+  // template <typename LABEL_T>
   class tokenizer : public c_str_cursor {
   public:
 
@@ -76,6 +76,7 @@ namespace reseune {
     using char_f   = int (*)(int);
     using match_f  = span (tokenizer::*)();
     using t        = tokenizer;
+    using label_t  = int;
 
   public:
     
@@ -100,7 +101,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template<LABEL_T L, match_f MF>
+    template<label_t L, match_f MF>
     MATCH_F(label) {
       // Match against MF and, if it matches, label the token type of the resulting span as L.
       START;
@@ -285,7 +286,7 @@ namespace reseune {
     struct span {
       const char * begin;
       const char * end;
-      LABEL_T label;
+      label_t label;
 
       // ===========================================================================================================
       // Constructors
@@ -293,7 +294,7 @@ namespace reseune {
       constexpr span(
         const char * bb = nullptr,
         const char * ee = nullptr,
-        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
+        label_t ll = static_cast<label_t>(0)) : begin(bb), end(ee), label(ll) {}
       
       // ===========================================================================================================
       // Member functions

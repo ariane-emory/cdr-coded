@@ -20,7 +20,7 @@ int main() {
     integer,   // 4
   };
   
-  using t = reseune::tokenizer<token_type>;
+  using t = reseune::tokenizer; //token_type>;
   t         tokenizer{input};
   t::span   token{};
   size_t    token_num{1};
