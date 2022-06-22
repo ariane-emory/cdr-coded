@@ -21,12 +21,13 @@
 #define NUL_HERE              (0 == HERE)
 #define POS                   (m_position)
 #define RESTORE               (POS = saved)
+#define REWIND                (POS = start)
 #define SAVE                  MARK(saved)
 #define SPAN                  span{start, POS}
 #define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
-#define RETURN_MATCH          {log("Returning match from %s.", __FUNCTION__);  return match;}
-#define RETURN_NOTHING        {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
-#define RETURN_SPAN           {log("Returning span from %s.", __FUNCTION__);    return SPAN;}
+#define RETURN_MATCH          {log("Returning match from %s after moving %zu.", __FUNCTION__, POS - start);  return match;}
+#define RETURN_NOTHING        {log("Returning nothing from %s after moving %zu.", __FUNCTION__, POS - start); return NOTHING;}
+#define RETURN_SPAN           {log("Returning span from %s after moving %zu.", __FUNCTION__, POS - start);    return SPAN;}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
@@ -64,7 +65,7 @@ namespace reseune {
     // ===========================================================================================================
     // Constructors
     // ===========================================================================================================
-    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(false) {}
+    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(true) {}
     
     // ===========================================================================================================
     // Forward declarations
@@ -117,11 +118,11 @@ namespace reseune {
       START;
       if (NUL_HERE) 
         RETURN_NOTHING;
-      ignore_whites();
+      ignore_whitespace();
       MATCH;
       if (NUL_HERE)
         RETURN_MATCH;
-      ignore_whites();
+      ignore_whitespace();
       RETURN_MATCH;
     }
 
@@ -134,6 +135,7 @@ namespace reseune {
       MATCH;
       unless (MOVED) 
         RETURN_NOTHING;
+      log("Label as '%u' was moved", L);
       match.label = L;
       RETURN_MATCH;      
     }
@@ -190,6 +192,7 @@ namespace reseune {
 
     template <typename... nil>
     MATCH_F(any_of) {
+      START;
       RETURN_NOTHING;
     }
 
@@ -223,10 +226,10 @@ namespace reseune {
       if (NUL_HERE)
         return NOTHING;
       unless (CF(HERE)) {
-        log("character_f did not match.");
+        log("character_f did not match '%c'.", HERE, HERE);
         RETURN_NOTHING;
       }
-      log("character_f matched.");
+      log("character_f matched '%c' (%u).", HERE, HERE);
       NEXT;      
       RETURN_SPAN;
     }
@@ -278,6 +281,17 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(followed_by) {
+      // Match against MF and if it returns a match, rewind and return empty.
+      START;
+      MATCH;
+      if (match.nothing())
+        RETURN_NOTHING;
+      REWIND;
+      RETURN_SPAN;
+    }
+
+// =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
       return both_of<
@@ -309,7 +323,9 @@ namespace reseune {
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
       return either_of<
-        &t::basic_math_op,
+        &t::both_of<
+          &t::basic_math_op,
+          &t::followed_by<&t::whitespace>>,
         &t::both_of<
           &t::alpha,
           &t::star<&t::either_of<&t::character<'-'>,
@@ -319,7 +335,7 @@ namespace reseune {
     // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
-    MATCH_F(ignore_whites) {
+    MATCH_F(ignore_whitespace) {
       // Ignore any number of whitespace characers.
       return ignore<&t::star_whitespaces>();
     }    
@@ -432,6 +448,7 @@ namespace reseune {
 #undef NUL_HERE
 #undef POS
 #undef RESTORE
+#undef REWIND
 #undef SAVE
 #undef SPAN
 #undef START
