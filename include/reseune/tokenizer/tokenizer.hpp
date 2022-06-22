@@ -363,6 +363,7 @@ namespace reseune {
     struct span {
       const char * begin;
       const char * end;
+      bool matched;
       LABEL_T label;
 
       // ===========================================================================================================
@@ -371,7 +372,8 @@ namespace reseune {
       constexpr span(
         const char * bb = nullptr,
         const char * ee = nullptr,
-        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
+        bool mm = true,
+        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), matched(mm), label(ll) {}
       
       // ===========================================================================================================
       // Member functions
