@@ -11,11 +11,11 @@
 namespace reseune {
   template <bool(*fun)(const char)>
   
-  bool invert_char_predicate(const char c) {
+  inline bool invert_char_predicate(const char c) {
     return ! fun(c);
   }
   
-  void measure_time(void(*fun)()) {
+  inline void measure_time(void(*fun)()) {
 #define NOW (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()))    
     auto before = NOW;
     fun();

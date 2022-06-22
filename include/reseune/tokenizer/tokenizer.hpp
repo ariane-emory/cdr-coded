@@ -9,8 +9,14 @@
 // ===============================================================================================================
 // Macros
 // ===============================================================================================================
+#define RESEUNE_VERBOSE_TOKENIZE 1
 
+#ifdef RESEUNE_VERBOSE_TOKENIZE
 #define VERBOSE            true
+#else
+#define VERBOSE            false
+#endif
+
 #define PRINTF(...)        { if constexpr (VERBOSE) PRINTF(__VA_ARGS__); }
 #define PUTCHAR(c)         { if constexpr (VERBOSE) putchar(c); }
 
@@ -74,7 +80,8 @@ namespace reseune {
     struct span;
     
   private:
-
+    static size_t indentation;
+    
     // ===========================================================================================================
     // Types
     // ===========================================================================================================
