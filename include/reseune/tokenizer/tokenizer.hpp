@@ -22,7 +22,11 @@
 #define POS                (m_position)
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
-#define START              log("Entering %s.\n", __FUNCTION__); MARK(start); span match{NOTHING}
+#define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING}
+
+#define RETURN_MATCH       {log("Returning match.");  return match;}
+#define RETURN_SPAN        {log("Returning span.");   return SPAN;}
+#define RETURN_NOTHING     {log("Returning nothing."); return NOTHING;}
 
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
@@ -92,6 +96,7 @@ namespace reseune {
       va_start(arglist, format);
       vprintf(format, arglist);
       va_end(arglist);
+      putchar('\n');
     }
     
     // ===========================================================================================================
@@ -120,7 +125,7 @@ namespace reseune {
       START;
       MATCH;
       ignore_whites();
-      return match;
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
@@ -128,10 +133,11 @@ namespace reseune {
     MATCH_F(label) {
       // Match against MF and, if it matches, label the token type of the resulting span as L.
       START;
+      log("Would label as '%u'", L);
       MATCH;
       if MOVED
         match.label = L;
-      return match;
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
@@ -147,7 +153,7 @@ namespace reseune {
       unless (MOVED)
         return NOTHING;
 
-      return SPAN;
+      RETURN_SPAN;
     }
 
     // =============================================================================================================
@@ -161,13 +167,13 @@ namespace reseune {
       const span rest = all_of<MFs...>();
       if (rest == NOTHING)
         return NOTHING;
-      return SPAN;
+      RETURN_SPAN;
     }
 
     template <typename... nil>
     MATCH_F(all_of) {
       START;
-      return SPAN; // An empty span (but not NOTHING!).
+      RETURN_SPAN; // An empty span (but not NOTHING!).
     }
 
     // =============================================================================================================
@@ -183,7 +189,7 @@ namespace reseune {
       START;
       MATCH;
       if MOVED
-        return match;
+        RETURN_MATCH;
       return any_of<MFs...>();
     }
 
@@ -201,7 +207,7 @@ namespace reseune {
         last_pos = POS;
         MATCH;
       } until (NULL_HERE || POS == last_pos);
-      return SPAN;
+      RETURN_SPAN;
     }
 
     // =============================================================================================================
@@ -217,19 +223,19 @@ namespace reseune {
       //We will never, ever, permit maching a null character here!
       // If you want to do that you ought write some new function.
       // But you probably ought not want to.
+      START;      
       if (NULL_HERE)
         return NOTHING;
-     
-      START;      
       unless (CHAR_MATCHES)
         return NOTHING;
       NEXT;      
-      return SPAN;
+      RETURN_SPAN;
     }
 
     // =============================================================================================================
     T_CHAR MATCH_F(character) {
       // Match a particular character C.
+      log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
       return character_f<ischar<C>>();
     }
 
@@ -242,7 +248,7 @@ namespace reseune {
       MATCH;
       unless (MOVED)
         ABORT;
-      return match;
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
@@ -274,7 +280,7 @@ namespace reseune {
       START;
       ignore<left>();
       DO_MATCH(right);
-      return SPAN;
+      RETURN_SPAN;
     }
 
     // =============================================================================================================
