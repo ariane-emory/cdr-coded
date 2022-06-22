@@ -215,7 +215,8 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      return both_of<MF, &t::star<MF>>();
+      match = both_of<MF, &t::star<MF>>();
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
