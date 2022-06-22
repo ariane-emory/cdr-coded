@@ -17,14 +17,15 @@
 #define VERBOSE            false
 #endif
 
-#define PRINTF(...)        { if constexpr (VERBOSE) PRINTF(__VA_ARGS__); }
-#define PUTCHAR(c)         { if constexpr (VERBOSE) putchar(c); }
+#define PRINTF(...)        { INDENT; if constexpr (VERBOSE) PRINTF(__VA_ARGS__); }
+#define PUTCHAR(c)         { INDENT; if constexpr (VERBOSE) putchar(c); }
+#define INDENT             { for (size_t ix = 0; ix < indentation; ix++) PUTCHAR(' '); }
 
 #define ABORT              {REWIND(restore); return NOTHING;}
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
-#define MATCH              match = {(this->*MF)()}
+#define MATCH              { indentation += 2; match = {(this->*MF)()}; indentation -= 2; } 
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NULL_HERE          (0 == HERE)
