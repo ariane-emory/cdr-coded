@@ -28,7 +28,7 @@
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
 #define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
 #define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__); return SPAN;}
-#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{start, start};}
+#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{POS, POS};}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
@@ -215,7 +215,7 @@ namespace reseune {
     T_CHAR_F MATCH_F(character_f) {
       // Match a C-style char predicate function CF.
 
-      //We will never, ever, permit maching a null character here!
+      // We will never, ever, permit maching a null character here!
       // If you want to do that you ought write some new function.
       // But you probably ought not want to.
       START;      
