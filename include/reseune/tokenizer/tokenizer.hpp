@@ -188,7 +188,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      auto mf = &t::any_of<MFs...>;
+      auto const mf = &t::any_of<MFs...>;
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
