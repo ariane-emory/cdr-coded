@@ -25,9 +25,9 @@
 #define SAVE                  MARK(saved)
 #define SPAN                  span{start, POS}
 #define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
-#define RETURN_MATCH          {log("Returning match from %s after moving %zu.", __FUNCTION__, POS - start);  return match;}
-#define RETURN_NOTHING        {log("Returning nothing from %s after moving %zu.", __FUNCTION__, POS - start); return NOTHING;}
-#define RETURN_SPAN           {log("Returning span from %s after moving %zu.", __FUNCTION__, POS - start);    return SPAN;}
+#define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
+#define RETURN_NOTHING        {log("Returning nothing after moving %zu from %s.", POS - start, __FUNCTION__); return NOTHING;}
+#define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__);    return SPAN;}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
@@ -148,8 +148,10 @@ namespace reseune {
       if (match.nothing())
         RETURN_NOTHING;
       CALL_MATCH_F(RIGHT_MF);
-      if (match.nothing())
+      if (match.nothing()) {
+        REWIND;
         RETURN_NOTHING;
+      }
       RETURN_SPAN;
     }
 
@@ -299,7 +301,7 @@ namespace reseune {
           &t::any_of<
             &t::character<'-'>,
             &t::character<'+'>>>,
-        &t::positive_integer>();
+        &t::digits>();
     }
 
     // =============================================================================================================
