@@ -152,14 +152,14 @@ namespace reseune {
     template <match_f MF, match_f... MFs>
     MATCH_F(any_of) {
       // Match against any of the MFs, attempting them from left to right.
-      // START;
-      // DO_MATCH(left);
-      // if MOVED
-      //   return match;
+      START;
+      MATCH;
+      if MOVED
+        return match;
       // DO_MATCH(right);
       // if MOVED
       //   return match;
-      return NOTHING;
+      return any_of<MFs...>();
     }
 
     // =============================================================================================================
