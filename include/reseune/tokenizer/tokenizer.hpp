@@ -11,22 +11,21 @@
 // Macros
 // ===============================================================================================================
 
-#define ABORT                 {RESTORE; RETURN_NOMATCH;}
-#define MOVED                 (start != POS)
+#define ABORT                 {RESTORE; RETURN_NO_MATCH;}
 #define HERE                  (**this)
 #define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
 #define MATCH                 CALL_MATCH_F(MF)
 #define NEXT                  ((*this)++)
-#define NOMATCH               (span{nullptr, nullptr, false})
+#define NO_MATCH               (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
 #define POS                   (m_position)
 #define RESTORE               (POS = saved)
 #define REWIND                (POS = start)
 #define SAVE                  MARK(saved)
 #define SPAN                  span{start, POS}
-#define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NOMATCH};
+#define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NO_MATCH};
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
-#define RETURN_NOMATCH        {log("Returning nomatch after moving %zu from %s.", POS - start, __FUNCTION__); return NOMATCH;}
+#define RETURN_NO_MATCH        {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
 #define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__);    return SPAN;}
 
 #define T_CHAR_F              template <char_f CF>
@@ -109,7 +108,7 @@ namespace reseune {
       // Match against MF and ignore the result.
       START;
       MATCH;
-      RETURN_NOMATCH; // Maybe this should return empty instead? Not sure yet.
+      RETURN_NO_MATCH; // Maybe this should return empty instead? Not sure yet.
     }
 
     // =============================================================================================================
@@ -117,7 +116,7 @@ namespace reseune {
       // Match against MF while ignoring any surrounding whitespace (before and after).
       START;
       if (NUL_HERE) 
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       ignore_whitespace();
       MATCH;
       if (NUL_HERE)
@@ -134,7 +133,7 @@ namespace reseune {
       log("Would label as '%u'", L);
       MATCH;
       unless (match)
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       log("Label as '%u' was moved", L);
       match.label = L;
       RETURN_MATCH;      
@@ -153,7 +152,7 @@ namespace reseune {
       RETURN_SPAN;
     fail:
       REWIND;
-      RETURN_NOMATCH;
+      RETURN_NO_MATCH;
     }
 
     // =============================================================================================================
@@ -163,17 +162,17 @@ namespace reseune {
       START;
       MATCH;
       unless (match)
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       const span rest = all_of<MFs...>();
       if (! rest)
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       RETURN_SPAN;
     }
 
     template <typename... nil>
     MATCH_F(all_of) {
       START;
-      RETURN_SPAN; // An empty span (but not NOMATCH!).
+      RETURN_SPAN; // An empty span (but not NO_MATCH!).
     }
 
     // =============================================================================================================
@@ -196,7 +195,7 @@ namespace reseune {
     template <typename... nil>
     MATCH_F(any_of) {
       START;
-      RETURN_NOMATCH;
+      RETURN_NO_MATCH;
     }
 
     // =============================================================================================================
@@ -228,10 +227,10 @@ namespace reseune {
       // But you probably ought not want to.
       START;      
       if (NUL_HERE)
-        return NOMATCH;
+        return NO_MATCH;
       unless (CF(HERE)) {
         log("character_f did not match '%c'.", HERE, HERE);
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       }
       log("character_f matched '%c' (%u).", HERE, HERE);
       NEXT;      
@@ -276,7 +275,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(optional) {
-      // Match against MF and if it returns NOMATCH, return an empty span instead.
+      // Match against MF and if it returns NO_MATCH, return an empty span instead.
       START;
       MATCH;
       if (match)
@@ -290,7 +289,7 @@ namespace reseune {
       START;
       MATCH;
       unless (match)
-        RETURN_NOMATCH;
+        RETURN_NO_MATCH;
       REWIND;
       RETURN_SPAN;
     }
@@ -394,21 +393,21 @@ namespace reseune {
       }
 
       // ===========================================================================================================
-      constexpr bool nomatch() const {
+      constexpr bool no_match() const {
         // True iff the span's beginning and end are both nullptr.
         return ! matched;
       }
 
       // ===========================================================================================================
       constexpr char * c_str() const {
-        // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
+        // Return a *NEW* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
         return create_new_c_str(*this);
       }
       
       // ===========================================================================================================
       constexpr operator bool() const {
         // True iff the span is not empty.
-        return ! nomatch();
+        return ! no_match();
       }
 
       // ===========================================================================================================
@@ -444,11 +443,10 @@ namespace reseune {
 // Don't leak the macros!
 // =================================================================================================================
 #undef ABORT
-#undef MOVED
 #undef HERE
 #undef MATCH
 #undef NEXT
-#undef NOMATCH
+#undef NO_MATCH
 #undef NUL_HERE
 #undef POS
 #undef RESTORE
@@ -457,7 +455,7 @@ namespace reseune {
 #undef SPAN
 #undef START
 #undef RETURN_MATCH
-#undef RETURN_NOMATCH
+#undef RETURN_NO_MATCH
 #undef RETURN_SPAN
 
 #undef T_CHAR_F
