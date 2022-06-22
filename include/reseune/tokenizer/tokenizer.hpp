@@ -324,7 +324,10 @@ namespace reseune {
       return any_of<
         &t::both_of<
           &t::basic_math_op,
-          &t::followed_by<&t::whitespace>>,
+          &t::followed_by<
+            &t::any_of<
+              &t::whitespace,
+              &t::character<')'>>>>,
         &t::both_of<
           &t::alpha,
           &t::star<&t::any_of<&t::character<'-'>,
