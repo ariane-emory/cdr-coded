@@ -25,7 +25,7 @@
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
 #define MARK(name)         const char * const name{POS}; std::ignore = name
-#define REWIND(name) (POS = name)
+#define REWIND(name)       (POS = name)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
 
 #define T_CHAR_F           template <char_f CF>
