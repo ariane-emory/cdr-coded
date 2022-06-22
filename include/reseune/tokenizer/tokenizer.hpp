@@ -162,10 +162,10 @@ namespace reseune {
       // Match MF followed by the MFs in order.
       START;
       MATCH;
-      unless (MOVED)
+      unless (match)
         RETURN_NOMATCH;
       const span rest = all_of<MFs...>();
-      if (rest.nomatch())
+      if (! rest)
         RETURN_NOMATCH;
       RETURN_SPAN;
     }
@@ -188,7 +188,7 @@ namespace reseune {
       // Match against any of the MFs, attempting them from LEFT_MF to RIGHT_MF.
       START;
       MATCH;
-      if MOVED
+      if (match)
         RETURN_MATCH;
       return any_of<MFs...>();
     }
@@ -203,11 +203,11 @@ namespace reseune {
     T_MATCH_F MATCH_F(star) {
       // Match against MF zero or more times.
       START;
-      const char * last_pos;
+      // const char * last_pos;
       do {
-        last_pos = POS;
+        // last_pos = POS;
         MATCH;
-      } until (NUL_HERE || POS == last_pos);
+      } until (NUL_HERE || (! match));
       RETURN_SPAN;
     }
 
