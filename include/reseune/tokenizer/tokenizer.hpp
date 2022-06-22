@@ -15,7 +15,8 @@
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
-#define MATCH              {indentation += 2; match = {(this->*MF)()}; indentation -= 2;}
+#define MATCH              DO_MATCH(MF)
+#define DO_MATCH(match_f)  {indentation += 2; match = {(this->*match_f)()}; indentation -= 2;}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NUL_HERE           (0 == HERE)
@@ -32,7 +33,6 @@
 #define until(expr)        while (! (expr))
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define REWIND(name)       (POS = name)
-#define DO_MATCH(match_f)  match = {(this->*match_f)()}
 
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
