@@ -30,7 +30,7 @@ int main() {
   
   do {
     token = tokenizer.strip<
-      read any_of <
+      read any_of<
         read label<l_paren, read character<'('>>,
         read label<r_paren, read character<')'>>,
         read label<integer, read integer>,
