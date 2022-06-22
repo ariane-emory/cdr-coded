@@ -25,7 +25,7 @@
 #define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
 #define RETURN_MATCH       {log("Returning match from %s.", __FUNCTION__);  return match;}
 #define RETURN_NOTHING     {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
-#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);   return SPAN;}
+#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);    return SPAN;}
 
 #define T_CHAR_F           template <char_f CF>
 #define T_MATCH_F          template <match_f MF>
@@ -162,7 +162,7 @@ namespace reseune {
     // =============================================================================================================
     template <match_f MF, match_f... MFs>
     MATCH_F(all_of) {
-      // Match all of the MFs in order.
+      // Match MF followed by the MFs in order.
       START;
       MATCH;
       unless (MOVED)
