@@ -250,7 +250,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      auto const mf = &t::any_of<MFs...>;
+      constexpr auto mf = &t::any_of<MFs...>;
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -267,7 +267,7 @@ namespace reseune {
       // Match a particular character C.
       START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      auto const mf = &t::character_f<ischar<C>>;
+      constexpr auto mf = &t::character_f<ischar<C>>;
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -365,8 +365,8 @@ namespace reseune {
     struct span {
       const char * begin;
       const char * end;
-      bool matched;
-      LABEL_T label;
+      bool         matched;
+      LABEL_T      label;
 
       // ===========================================================================================================
       // Constructors
