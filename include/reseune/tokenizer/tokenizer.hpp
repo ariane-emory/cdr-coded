@@ -9,7 +9,7 @@
 // ===============================================================================================================
 // Macros
 // ===============================================================================================================
-#define ABORT              { REWIND(restore); return NOTHING; }
+#define ABORT              {REWIND(restore); return NOTHING;}
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
@@ -21,18 +21,21 @@
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match{NOTHING}
+#define unless(expr)       if (! (expr))
+#define until(expr)        while (! (expr))
+
+#define MARK(name)         const char * const name{POS}; std::ignore = name
+#define REWIND(name) (POS = name)
+#define DO_MATCH(match_f)  match = {(this->*match_f)()}
+
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
 #define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
+
 #define CHAR_F(name)       constexpr inline static bool name(const char c)
-#define DO_MATCH(match_f)  match = {(this->*match_f)()}
-#define MARK(name)         const char * const name{POS}; std::ignore = name
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
-#define REWIND(name) (POS = name)
-#define unless(expr)       if (! (expr))
-#define until(expr)        while (! (expr))
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
     return character_f<fun>();                                                  \
@@ -190,7 +193,7 @@ namespace reseune {
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
     }
-
+    
     // =============================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
