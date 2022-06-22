@@ -59,7 +59,7 @@ namespace reseune {
   // =============================================================================================================
   // tokenizer class
   // =============================================================================================================
-  // template <typename LABEL_T>
+  template <typename LABEL_T>
   class tokenizer : public c_str_cursor {
   public:
 
@@ -76,7 +76,6 @@ namespace reseune {
     using char_f   = int (*)(int);
     using match_f  = span (tokenizer::*)();
     using t        = tokenizer;
-    using label_t  = int;
 
   public:
     
@@ -101,7 +100,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template<label_t L, match_f MF>
+    template<LABEL_T L, match_f MF>
     MATCH_F(label) {
       // Match against MF and, if it matches, label the token type of the resulting span as L.
       START;
@@ -136,40 +135,33 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <match_f... MFs>
-    MATCH_F(any_of) {
-      // Match against any of the MFs, attempting them from left to right.
-      // START;
-      // DO_MATCH(left);
-      // if MOVED
-      //   return match;
-      // DO_MATCH(right);
-      // if MOVED
-      //   return match;
-      return NOTHING;
-    }
-
-    template <match_f MF, match_f... MFs>
+    template <match_f Head, match_f... Tail>
     MATCH_F(any_of) {
       // Match against any of the MFs, attempting them from left to right.
       START;
-      MATCH;
+      DO_MATCH(Head);
       if MOVED
         return match;
-      return any_of<MFs...>();
+      return any_of<Tail...>();
+    }
+
+    template <typename... Tail>
+    MATCH_F(any_of) {
+      // Match against any of the MFs, attempting them from left to right.
+      return NOTHING;
     }
 
     // =============================================================================================================
-      T_MATCH_F MATCH_F(star) {
-        // Match against MF zero or more times.
-        START;
-        const char * last_pos;
-        do {
-          last_pos = POS;
-          MATCH;
-        } until (NULL_HERE || POS == last_pos);
-        return SPAN;
-      }
+    T_MATCH_F MATCH_F(star) {
+      // Match against MF zero or more times.
+      START;
+      const char * last_pos;
+      do {
+        last_pos = POS;
+        MATCH;
+      } until (NULL_HERE || POS == last_pos);
+      return SPAN;
+    }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
@@ -310,7 +302,7 @@ namespace reseune {
     struct span {
       const char * begin;
       const char * end;
-      label_t label;
+      LABEL_T label;
 
       // ===========================================================================================================
       // Constructors
@@ -318,7 +310,7 @@ namespace reseune {
       constexpr span(
         const char * bb = nullptr,
         const char * ee = nullptr,
-        label_t ll = static_cast<label_t>(0)) : begin(bb), end(ee), label(ll) {}
+        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
       
       // ===========================================================================================================
       // Member functions
