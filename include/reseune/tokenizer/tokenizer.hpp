@@ -71,6 +71,7 @@ namespace reseune {
     struct span;
     
   private:
+    // These are both only used by the log method below for debug output:
     size_t indentation;
     bool verbose;
 
