@@ -21,9 +21,9 @@
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
 #define START              MARK(start); span match{NOTHING}
+
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
-
 #define MARK(name)         const char * const name{POS}; std::ignore = name
 #define REWIND(name) (POS = name)
 #define DO_MATCH(match_f)  match = {(this->*match_f)()}
@@ -36,6 +36,7 @@
 
 #define CHAR_F(name)       constexpr inline static bool name(const char c)
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
+
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
     return character_f<fun>();                                                  \
