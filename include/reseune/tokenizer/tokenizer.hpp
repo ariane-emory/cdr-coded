@@ -262,7 +262,8 @@ namespace reseune {
     MATCH_F(basic_math_op) {
       // Match basic math ops.
 
-
+#define MATH_OPS chr('+'), chr('-'), chr('/'), chr('*'), chr('%')
+      
 #define chr(c) &t::tokenizer::character<c>
       return any_of<
         chr('+'),
