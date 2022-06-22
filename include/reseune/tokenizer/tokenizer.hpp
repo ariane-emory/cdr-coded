@@ -89,10 +89,25 @@ namespace reseune {
     size_t indentation;
     bool verbose;
 
-    void indent() const {
-      for (size_t ix = 0; ix < indentation; ix++)
-        putchar(' ');
+    // ===========================================================================================================
+    // Debug logging helper functions
+    // ===========================================================================================================
+
+    void log(const char * format, ...) const {
+      if (! verbose)
+        return;
+      indent();
+      va_list arglist;
+      va_start(arglist, format);
+      vprintf(format, arglist);
+      va_end(arglist);
     }
+    
+      void indent() const {
+        if (verbose)
+          for (size_t ix = 0; ix < indentation; ix++)
+            putchar(' ');
+      }
     
       // ===========================================================================================================
       // Types
@@ -173,58 +188,58 @@ namespace reseune {
       // =============================================================================================================
       T_2_MATCH_F MATCH_F(either_of) {
         // Match against left and, if it did not match, match against right.
-        return any_of<left, right>();
-      }
+      return any_of<left, right>();
+    }
 
-      // =============================================================================================================
-      template <match_f MF, match_f... MFs>
-        MATCH_F(any_of) {
-        // Match against any of the MFs, attempting them from left to right.
-        START;
-        MATCH;
-        if MOVED
-          return match;
-        return any_of<MFs...>();
-      }
+    // =============================================================================================================
+    template <match_f MF, match_f... MFs>
+             MATCH_F(any_of) {
+               // Match against any of the MFs, attempting them from left to right.
+               START;
+               MATCH;
+               if MOVED
+                 return match;
+               return any_of<MFs...>();
+             }
 
-      template <typename... nil>
-        MATCH_F(any_of) {
-        return NOTHING;
-      }
+             template <typename... nil>
+             MATCH_F(any_of) {
+               return NOTHING;
+             }
 
-      // =============================================================================================================
-      T_MATCH_F MATCH_F(star) {
-        // Match against MF zero or more times.
-        START;
-        const char * last_pos;
-        do {
-          last_pos = POS;
-          MATCH;
-        } until (NULL_HERE || POS == last_pos);
-        return SPAN;
-      }
+             // =============================================================================================================
+             T_MATCH_F MATCH_F(star) {
+               // Match against MF zero or more times.
+               START;
+               const char * last_pos;
+               do {
+                 last_pos = POS;
+                 MATCH;
+               } until (NULL_HERE || POS == last_pos);
+               return SPAN;
+             }
 
-      // =============================================================================================================
-      T_MATCH_F MATCH_F(plus) {
-        // Match against MF one or more times.
-        return both_of<MF, &t::star<MF>>();
-      }
+             // =============================================================================================================
+             T_MATCH_F MATCH_F(plus) {
+               // Match against MF one or more times.
+               return both_of<MF, &t::star<MF>>();
+             }
 
-      // =============================================================================================================
-      T_CHAR_F MATCH_F(character_f) {
-        // Match a C-style char predicate function CF.
+             // =============================================================================================================
+             T_CHAR_F MATCH_F(character_f) {
+               // Match a C-style char predicate function CF.
 
-        //We will never, ever, permit maching a null character here!
-        // If you want to do that you ought write some new function.
-        // But you probably ought not want to.
-        if (NULL_HERE)
-          return NOTHING;
+               //We will never, ever, permit maching a null character here!
+               // If you want to do that you ought write some new function.
+               // But you probably ought not want to.
+               if (NULL_HERE)
+                 return NOTHING;
      
-        START;      
-        unless (CHAR_MATCHES)
-          return NOTHING;
-        NEXT;      
-        return SPAN;
+               START;      
+               unless (CHAR_MATCHES)
+                 return NOTHING;
+               NEXT;      
+               return SPAN;
       }
 
       // =============================================================================================================
@@ -333,7 +348,7 @@ namespace reseune {
       // Character predicate helper static functions
       // =============================================================================================================
       template <int (*fun)(int)>
-        constexpr static int negate(int c) {
+      constexpr static int negate(int c) {
         // Make a negated version of a C-style character predicate function.
         return 0 == fun(c) ? 1 : 0;
       }
@@ -346,64 +361,64 @@ namespace reseune {
         const char * end;
         LABEL_T label;
 
-      // ===========================================================================================================
-      // Constructors
-      // ===========================================================================================================
-      constexpr span(
-        const char * bb = nullptr,
-        const char * ee = nullptr,
-        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
+        // ===========================================================================================================
+        // Constructors
+        // ===========================================================================================================
+        constexpr span(
+          const char * bb = nullptr,
+          const char * ee = nullptr,
+          LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), label(ll) {}
       
-      // ===========================================================================================================
-      // Member functions
-      // ===========================================================================================================
-      constexpr size_t length() const {
-        // Return the length of the span.
-        return end - begin;
-      }
+        // ===========================================================================================================
+        // Member functions
+        // ===========================================================================================================
+        constexpr size_t length() const {
+          // Return the length of the span.
+          return end - begin;
+        }
 
-      // ===========================================================================================================
-      constexpr bool empty() const {
-        // True iff the span's length is 0.
-        return 0 == length();
-      }
+        // ===========================================================================================================
+        constexpr bool empty() const {
+          // True iff the span's length is 0.
+          return 0 == length();
+        }
 
-      // ===========================================================================================================
-      constexpr char * c_str() const {
-        // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
-        return create_new_c_str(*this);
-      }
+        // ===========================================================================================================
+        constexpr char * c_str() const {
+          // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
+          return create_new_c_str(*this);
+        }
       
-      // ===========================================================================================================
-      constexpr operator bool() const {
-        // True iff the span is not empty.
-        return ! empty();
-      }
+        // ===========================================================================================================
+        constexpr operator bool() const {
+          // True iff the span is not empty.
+          return ! empty();
+        }
 
-      // ===========================================================================================================
-    };
+        // ===========================================================================================================
+      };
 
-  private: 
+    private: 
 
-    // =============================================================================================================
-    // Static functions
-    // =============================================================================================================
-    constexpr static inline char * create_new_c_str(span const & tok) {
-      // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
+      // =============================================================================================================
+      // Static functions
+      // =============================================================================================================
+      constexpr static inline char * create_new_c_str(span const & tok) {
+        // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
 
-      if (tok.empty()) return nullptr;
+        if (tok.empty()) return nullptr;
   
-      const size_t siz  {(tok.length() + 1) * sizeof(char)};
-      char * const word {static_cast<char *>(malloc(siz))};
+        const size_t siz  {(tok.length() + 1) * sizeof(char)};
+        char * const word {static_cast<char *>(malloc(siz))};
 
-      memcpy(word, tok.begin, siz);
+        memcpy(word, tok.begin, siz);
 
-      word[tok.length()] = 0;
+        word[tok.length()] = 0;
 
-      return word;
-    }
+        return word;
+      }
 
-    // =============================================================================================================
+      // =============================================================================================================
   };
   // ===============================================================================================================
 }
