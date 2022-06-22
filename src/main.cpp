@@ -30,10 +30,10 @@ int main() {
   do {
     token = tokenizer.strip<
       read any_of <
-        read label<symbol,  read lispesque_identifier>,
-        read label<integer, read integer>,
         read label<l_paren, read character<'('>>,
-        read label<r_paren, read character<')'>>>>();
+        read label<r_paren, read character<')'>>,
+        read label<symbol,  read lispesque_identifier>,
+        read label<integer, read integer>>>();
     if (token)
       printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
