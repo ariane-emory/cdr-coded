@@ -9,6 +9,11 @@
 // ===============================================================================================================
 // Macros
 // ===============================================================================================================
+
+#define VERBOSE            true
+#define PRINTF(...)        { if constexpr (VERBOSE) PRINTF(__VA_ARGS__); }
+#define PUTCHAR(c)         { if constexpr (VERBOSE) putchar(c); }
+
 #define ABORT              {REWIND(restore); return NOTHING;}
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
@@ -388,30 +393,38 @@ namespace reseune {
 // =================================================================================================================
 // Don't leak macros!
 // =================================================================================================================
+#undef VERBOSE
+#undef PRINTF
+#undef PUTCHAR
+
 #undef ABORT
-#undef CHAR_MATCHES
-#undef MOVED
-#undef HERE
+#undef CHAR_MATCHES       
+#undef MOVED              
+#undef HERE               
 #undef MATCH
-#undef NEXT
+#undef NEXT               
 #undef NOTHING
 #undef NULL_HERE
 #undef POS
-#undef REWIND
 #undef SAVE
 #undef SPAN
 #undef START
+
+#undef unless
+#undef until
+#undef MARK
+#undef REWIND
+#undef DO_MATCH
+
 #undef T_CHAR_F
+#undef T_CHAR
 #undef T_2_CHAR_F
 #undef T_MATCH_F
 #undef T_2_MATCH_F
 
 #undef CHAR_F
-#undef DO_MATCH
-#undef MARK
 #undef MATCH_F
-#undef unless
-#undef until
+
 #undef FROM_C_CHAR_F
 
 #endif
