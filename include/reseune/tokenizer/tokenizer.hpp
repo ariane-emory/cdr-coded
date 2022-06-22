@@ -217,11 +217,12 @@ namespace reseune {
       // Match basic math ops.
 #define c character
 #define e either
-      return e<&t::c<'+'>,
-               &t::e<&t::c<'-'>,
-                     &t::e<&t::c<'/'>,
-                           &t::e<&t::c<'*'>,
-                                 &t::c<'%'>>>>>();
+      return any_of<
+        &t::c<'+'>,
+        &t::c<'-'>,
+        &t::c<'/'>,
+        &t::c<'*'>,
+        &t::c<'%'>>();
 #undef c
 #undef e
     }
