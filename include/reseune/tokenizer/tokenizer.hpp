@@ -122,16 +122,9 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_2_MATCH_F MATCH_F(either) {
+    T_2_MATCH_F MATCH_F(either_of) {
       // Match against left and, if it did not match, match against right.
-      START;
-      DO_MATCH(left);
-      if MOVED
-        return match;
-      DO_MATCH(right);
-      if MOVED
-        return match;
-      return NOTHING;
+      return any_of<left, right>();
     }
 
     // =============================================================================================================
@@ -207,7 +200,7 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(positive_integer) {
       // Match a positive integer. Does not permit a leading '+' presently!
-      return either<
+      return either_of<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
     }
@@ -216,7 +209,7 @@ namespace reseune {
     MATCH_F(basic_math_op) {
       // Match basic math ops.
 #define c character
-#define e either
+#define e either_of
       return any_of<
         &t::c<'+'>,
         &t::c<'-'>,
@@ -250,26 +243,26 @@ namespace reseune {
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
       // legal in #C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
       return both_of<
-        &t::either<
+        &t::either_of<
           &t::character<'_'>,
           &t::alpha>,
         &t::plus<
-          &t::either<&t::character<'_'>,
-                     &t::alnums>>>();
+          &t::either_of<&t::character<'_'>,
+                        &t::alnums>>>();
     }
 
     // =============================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
-      // Currently, identifiers must either:
+      // Currently, identifiers must either_of:
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
-      return either<
+      return either_of<
         &t::basic_math_op,
         &t::both_of<
           &t::alpha,
-          &t::star<&t::either<&t::character<'-'>,
-                              &t::alnums>>>>();
+          &t::star<&t::either_of<&t::character<'-'>,
+                                 &t::alnums>>>>();
     }
 
     // =============================================================================================================
