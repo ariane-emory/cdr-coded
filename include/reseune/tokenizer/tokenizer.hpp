@@ -14,14 +14,14 @@
 #define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
-#define MATCH              { indentation += 2; match = {(this->*MF)()}; indentation -= 2; } 
+#define MATCH              {indentation += 2; match = {(this->*MF)()}; indentation -= 2;}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NULL_HERE          (0 == HERE)
 #define POS                (m_position)
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
-#define START              MARK(start); span match{NOTHING}
+#define START              printf("Entering %s.\n", __FUNCTION__); MARK(start); span match{NOTHING}
 
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
@@ -92,43 +92,42 @@ namespace reseune {
       va_end(arglist);
     }
     
-      void indent() const {
-        if (verbose)
-          for (size_t ix = 0; ix < indentation; ix++)
-            putchar(' ');
-      }
+    void indent() const {
+      for (size_t ix = 0; ix < indentation; ix++)
+        putchar(' ');
+    }
     
-      // ===========================================================================================================
-      // Types
-      // ===========================================================================================================
-      using char_f   = int (*)(int);
-      using match_f  = span (tokenizer::*)();
-      using t        = tokenizer;
+    // ===========================================================================================================
+    // Types
+    // ===========================================================================================================
+    using char_f   = int (*)(int);
+    using match_f  = span (tokenizer::*)();
+    using t        = tokenizer;
 
-    public:
+  public:
     
-      // =============================================================================================================
-      // Match functions
-      // =============================================================================================================
-      T_MATCH_F MATCH_F(ignore) {
-        // Match against MF and ignore the result.
-        START;
-        MATCH;
-        return NOTHING;
-      }
+    // =============================================================================================================
+    // Match functions
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(ignore) {
+      // Match against MF and ignore the result.
+      START;
+      MATCH;
+      return NOTHING;
+    }
 
-      // =============================================================================================================
-      T_MATCH_F MATCH_F(strip) {
-        // Match against MF while ignoring any surrounding whitespace (before and after).
-        ignore_whites();
-        START;
-        MATCH;
-        ignore_whites();
-        return match;
-      }
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(strip) {
+      // Match against MF while ignoring any surrounding whitespace (before and after).
+      ignore_whites();
+      START;
+      MATCH;
+      ignore_whites();
+      return match;
+    }
 
-      // =============================================================================================================
-      template<LABEL_T L, match_f MF>
+    // =============================================================================================================
+    template<LABEL_T L, match_f MF>
         MATCH_F(label) {
         // Match against MF and, if it matches, label the token type of the resulting span as L.
         START;
