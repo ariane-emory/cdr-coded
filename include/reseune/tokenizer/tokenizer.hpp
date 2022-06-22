@@ -223,6 +223,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
+      START;
       return both_of<MF, &t::star<MF>>();
     }
 
@@ -334,7 +335,7 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(ignore_whites) {
       // Ignore any number of whitespace characers.
-      return ignore<&t::whitespaces>();
+      return ignore<&t::star_whitespaces>();
     }    
 
     // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
