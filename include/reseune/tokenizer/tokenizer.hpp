@@ -243,17 +243,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <char C>
-    MATCH_F(character) {
-      // Match a particular character C.
-      START;
-      log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      auto const mf = &t::character_f<ischar<C>>;
-      CALL_MATCH_F(mf);
-      RETURN_MATCH;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(optional) {
       // Match against MF and if it returns NO_MATCH, return an empty span instead.
       START;
@@ -270,6 +259,17 @@ namespace reseune {
       MAYBE_RETURN_NO_MATCH;
       REWIND;
       RETURN_EMPTY;
+    }
+
+    // =============================================================================================================
+    template <char C>
+    MATCH_F(character) {
+      // Match a particular character C.
+      START;
+      log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
+      auto const mf = &t::character_f<ischar<C>>;
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
