@@ -142,10 +142,10 @@ namespace reseune {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
       CALL_MATCH_F(LEFT_MF);
-      unless (MOVED)
+      if (NOTHING == match)
         RETURN_NOTHING;
       CALL_MATCH_F(RIGHT_MF);
-      unless (MOVED)
+      if (NOTHING == match)
         RETURN_NOTHING;
       RETURN_SPAN;
     }
@@ -296,9 +296,12 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes). Does not permit a leading '+' presently!
-      return optional_prefix
-        <&t::character<'-'>,
-         &t::positive_integer>();
+      // return optional_prefix
+      //   <&t::character<'-'>,
+      //    &t::positive_integer>();
+      return both_of<
+        &t::optional<&t::character<'-'>>,
+        &t::positive_integer>();
     }
 
     // =============================================================================================================
@@ -326,7 +329,7 @@ namespace reseune {
         &t::both_of<
           &t::alpha,
           &t::star<&t::either_of<&t::character<'-'>,
-                                 &t::alnums>>>>();
+                                 &t::alnum>>>>();
     }
 
     // =============================================================================================================
