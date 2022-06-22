@@ -235,8 +235,11 @@ namespace reseune {
     template <char C>
     MATCH_F(character) {
       // Match a particular character C.
+      START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      return character_f<ischar<C>>();
+      auto const mf = &t::character_f<ischar<C>>;
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
