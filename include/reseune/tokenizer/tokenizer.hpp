@@ -311,7 +311,7 @@ namespace reseune {
 
       // ===========================================================================================================
       constexpr char * c_str() const {
-        // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETUENED C STRING!
+        // Return a *new* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
         return create_new_c_str(*this);
       }
       
