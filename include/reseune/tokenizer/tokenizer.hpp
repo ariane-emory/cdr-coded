@@ -25,7 +25,7 @@
 #define SPAN                  span{start, POS}
 #define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NO_MATCH};
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
-#define RETURN_NO_MATCH        {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
+#define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
 #define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__);    return SPAN;}
 
 #define T_CHAR_F              template <char_f CF>
