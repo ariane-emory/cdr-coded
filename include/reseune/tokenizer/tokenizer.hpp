@@ -106,6 +106,56 @@ namespace reseune {
     // =============================================================================================================
     // Match functions
     // =============================================================================================================
+    T_MATCH_F MATCH_F(star) {
+      // Match against MF zero or more times.
+      START;
+      do {
+        MATCH;
+      } until (NUL_HERE || (! match));
+      RETURN_SPAN;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(plus) {
+      // Match against MF one or more times.
+      START;
+      auto const mf = &t::both_of<MF, &t::star<MF>>;
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(zero_padded) {
+      // Ignore any number of 0s and then match against MF. This needs a non-greedy version.
+      SAVE;
+      ignore<&t::star<&t::character<'0'>>>();
+      START;
+      MATCH;
+      MAYBE_RETURN_MATCH;
+      REWIND;
+      RETURN_NO_MATCH;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(optional) {
+      // Match against MF and if it returns NO_MATCH, return an empty span instead.
+      START;
+      MATCH;
+      MAYBE_RETURN_MATCH;
+      RETURN_EMPTY;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(followed_by) {
+      // Match against MF and if it returns a match, rewind and return empty.
+      START;
+      MATCH;
+      MAYBE_RETURN_NO_MATCH;
+      REWIND;
+      RETURN_EMPTY;
+    }
+
+    // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against MF and ignore the result.
       START;
@@ -130,19 +180,6 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template<LABEL_T L, match_f MF>
-    MATCH_F(label) {
-      // Match against MF and, if it matches, label the token type of the resulting span as L.
-      START;
-      log("Would label as '%u'", L);
-      MATCH;
-      MAYBE_RETURN_NO_MATCH;
-      log("Label as '%u' was matched.", L);
-      match.label = L;
-      RETURN_MATCH;      
-    }
-
-    // =============================================================================================================
     T_2_MATCH_F MATCH_F(both_of) {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
@@ -153,6 +190,38 @@ namespace reseune {
         RETURN_SPAN;
       REWIND;
       RETURN_NO_MATCH;
+    }
+
+    // =============================================================================================================
+    T_CHAR_F MATCH_F(character_f) {
+      // Match a C-style char predicate function CF.
+
+      // We will never, ever, permit maching a null character here!
+      // If you want to do that you ought write some new function.
+      // But you probably ought not want to.
+      START;      
+      if (NUL_HERE)
+        RETURN_NO_MATCH;
+      unless (CF(HERE)) {
+        log("character_f did not match '%c'.", HERE, HERE);
+        RETURN_NO_MATCH;
+      }
+      log("character_f matched '%c' (%u).", HERE, HERE);
+      NEXT;      
+      RETURN_SPAN;
+    }
+
+    // =============================================================================================================
+    template<LABEL_T L, match_f MF>
+    MATCH_F(label) {
+      // Match against MF and, if it matches, label the token type of the resulting span as L.
+      START;
+      log("Would label as '%u'", L);
+      MATCH;
+      MAYBE_RETURN_NO_MATCH;
+      log("Label as '%u' was matched.", L);
+      match.label = L;
+      RETURN_MATCH;      
     }
 
     // =============================================================================================================
@@ -190,75 +259,6 @@ namespace reseune {
     MATCH_F(any_of) {
       START;
       RETURN_NO_MATCH;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(star) {
-      // Match against MF zero or more times.
-      START;
-      do {
-        MATCH;
-      } until (NUL_HERE || (! match));
-      RETURN_SPAN;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(plus) {
-      // Match against MF one or more times.
-      START;
-      auto const mf = &t::both_of<MF, &t::star<MF>>;
-      CALL_MATCH_F(mf);
-      RETURN_MATCH;
-    }
-
-    // =============================================================================================================
-    T_CHAR_F MATCH_F(character_f) {
-      // Match a C-style char predicate function CF.
-
-      // We will never, ever, permit maching a null character here!
-      // If you want to do that you ought write some new function.
-      // But you probably ought not want to.
-      START;      
-      if (NUL_HERE)
-        RETURN_NO_MATCH;
-      unless (CF(HERE)) {
-        log("character_f did not match '%c'.", HERE, HERE);
-        RETURN_NO_MATCH;
-      }
-      log("character_f matched '%c' (%u).", HERE, HERE);
-      NEXT;      
-      RETURN_SPAN;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(zero_padded) {
-      // Ignore any number of 0s and then match against MF. This needs a non-greedy version.
-      SAVE;
-      ignore<&t::star<&t::character<'0'>>>();
-      START;
-      MATCH;
-      MAYBE_RETURN_MATCH;
-      REWIND;
-      RETURN_NO_MATCH;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(optional) {
-      // Match against MF and if it returns NO_MATCH, return an empty span instead.
-      START;
-      MATCH;
-      MAYBE_RETURN_MATCH;
-      RETURN_EMPTY;
-    }
-
-    // =============================================================================================================
-    T_MATCH_F MATCH_F(followed_by) {
-      // Match against MF and if it returns a match, rewind and return empty.
-      START;
-      MATCH;
-      MAYBE_RETURN_NO_MATCH;
-      REWIND;
-      RETURN_EMPTY;
     }
 
     // =============================================================================================================
