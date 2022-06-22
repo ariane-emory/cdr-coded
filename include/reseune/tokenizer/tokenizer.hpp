@@ -231,19 +231,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <char C>
-    MATCH_F(character) {
-      // Match a particular character C.
-      START;
-      log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      auto const mf = &t::character_f<ischar<C>>;
-      CALL_MATCH_F(mf);
-      RETURN_MATCH;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
-      // Ignore any number of 0s and then match against MF.
+      // Ignore any number of 0s and then match against MF. This needs a non-greedy version.
       SAVE;
       ignore<&t::star<&t::character<'0'>>>();
       START;
@@ -254,19 +243,14 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    MATCH_F(positive_integer) {
-      // Match a positive integer. Does not permit a leading '+'!
-      return any_of<
-        &t::zero_padded<&t::digits>,
-        &t::plus<&t::character<'0'>>>();
-    }
-    
-    // =============================================================================================================
-    MATCH_F(basic_math_op) {
-      // Match basic math ops.
-#define X(c) &t::tokenizer::character<c>
-      return any_of<MATH_OPS>();
-#undef X
+    template <char C>
+    MATCH_F(character) {
+      // Match a particular character C.
+      START;
+      log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
+      auto const mf = &t::character_f<ischar<C>>;
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
     }
 
     // =============================================================================================================
@@ -290,6 +274,22 @@ namespace reseune {
 
     // =============================================================================================================
     // Convenience match functions
+    // =============================================================================================================
+    MATCH_F(positive_integer) {
+      // Match a positive integer. Does not permit a leading '+'!
+      return any_of<
+        &t::zero_padded<&t::digits>,
+        &t::plus<&t::character<'0'>>>();
+    }
+    
+    // =============================================================================================================
+    MATCH_F(basic_math_op) {
+      // Match basic math ops.
+#define X(c) &t::tokenizer::character<c>
+      return any_of<MATH_OPS>();
+#undef X
+    }
+
     // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
