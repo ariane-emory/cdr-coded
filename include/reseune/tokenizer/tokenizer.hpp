@@ -15,6 +15,8 @@
 #define HERE                  (**this)
 #define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
 #define MATCH                 CALL_MATCH_F(MF)
+#define MAYBE_RETURN_MATCH    if (match) RETURN_MATCH
+#define MAYBE_RETURN_NO_MATCH if (!match) RETURN_NO_MATCH
 #define NEXT                  ((*this)++)
 #define NO_MATCH               (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
@@ -444,6 +446,8 @@ namespace reseune {
 #undef ABORT
 #undef HERE
 #undef MATCH
+#undef MAYBE_RETURN_MATCH
+#undef MAYBE_RETURN_NO_MATCH
 #undef NEXT
 #undef NO_MATCH
 #undef NUL_HERE
