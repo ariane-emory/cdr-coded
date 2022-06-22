@@ -142,10 +142,10 @@ namespace reseune {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
       CALL_MATCH_F(LEFT_MF);
-      if (NOTHING == match)
+      if (match.nothing())
         RETURN_NOTHING;
       CALL_MATCH_F(RIGHT_MF);
-      if (NOTHING == match)
+      if (match.nothing())
         RETURN_NOTHING;
       RETURN_SPAN;
     }
@@ -159,7 +159,7 @@ namespace reseune {
       unless (MOVED)
         RETURN_NOTHING;
       const span rest = all_of<MFs...>();
-      if (NOTHING == rest)
+      if (rest.nothing())
         RETURN_NOTHING;
       RETURN_SPAN;
     }
@@ -274,22 +274,12 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_2_MATCH_F MATCH_F(optional_prefix) {
-      // Match against LEFT_MF and then match against RIGHT_MF (whether or not LEFT_MF moved the cursor).
-      START;
-      ignore<LEFT_MF>();
-      CALL_MATCH_F(RIGHT_MF);
-      RETURN_SPAN;
-    }
-
-    // =============================================================================================================
     T_MATCH_F MATCH_F(optional) {
       // Match against MF and if it returns NOTHING, return an empty span instead.
       START;
       MATCH;
-      if (NOTHING == match) {
+      if (match.nothing())
         RETURN_SPAN;
-      }
       RETURN_NOTHING;
     }
 
