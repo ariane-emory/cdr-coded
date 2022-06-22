@@ -18,7 +18,7 @@
 #define MATCH              {indentation += 2; match = {(this->*MF)()}; indentation -= 2;}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
-#define NULL_HERE          (0 == HERE)
+#define NUL_HERE           (0 == HERE)
 #define POS                (m_position)
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
@@ -115,15 +115,25 @@ namespace reseune {
       // Match against MF and ignore the result.
       START;
       MATCH;
-      return NOTHING;
+      RETURN_NOTHING;
     }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against MF while ignoring any surrounding whitespace (before and after).
+      log("Stripping leading whitespace.");
+      if (NUL_HERE) {
+        log("Aborting in lead.");
+        RETURN_NOTHING;
+      }
       ignore_whites();
       START;
       MATCH;
+      log("Stripping trailing whitespace.");
+      if (NUL_HERE) {
+        log("Aborting in trail.");
+          RETURN_NOTHING;
+      }
       ignore_whites();
       RETURN_MATCH;
     }
@@ -147,11 +157,11 @@ namespace reseune {
 
       DO_MATCH(left);
       unless (MOVED)
-        return NOTHING;
+        RETURN_NOTHING;
 
       DO_MATCH(right);
       unless (MOVED)
-        return NOTHING;
+        RETURN_NOTHING;
 
       RETURN_SPAN;
     }
@@ -163,7 +173,7 @@ namespace reseune {
       START;
       MATCH;
       unless (MOVED)
-        return NOTHING;
+        RETURN_NOTHING;
       const span rest = all_of<MFs...>();
       if (rest == NOTHING)
         return NOTHING;
@@ -195,7 +205,7 @@ namespace reseune {
 
     template <typename... nil>
     MATCH_F(any_of) {
-      return NOTHING;
+      RETURN_NOTHING;
     }
 
     // =============================================================================================================
@@ -206,7 +216,7 @@ namespace reseune {
       do {
         last_pos = POS;
         MATCH;
-      } until (NULL_HERE || POS == last_pos);
+      } until (NUL_HERE || POS == last_pos);
       RETURN_SPAN;
     }
 
@@ -224,7 +234,7 @@ namespace reseune {
       // If you want to do that you ought write some new function.
       // But you probably ought not want to.
       START;      
-      if (NULL_HERE)
+      if (NUL_HERE)
         return NOTHING;
       unless (CHAR_MATCHES)
         return NOTHING;
@@ -429,7 +439,7 @@ namespace reseune {
 #undef MATCH
 #undef NEXT               
 #undef NOTHING
-#undef NULL_HERE
+#undef NUL_HERE
 #undef POS
 #undef SAVE
 #undef SPAN
