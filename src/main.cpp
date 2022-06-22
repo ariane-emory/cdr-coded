@@ -10,6 +10,7 @@ int main() {
     "(/ a (% a 3))\n"
     "5\n"
     "a\n"
+    "-250\n"
   };
   
   enum token_type {
