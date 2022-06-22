@@ -11,33 +11,33 @@
 // Macros
 // ===============================================================================================================
 
-#define ABORT              {RESTORE; RETURN_NOTHING;}
-#define MOVED              (start != POS)
-#define HERE               (**this)
-#define MATCH              DO_MATCH(MF)
-#define NEXT               ((*this)++)
-#define NOTHING            (span{})
-#define NUL_HERE           (0 == HERE)
-#define POS                (m_position)
-#define RESTORE            (POS = saved)
-#define SAVE               MARK(saved)
-#define SPAN               span{start, POS}
-#define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
-#define RETURN_MATCH       {log("Returning match from %s.", __FUNCTION__);  return match;}
-#define RETURN_NOTHING     {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
-#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);    return SPAN;}
+#define ABORT                 {RESTORE; RETURN_NOTHING;}
+#define MOVED                 (start != POS)
+#define HERE                  (**this)
+#define MATCH                 CALL_MATCH_F(MF)
+#define NEXT                  ((*this)++)
+#define NOTHING               (span{})
+#define NUL_HERE              (0 == HERE)
+#define POS                   (m_position)
+#define RESTORE               (POS = saved)
+#define SAVE                  MARK(saved)
+#define SPAN                  span{start, POS}
+#define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
+#define RETURN_MATCH          {log("Returning match from %s.", __FUNCTION__);  return match;}
+#define RETURN_NOTHING        {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
+#define RETURN_SPAN           {log("Returning span from %s.", __FUNCTION__);    return SPAN;}
 
-#define T_CHAR_F           template <char_f CF>
-#define T_MATCH_F          template <match_f MF>
-#define T_2_MATCH_F        template <match_f LEFT_MF, match_f RIGHT_MF>
+#define T_CHAR_F              template <char_f CF>
+#define T_MATCH_F             template <match_f MF>
+#define T_2_MATCH_F           template <match_f LEFT_MF, match_f RIGHT_MF>
 
-#define DO_MATCH(match_f)  {indentation += 2; match = {(this->*match_f)()}; indentation -= 2;}
-#define MARK(name)         const char * const name{POS}; std::ignore = name
-#define unless(expr)       if (! (expr))
-#define until(expr)        while (! (expr))
+#define CALL_MATCH_F(match_f) {indentation += 2; match = {(this->*match_f)()}; indentation -= 2;}
+#define MARK(name)            const char * const name{POS}; std::ignore = name
+#define unless(expr)          if (! (expr))
+#define until(expr)           while (! (expr))
 
-#define CHAR_F(name)       constexpr inline static bool name(const char c)
-#define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
+#define CHAR_F(name)          constexpr inline static bool name(const char c)
+#define MATCH_F(name, ...)    constexpr inline span name(__VA_ARGS__)
 #define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
     log("About to enter '%s'...", # name);                                      \
@@ -113,19 +113,13 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against MF while ignoring any surrounding whitespace (before and after).
-      log("Stripping leading whitespace.");
-      if (NUL_HERE) {
-        log("Found NUL in lead.");
+      if (NUL_HERE) 
         RETURN_NOTHING;
-      }
       ignore_whites();
       START;
       MATCH;
-      log("Stripping trailing whitespace.");
-      if (NUL_HERE) {
-        log("Found NUL in trail.");
+      if (NUL_HERE)
         RETURN_NOTHING;
-      }
       ignore_whites();
       RETURN_MATCH;
     }
@@ -147,10 +141,10 @@ namespace reseune {
     T_2_MATCH_F MATCH_F(both_of) {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
-      DO_MATCH(LEFT_MF);
+      CALL_MATCH_F(LEFT_MF);
       unless (MOVED)
         RETURN_NOTHING;
-      DO_MATCH(RIGHT_MF);
+      CALL_MATCH_F(RIGHT_MF);
       unless (MOVED)
         RETURN_NOTHING;
       RETURN_SPAN;
@@ -284,7 +278,7 @@ namespace reseune {
       // Match against LEFT_MF and then match against RIGHT_MF (whether or not LEFT_MF moved the cursor).
       START;
       ignore<LEFT_MF>();
-      DO_MATCH(RIGHT_MF);
+      CALL_MATCH_F(RIGHT_MF);
       RETURN_SPAN;
     }
 
@@ -443,7 +437,7 @@ namespace reseune {
 #undef T_MATCH_F
 #undef T_2_MATCH_F
 
-#undef DO_MATCH
+#undef CALL_MATCH_F
 #undef MARK
 #undef unless
 #undef until
