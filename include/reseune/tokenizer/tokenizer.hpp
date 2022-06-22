@@ -123,7 +123,7 @@ namespace reseune {
       // Match against MF while ignoring any surrounding whitespace (before and after).
       log("Stripping leading whitespace.");
       if (NUL_HERE) {
-        log("Aborting in lead.");
+        log("Found NUL in lead.");
         RETURN_NOTHING;
       }
       ignore_whites();
@@ -131,8 +131,8 @@ namespace reseune {
       MATCH;
       log("Stripping trailing whitespace.");
       if (NUL_HERE) {
-        log("Aborting in trail.");
-          RETURN_NOTHING;
+        log("Found NUL in trail.");
+        RETURN_NOTHING;
       }
       ignore_whites();
       RETURN_MATCH;
