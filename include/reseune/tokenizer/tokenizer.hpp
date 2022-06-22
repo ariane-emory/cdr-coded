@@ -23,11 +23,11 @@
 #define POS                (m_position)
 #define SAVE               MARK(restore)
 #define SPAN               span{start, POS}
-#define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING}
+#define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
 
-#define RETURN_MATCH       {log("Returning match.");  return match;}
-#define RETURN_SPAN        {log("Returning span.");   return SPAN;}
-#define RETURN_NOTHING     {log("Returning nothing."); return NOTHING;}
+#define RETURN_MATCH       {log("Returning match from %s.", __FUNCTION__);  return match;}
+#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);   return SPAN;}
+#define RETURN_NOTHING     {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
 
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
