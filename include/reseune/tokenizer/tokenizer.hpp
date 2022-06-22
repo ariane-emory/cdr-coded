@@ -138,7 +138,7 @@ namespace reseune {
     template <typename... nil>
     MATCH_F(all_of) {
       START;
-      return SPAN;
+      return SPAN; // An empty span (but not NOTHING!).
     }
 
     // =============================================================================================================
