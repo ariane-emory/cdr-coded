@@ -14,6 +14,7 @@
 #define ABORT                 {RESTORE; RETURN_NOTHING;}
 #define MOVED                 (start != POS)
 #define HERE                  (**this)
+#define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
 #define MATCH                 CALL_MATCH_F(MF)
 #define NEXT                  ((*this)++)
 #define NOTHING               (span{nullptr, nullptr, false})
@@ -261,17 +262,9 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-
-#define MATH_OPS chr('+'), chr('-'), chr('/'), chr('*'), chr('%')
-      
-#define chr(c) &t::tokenizer::character<c>
-      return any_of<
-        chr('+'),
-        chr('-'),
-        chr('/'),
-        chr('*'),
-        chr('%')>();
-#undef chr
+#define X(c) &t::tokenizer::character<c>
+      return any_of<MATH_OPS>();
+#undef X
     }
 
     // =============================================================================================================
@@ -458,5 +451,7 @@ namespace reseune {
 #undef CHAR_F
 #undef MATCH_F
 #undef FROM_C_CHAR_F
+
+#undef MATH_OPS
 
 #endif
