@@ -132,7 +132,7 @@ namespace reseune {
     MATCH_F(any_of) {
       // Match against any of the MFs, attempting them from left to right.
       START;
-      DO_MATCH(MF);
+      MATCH;
       if MOVED
         return match;
       return any_of<MFs...>();
@@ -140,6 +140,23 @@ namespace reseune {
 
     template <typename... MFs>
     MATCH_F(any_of) {
+      // Empty list case.
+      return NOTHING;
+    }
+
+    // =============================================================================================================
+    template <match_f MF, match_f... MFs>
+    MATCH_F(all_of) {
+      // Match all of the MFs in order.
+      START;
+      MATCH;
+      if MOVED
+        return match;
+      return all_of<MFs...>();
+    }
+
+    template <typename... MFs>
+    MATCH_F(all_of) {
       // Empty list case.
       return NOTHING;
     }
