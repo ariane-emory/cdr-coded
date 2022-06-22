@@ -138,9 +138,8 @@ namespace reseune {
       return any_of<MFs...>();
     }
 
-    template <typename... MFs>
+    template <typename... nil>
     MATCH_F(any_of) {
-      // Empty list case.
       return NOTHING;
     }
 
@@ -155,9 +154,8 @@ namespace reseune {
       return all_of<MFs...>();
     }
 
-    template <typename... MFs>
+    template <typename... nil>
     MATCH_F(all_of) {
-      // Empty list case.
       return NOTHING;
     }
 
