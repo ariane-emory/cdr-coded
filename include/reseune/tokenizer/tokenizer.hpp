@@ -17,7 +17,7 @@
 #define MAYBE_RETURN_MATCH    if (match) RETURN_MATCH
 #define MAYBE_RETURN_NO_MATCH if (!match) RETURN_NO_MATCH
 #define NEXT                  ((*this)++)
-#define NO_MATCH               (span{nullptr, nullptr, false})
+#define NO_MATCH              (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
 #define POS                   (m_position)
 #define RESTORE               (POS = saved)
@@ -66,7 +66,7 @@ namespace reseune {
     // ===========================================================================================================
     // Constructors
     // ===========================================================================================================
-    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(true) {}
+    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(false) {}
     
     // ===========================================================================================================
     // Forward declarations
@@ -293,14 +293,6 @@ namespace reseune {
     }
     
     // =============================================================================================================
-    MATCH_F(basic_math_op) {
-      // Match basic math ops.
-#define X(c) &t::tokenizer::character<c>
-      return any_of<MATH_OPS>();
-#undef X
-    }
-
-    // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
       return both_of<
@@ -309,6 +301,14 @@ namespace reseune {
             &t::character<'-'>,
             &t::character<'+'>>>,
         &t::digits>();
+    }
+
+    // =============================================================================================================
+    MATCH_F(basic_math_op) {
+      // Match basic math ops.
+#define X(c) &t::tokenizer::character<c>
+      return any_of<MATH_OPS>();
+#undef X
     }
 
     // =============================================================================================================
