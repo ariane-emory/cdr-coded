@@ -149,9 +149,10 @@ namespace reseune {
       // Match all of the MFs in order.
       START;
       MATCH;
-      if MOVED
-        return match;
-      return all_of<MFs...>();
+      unless (MOVED)
+        return NOTHING;
+      const span rest = all_of<MFs...>();
+      return SPAN;
     }
 
     template <typename... nil>
