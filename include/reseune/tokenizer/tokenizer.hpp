@@ -145,9 +145,10 @@ namespace reseune {
       START;
       log("Would label as '%u'", L);
       MATCH;
-      if MOVED
-        match.label = L;
-      RETURN_MATCH;
+      unless (MOVED) 
+        RETURN_NOTHING;
+      match.label = L;
+      RETURN_MATCH;      
     }
 
     // =============================================================================================================
@@ -236,9 +237,12 @@ namespace reseune {
       // But you probably ought not want to.
       START;      
       if (NUL_HERE)
-        return NOTHING;
-      unless (CHAR_MATCHES)
-        return NOTHING;
+      return NOTHING;
+      unless (CHAR_MATCHES) {
+        log("character_f did not match.");
+        RETURN_NOTHING;
+      }
+      log("character_f matched.");
       NEXT;      
       RETURN_SPAN;
     }
