@@ -168,8 +168,8 @@ namespace reseune {
       unless (MOVED)
         RETURN_NOTHING;
       const span rest = all_of<MFs...>();
-      if (rest == NOTHING)
-        return NOTHING;
+      if (NOTHING == rest)
+        RETURN_NOTHING;
       RETURN_SPAN;
     }
 
