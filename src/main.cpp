@@ -30,7 +30,7 @@ int main() {
   do {
     token = tokenizer.strip<
       read any_of <
-        read label<symbol, read lispesque_identifier>,
+        read label<symbol,  read lispesque_identifier>,
         read label<integer, read integer>,
         read label<l_paren, read character<'('>>,
         read label<r_paren, read character<')'>>>>();

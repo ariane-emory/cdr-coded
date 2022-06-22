@@ -128,19 +128,19 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    template <match_f Head, match_f... Tail>
+    template <match_f MF, match_f... MFs>
     MATCH_F(any_of) {
       // Match against any of the MFs, attempting them from left to right.
       START;
-      DO_MATCH(Head);
+      DO_MATCH(MF);
       if MOVED
         return match;
-      return any_of<Tail...>();
+      return any_of<MFs...>();
     }
 
-    template <typename... Tail>
+    template <typename... MFs>
     MATCH_F(any_of) {
-      // Match against any of the MFs, attempting them from left to right.
+      // Empty list case.
       return NOTHING;
     }
 
