@@ -253,7 +253,7 @@ namespace reseune {
       ignore<&t::star<&t::character<'0'>>>();
       START;
       MATCH;
-      unless (MOVED)
+      unless (match)
         ABORT;
       RETURN_MATCH;
     }
@@ -279,9 +279,9 @@ namespace reseune {
       // Match against MF and if it returns NOMATCH, return an empty span instead.
       START;
       MATCH;
-      if (match.nomatch())
-        RETURN_SPAN;
-      RETURN_MATCH;
+      if (match)
+        RETURN_MATCH;
+      RETURN_SPAN;
     }
 
     // =============================================================================================================
@@ -289,7 +289,7 @@ namespace reseune {
       // Match against MF and if it returns a match, rewind and return empty.
       START;
       MATCH;
-      if (match.nomatch())
+      unless (match)
         RETURN_NOMATCH;
       REWIND;
       RETURN_SPAN;
