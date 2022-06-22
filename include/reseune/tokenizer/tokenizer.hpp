@@ -188,7 +188,9 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      return any_of<MFs...>();
+      auto mf = &t::any_of<MFs...>;
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
     }
 
     template <typename... nil>
