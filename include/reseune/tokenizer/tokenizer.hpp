@@ -122,6 +122,26 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    template <match_f MF, match_f... MFs>
+    MATCH_F(all_of) {
+      // Match all of the MFs in order.
+      START;
+      MATCH;
+      unless (MOVED)
+        return NOTHING;
+      const span rest = all_of<MFs...>();
+      if (rest == NOTHING)
+        return NOTHING;
+      return SPAN;
+    }
+
+    template <typename... nil>
+    MATCH_F(all_of) {
+      START;
+      return SPAN;
+    }
+
+    // =============================================================================================================
     T_2_MATCH_F MATCH_F(either_of) {
       // Match against left and, if it did not match, match against right.
       return any_of<left, right>();
@@ -140,23 +160,6 @@ namespace reseune {
 
     template <typename... nil>
     MATCH_F(any_of) {
-      return NOTHING;
-    }
-
-    // =============================================================================================================
-    template <match_f MF, match_f... MFs>
-    MATCH_F(all_of) {
-      // Match all of the MFs in order.
-      START;
-      MATCH;
-      unless (MOVED)
-        return NOTHING;
-      const span rest = all_of<MFs...>();
-      return SPAN;
-    }
-
-    template <typename... nil>
-    MATCH_F(all_of) {
       return NOTHING;
     }
 
