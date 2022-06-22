@@ -27,7 +27,7 @@
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
 #define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
 #define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__); return SPAN;}
-#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{POS, POS};}
+#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{start, start};}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
