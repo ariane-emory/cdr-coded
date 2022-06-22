@@ -42,17 +42,17 @@
 
 #define CHAR_F(name)       constexpr inline static bool name(const char c)
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
-
-#define FROM_C_CHAR_F(name, fun)                                                \
+#define FROM_C_CHAR_F(name, fun)                                            \
   MATCH_F(name) {                                                               \
+    log("About to enter '%s'...\n", # name);                                                     \
     return character_f<fun>();                                                  \
   }                                                                             \
-  MATCH_F(name ## s) {                                                          \
-    return plus<&t::name>();                                                    \
-  }                                                                             \
-  MATCH_F(star_ ## name ## s) {                                                 \
-    return star<&t::name>();                                                    \
-  }
+MATCH_F(name ## s) {                                                            \
+  return plus<&t::name>();                                                    \
+}                                                                             \
+MATCH_F(star_ ## name ## s) {                                                   \
+  return star<&t::name>();                                                    \
+}
 
 // Not yet used, but I may want them in the future, maybe:
 // #define BACK               (--*this)
