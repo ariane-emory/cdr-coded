@@ -26,7 +26,8 @@
 #define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NO_MATCH};
 #define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
 #define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
-#define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__);    return SPAN;}
+#define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__); return SPAN;}
+#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{POS, POS};}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
@@ -108,7 +109,7 @@ namespace reseune {
       // Match against MF and ignore the result.
       START;
       MATCH;
-      RETURN_NO_MATCH; // Maybe this should return empty instead? Not sure yet.
+      RETURN_EMPTY;
     }
 
     // =============================================================================================================
@@ -172,7 +173,7 @@ namespace reseune {
     template <typename... nil>
     MATCH_F(all_of) {
       START;
-      RETURN_SPAN; // An empty span (but not NO_MATCH!).
+      RETURN_EMPTY;
     }
 
     // =============================================================================================================
@@ -280,7 +281,7 @@ namespace reseune {
       MATCH;
       if (match)
         RETURN_MATCH;
-      RETURN_SPAN;
+      RETURN_EMPTY;
     }
 
     // =============================================================================================================
@@ -291,7 +292,7 @@ namespace reseune {
       unless (match)
         RETURN_NO_MATCH;
       REWIND;
-      RETURN_SPAN;
+      RETURN_EMPTY;
     }
 
 // =============================================================================================================
