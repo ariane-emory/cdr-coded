@@ -203,16 +203,20 @@ namespace reseune {
       if (NUL_HERE)
         RETURN_NO_MATCH;
       unless (CF(HERE)) {
-        if ('\n' == HERE)
-          log("character_f did not match '\\n'.");
-        else
-          log("character_f did not match '%c'.", HERE);
+        if (verbose) {
+          if ('\n' == HERE)
+            log("character_f did not match '\\n'.");
+          else
+              log("character_f did not match '%c'.", HERE);
+        }
         RETURN_NO_MATCH;
       }
-      if ('\n' == HERE)
-        log("character_f matched '\\n'.");
-      else
-        log("character_f matched '%c'.", HERE);        
+      if (verbose) {
+        if ('\n' == HERE)
+            log("character_f matched '\\n'.");
+          else
+            log("character_f matched '%c'.", HERE);
+      }
       NEXT;      
       RETURN_SPAN;
     }
