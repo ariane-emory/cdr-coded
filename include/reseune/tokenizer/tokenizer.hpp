@@ -11,7 +11,6 @@
 // Macros
 // ===============================================================================================================
 
-#define ABORT                 {RESTORE; RETURN_NO_MATCH;}
 #define HERE                  (**this)
 #define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
 #define MATCH                 CALL_MATCH_F(MF)
@@ -249,9 +248,9 @@ namespace reseune {
       ignore<&t::star<&t::character<'0'>>>();
       START;
       MATCH;
-      unless (match)
-        ABORT;
-      RETURN_MATCH;
+      MAYBE_RETURN_MATCH;
+      REWIND;
+      RETURN_NO_MATCH;
     }
 
     // =============================================================================================================
