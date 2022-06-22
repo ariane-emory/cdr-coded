@@ -28,7 +28,6 @@
 #define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);   return SPAN;}
 
 #define T_CHAR_F           template <char_f CF>
-#define T_CHAR             template <char C>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f LEFT_MF, match_f RIGHT_MF>
 
@@ -240,7 +239,8 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_CHAR MATCH_F(character) {
+    template <char C>
+    MATCH_F(character) {
       // Match a particular character C.
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
       return character_f<ischar<C>>();
@@ -442,7 +442,6 @@ namespace reseune {
 #undef RETURN_SPAN
 
 #undef T_CHAR_F
-#undef T_CHAR
 #undef T_MATCH_F
 #undef T_2_MATCH_F
 
