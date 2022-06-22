@@ -288,7 +288,9 @@ namespace reseune {
       RETURN_EMPTY;
     }
 
-// =============================================================================================================
+    // =============================================================================================================
+    // Convenience match functions
+    // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
       return both_of<
@@ -330,14 +332,14 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    // Convenience match functions
-    // =============================================================================================================
     MATCH_F(ignore_whitespace) {
       // Ignore any number of whitespace characers.
       return ignore<&t::star_whitespaces>();
     }    
 
+    // =============================================================================================================
     // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
+    // =============================================================================================================
     FROM_C_CHAR_F(alnum,          isalnum);
     FROM_C_CHAR_F(alpha,          isalpha);
     FROM_C_CHAR_F(digit,          isdigit);
