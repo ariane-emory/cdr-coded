@@ -136,16 +136,43 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(star) {
-      // Match against MF zero or more times.
-      START;
-      const char * last_pos;
-      do {
-        last_pos = POS;
-        MATCH;
-      } until (NULL_HERE || POS == last_pos);
-      return SPAN;
+    template <match_f... MFs>
+    MATCH_F(any_of) {
+      // Match against any of the MFs, attempting them from left to right.
+      // START;
+      // DO_MATCH(left);
+      // if MOVED
+      //   return match;
+      // DO_MATCH(right);
+      // if MOVED
+      //   return match;
+      return NOTHING;
     }
+
+    template <match_f MF, match_f... MFs>
+    MATCH_F(any_of) {
+      // Match against any of the MFs, attempting them from left to right.
+      // START;
+      // DO_MATCH(left);
+      // if MOVED
+      //   return match;
+      // DO_MATCH(right);
+      // if MOVED
+      //   return match;
+      return NOTHING;
+    }
+
+    // =============================================================================================================
+      T_MATCH_F MATCH_F(star) {
+        // Match against MF zero or more times.
+        START;
+        const char * last_pos;
+        do {
+          last_pos = POS;
+          MATCH;
+        } until (NULL_HERE || POS == last_pos);
+        return SPAN;
+      }
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(plus) {
