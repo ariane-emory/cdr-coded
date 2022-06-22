@@ -262,14 +262,12 @@ namespace reseune {
     MATCH_F(basic_math_op) {
       // Match basic math ops.
 #define c character
-#define e either_of
       return any_of<
         &t::c<'+'>,
         &t::c<'-'>,
         &t::c<'/'>,
         &t::c<'*'>,
         &t::c<'%'>>();
-#undef c
 #undef e
     }
 
