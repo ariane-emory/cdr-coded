@@ -16,7 +16,7 @@
 #define HERE                  (**this)
 #define MATCH                 CALL_MATCH_F(MF)
 #define NEXT                  ((*this)++)
-#define NOTHING               (span{})
+#define NOTHING               (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
 #define POS                   (m_position)
 #define RESTORE               (POS = saved)
@@ -392,7 +392,7 @@ namespace reseune {
       // ===========================================================================================================
       constexpr bool nothing() const {
         // True iff the span's beginning and end are both nullptr.
-        return (nullptr == begin) && (nullptr == end);
+        return ! matched;
       }
 
       // ===========================================================================================================
