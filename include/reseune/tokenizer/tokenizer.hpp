@@ -125,6 +125,8 @@ namespace reseune {
       if (NUL_HERE)
         RETURN_MATCH;
       ignore_whitespace();
+      unless (match)
+        REWIND;
       RETURN_MATCH;
     }
 
@@ -135,9 +137,8 @@ namespace reseune {
       START;
       log("Would label as '%u'", L);
       MATCH;
-      unless (match)
-        RETURN_NO_MATCH;
-      log("Label as '%u' was moved", L);
+      MAYBE_RETURN_NO_MATCH;
+      log("Label as '%u' was matched.", L);
       match.label = L;
       RETURN_MATCH;      
     }
@@ -147,8 +148,7 @@ namespace reseune {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
       CALL_MATCH_F(LEFT_MF);
-      unless (match)
-        RETURN_NO_MATCH;
+      MAYBE_RETURN_NO_MATCH;
       CALL_MATCH_F(RIGHT_MF);
       if (match)
         RETURN_SPAN;
@@ -162,8 +162,7 @@ namespace reseune {
       // Match MF followed by the MFs in order.
       START;
       MATCH;
-      unless (match)
-        RETURN_NO_MATCH;
+      MAYBE_RETURN_NO_MATCH;
       const span rest = all_of<MFs...>();
       if (! rest)
         RETURN_NO_MATCH;
@@ -188,8 +187,7 @@ namespace reseune {
       // Match against any of the MFs, attempting them from LEFT_MF to RIGHT_MF.
       START;
       MATCH;
-      if (match)
-        RETURN_MATCH;
+      MAYBE_RETURN_MATCH;
       return any_of<MFs...>();
     }
 
@@ -279,8 +277,7 @@ namespace reseune {
       // Match against MF and if it returns NO_MATCH, return an empty span instead.
       START;
       MATCH;
-      if (match)
-        RETURN_MATCH;
+      MAYBE_RETURN_MATCH;
       RETURN_EMPTY;
     }
 
@@ -289,8 +286,7 @@ namespace reseune {
       // Match against MF and if it returns a match, rewind and return empty.
       START;
       MATCH;
-      unless (match)
-        RETURN_NO_MATCH;
+      MAYBE_RETURN_NO_MATCH;
       REWIND;
       RETURN_EMPTY;
     }
