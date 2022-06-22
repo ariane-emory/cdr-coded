@@ -156,9 +156,6 @@ namespace reseune {
       MATCH;
       if MOVED
         return match;
-      // DO_MATCH(right);
-      // if MOVED
-      //   return match;
       return any_of<MFs...>();
     }
 
