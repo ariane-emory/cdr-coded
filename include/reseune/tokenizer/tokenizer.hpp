@@ -44,7 +44,7 @@
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
 #define FROM_C_CHAR_F(name, fun)                                            \
   MATCH_F(name) {                                                               \
-    log("About to enter '%s'...\n", # name);                                                     \
+    log("About to enter '%s'...", # name);                                      \
     return character_f<fun>();                                                  \
   }                                                                             \
 MATCH_F(name ## s) {                                                            \
