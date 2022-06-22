@@ -12,7 +12,6 @@
 // ===============================================================================================================
 
 #define ABORT              {REWIND(restore); return NOTHING;}
-#define CHAR_MATCHES       (CF(HERE))
 #define MOVED              (start != POS)
 #define HERE               (**this)
 #define MATCH              DO_MATCH(MF)
@@ -36,7 +35,6 @@
 
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
-#define T_2_CHAR_F         template <char_f left, char_f right>
 #define T_MATCH_F          template <match_f MF>
 #define T_2_MATCH_F        template <match_f left, match_f right>
 
@@ -238,7 +236,7 @@ namespace reseune {
       START;      
       if (NUL_HERE)
       return NOTHING;
-      unless (CHAR_MATCHES) {
+      unless (CF(HERE)) {
         log("character_f did not match.");
         RETURN_NOTHING;
       }
@@ -438,7 +436,6 @@ namespace reseune {
 #undef PUTCHAR
 
 #undef ABORT
-#undef CHAR_MATCHES       
 #undef MOVED              
 #undef HERE               
 #undef MATCH
@@ -458,7 +455,6 @@ namespace reseune {
 
 #undef T_CHAR_F
 #undef T_CHAR
-#undef T_2_CHAR_F
 #undef T_MATCH_F
 #undef T_2_MATCH_F
 
