@@ -15,46 +15,41 @@
 #define MOVED              (start != POS)
 #define HERE               (**this)
 #define MATCH              DO_MATCH(MF)
-#define DO_MATCH(match_f)  {indentation += 2; match = {(this->*match_f)()}; indentation -= 2;}
 #define NEXT               ((*this)++)
 #define NOTHING            (span{})
 #define NUL_HERE           (0 == HERE)
 #define POS                (m_position)
+#define RESTORE            (POS = saved)
 #define SAVE               MARK(saved)
 #define SPAN               span{start, POS}
 #define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
 #define RETURN_MATCH       {log("Returning match from %s.", __FUNCTION__);  return match;}
-#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);   return SPAN;}
 #define RETURN_NOTHING     {log("Returning nothing from %s.", __FUNCTION__); return NOTHING;}
-
-#define unless(expr)       if (! (expr))
-#define until(expr)        while (! (expr))
-#define MARK(name)         const char * const name{POS}; std::ignore = name
-#define RESTORE            (POS = saved)
+#define RETURN_SPAN        {log("Returning span from %s.", __FUNCTION__);   return SPAN;}
 
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
 #define T_MATCH_F          template <match_f MF>
-#define T_2_MATCH_F        template <match_f left, match_f right>
+#define T_2_MATCH_F        template <match_f LEFT_MF, match_f RIGHT_MF>
+
+#define DO_MATCH(match_f)  {indentation += 2; match = {(this->*match_f)()}; indentation -= 2;}
+#define MARK(name)         const char * const name{POS}; std::ignore = name
+#define unless(expr)       if (! (expr))
+#define until(expr)        while (! (expr))
 
 #define CHAR_F(name)       constexpr inline static bool name(const char c)
 #define MATCH_F(name, ...) constexpr inline span name(__VA_ARGS__)
-#define FROM_C_CHAR_F(name, fun)                                            \
+#define FROM_C_CHAR_F(name, fun)                                                \
   MATCH_F(name) {                                                               \
     log("About to enter '%s'...", # name);                                      \
     return character_f<fun>();                                                  \
   }                                                                             \
-MATCH_F(name ## s) {                                                            \
-  return plus<&t::name>();                                                    \
-}                                                                             \
-MATCH_F(star_ ## name ## s) {                                                   \
-  return star<&t::name>();                                                    \
-}
-
-// Not yet used, but I may want them in the future, maybe:
-// #define BACK               (--*this)
-// #define STASH              span stashed{match}
-// #define UNSTASH            return stashed
+  MATCH_F(name ## s) {                                                          \
+    return plus<&t::name>();                                                    \
+  }                                                                             \
+  MATCH_F(star_ ## name ## s) {                                                 \
+    return star<&t::name>();                                                    \
+  }
 
 // ===============================================================================================================
 namespace reseune {
@@ -150,14 +145,14 @@ namespace reseune {
 
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(both_of) {
-      // Match against left and, if it matched, match against right.
+      // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
 
-      DO_MATCH(left);
+      DO_MATCH(LEFT_MF);
       unless (MOVED)
         RETURN_NOTHING;
 
-      DO_MATCH(right);
+      DO_MATCH(RIGHT_MF);
       unless (MOVED)
         RETURN_NOTHING;
 
@@ -186,14 +181,14 @@ namespace reseune {
 
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(either_of) {
-      // Match against left and, if it did not match, match against right.
-      return any_of<left, right>();
+      // Match against LEFT_MF and, if it did not match, match against RIGHT_MF.
+      return any_of<LEFT_MF, RIGHT_MF>();
     }
 
     // =============================================================================================================
     template <match_f MF, match_f... MFs>
     MATCH_F(any_of) {
-      // Match against any of the MFs, attempting them from left to right.
+      // Match against any of the MFs, attempting them from LEFT_MF to RIGHT_MF.
       START;
       MATCH;
       if MOVED
@@ -234,7 +229,7 @@ namespace reseune {
       // But you probably ought not want to.
       START;      
       if (NUL_HERE)
-      return NOTHING;
+        return NOTHING;
       unless (CF(HERE)) {
         log("character_f did not match.");
         RETURN_NOTHING;
@@ -288,10 +283,10 @@ namespace reseune {
 
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(optional_prefix) {
-      // Match against left and then match against right (whether or not left moved the cursor).
+      // Match against LEFT_MF and then match against RIGHT_MF (whether or not LEFT_MF moved the cursor).
       START;
-      ignore<left>();
-      DO_MATCH(right);
+      ignore<LEFT_MF>();
+      DO_MATCH(RIGHT_MF);
       RETURN_SPAN;
     }
 
@@ -428,38 +423,36 @@ namespace reseune {
 // =================================================================================================================
 
 // =================================================================================================================
-// Don't leak macros!
+// Don't leak the macros!
 // =================================================================================================================
-#undef VERBOSE
-#undef PRINTF
-#undef PUTCHAR
-
 #undef ABORT
-#undef MOVED              
-#undef HERE               
+#undef MOVED
+#undef HERE
 #undef MATCH
-#undef NEXT               
+#undef NEXT
 #undef NOTHING
 #undef NUL_HERE
 #undef POS
+#undef RESTORE
 #undef SAVE
 #undef SPAN
 #undef START
-
-#undef unless
-#undef until
-#undef MARK
-#undef REWIND
-#undef DO_MATCH
+#undef RETURN_MATCH
+#undef RETURN_NOTHING
+#undef RETURN_SPAN
 
 #undef T_CHAR_F
 #undef T_CHAR
 #undef T_MATCH_F
 #undef T_2_MATCH_F
 
+#undef DO_MATCH
+#undef MARK
+#undef unless
+#undef until
+
 #undef CHAR_F
 #undef MATCH_F
-
 #undef FROM_C_CHAR_F
 
 #endif
