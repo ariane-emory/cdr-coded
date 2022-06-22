@@ -146,13 +146,14 @@ namespace reseune {
       START;
       CALL_MATCH_F(LEFT_MF);
       if (match.nothing())
-        RETURN_NOTHING;
+        goto fail;
       CALL_MATCH_F(RIGHT_MF);
-      if (match.nothing()) {
-        REWIND;
-        RETURN_NOTHING;
-      }
+      if (match.nothing())
+        goto fail;
       RETURN_SPAN;
+    fail:
+      REWIND;
+      RETURN_NOTHING;
     }
 
     // =============================================================================================================
