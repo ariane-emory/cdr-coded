@@ -11,7 +11,7 @@
 // Macros
 // ===============================================================================================================
 
-#define ABORT              {REWIND(restore); return NOTHING;}
+#define ABORT              {RESTORE; return NOTHING;}
 #define MOVED              (start != POS)
 #define HERE               (**this)
 #define MATCH              DO_MATCH(MF)
@@ -20,7 +20,7 @@
 #define NOTHING            (span{})
 #define NUL_HERE           (0 == HERE)
 #define POS                (m_position)
-#define SAVE               MARK(restore)
+#define SAVE               MARK(saved)
 #define SPAN               span{start, POS}
 #define START              log("Entering %s.", __FUNCTION__); MARK(start); span match{NOTHING};
 #define RETURN_MATCH       {log("Returning match from %s.", __FUNCTION__);  return match;}
@@ -30,7 +30,7 @@
 #define unless(expr)       if (! (expr))
 #define until(expr)        while (! (expr))
 #define MARK(name)         const char * const name{POS}; std::ignore = name
-#define REWIND(name)       (POS = name)
+#define RESTORE            (POS = saved)
 
 #define T_CHAR_F           template <char_f CF>
 #define T_CHAR             template <char C>
