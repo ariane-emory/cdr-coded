@@ -374,8 +374,8 @@ namespace reseune {
       constexpr span(
         const char * bb = nullptr,
         const char * ee = nullptr,
-        bool mm = true,
-        LABEL_T ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), matched(mm), label(ll) {}
+        bool         mm = true,
+        LABEL_T      ll = static_cast<LABEL_T>(0)) : begin(bb), end(ee), matched(mm), label(ll) {}
       
       // ===========================================================================================================
       // Member functions
