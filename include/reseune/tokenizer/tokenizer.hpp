@@ -11,7 +11,7 @@
 // Macros
 // ===============================================================================================================
 
-#define ABORT              {RESTORE; return NOTHING;}
+#define ABORT              {RESTORE; RETURN_NOTHING;}
 #define MOVED              (start != POS)
 #define HERE               (**this)
 #define MATCH              DO_MATCH(MF)
