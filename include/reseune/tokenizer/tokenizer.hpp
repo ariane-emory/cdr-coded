@@ -332,16 +332,17 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
+      constexpr auto HEAD_MF {my all_of<my character<':'>, my alpha, my star<my alnums>>};
+      constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
+      constexpr auto TAIL_MF {my plus<my alnums>};
       return with_lispesque_token_terminator<
         my any_of<
           my all_of<
-            my character<':'>,
-            my alpha,
-            my star<my alnums>,
+            HEAD_MF,
             my star<
               my all_of<
-                my plus<my character<'-'>>,
-                my plus<my alnums>>>,
+                SEPARATOR_MF,
+                TAIL_MF>>,
             my optional<
               my any_of<
                 my character<'!'>,
