@@ -311,10 +311,18 @@ namespace reseune {
     MATCH_F(other_comparison_op) {
       // Match some other comparison ops.
       return any_of<
-        my all_of<my character<'!'>, my character<'='>>,
-        my all_of<my character<'='>, my character<'='>>,
-        my all_of<my character<'>'>, my character<'='>>,
-        my all_of<my character<'<'>, my character<'='>>>();
+        my all_of<my character<'!'>,my character<'='>>,
+        my all_of<my character<'='>,my character<'='>>,
+        my all_of<my character<'>'>,my character<'='>>,
+        my all_of<my character<'<'>,my character<'='>>>();
+    }
+
+    // ===================================================================================================================
+    MATCH_F(boolean_op) {
+      // Match some other some boolean ops.
+      return any_of<
+        my all_of<my character<'&'>,my character<'&'>>,
+        my all_of<my character<'|'>,my character<'|'>>>();
     }
 
     // ===================================================================================================================
@@ -328,6 +336,7 @@ namespace reseune {
           my basic_math_op,
           my basic_comparison_op,
           my other_comparison_op,
+          my boolean_op,
           my all_of<
             my alpha,
             my star<
