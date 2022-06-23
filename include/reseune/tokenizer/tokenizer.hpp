@@ -342,15 +342,17 @@ namespace reseune {
           my boolean_op,
           my all_of<
             my alpha,
+            my star<my alnums>,
             my star<
-              my any_of<
-                my alnum,
-                my character<'-'>,
-                my character<':'>,
-                my character<'/'>>>,
-            my optional<
-              my any_of<
-                my character<'!'>,
+              my all_of<
+                my any_of<
+                  my plus<my character<'-'>>,
+                  my plus<my character<':'>>,
+                  my plus<my character<'/'>>>,
+                my plus<my alnums>>>,
+        my optional<
+          my any_of<
+            my character<'!'>,
                 my character<'?'>>>>>>();
     }
 
