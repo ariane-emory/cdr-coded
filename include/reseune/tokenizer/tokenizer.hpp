@@ -264,6 +264,18 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    template <match_f HEAD_MF, match_f SEPARATOR_MF, match_f TAIL_MF>
+    MATCH_F(intercalate) {
+      // Match HEAD_MF followed by any number of TAIL_MFs separated by SEPARATOR_MFs.
+      return all<
+        HEAD_MF,
+        my star<
+          my all<
+            SEPARATOR_MF,
+            TAIL_MF>>>();
+    }
+
+    // ===================================================================================================================
     // Convenience match functions
     // ===================================================================================================================
     MATCH_F(lispesque_token_terminator) {
@@ -341,18 +353,6 @@ namespace reseune {
     }
 
     // ===================================================================================================================
-    template <match_f HEAD_MF, match_f SEPARATOR_MF, match_f TAIL_MF>
-    MATCH_F(intercalate) {
-      // Match HEAD_MF followed by any number of TAIL_MFs separated by SEPARATOR_MFs.
-      return all<
-        HEAD_MF,
-        my star<
-          my all<
-            SEPARATOR_MF,
-            TAIL_MF>>>();
-    }
-
-    // ===================================================================================================================
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
       constexpr auto HEAD_MF      {my all<my character<':'>, my alpha, my star<my alnums>>};
@@ -360,7 +360,6 @@ namespace reseune {
       constexpr auto TAIL_MF      {my plus<my alnums>};
       constexpr auto SYM_BODY     {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
       constexpr auto MF           {my with_lispesque_token_terminator<SYM_BODY>};
-
       START;
       MATCH;
       RETURN_MATCH;
@@ -375,7 +374,6 @@ namespace reseune {
       constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
       constexpr auto TRAILER      {my optional<my any<my character<'!'>, my character<'?'>>>};
       constexpr auto MF           {my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>};
-
       START;
       MATCH;
       RETURN_MATCH;
