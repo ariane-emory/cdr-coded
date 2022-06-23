@@ -230,8 +230,7 @@ namespace reseune {
     
     template <typename... nil>
     MATCH_F(all) {
-      START;
-      RETURN_EMPTY;
+      return EMPTY;
     }
 
     // ===================================================================================================================
@@ -248,8 +247,7 @@ namespace reseune {
     
     template <typename... nil>
     MATCH_F(any) {
-      START;
-      RETURN_NO_MATCH;
+      return NO_MATCH;
     }
 
     // ===================================================================================================================
@@ -266,8 +264,7 @@ namespace reseune {
 
     template <typename... nil>
     MATCH_F(character) {
-      START;
-      RETURN_NO_MATCH;
+      return NO_MATCH;
     }
 
     // ===================================================================================================================

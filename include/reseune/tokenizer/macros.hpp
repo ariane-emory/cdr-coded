@@ -27,6 +27,7 @@
   X('&', '&'),                                                                  \
     X('|', '|')
 
+#define EMPTY                 (span_type{POS, POS})
 #define HERE                  (*cursor)
 #define BASIC_MATH_OPS        X('+'), X('-'), X('/'), X('*'), X('%'), X('~'), X('^'), X('&')
 #define BASIC_COMPARISON_OPS  X('!'), X('='), X('>'), X('<')
@@ -44,7 +45,7 @@
 #define RETURN_MATCH          {log("%s: Returning match after moving %zu.", __FUNCTION__, POS - start);  return match;}
 #define RETURN_NO_MATCH       {log("%s: Returning no_match after moving %zu.", __FUNCTION__, POS - start); return NO_MATCH;}
 #define RETURN_SPAN           {log("%s: Returning span after moving %zu.", __FUNCTION__, POS - start); return SPAN;}
-#define RETURN_EMPTY          {log("%s: Returning empty after moving %zu.", __FUNCTION__, POS - start); return span_type{POS, POS};}
+#define RETURN_EMPTY          {log("%s: Returning empty after moving %zu.", __FUNCTION__, POS - start); return EMPTY;}
 
 #define T_MATCH_F             template <match_f MF>
 

@@ -2,6 +2,7 @@
 #undef OTHER_COMPARISON_OPS
 #undef BOOLEAN_OPS
 
+#undef EMPTY
 #undef HERE
 #undef MATCH
 #undef MAYBE_RETURN_MATCH
