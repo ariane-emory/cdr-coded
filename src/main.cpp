@@ -67,7 +67,7 @@ void tokenize() {
         my label<r_paren,   my with_lispesque_token_terminator<my character<')'>>>,
         my label<quote,     my without_lispesque_token_terminator<my character<'\''>>>,
         my label<integer,   my with_lispesque_token_terminator<my integer>>,
-        my label<primitive, my with_lispesque_token_terminator<my word<'l','e','t'>>>,
+        my label<primitive, my with_lispesque_token_terminator<my lispesque_primitive>>,
         my label<keyword,   my with_lispesque_token_terminator<my lispesque_keyword>>,
         my label<symbol,    my with_lispesque_token_terminator<my lispesque_identifier>>>>();
     if (token)
