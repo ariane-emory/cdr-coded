@@ -62,7 +62,7 @@ void tokenize() {
         read label<quote,   read without_lispesque_token_terminator<read character<'\''>>>,
         read label<l_paren, read character<'('>>,
         read label<r_paren, read character<')'>>,
-        read label<integer, read integer>,
+        read label<integer, read with_lispesque_token_terminator<read integer>>,
         read label<symbol,  read lispesque_identifier>>>();
     if (token)
       // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
