@@ -50,16 +50,16 @@ void tokenize() {
   t::span   token{};
   size_t    token_num{1};
   
-  #define read &t::
+  #define my &t::
   
   do {
     token = tokenizer.strip<
-      read any_of<
-        read label<quote,   read without_lispesque_token_terminator<read character<'\''>>>,
-        read label<l_paren, read character<'('>>,
-        read label<r_paren, read with_lispesque_token_terminator<read character<')'>>>,
-        read label<integer, read with_lispesque_token_terminator<read integer>>,
-        read label<symbol,  read lispesque_identifier>>>();
+      my any_of<
+        my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
+        my label<l_paren, my character<'('>>,
+        my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
+        my label<integer, my with_lispesque_token_terminator<my integer>>,
+        my label<symbol,  my lispesque_identifier>>>();
     if (token)
       // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
       printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
