@@ -369,7 +369,7 @@ namespace reseune {
       constexpr auto HEAD_MF      {my all<my alpha, my star<my alnums>>};
       constexpr auto SEPARATOR_MF {my any<my plus<my character<'-'>>, my plus<my character<':'>>, my plus<my character<'/'>>>};
       constexpr auto TAIL_MF      {my plus<my alnums>};
-      constexpr auto MF           {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
+      constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
       
       return with_lispesque_token_terminator<
         my any<
@@ -379,11 +379,7 @@ namespace reseune {
           my increment_decrement_op,
           my boolean_op,
           my all<
-            HEAD_MF,
-            my star<
-              my all<
-                SEPARATOR_MF,
-                TAIL_MF>>,
+            SYMBODY,
             my optional<
               my any<
                 my character<'!'>,
