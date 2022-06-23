@@ -41,7 +41,7 @@ void tokenize() {
   };
 #undef X
 
-#define X(name) static_cast<const char *>(#name),
+#define X(name) #name,
   const char * token_type_strings[] = {
     TOKEN_TYPES
    };
