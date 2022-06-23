@@ -300,8 +300,7 @@ namespace reseune {
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
       return all<
-        my optional<
-          my character<'-', '+'>>,
+        my optional<my character<'-', '+'>>,
         my digits>();
     }
 
