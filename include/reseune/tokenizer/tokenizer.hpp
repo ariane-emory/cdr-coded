@@ -345,8 +345,8 @@ namespace reseune {
 #define Y(name) MATCH_F(name) { return any<name ## s>(); }
     
     // ===================================================================================================================
-    Y(basic_comparison_op);
-    Y(basic_math_op);
+    Y(primitive_comparison_op);
+    Y(primitive_math_op);
     Y(boolean_op);
     Y(increment_decrement_op);
     Y(other_comparison_op);
@@ -366,18 +366,11 @@ namespace reseune {
     }
 
     // ===================================================================================================================
-    MATCH_F(lispesque_primitive_operator) {
-      // Match various operator-like symbols that are likely to be primitive.
-      return any<
-        my basic_math_op,
-        my basic_comparison_op>();
-    }
-
-    // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
       // Match a set of strings that look like reasonable Lisp primitive symbol names.
       return any<
-        my lispesque_primitive_operator,
+        my primitive_math_op,
+        my primitive_comparison_op,
         my terminated_word<'t'>,
         my terminated_word<'i','f'>,
         my terminated_word<'o','r'>,

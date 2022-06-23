@@ -1,9 +1,9 @@
 #undef increment_decrement_ops
 #undef other_comparison_ops
 #undef boolean_ops
-#undef basic_math_ops
+#undef primitive_math_ops
 #undef other_math_ops
-#undef basic_comparison_ops
+#undef primitive_comparison_ops
 
 #undef EMPTY
 #undef HERE
@@ -34,5 +34,3 @@
 #undef MATCH_F
 #undef FROM_C_CHAR_F
 
-#undef BASIC_MATH_OPS
-#undef BASIC_COMPARISON_OPS
