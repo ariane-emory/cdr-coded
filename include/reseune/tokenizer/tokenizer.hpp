@@ -341,7 +341,7 @@ namespace reseune {
         my digits>();
     }
 
-#define X(c) my tokenizer::character<c>
+#define X(...) my terminated_word<__VA_ARGS__>
 
     // ===================================================================================================================
     MATCH_F(basic_math_op) {
@@ -354,9 +354,6 @@ namespace reseune {
       // Match basic comparison ops.
       return any<BASIC_COMPARISON_OPS>();
     }
-
-#undef X
-#define X(...) my word<__VA_ARGS__>
 
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
