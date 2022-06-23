@@ -114,12 +114,24 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(not_followed_by) {
       // Match against MF and if it returns a match, return NO_MATCH, otherwise rewind and return empty.
+      return followed_by<&t::negate<MF>>();
+      // START;
+      // MATCH;
+      // if (match)
+      //   RETURN_NO_MATCH;
+      // REWIND;
+      // RETURN_EMPTY;
+    }
+
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(negate) {
+      // Match against MF and if it returns a match, rewind and return NO_MATCH, otherwise return empty.
       START;
       MATCH;
-      if (match)
-        RETURN_NO_MATCH;
+      unless (match)
+        RETURN_EMPTY;
       REWIND;
-      RETURN_EMPTY;
+      RETURN_NO_MATCH;
     }
 
     // =============================================================================================================
