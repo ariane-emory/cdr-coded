@@ -412,7 +412,7 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    MATCH_F(lispesque_identifier) {
+    MATCH_F(lispesque_symbol) {
       // Match a set of strings that look like reasonable Lisp symbol names.
       constexpr auto HEAD_MF      {my all<my alpha, my star_alnums>};
       constexpr auto SEPARATOR_MF {my any<my characters<'-'>, my characters<':'>, my characters<'/'>>};
