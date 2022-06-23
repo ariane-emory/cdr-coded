@@ -55,9 +55,9 @@ void tokenize() {
   do {
     token = tokenizer.strip<
       my any_of<
-        my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
         my label<l_paren, my character<'('>>,
         my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
+        my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
         my label<integer, my with_lispesque_token_terminator<my integer>>,
         my label<symbol,  my lispesque_identifier>>>();
     if (token)
