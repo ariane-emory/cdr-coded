@@ -35,3 +35,4 @@
 #undef MATCH_F
 #undef FROM_C_CHAR_F
 
+#undef RESEUNE_TOKENIZER_MACROS_HPP

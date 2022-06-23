@@ -1,11 +1,11 @@
-#include "reseune/tokenizer/tokenizer.hpp"
+#include "reseune/tokenizer/lispesque_tokenizer.hpp"
 #include "reseune/util/util.hpp"
 
 // ===============================================================================================================
 void tokenize() {
   const char * const input {
     "'b\n"
-    "2\n"
+      "2\n"
     "(+ 2 4)\n"
     "'(* 2 581)\n"
     "(let (a (- 6 1)))\n"
