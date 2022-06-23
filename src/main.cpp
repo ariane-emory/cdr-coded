@@ -19,6 +19,12 @@ void tokenize() {
     "+01\n"
     "a\n"
     "-250\n"
+    "(dolist (mode\n"
+    "'(beacon-mode\n"
+    "tooltip-mode\n"
+    "window-divider-mode))\n"
+    "(funcall mode -1)\n"
+    "(setq-default mode nil))\n"
   };
   
   enum token_type {
