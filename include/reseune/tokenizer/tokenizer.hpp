@@ -119,7 +119,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      auto const mf = &t::both_of<MF, &t::star<MF>>;
+      auto const mf = &t::all_of<MF, &t::star<MF>>;
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -181,7 +181,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(with_lispesque_token_terminator) {
-      return both_of<
+      return all_of<
         MF,
         &t::followed_by<
           &t::any_of<
@@ -189,6 +189,7 @@ namespace reseune {
             &t::character<'('>,
             &t::character<')'>>>>();
     }
+    
     // =============================================================================================================
     T_2_MATCH_F MATCH_F(both_of) {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
@@ -344,7 +345,7 @@ namespace reseune {
       return with_lispesque_token_terminator<
         &t::any_of<
           &t::basic_math_op,
-          &t::both_of<
+          &t::all_of<
             &t::alpha,
             &t::star<
               &t::any_of<
