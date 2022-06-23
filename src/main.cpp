@@ -41,7 +41,8 @@ void tokenize() {
     X(symbol)                                                                   \
     X(keyword)                                                                  \
     X(integer)                                                                  \
-    X(quote)                                                                   
+    X(quote)                                                                    \
+    X(primitive)
     
 #define X(name) name,
   enum token_type {TOKEN_TYPES};
@@ -61,12 +62,13 @@ void tokenize() {
   do {
     token = tokenizer.strip<
       my any<
-        my label<l_paren, my character<'('>>,
-        my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
-        my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
-        my label<integer, my with_lispesque_token_terminator<my integer>>,
-        my label<keyword, my with_lispesque_token_terminator<my lispesque_keyword>>,
-        my label<symbol,  my with_lispesque_token_terminator<my lispesque_identifier>>>>();
+        my label<l_paren,   my character<'('>>,
+        my label<r_paren,   my with_lispesque_token_terminator<my character<')'>>>,
+        my label<quote,     my without_lispesque_token_terminator<my character<'\''>>>,
+        my label<integer,   my with_lispesque_token_terminator<my integer>>,
+        my label<primitive, my with_lispesque_token_terminator<my word<'l','e','t'>>>,
+        my label<keyword,   my with_lispesque_token_terminator<my lispesque_keyword>>,
+        my label<symbol,    my with_lispesque_token_terminator<my lispesque_identifier>>>>();
     if (token)
       // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
       printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
