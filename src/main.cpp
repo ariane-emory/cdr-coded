@@ -4,10 +4,10 @@
 // ===============================================================================================================
 void tokenize() {
   const char * const input {
-    "b\n"
+    "'b\n"
     "2\n"
     "(+ 2 4)\n"
-    "(* 2 581)\n"
+    "'(* 2 581)\n"
     "(let (a (- 6 1)))\n"
     "(/ a (% a 3))\n"
     "5\n"
@@ -38,11 +38,13 @@ void tokenize() {
   
   do {
     token = tokenizer.strip<
-      read any_of<
-        read label<l_paren, read character<'('>>,
-        read label<r_paren, read character<')'>>,
-        read label<integer, read integer>,
-        read label<symbol,  read lispesque_identifier>>>();
+      read all_of<
+        read optional<read character<'\''>>,
+        read any_of<
+          read label<l_paren, read character<'('>>,
+          read label<r_paren, read character<')'>>,
+          read label<integer, read integer>,
+          read label<symbol,  read lispesque_identifier>>>>();
     if (token)
       printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
