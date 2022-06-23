@@ -83,7 +83,6 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
       // Ignore any number of 0s and then match against MF. This needs a non-greedy version.
-      SAVE;
       ignore<&t::star<&t::character<'0'>>>();
       START;
       MATCH;
