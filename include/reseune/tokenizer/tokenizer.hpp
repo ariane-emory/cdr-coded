@@ -330,6 +330,25 @@ namespace reseune {
 #undef X
 
     // ===================================================================================================================
+    MATCH_F(lispesque_keyword) {
+      // Match a set of strings that look like reasonable Lisp keyword symbol names.
+      return with_lispesque_token_terminator<
+        my any_of<
+          my all_of<
+            my character<':'>,
+            my alpha,
+            my star<my alnums>,
+            my star<
+              my all_of<
+                my plus<my character<'-'>>,
+                my plus<my alnums>>>,
+            my optional<
+              my any_of<
+                my character<'!'>,
+                my character<'?'>>>>>>();
+    }
+
+    // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
       return with_lispesque_token_terminator<
@@ -350,10 +369,10 @@ namespace reseune {
                   my plus<my character<':'>>,
                   my plus<my character<'/'>>>,
                 my plus<my alnums>>>,
-        my optional<
-          my any_of<
-            my character<'!'>,
-            my character<'?'>>>>>>();
+            my optional<
+              my any_of<
+                my character<'!'>,
+                my character<'?'>>>>>>();
     }
 
     // ===================================================================================================================
