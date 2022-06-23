@@ -310,7 +310,6 @@ namespace reseune {
     MATCH_F(basic_math_op) {
       // Match basic math ops.
       return any<BASIC_MATH_OPS>();
-
     }
 
     // ===================================================================================================================
@@ -347,7 +346,7 @@ namespace reseune {
       // Match various operator-like symbols.
       return any<
         my with_lispesque_token_terminator<my basic_math_op>,
-        my with_lispesque_token_terminator<my basic_comparison_op>,
+        my basic_comparison_op,
         my other_comparison_op,
         my increment_decrement_op,
         my boolean_op>();
