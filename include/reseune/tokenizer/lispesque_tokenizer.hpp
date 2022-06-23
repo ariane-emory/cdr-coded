@@ -46,16 +46,16 @@ namespace reseune {
       
       constexpr match_f lispesque_keyword = my with_lispesque_token_terminator<keyword_body>;
 
-      constexpr match_f head =
+      constexpr match_f symbol_head =
         my all<my alpha,
                my star_alnums>;
       
-      constexpr match_f separator =
+      constexpr match_f symbol_separator =
         my any<my characters<'-'>,
                my characters<':'>,
                my characters<'/'>>;
       
-      constexpr match_f symbody = my intercalate<head, separator, my alnums>;
+      constexpr match_f symbody = my intercalate<symbol_head, symbol_separator, my alnums>;
       constexpr match_f trailer = my optional<my character<'!','?'>>;
       constexpr match_f lispesque_symbol = my with_lispesque_token_terminator<my any<my lispesque_operator, my all<symbody, trailer>>>;
 
