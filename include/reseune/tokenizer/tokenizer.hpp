@@ -356,16 +356,6 @@ namespace reseune {
 #undef X
 
     // ===================================================================================================================
-    MATCH_F(lispesque_operator) {
-      // Match various operator-like symbols.
-      return any<
-        my boolean_op,
-        my other_math_op,
-        my other_comparison_op,
-        my increment_decrement_op>();
-    }
-
-    // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
       // Match a set of strings that look like reasonable Lisp primitive symbol names.
       return any<
@@ -393,6 +383,16 @@ namespace reseune {
         my terminated_word<'p','r','i','n','t'>,
         my terminated_word<'r','e','t','u','r','n'>
         >();
+    }
+
+    // ===================================================================================================================
+    MATCH_F(lispesque_operator) {
+      // Match various operator-like symbols.
+      return any<
+        my boolean_op,
+        my other_math_op,
+        my other_comparison_op,
+        my increment_decrement_op>();
     }
 
     // ===================================================================================================================
