@@ -25,6 +25,8 @@ void tokenize() {
     "window-divider-mode))\n"
     "(funcall mode -1)\n"
     "(setq-default mode nil))\n"
+    "(nil? var)\n"
+    "(set! var -2)\n"
     "'alpha\n"
     "' beta\n" // Invalid because of space after the single quote!
   };
