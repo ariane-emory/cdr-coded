@@ -26,17 +26,22 @@ void tokenize() {
     "(funcall mode -1)\n"
     "(setq-default mode nil))\n"
   };
-  
+
+#define TOKEN_TYPES                                                             \
+  X(unlabeled),                                                                 \
+    X(l_paren),                                                                 \
+    X(r_paren),                                                                 \
+    X(symbol),                                                                  \
+    X(integer),                                                                 \
+    X(quote),                                                                   
+    
+#define X(name) name
   enum token_type {
-    unlabeled, // 0
-    l_paren,   // 1
-    r_paren,   // 2
-    symbol,    // 3
-    integer,   // 4
-    quote,     // 5
+    TOKEN_TYPES
   };
-  
-  using t = reseune::tokenizer<token_type>;
+#undef X
+
+using t = reseune::tokenizer<token_type>;
   t         tokenizer{input};
   t::span   token{};
   size_t    token_num{1};
