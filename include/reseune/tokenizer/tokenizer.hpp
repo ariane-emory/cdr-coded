@@ -269,13 +269,13 @@ namespace reseune {
         &t::character<')'>>();
     }
     
-    // =============================================================================================================    
-      MATCH_F(positive_integer) {
-        // Match a positive integer. Does not permit a leading '+'!
-        return any_of<
+    // =============================================================================================================
+    MATCH_F(positive_integer) {
+      // Match a positive integer. Does not permit a leading '+'!
+      return any_of<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
-      }
+    }
     
     // =============================================================================================================
     MATCH_F(integer) {
