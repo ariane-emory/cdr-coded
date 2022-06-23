@@ -389,27 +389,14 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    MATCH_F(lispesque_keyword) {
-      // Match a set of strings that look like reasonable Lisp keyword symbol names.
-      constexpr auto HEAD_MF      {my all<my character<':'>, my alpha, my star_alnums>};
-      constexpr auto SEPARATOR_MF {my characters<'-'>};
-      constexpr auto TAIL_MF      {my alnums};
-      constexpr auto SYM_BODY     {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      constexpr auto MF           {my with_lispesque_token_terminator<SYM_BODY>};
-      START;
-      MATCH;
-      RETURN_MATCH;
-    }
-
-    // =================================================================================================================
     MATCH_F(lispesque_symbol) {
       // Match a set of strings that look like reasonable Lisp symbol names.
-      constexpr auto HEAD_MF      {my all<my alpha, my star_alnums>};
-      constexpr auto SEPARATOR_MF {my any<my characters<'-'>, my characters<':'>, my characters<'/'>>};
-      constexpr auto TAIL_MF      {my alnums};
-      constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      constexpr auto TRAILER      {my optional<my character<'!','?'>>};
-      constexpr auto MF           {my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>};
+      constexpr match_f HEAD_MF      {my all<my alpha, my star_alnums>};
+      constexpr match_f SEPARATOR_MF {my any<my characters<'-'>, my characters<':'>, my characters<'/'>>};
+      constexpr match_f TAIL_MF      {my alnums};
+      constexpr match_f SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
+      constexpr match_f TRAILER      {my optional<my character<'!','?'>>};
+      constexpr match_f MF           {my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>};
       START;
       MATCH;
       RETURN_MATCH;
