@@ -24,7 +24,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(false) {}
+    constexpr tokenizer(const char * const str) : cursor(str), verbose(false), indentation(0) {}
     
     // =================================================================================================================
     // Public types
@@ -35,8 +35,8 @@ namespace reseune {
     c_str_cursor cursor;
     
     // These are both only used by the log method below for debug output:
-    size_t       indentation;
     bool         verbose;
+    size_t       indentation;
 
     // =================================================================================================================
     // Debug logging helper functions
