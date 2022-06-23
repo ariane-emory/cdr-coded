@@ -1,7 +1,7 @@
 #include "reseune/tokenizer/tokenizer.hpp"
 
 // ===============================================================================================================
-int main() {
+void tokenize() {
   const char * const input {
     "b\n"
     "(+ 2 4)\n"
@@ -44,6 +44,10 @@ int main() {
     if (token)
       printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
+}
+
+int main() {
+  tokenize();
 }
 
 #undef read
