@@ -335,23 +335,27 @@ namespace reseune {
       constexpr auto HEAD_MF {my all_of<my character<':'>, my alpha, my star<my alnums>>};
       constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
       constexpr auto TAIL_MF {my plus<my alnums>};
+
       return with_lispesque_token_terminator<
-        my any_of<
-          my all_of<
-            HEAD_MF,
-            my star<
-              my all_of<
-                SEPARATOR_MF,
-                TAIL_MF>>,
-            my optional<
-              my any_of<
-                my character<'!'>,
-                my character<'?'>>>>>>();
+        my all_of<
+          HEAD_MF,
+          my star<
+            my all_of<
+              SEPARATOR_MF,
+              TAIL_MF>>,
+          my optional<
+            my any_of<
+              my character<'!'>,
+              my character<'?'>>>>>();
     }
 
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
+      constexpr auto HEAD_MF {my all_of<my character<':'>, my alpha, my star<my alnums>>};
+      constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
+      constexpr auto TAIL_MF {my plus<my alnums>};
+
       return with_lispesque_token_terminator<
         my any_of<
           my with_lispesque_token_terminator<my basic_math_op>,
