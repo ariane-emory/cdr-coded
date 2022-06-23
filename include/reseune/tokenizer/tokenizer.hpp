@@ -330,6 +330,17 @@ namespace reseune {
 #undef X
 
     // ===================================================================================================================
+    MATCH_F(lispesque_operator) {
+      // Match various operator-like symbols.
+      return any<
+        my with_lispesque_token_terminator<my basic_math_op>,
+        my with_lispesque_token_terminator<my basic_comparison_op>,
+        my other_comparison_op,
+        my increment_decrement_op,
+        my boolean_op>();
+    }
+
+    // ===================================================================================================================
     template <match_f HEAD_MF, match_f SEPARATOR_MF, match_f TAIL_MF>
     MATCH_F(intercalate) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
@@ -362,17 +373,6 @@ namespace reseune {
       START;
       MATCH;
       RETURN_MATCH;
-    }
-
-    // ===================================================================================================================
-    MATCH_F(lispesque_operator) {
-      // Match various operator-like symbols.
-      return any<
-        my with_lispesque_token_terminator<my basic_math_op>,
-        my with_lispesque_token_terminator<my basic_comparison_op>,
-        my other_comparison_op,
-        my increment_decrement_op,
-        my boolean_op>();
     }
 
     // ===================================================================================================================
