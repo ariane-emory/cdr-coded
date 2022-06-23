@@ -4,12 +4,13 @@
 #include "tokenizer.hpp"
 
 #define bases &base::
+#define BASES_T_MATCH_F(name) T_MATCH_F static constexpr span_t(base::*name)()
 
 #include "macros.hpp" // include last!
 
 // =====================================================================================================================
 namespace reseune {
-
+  
   // ===================================================================================================================
   // Lispesque tokenizer class
   // ===================================================================================================================
@@ -23,8 +24,8 @@ namespace reseune {
     // =================================================================================================================
     constexpr lispesque_tokenizer(const char * const str) : base(str) {}
 
-    T_MATCH_F static constexpr span_t(base::*terminated)()   = my with_lispesque_token_terminator<MF>;
-    T_MATCH_F static constexpr span_t(base::*unterminated)() = my without_lispesque_token_terminator<MF>;
+    BASES_T_MATCH_F(terminated)   = my with_lispesque_token_terminator<MF>;
+    BASES_T_MATCH_F(unterminated) = my without_lispesque_token_terminator<MF>;
     
     // =================================================================================================================
     virtual MATCH_F(token) {
@@ -89,6 +90,8 @@ namespace reseune {
 // Don't leak the macros!
 // =====================================================================================================================
 #undef bases
+#undef BASES_T_MATCH_F
+
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
