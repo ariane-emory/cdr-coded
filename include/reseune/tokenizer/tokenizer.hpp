@@ -7,7 +7,7 @@
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
 
-#include "macros.hpp" // include last
+#include "macros.hpp" // include last!
 
 // ===============================================================================================================
 namespace reseune {
