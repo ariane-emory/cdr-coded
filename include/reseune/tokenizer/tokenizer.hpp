@@ -2,56 +2,12 @@
 #define RESEUNE_TOKENIZER_HPP
 
 #include <tuple>
+#include <cassert>
 
 #include "reseune/util/util.hpp"
 #include "reseune/c_str_cursor/c_str_cursor.hpp"
-#include <cassert>
 
-// ===============================================================================================================
-// Macros
-// ===============================================================================================================
-
-#define HERE                  (**this)
-#define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
-#define MATCH                 CALL_MATCH_F(MF)
-#define MAYBE_RETURN_MATCH    if (match) RETURN_MATCH
-#define MAYBE_RETURN_NO_MATCH if (!match) RETURN_NO_MATCH
-#define NEXT                  ((*this)++)
-#define NO_MATCH              (span{nullptr, nullptr, false})
-#define NUL_HERE              (0 == HERE)
-#define POS                   (m_position)
-#define RESTORE               (POS = saved)
-#define REWIND                (POS = start)
-#define SAVE                  MARK(saved)
-#define SPAN                  span{start, POS}
-#define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NO_MATCH};
-#define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
-#define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
-#define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__); return SPAN;}
-#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{POS, POS};}
-
-#define T_CHAR_F              template <char_f CF>
-#define T_MATCH_F             template <match_f MF>
-#define T_2_MATCH_F           template <match_f LEFT_MF, match_f RIGHT_MF>
-
-#define CALL_MATCH_F(match_f) {indentation += 2; match = (this->*match_f)(); indentation -= 2;}
-#define MARK(name)            const char * const name{POS}; std::ignore = name
-#define unless(expr)          if (! (expr))
-#define until(expr)           while (! (expr))
-
-#define CHAR_F(name)          constexpr inline static bool name(const char c)
-#define MATCH_F(name, ...)    constexpr inline span name(__VA_ARGS__)
-#define FROM_C_CHAR_F(name, fun)                                                \
-  MATCH_F(name) {                                                               \
-    log("About to enter '%s'...", # name);                                      \
-    return character_f<fun>();                                                  \
-  }                                                                             \
-  MATCH_F(name ## s) {                                                          \
-    return plus<&t::name>();                                                    \
-  }                                                                             \
-  MATCH_F(star_ ## name ## s) {                                                 \
-    return star<&t::name>();                                                    \
-  }
+#include "macros.hpp" // include last
 
 // ===============================================================================================================
 namespace reseune {
@@ -317,8 +273,7 @@ namespace reseune {
     MATCH_F(lispesque_token_terminator) {
       return any_of<
         &t::whitespace,
-        &t::character<')'>,
-        &t::character<'\n'>>();
+        &t::character<')'>>();
     }
     
     // =============================================================================================================    
@@ -488,39 +443,7 @@ namespace reseune {
 // =================================================================================================================
 // Don't leak the macros!
 // =================================================================================================================
-#undef ABORT
-#undef HERE
-#undef MATCH
-#undef MAYBE_RETURN_MATCH
-#undef MAYBE_RETURN_NO_MATCH
-#undef NEXT
-#undef NO_MATCH
-#undef NUL_HERE
-#undef POS
-#undef RESTORE
-#undef REWIND
-#undef SAVE
-#undef SPAN
-#undef START
-#undef RETURN_EMPTY
-#undef RETURN_MATCH
-#undef RETURN_NO_MATCH
-#undef RETURN_SPAN
-
-#undef T_CHAR_F
-#undef T_MATCH_F
-#undef T_2_MATCH_F
-
-#undef CALL_MATCH_F
-#undef MARK
-#undef unless
-#undef until
-
-#undef CHAR_F
-#undef MATCH_F
-#undef FROM_C_CHAR_F
-
-#undef MATH_OPS
-
+#include "undef_macros.hpp"
+// =================================================================================================================
 #endif
 
