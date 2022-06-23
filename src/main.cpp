@@ -1,4 +1,5 @@
 #include "reseune/tokenizer/tokenizer.hpp"
+#include "reseune/util/util.hpp"
 
 // ===============================================================================================================
 void tokenize() {
@@ -47,7 +48,7 @@ void tokenize() {
 }
 
 int main() {
-  tokenize();
+  reseune::measure_time(&tokenize);
 }
 
 #undef read
