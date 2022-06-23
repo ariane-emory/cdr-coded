@@ -180,6 +180,16 @@ namespace reseune {
     }
 
     // =============================================================================================================
+    T_MATCH_F MATCH_F(with_lispesque_identifier_terminator) {
+      return both_of<
+        MF,
+        &t::followed_by<
+          &t::any_of<
+          &t::whitespace,
+            &t::character<'('>,
+            &t::character<')'>>>>();
+    }
+    // =============================================================================================================
     T_2_MATCH_F MATCH_F(both_of) {
       // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
       START;
@@ -331,18 +341,15 @@ namespace reseune {
       // Currently, identifiers must either_of:
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
-      return any_of<
-        &t::both_of<
+      return with_lispesque_identifier_terminator<
+        &t::any_of<
           &t::basic_math_op,
-          &t::followed_by<
-            &t::any_of<
-              &t::whitespace,
-              &t::character<'('>,
-              &t::character<')'>>>>,
-        &t::both_of<
-          &t::alpha,
-          &t::star<&t::any_of<&t::character<'-'>,
-                              &t::alnum>>>>();
+          &t::both_of<
+            &t::alpha,
+            &t::star<&t::any_of<
+              &t::character<'-'>,
+                       &t::alnum>>>>>();
+      ;
     }
 
     // =============================================================================================================
@@ -488,3 +495,4 @@ namespace reseune {
 #undef MATH_OPS
 
 #endif
+
