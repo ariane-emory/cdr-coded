@@ -10,6 +10,7 @@ namespace reseune {
   class c_str_cursor {
   protected:
     const char * const m_begin;
+    const size_t       m_length;
     const char * const m_end;
     const char *       m_position;
 
@@ -18,7 +19,8 @@ namespace reseune {
     // =============================================================================================================
     inline constexpr c_str_cursor(const char * const str) :
       m_begin(str),
-      m_end(&m_begin[strlen(str)]),
+      m_length(strlen(str)),
+      m_end(&m_begin[m_length]),
       m_position(m_begin) {}
 
     // =============================================================================================================
@@ -26,6 +28,11 @@ namespace reseune {
       return m_begin;
     }
 
+    // =============================================================================================================
+    inline constexpr size_t length() const {
+      return m_length;
+    }
+    
     // =============================================================================================================
     inline constexpr const char * end() const {
       return m_end;
