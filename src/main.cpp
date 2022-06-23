@@ -66,6 +66,8 @@ void tokenize() {
       // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
       printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
   } while (token);
+
+  printf("Length: %zu.\n", strlen(input));
 }
 
 int main() {
