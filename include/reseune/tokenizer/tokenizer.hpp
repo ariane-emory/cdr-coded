@@ -350,7 +350,7 @@ namespace reseune {
     }
 
 #undef X
-#define X(A,B) my all<my character<A>,my character<B>>
+#define X(...) my word<__VA_ARGS__>
 
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
