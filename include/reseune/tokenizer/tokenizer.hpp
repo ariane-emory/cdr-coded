@@ -332,11 +332,15 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(boolean_op) {
       // Match some other some boolean ops.
+#define BOOLEAN_OPS                                                             \
+      X('&', '&'),                                                              \
+        X('|', '|')
       return any_of<
-        my all_of<my character<'&'>,my character<'&'>>,
-        my all_of<my character<'|'>,my character<'|'>>>();
+#define X(A,B) my all_of<my character<A>,my character<A>>
+        BOOLEAN_OPS
+        >();
     }
-
+#undef X
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
