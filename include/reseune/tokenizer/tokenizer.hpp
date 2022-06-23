@@ -330,6 +330,26 @@ namespace reseune {
 #undef X
 
     // ===================================================================================================================
+    MATCH_F(intercalate) {
+      // Match a set of strings that look like reasonable Lisp keyword symbol names.
+      constexpr auto HEAD_MF {my all<my character<':'>, my alpha, my star<my alnums>>};
+      constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
+      constexpr auto TAIL_MF {my plus<my alnums>};
+
+      return with_lispesque_token_terminator<
+        my all<
+          HEAD_MF,
+          my star<
+            my all<
+              SEPARATOR_MF,
+              TAIL_MF>>,
+          my optional<
+            my any<
+              my character<'!'>,
+              my character<'?'>>>>>();
+    }
+
+    // ===================================================================================================================
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
       constexpr auto HEAD_MF {my all<my character<':'>, my alpha, my star<my alnums>>};
