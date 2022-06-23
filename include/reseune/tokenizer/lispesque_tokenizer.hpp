@@ -40,7 +40,14 @@ namespace reseune {
       constexpr match_f kw_separator_mf   = my characters<'-'>;
       constexpr match_f sym_body          = my intercalate<head_mf, kw_separator_mf, my alnums>;
       constexpr match_f lispesque_keyword = my with_lispesque_token_terminator<sym_body>;
-      
+
+      constexpr match_f HEAD_MF = my all<my alpha, my star_alnums>;
+      constexpr match_f SEPARATOR_MF = my any<my characters<'-'>, my characters<':'>, my characters<'/'>>;
+      constexpr match_f TAIL_MF = my alnums;
+      constexpr match_f SYMBODY = my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>;
+      constexpr match_f TRAILER = my optional<my character<'!','?'>>;
+      constexpr match_f lispesque_symbol = my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>;
+
       return strip<
         my any<
           my label<l_paren,     my character<'('>>,
@@ -49,7 +56,7 @@ namespace reseune {
           my label<tt::integer, my with_lispesque_token_terminator<my integer>>,
           my label<primitive,   lispesque_primitive>,
           my label<keyword,     lispesque_keyword>,
-          my label<symbol,      my lispesque_symbol>>>();
+          my label<symbol,      lispesque_symbol>>>();
     }
     // =================================================================================================================
   };

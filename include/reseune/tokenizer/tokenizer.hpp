@@ -389,20 +389,6 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    MATCH_F(lispesque_symbol) {
-      // Match a set of strings that look like reasonable Lisp symbol names.
-      constexpr match_f HEAD_MF      {my all<my alpha, my star_alnums>};
-      constexpr match_f SEPARATOR_MF {my any<my characters<'-'>, my characters<':'>, my characters<'/'>>};
-      constexpr match_f TAIL_MF      {my alnums};
-      constexpr match_f SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      constexpr match_f TRAILER      {my optional<my character<'!','?'>>};
-      constexpr match_f MF           {my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>};
-      START;
-      MATCH;
-      RETURN_MATCH;
-    }
-
-    // =================================================================================================================
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
