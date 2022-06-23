@@ -37,9 +37,8 @@ namespace reseune {
                my alpha,
                my star_alnums>;
 
-      constexpr match_f separator_mf = my characters<'-'>;
-      constexpr match_f tail_mf = my alnums;
-      constexpr match_f sym_body = my intercalate<head_mf, separator_mf, tail_mf>;
+      constexpr match_f kw_separator_mf   = my characters<'-'>;
+      constexpr match_f sym_body          = my intercalate<head_mf, kw_separator_mf, my alnums>;
       constexpr match_f lispesque_keyword = my with_lispesque_token_terminator<sym_body>;
       
       return strip<
