@@ -44,7 +44,7 @@ void tokenize() {
 #define my &t::
 
   do {
-    token = tokenizer.token();
+    tokenizer >> token;
     
     if (token)
       printf("Token #%zu is (token_type: '%s', string: '%s').\n",
