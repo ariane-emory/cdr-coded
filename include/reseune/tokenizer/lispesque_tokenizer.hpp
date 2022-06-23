@@ -23,8 +23,8 @@ namespace reseune {
     // =================================================================================================================
     constexpr lispesque_tokenizer(const char * const str) : base(str) {}
 
-    T_MATCH_F static constexpr span_t(base::*wltt)()   = my with_lispesque_token_terminator<MF>;
-    T_MATCH_F static constexpr span_t(base::*woltt)() = my without_lispesque_token_terminator<MF>;
+    T_MATCH_F static constexpr span_t(base::*terminated)()   = my with_lispesque_token_terminator<MF>;
+    T_MATCH_F static constexpr span_t(base::*unterminated)() = my without_lispesque_token_terminator<MF>;
     
     // =================================================================================================================
     virtual MATCH_F(token) {
@@ -47,7 +47,7 @@ namespace reseune {
                        keyword_separator,
                        my alnums>;
       
-      constexpr match_f lispesque_keyword = wltt<keyword_body>;
+      constexpr match_f lispesque_keyword = terminated<keyword_body>;
 
       constexpr match_f symbol_head =
         my all<my alpha,
@@ -66,15 +66,15 @@ namespace reseune {
       constexpr match_f symbol_trailer = my optional<my character<'!','?'>>;
       
       constexpr match_f lispesque_symbol =
-        wltt<my any<my lispesque_operator,
-                    my all<symbol_body, symbol_trailer>>>;
+        terminated<my any<my lispesque_operator,
+                          my all<symbol_body, symbol_trailer>>>;
       
       return strip<
         my any<
           my label<l_paren,     my character<'('>>,
-          my label<r_paren,     wltt<my character<')'>>>,
-          my label<quote,       woltt<my character<'\''>>>,
-          my label<tt::integer, wltt<my integer>>,
+          my label<r_paren,     terminated<my character<')'>>>,
+          my label<quote,       unterminated<my character<'\''>>>,
+          my label<tt::integer, terminated<my integer>>,
           my label<primitive,   lispesque_primitive>,
           my label<keyword,     lispesque_keyword>,
           my label<symbol,      lispesque_symbol>>>();
