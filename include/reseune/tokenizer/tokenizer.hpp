@@ -309,7 +309,7 @@ namespace reseune {
 
     // ===================================================================================================================
     MATCH_F(other_comparison_op) {
-      // Match basic comparison ops.
+      // Match some other comparison ops.
       return any_of<
         my all_of<my character<'!'>, my character<'='>>,
         my all_of<my character<'='>, my character<'='>>,
@@ -327,6 +327,7 @@ namespace reseune {
         my any_of<
           my basic_math_op,
           my basic_comparison_op,
+          my other_comparison_op,
           my all_of<
             my alpha,
             my star<
