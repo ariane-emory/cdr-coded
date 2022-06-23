@@ -28,6 +28,7 @@ void tokenize() {
     "(nil? var)\n"
     "(set! var -2)\n"
     "'(x:alpha/bang! 1)\n"
+    "(vehicle :type 'car :brand 'honda :wheels 4)\n"
     "(++ a)\n"
     "(*= a 8)\n"
     "(|| a b)\n"

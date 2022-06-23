@@ -331,7 +331,7 @@ namespace reseune {
 
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
-      // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
+      // Match a set of strings that look like reasonable Lisp symbol names.
       return with_lispesque_token_terminator<
         my any_of<
           my with_lispesque_token_terminator<my basic_math_op>,
