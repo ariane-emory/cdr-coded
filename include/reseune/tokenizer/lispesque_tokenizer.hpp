@@ -26,7 +26,7 @@ namespace reseune {
 
   private: 
     // =================================================================================================================
-    // Pointers to templates in base.
+    // Pointers to match_f templates in base.
     // =================================================================================================================
     BASES_T_MATCH_F(terminated,   with_lispesque_token_terminator<MF>);
     BASES_T_MATCH_F(unterminated, without_lispesque_token_terminator<MF>);
