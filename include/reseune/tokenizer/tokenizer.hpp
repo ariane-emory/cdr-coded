@@ -343,18 +343,13 @@ namespace reseune {
     // ===================================================================================================================
     template <match_f HEAD_MF, match_f SEPARATOR_MF, match_f TAIL_MF>
     MATCH_F(intercalate) {
-      // Match a set of strings that look like reasonable Lisp keyword symbol names.
-      // constexpr auto HEAD_MF {my all<my character<':'>, my alpha, my star<my alnums>>};
-      // constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
-      // constexpr auto TAIL_MF {my plus<my alnums>};
-
-      return with_lispesque_token_terminator<
-        my all<
-          HEAD_MF,
-          my star<
-            my all<
-              SEPARATOR_MF,
-              TAIL_MF>>>>();
+      // Match HEAD_MF followed by any number of TAIL_MFs separated by SEPARATOR_MFs.
+      return all<
+        HEAD_MF,
+        my star<
+          my all<
+            SEPARATOR_MF,
+            TAIL_MF>>>();
     }
 
     // ===================================================================================================================
