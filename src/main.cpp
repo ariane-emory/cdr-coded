@@ -30,9 +30,8 @@ void tokenize() {
     "'(x:alpha/bang! 1)\n"
     "(vehicle :type 'car :brand 'honda :wheels 4)\n"
     "(++ a)\n"
-    "(*= a 8)\n"
     "(|| a b)\n"
-    "' beta\n" // Invalid because of space after the single quote!
+    "(*= a 8)\n"
   };
 
 #define TOKEN_TYPES                                                             \
