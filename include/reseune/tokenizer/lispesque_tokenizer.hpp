@@ -32,12 +32,11 @@ namespace reseune {
                my primitive_comparison_op,
                my primitive_symbol>;
 
-      constexpr match_f HEAD_MF           {my all<my character<':'>, my alpha, my star_alnums>};
-      constexpr match_f SEPARATOR_MF      {my characters<'-'>};
-      constexpr match_f TAIL_MF           {my alnums};
-      constexpr match_f SYM_BODY          {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      constexpr match_f lispesque_keyword {my with_lispesque_token_terminator<SYM_BODY>};
-
+      constexpr match_f HEAD_MF = my all<my character<':'>, my alpha, my star_alnums>;
+      constexpr match_f SEPARATOR_MF = my characters<'-'>;
+      constexpr match_f TAIL_MF = my alnums;
+      constexpr match_f SYM_BODY = my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>;
+      constexpr match_f lispesque_keyword = my with_lispesque_token_terminator<SYM_BODY>;
       
       return strip<
         my any<
