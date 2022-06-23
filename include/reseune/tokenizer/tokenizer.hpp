@@ -341,8 +341,8 @@ namespace reseune {
         my digits>();
     }
 
-#define X(...) my terminated_word<__VA_ARGS__>
-#define Y(name) MATCH_F(name) { return any<name ## s>(); }
+#define X(...) my word<__VA_ARGS__>
+#define Y(name) MATCH_F(name) { return with_lispesque_token_terminator<my any<name ## s>>(); }
     
     // ===================================================================================================================
     Y(primitive_comparison_op);
