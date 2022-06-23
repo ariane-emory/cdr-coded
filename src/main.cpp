@@ -28,6 +28,9 @@ void tokenize() {
     "(nil? var)\n"
     "(set! var -2)\n"
     "'alpha\n"
+    "(++ a)\n"
+    "(*= a 8)\n"
+    "(|| a b)\n"
     "' beta\n" // Invalid because of space after the single quote!
   };
 

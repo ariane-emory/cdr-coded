@@ -308,6 +308,18 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    MATCH_F(increment_decrement_op) {
+      // Match some other comparison ops.
+      return any_of<
+        my all_of<my character<'+'>,my character<'+'>>,
+        my all_of<my character<'-'>,my character<'-'>>,
+        my all_of<my character<'+'>,my character<'='>>,
+        my all_of<my character<'-'>,my character<'='>>,
+        my all_of<my character<'*'>,my character<'='>>,
+        my all_of<my character<'/'>,my character<'='>>>();
+    }
+
+    // ===================================================================================================================
     MATCH_F(other_comparison_op) {
       // Match some other comparison ops.
       return any_of<
@@ -333,9 +345,10 @@ namespace reseune {
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
       return with_lispesque_token_terminator<
         my any_of<
-          my basic_math_op,
+          my with_lispesque_token_terminator<my basic_math_op>,
           my basic_comparison_op,
           my other_comparison_op,
+          my increment_decrement_op,
           my boolean_op,
           my all_of<
             my alpha,
