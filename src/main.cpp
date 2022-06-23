@@ -28,20 +28,26 @@ void tokenize() {
   };
 
 #define TOKEN_TYPES                                                             \
-  X(unlabeled),                                                                 \
-    X(l_paren),                                                                 \
-    X(r_paren),                                                                 \
-    X(symbol),                                                                  \
-    X(integer),                                                                 \
-    X(quote),                                                                   
+  X(unlabeled)                                                                 \
+    X(l_paren)                                                                 \
+    X(r_paren)                                                                 \
+    X(symbol)                                                                  \
+    X(integer)                                                                \
+    X(quote)                                                                   
     
-#define X(name) name
+#define X(name) name,
   enum token_type {
     TOKEN_TYPES
   };
 #undef X
 
-using t = reseune::tokenizer<token_type>;
+// #define X(name) #name
+//   char * token_type_strings {
+//     TOKEN_TYPES
+//   };
+// #undef X
+
+  using t = reseune::tokenizer<token_type>;
   t         tokenizer{input};
   t::span   token{};
   size_t    token_num{1};
