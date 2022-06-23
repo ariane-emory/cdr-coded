@@ -336,12 +336,13 @@ namespace reseune {
     }
     
     // =================================================================================================================
-    virtual MATCH_F(token) {
-      // Default implementation returns NO_MATCH but descemdent classes may override.
-      return any<
-        my whitespace,
-        my character<')'>>();
-    }
+    virtual MATCH_F(token) = 0;
+    // {
+    //   // Default implementation returns NO_MATCH but descemdent classes may override.
+    //   return any<
+    //     my whitespace,
+    //     my character<')'>>();
+    // }
     
     // =================================================================================================================
     MATCH_F(positive_integer) {
