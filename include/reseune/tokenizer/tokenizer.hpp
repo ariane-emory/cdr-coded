@@ -13,10 +13,10 @@
 namespace reseune {
 
   // ===================================================================================================================
-  // Span struct
+  // tokenizer_span struct
   // ===================================================================================================================
   template <typename LABEL_T>
-  struct span {
+  struct tokenizer_span {
     const char * begin;
     const char * end;
     bool         matched;
@@ -25,7 +25,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr span(
+    constexpr tokenizer_span(
       const char * bb = nullptr,
       const char * ee = nullptr,
       bool         mm = true,
@@ -69,7 +69,7 @@ namespace reseune {
     // ===================================================================================================================
     // Static functions
     // ===================================================================================================================
-    constexpr static char * create_new_c_str(span const & tok) {
+    constexpr static char * create_new_c_str(tokenizer_span const & tok) {
       // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
 
       if (tok.empty()) return nullptr;
@@ -103,8 +103,7 @@ namespace reseune {
     // =================================================================================================================
     // Public types
     // =================================================================================================================
-    
-    using span_t   = span<LABEL_T>;
+    using span_type = tokenizer_span<LABEL_T>;
 
   private:
     c_str_cursor cursor;
@@ -133,7 +132,7 @@ namespace reseune {
     // Private types
     // =================================================================================================================
     using char_f   = int (*)(int);
-    using match_f  = span<LABEL_T> (tokenizer::*)();
+    using match_f  = tokenizer_span<LABEL_T> (tokenizer::*)();
     using t        = tokenizer;
 
   public:
