@@ -464,10 +464,16 @@ namespace reseune {
   // Lispesque tokenizer class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
-    using tt =  lispesque_token_type;
+    using tt = lispesque_token_type;
     using t  = tokenizer<tt>;
 
-    MATCH_F(token) {
+    // =================================================================================================================
+    // Constructors
+    // =================================================================================================================
+    constexpr lispesque_tokenizer(const char * const str) : t(str) {}
+    
+    // =================================================================================================================
+    virtual MATCH_F(token) {
       return strip<
         my any<
           my label<l_paren,     my character<'('>>,
