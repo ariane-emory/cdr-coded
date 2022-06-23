@@ -42,10 +42,13 @@ namespace reseune {
                my primitive_comparison_op,
                my primitive_symbol>;
 
+      constexpr match_f symbol_head =
+        my all<my alpha,
+               my star_alnums>;
+      
       constexpr match_f keyword_head =
         my all<my character<':'>,
-               my alpha,
-               my star_alnums>;
+               symbol_head>;
 
       constexpr match_f keyword_separator = my characters<'-'>;
 
@@ -56,10 +59,6 @@ namespace reseune {
       
       constexpr match_f lispesque_keyword = terminated<keyword_body>;
 
-      constexpr match_f symbol_head =
-        my all<my alpha,
-               my star_alnums>;
-      
       constexpr match_f symbol_separator =
         my any<my characters<'-'>,
                my characters<':'>,
