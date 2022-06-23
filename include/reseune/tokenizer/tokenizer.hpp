@@ -268,6 +268,31 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    template <char C, char... Cs>
+    MATCH_F(word) {
+      // Match C followed by all the Cs in order.
+      START;
+      {
+        constexpr auto MF {my character<C>};
+        MATCH;
+      }
+      MAYBE_RETURN_NO_MATCH;
+      {
+        constexpr auto MF {my word<Cs...>};
+        MATCH;
+      }
+      if (match)
+        RETURN_SPAN;
+      REWIND;
+      RETURN_NO_MATCH;
+    }
+    
+    template <typename... nil>
+    MATCH_F(word) {
+      return EMPTY;
+    }
+
+    // ===================================================================================================================
     template <char C>
     MATCH_F(characters) {
       // Match either one or more Cs;
