@@ -352,8 +352,10 @@ namespace reseune {
     Y(other_comparison_op);
     Y(other_math_op);
     
+#undef X
 #undef Y
-
+#define X(...) my terminated_word<__VA_ARGS__>
+    
     // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
       // Match a set of words that look like reasonable Lisp primitive symbol names.
