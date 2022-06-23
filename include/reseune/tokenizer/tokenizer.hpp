@@ -364,20 +364,27 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    MATCH_F(lispesque_operator) {
+      // Match various operator-like symbols.
+      return any<
+        my with_lispesque_token_terminator<my basic_math_op>,
+        my with_lispesque_token_terminator<my basic_comparison_op>,
+        my other_comparison_op,
+        my increment_decrement_op,
+        my boolean_op>();
+    }
+
+    // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
       constexpr auto HEAD_MF      {my all<my alpha, my star<my alnums>>};
       constexpr auto SEPARATOR_MF {my any<my plus<my character<'-'>>, my plus<my character<':'>>, my plus<my character<'/'>>>};
       constexpr auto TAIL_MF      {my plus<my alnums>};
       constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      
+        
       return with_lispesque_token_terminator<
         my any<
-          my with_lispesque_token_terminator<my basic_math_op>,
-          my with_lispesque_token_terminator<my basic_comparison_op>,
-          my other_comparison_op,
-          my increment_decrement_op,
-          my boolean_op,
+          my lispesque_operator,
           my all<
             SYMBODY,
             my optional<
