@@ -1,4 +1,7 @@
-#undef ABORT
+#undef INCREMENT_DECREMENT_OPS
+#undef OTHER_COMPARISON_OPS
+#undef BOOLEAN_OPS
+
 #undef HERE
 #undef MATCH
 #undef MAYBE_RETURN_MATCH

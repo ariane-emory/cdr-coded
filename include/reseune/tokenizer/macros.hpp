@@ -24,7 +24,6 @@
   X('&', '&'),                                                                  \
     X('|', '|')
 
-
 #define HERE                  (*cursor)
 #define BASIC_MATH_OPS        X('+'), X('-'), X('/'), X('*'), X('%'), X('~'), X('^')
 #define BASIC_COMPARISON_OPS  X('!'), X('='), X('>'), X('<')
