@@ -345,7 +345,9 @@ namespace reseune {
             my star<
               my any_of<
                 my alnum,
-                my character<'-'>>>,
+                my character<'-'>,
+                my character<':'>,
+                my character<'/'>>>,
             my optional<
               my any_of<
                 my character<'!'>,
