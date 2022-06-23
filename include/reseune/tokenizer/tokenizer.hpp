@@ -57,9 +57,11 @@ namespace reseune {
     // Protected types
     // =================================================================================================================
     using char_f   = int (*)(int);
-    using match_f  = tokenizer_span<LABEL_T> (tokenizer::*)();
+    using label_t  = LABEL_T;
+    using span_t   = tokenizer_span<label_t>;
+    using match_f  = span_t (tokenizer::*)();
     using t        = tokenizer;
-
+    
   public:
     
     // ===================================================================================================================

@@ -22,6 +22,13 @@ namespace reseune {
     // Constructors
     // =================================================================================================================
     constexpr lispesque_tokenizer(const char * const str) : base(str) {}
+
+    T_MATCH_F MATCH_F(foof) {
+      return NO_MATCH;
+    }
+
+    // template <match_f MF>
+    // constexpr match_f tokenizer_span<label_t> (t::*boof)() = &foof<MF>;
     
     // =================================================================================================================
     virtual MATCH_F(token) {
