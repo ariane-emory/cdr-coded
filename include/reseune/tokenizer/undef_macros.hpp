@@ -7,9 +7,7 @@
 #undef NO_MATCH
 #undef NUL_HERE
 #undef POS
-// #undef RESTORE
 #undef REWIND
- // #undef SAVE
 #undef SPAN
 #undef START
 #undef RETURN_EMPTY
