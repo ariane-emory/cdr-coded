@@ -27,7 +27,7 @@ namespace reseune {
     virtual MATCH_F(token) {
       // Match many lispesque tokens.
       return strip<
-        bases any<
+        my any<
           bases label<l_paren,     bases character<'('>>,
           bases label<r_paren,     bases with_lispesque_token_terminator<bases character<')'>>>,
           bases label<quote,       bases without_lispesque_token_terminator<bases character<'\''>>>,
