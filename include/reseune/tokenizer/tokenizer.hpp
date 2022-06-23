@@ -379,16 +379,6 @@ namespace reseune {
 #undef X
     
     // =================================================================================================================
-    MATCH_F(lispesque_primitive) {
-      // Match a set of words that look like reasonable Lisp primitive symbol names.
-      return any<
-        my primitive_math_op,
-        my primitive_comparison_op,
-        my primitive_symbol>();
-    }
-
-
-    // =================================================================================================================
     MATCH_F(lispesque_operator) {
       // Match various operator-like symbols.
       return any<

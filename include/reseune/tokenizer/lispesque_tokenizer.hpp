@@ -27,8 +27,13 @@ namespace reseune {
     virtual MATCH_F(token) {
       // Match many lispesque tokens.
 
-      constexpr auto lispesque_primitive{bases label<primitive, bases lispesque_primitive>};
-
+      //constexpr match_f lispesque_prim{bases label<primitive, lispesque_primitive>};
+      constexpr match_f lispesque_primitive{
+        bases any<
+        bases primitive_math_op,
+        bases primitive_comparison_op,
+        bases primitive_symbol>};
+      
       return strip<
         bases any<
           bases label<l_paren,     bases character<'('>>,
