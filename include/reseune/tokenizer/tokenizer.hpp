@@ -384,6 +384,12 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    MATCH_F(lispesque_primitive) {
+      // Match a set of strings that look like reasonable Lisp primitive symbol names.
+      return word<'l','e','t'>();
+    }
+
+    // ===================================================================================================================
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
       constexpr auto HEAD_MF      {my all<my character<':'>, my alpha, my star_alnums>};

@@ -32,6 +32,7 @@ void tokenize() {
     "(++ a)\n"
     "(|| a b)\n"
     "(*= a 8)\n"
+    "(let ((x 7)) x)\n"
   };
 
 #define TOKEN_TYPES                                                             \
