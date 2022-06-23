@@ -342,37 +342,20 @@ namespace reseune {
     }
 
 #define X(...) my terminated_word<__VA_ARGS__>
-
-    // ===================================================================================================================
-    MATCH_F(basic_math_op) {
-      // Match basic math ops.
-      return any<BASIC_MATH_OPS>();
+#define Y(name, list)                                                           \
+    MATCH_F(name) {                                                             \
+      return any<list>();                                                       \
     }
-
+    
     // ===================================================================================================================
-    MATCH_F(basic_comparison_op) {
-      // Match basic comparison ops.
-      return any<BASIC_COMPARISON_OPS>();
-    }
+    Y(basic_math_op, BASIC_MATH_OPS);
+    Y(other_math_op, OTHER_MATH_OPS);
+    Y(basic_comparison_op, BASIC_COMPARISON_OPS);
+    Y(increment_decrement_op, INCREMENT_DECREMENT_OPS);
+    Y(other_comparison_op, OTHER_COMPARISON_OPS);
+    Y(boolean_op, BOOLEAN_OPS);
 
-    // ===================================================================================================================
-    MATCH_F(increment_decrement_op) {
-      // Match some other comparison ops.
-      return any<INCREMENT_DECREMENT_OPS>();
-    }
-
-    // ===================================================================================================================
-    MATCH_F(other_comparison_op) {
-      // Match some other comparison ops.
-      return any<OTHER_COMPARISON_OPS>();
-    }
-
-    // ===================================================================================================================
-    MATCH_F(boolean_op) {
-      // Match some other some boolean ops.
-      return any<BOOLEAN_OPS>();
-    }
-
+#undef Y
 #undef X
 
     // ===================================================================================================================
@@ -380,6 +363,7 @@ namespace reseune {
       // Match various operator-like symbols.
       return any<
         my boolean_op,
+        my other_math_op,
         my other_comparison_op,
         my increment_decrement_op>();
     }

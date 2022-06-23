@@ -27,10 +27,12 @@
   X('&', '&'),                                                                  \
     X('|', '|')
 
+#define BASIC_MATH_OPS        X('+'), X('-'), X('/'), X('*')
+#define OTHER_MATH_OPS        X('%'), X('~'), X('^'), X('&')
+#define BASIC_COMPARISON_OPS  X('!'), X('='), X('>'), X('<')
+
 #define EMPTY                 (span_type{POS, POS})
 #define HERE                  (*cursor)
-#define BASIC_MATH_OPS        X('+'), X('-'), X('/'), X('*'), X('%'), X('~'), X('^'), X('&')
-#define BASIC_COMPARISON_OPS  X('!'), X('='), X('>'), X('<')
 #define MATCH                 CALL_MATCH_F(MF)
 #define MAYBE_RETURN_MATCH    if (match) RETURN_MATCH
 #define MAYBE_RETURN_NO_MATCH if (!match) RETURN_NO_MATCH
