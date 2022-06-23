@@ -129,7 +129,7 @@ namespace reseune {
 
     // =============================================================================================================
     T_MATCH_F MATCH_F(ignore) {
-      // Match against MF and ignore the result.
+      // Match against MF and ignore the result by returning empty.
       START;
       MATCH;
       RETURN_EMPTY;
