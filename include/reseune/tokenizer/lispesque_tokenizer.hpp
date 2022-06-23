@@ -32,21 +32,21 @@ namespace reseune {
                my primitive_comparison_op,
                my primitive_symbol>;
 
-      constexpr match_f head_mf =
+      constexpr match_f kw_head_mf =
         my all<my character<':'>,
                my alpha,
                my star_alnums>;
 
       constexpr match_f kw_separator_mf   = my characters<'-'>;
-      constexpr match_f sym_body          = my intercalate<head_mf, kw_separator_mf, my alnums>;
+      constexpr match_f sym_body          = my intercalate<kw_head_mf, kw_separator_mf, my alnums>;
       constexpr match_f lispesque_keyword = my with_lispesque_token_terminator<sym_body>;
 
-      constexpr match_f HEAD_MF = my all<my alpha, my star_alnums>;
-      constexpr match_f SEPARATOR_MF = my any<my characters<'-'>, my characters<':'>, my characters<'/'>>;
-      constexpr match_f TAIL_MF = my alnums;
-      constexpr match_f SYMBODY = my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>;
-      constexpr match_f TRAILER = my optional<my character<'!','?'>>;
-      constexpr match_f lispesque_symbol = my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>;
+      constexpr match_f head_mf = my all<my alpha, my star_alnums>;
+      constexpr match_f separator_mf = my any<my characters<'-'>, my characters<':'>, my characters<'/'>>;
+      constexpr match_f tail_mf = my alnums;
+      constexpr match_f symbody = my intercalate<head_mf, separator_mf, tail_mf>;
+      constexpr match_f trailer = my optional<my character<'!','?'>>;
+      constexpr match_f lispesque_symbol = my with_lispesque_token_terminator<my any<my lispesque_operator, my all<symbody, trailer>>>;
 
       return strip<
         my any<
