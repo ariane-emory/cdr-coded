@@ -61,7 +61,7 @@ void tokenize() {
       read any_of<
         read label<quote,   read without_lispesque_token_terminator<read character<'\''>>>,
         read label<l_paren, read character<'('>>,
-        read label<r_paren, read character<')'>>,
+        read label<r_paren, read with_lispesque_token_terminator<read character<')'>>>,
         read label<integer, read with_lispesque_token_terminator<read integer>>,
         read label<symbol,  read lispesque_identifier>>>();
     if (token)
