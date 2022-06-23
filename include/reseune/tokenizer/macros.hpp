@@ -27,6 +27,7 @@
     X('l','a','m','b','d','a'),                                                 \
     X('l','i','s','t','?'),                                                     \
     X('p','r','i','n','t'),                                                     \
+    X('p','r','o','g','n'),                                                     \
     X('r','e','t','u','r','n')
 #define increment_decrement_ops                                                 \
   X('+', '+'),                                                                  \
