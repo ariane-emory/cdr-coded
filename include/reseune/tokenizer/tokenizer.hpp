@@ -11,7 +11,83 @@
 
 // =====================================================================================================================
 namespace reseune {
+
+  // ===================================================================================================================
+  // Span struct
+  // ===================================================================================================================
+  template <typename LABEL_T>
+  struct span {
+    const char * begin;
+    const char * end;
+    bool         matched;
+    LABEL_T      label;
+
+    // =================================================================================================================
+    // Constructors
+    // =================================================================================================================
+    constexpr span(
+      const char * bb = nullptr,
+      const char * ee = nullptr,
+      bool         mm = true,
+      LABEL_T      ll = static_cast<LABEL_T>(0)) :
+      begin(bb), end(ee), matched(mm), label(ll) {}
+      
+    // =================================================================================================================
+    // Member functions
+    // =================================================================================================================
+    constexpr size_t length() const {
+      // Return the length of the span.
+      return end - begin;
+    }
+
+    // =================================================================================================================
+    constexpr bool empty() const {
+      // True iff the span's length is 0.
+      return 0 == length();
+    }
+
+    // =================================================================================================================
+    constexpr bool no_match() const {
+      // True iff the span's beginning and end are both nullptr.
+      return ! matched;
+    }
+
+    // =================================================================================================================
+    constexpr char * c_str() const {
+      // Return a *NEW* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
+      return create_new_c_str(*this);
+    }
+      
+    // =================================================================================================================
+    constexpr operator bool() const {
+      // True iff the span is not empty.
+      return ! no_match();
+    }
+
+  private: 
+
+    // ===================================================================================================================
+    // Static functions
+    // ===================================================================================================================
+    constexpr static char * create_new_c_str(span const & tok) {
+      // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
+
+      if (tok.empty()) return nullptr;
   
+      const size_t siz  {(tok.length() + 1) * sizeof(char)};
+      char * const word {static_cast<char *>(malloc(siz))};
+
+      memcpy(word, tok.begin, siz);
+
+      word[tok.length()] = 0;
+
+      return word;
+    }
+
+    // =================================================================================================================
+  };
+
+
   // ===================================================================================================================
   // tokenizer class
   // ===================================================================================================================
@@ -25,10 +101,11 @@ namespace reseune {
     constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(false) {}
     
     // =================================================================================================================
-    // Forward declarations
+    // Public types
     // =================================================================================================================
-    struct span;
     
+    using span_t   = span<LABEL_T>;
+
   private:
     c_str_cursor cursor;
     
@@ -53,10 +130,10 @@ namespace reseune {
     }
     
     // =================================================================================================================
-    // Types
+    // Private types
     // =================================================================================================================
     using char_f   = int (*)(int);
-    using match_f  = span (tokenizer::*)();
+    using match_f  = span<LABEL_T> (tokenizer::*)();
     using t        = tokenizer;
 
   public:
@@ -358,80 +435,6 @@ namespace reseune {
       return 0 == fun(c) ? 1 : 0;
     }
      
-    // ===================================================================================================================
-    // Span struct
-    // ===================================================================================================================
-    struct span {
-      const char * begin;
-      const char * end;
-      bool         matched;
-      LABEL_T      label;
-
-      // =================================================================================================================
-      // Constructors
-      // =================================================================================================================
-      constexpr span(
-        const char * bb = nullptr,
-        const char * ee = nullptr,
-        bool         mm = true,
-        LABEL_T      ll = static_cast<LABEL_T>(0)) :
-        begin(bb), end(ee), matched(mm), label(ll) {}
-      
-      // =================================================================================================================
-      // Member functions
-      // =================================================================================================================
-      constexpr size_t length() const {
-        // Return the length of the span.
-        return end - begin;
-      }
-
-      // =================================================================================================================
-      constexpr bool empty() const {
-        // True iff the span's length is 0.
-        return 0 == length();
-      }
-
-      // =================================================================================================================
-      constexpr bool no_match() const {
-        // True iff the span's beginning and end are both nullptr.
-        return ! matched;
-      }
-
-      // =================================================================================================================
-      constexpr char * c_str() const {
-        // Return a *NEW* C string containing the string that matched. THE CALLER OWNS THE RETURNED C STRING!
-        return create_new_c_str(*this);
-      }
-      
-      // =================================================================================================================
-      constexpr operator bool() const {
-        // True iff the span is not empty.
-        return ! no_match();
-      }
-
-      // =================================================================================================================
-    };
-
-  private: 
-
-    // ===================================================================================================================
-    // Static functions
-    // ===================================================================================================================
-    constexpr static char * create_new_c_str(span const & tok) {
-      // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
-
-      if (tok.empty()) return nullptr;
-  
-      const size_t siz  {(tok.length() + 1) * sizeof(char)};
-      char * const word {static_cast<char *>(malloc(siz))};
-
-      memcpy(word, tok.begin, siz);
-
-      word[tok.length()] = 0;
-
-      return word;
-    }
-
     // ===================================================================================================================
   };
   // =====================================================================================================================

@@ -47,12 +47,12 @@ void tokenize() {
   const char * const token_type_strings[] { TOKEN_TYPES };
 #undef X
 
-  using t = reseune::tokenizer<token_type>;
-  t         tokenizer{input};
-  t::span   token{};
-  size_t    token_num{1};
+  using t =  reseune::tokenizer<token_type>;
+  t          tokenizer{input};
+  t::span_t  token{};
+  size_t     token_num{1};
   
-  #define my &t::
+#define my &t::
   
   do {
     token = tokenizer.strip<
