@@ -349,6 +349,8 @@ namespace reseune {
             my optional<
               my any_of<
                 my character<'!'>,
+                my character<':'>,
+                my character<'/'>,
                 my character<'?'>>>>>>();
     }
 
