@@ -29,8 +29,8 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    BASES_T_MATCH_F(terminated)   = my with_lispesque_token_terminator<MF>;
-    BASES_T_MATCH_F(unterminated) = my without_lispesque_token_terminator<MF>;
+    BASES_T_MATCH_F(terminated)   = my all<MF, my followed_by<my lispesque_token_terminator>>;
+    BASES_T_MATCH_F(unterminated) = my all<MF, my not_followed_by<my lispesque_token_terminator>>;
 
     // =================================================================================================================
     // Grammar rules.
