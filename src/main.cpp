@@ -27,7 +27,7 @@ void tokenize() {
     "(setq-default mode nil))\n"
     "(nil? var)\n"
     "(set! var -2)\n"
-    "'x:alpha/bang\n"
+    "'(x:alpha/bang! 1)\n"
     "(++ a)\n"
     "(*= a 8)\n"
     "(|| a b)\n"
