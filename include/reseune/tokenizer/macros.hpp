@@ -26,7 +26,7 @@
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
-#define T_2_MATCH_F           template <match_f LEFT_MF, match_f RIGHT_MF>
+// #define T_2_MATCH_F           template <match_f LEFT_MF, match_f RIGHT_MF>
 
 #define CALL_MATCH_F(match_f) {indentation += 2; match = (this->*match_f)(); indentation -= 2;}
 #define MARK(name)            const char * const name{POS}; std::ignore = name

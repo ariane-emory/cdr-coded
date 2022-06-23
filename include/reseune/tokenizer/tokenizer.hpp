@@ -168,18 +168,18 @@ namespace reseune {
           &t::lispesque_token_terminator>>();
     }
     
-    // =============================================================================================================
-    T_2_MATCH_F MATCH_F(both_of) {
-      // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
-      START;
-      CALL_MATCH_F(LEFT_MF);
-      MAYBE_RETURN_NO_MATCH;
-      CALL_MATCH_F(RIGHT_MF);
-      if (match)
-        RETURN_SPAN;
-      REWIND;
-      RETURN_NO_MATCH;
-    }
+    // // =============================================================================================================
+    // T_2_MATCH_F MATCH_F(both_of) {
+    //   // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
+    //   START;
+    //   CALL_MATCH_F(LEFT_MF);
+    //   MAYBE_RETURN_NO_MATCH;
+    //   CALL_MATCH_F(RIGHT_MF);
+    //   if (match)
+    //     RETURN_SPAN;
+    //   REWIND;
+    //   RETURN_NO_MATCH;
+    // }
 
     // =============================================================================================================
     T_CHAR_F MATCH_F(character_f) {
@@ -331,7 +331,7 @@ namespace reseune {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
       // legal in #C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
-      return both_of<
+      return all_of<
         &t::any_of<
           &t::character<'_'>,
           &t::alpha>,

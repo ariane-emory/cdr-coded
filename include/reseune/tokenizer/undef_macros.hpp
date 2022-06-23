@@ -19,7 +19,7 @@
 
 #undef T_CHAR_F
 #undef T_MATCH_F
-#undef T_2_MATCH_F
+// #undef T_2_MATCH_F
 
 #undef CALL_MATCH_F
 #undef MARK
