@@ -4,7 +4,7 @@
 #include "tokenizer.hpp"
 
 #define bases &base::
-#define BASES_T_MATCH_F(name, T) T_MATCH_F static constexpr span_t(base::*name)() = my T
+#define BASES_T_MATCH_F(name) T_MATCH_F static constexpr span_t(base::*name)()
 #define rule static constexpr match_f
 
 #include "macros.hpp" // include last!
@@ -29,8 +29,8 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    BASES_T_MATCH_F(terminated,   with_lispesque_token_terminator<MF>);
-    BASES_T_MATCH_F(unterminated, without_lispesque_token_terminator<MF>);
+    BASES_T_MATCH_F(terminated)   = my with_lispesque_token_terminator<MF>;
+    BASES_T_MATCH_F(unterminated) = my without_lispesque_token_terminator<MF>;
 
     // =================================================================================================================
     // Grammar rules.
