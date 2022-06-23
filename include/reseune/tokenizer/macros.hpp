@@ -14,7 +14,7 @@
 #define NO_MATCH              (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
 #define POS                   (pos())
-#define REWIND                (m_position = start)
+#define REWIND                (set_pos(start))
 #define SPAN                  span{start, POS}
 #define START                 log("%s: Enter.", __FUNCTION__); MARK(start); span match{NO_MATCH};
 #define RETURN_MATCH          {log("%s: Returning match after moving %zu.", __FUNCTION__, POS - start);  return match;}

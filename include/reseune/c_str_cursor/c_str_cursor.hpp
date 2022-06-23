@@ -37,6 +37,12 @@ namespace reseune {
     }
     
     // =============================================================================================================
+    constexpr const char * set_pos(const char * pos) {
+      // Should check if pos is between begin and end!
+      return (m_position = pos);
+    }
+    
+    // =============================================================================================================
     constexpr char operator * () const {
       return *m_position;
     }
