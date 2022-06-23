@@ -41,11 +41,11 @@ void tokenize() {
   };
 #undef X
 
-// #define X(name) #name
-//   char * token_type_strings {
-//     TOKEN_TYPES
-//   };
-// #undef X
+#define X(name) static_cast<const char *>(#name),
+  const char * token_type_strings[] = {
+    TOKEN_TYPES
+   };
+#undef X
 
   using t = reseune::tokenizer<token_type>;
   t         tokenizer{input};
@@ -63,7 +63,8 @@ void tokenize() {
         read label<integer, read integer>,
         read label<symbol,  read lispesque_identifier>>>();
     if (token)
-      printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
+      // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
+      printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
   } while (token);
 }
 
