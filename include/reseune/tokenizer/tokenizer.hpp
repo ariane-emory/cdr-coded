@@ -253,14 +253,21 @@ namespace reseune {
     }
 
     // ===================================================================================================================
-    template <char C>
+    template <char C, char... Cs>
     MATCH_F(character) {
       // Match a particular character C.
       START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
       constexpr auto mf {my character_f<ischar<C>>};
       CALL_MATCH_F(mf);
-      RETURN_MATCH;
+      MAYBE_RETURN_MATCH;
+      return character<Cs...>();
+    }
+
+    template <typename... nil>
+    MATCH_F(character) {
+      START;
+      RETURN_NO_MATCH;
     }
 
     // ===================================================================================================================
@@ -297,9 +304,7 @@ namespace reseune {
       // Match any integer (with or without leading zeroes).
       return all<
         my optional<
-          my any<
-            my character<'-'>,
-            my character<'+'>>>,
+          my character<'-', '+'>>,
         my digits>();
     }
 
