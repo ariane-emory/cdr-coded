@@ -336,7 +336,7 @@ namespace reseune {
       return with_lispesque_token_terminator<
         my any_of<
           my with_lispesque_token_terminator<my basic_math_op>,
-          my basic_comparison_op,
+          my with_lispesque_token_terminator<my basic_comparison_op>,
           my other_comparison_op,
           my increment_decrement_op,
           my boolean_op,
