@@ -27,23 +27,21 @@ namespace reseune {
     virtual MATCH_F(token) {
       // Match many lispesque tokens.
 
-      //constexpr match_f lispesque_prim{bases label<primitive, lispesque_primitive>};
-      constexpr match_f lispesque_primitive{
-        bases any<
-        bases primitive_math_op,
-        bases primitive_comparison_op,
-        bases primitive_symbol>};
+      constexpr match_f lispesque_primitive{my any<
+        my primitive_math_op,
+        my primitive_comparison_op,
+        my primitive_symbol
+        >};
       
       return strip<
-        bases any<
-          bases label<l_paren,     bases character<'('>>,
-          bases label<r_paren,     bases with_lispesque_token_terminator<bases character<')'>>>,
-          bases label<quote,       bases without_lispesque_token_terminator<bases character<'\''>>>,
-          bases label<tt::integer, bases with_lispesque_token_terminator<bases integer>>,
-          bases label<primitive,   lispesque_primitive>,
-          bases label<keyword,     bases lispesque_keyword>,
-          bases label<symbol,      bases lispesque_symbol>>>();
-
+        my any<
+          my label<l_paren,     my character<'('>>,
+          my label<r_paren,     my with_lispesque_token_terminator<my character<')'>>>,
+          my label<quote,       my without_lispesque_token_terminator<my character<'\''>>>,
+          my label<tt::integer, my with_lispesque_token_terminator<my integer>>,
+          my label<primitive,   lispesque_primitive>,
+          my label<keyword,     my lispesque_keyword>,
+          my label<symbol,      my lispesque_symbol>>>();
     }
     // =================================================================================================================
   };
