@@ -1,11 +1,11 @@
+#undef boolean_ops
 #undef increment_decrement_ops
 #undef other_comparison_ops
-#undef boolean_ops
-#undef primitive_math_ops
 #undef other_math_ops
 #undef primitive_comparison_ops
+#undef primitive_math_ops
 #undef primitive_symbols
-  
+
 #undef EMPTY
 #undef HERE
 #undef MATCH
