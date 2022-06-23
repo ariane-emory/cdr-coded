@@ -12,13 +12,14 @@ namespace reseune {
   // Lispesque tokenizer class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
-    using tt = lispesque_token_type;
-    using t  = tokenizer<tt>;
+    using tt   = lispesque_token_type;
+    using base = tokenizer<tt>;
+    using t    = lispesque_tokenizer;
 
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr lispesque_tokenizer(const char * const str) : t(str) {}
+    constexpr lispesque_tokenizer(const char * const str) : base(str) {}
     
     // =================================================================================================================
     virtual MATCH_F(token) {
