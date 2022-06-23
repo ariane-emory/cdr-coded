@@ -356,7 +356,8 @@ namespace reseune {
       constexpr auto HEAD_MF      {my all<my character<':'>, my alpha, my star<my alnums>>};
       constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
       constexpr auto TAIL_MF      {my plus<my alnums>};
-      constexpr auto MF           {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
+      constexpr auto SYM_BODY     {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
+      constexpr auto MF           {my with_lispesque_token_terminator<SYM_BODY>};
 
       START;
       MATCH;
