@@ -312,29 +312,19 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
       // Match some other comparison ops.
-      return any_of<
-        my all_of<my character<'+'>,my character<'+'>>,
-        my all_of<my character<'-'>,my character<'-'>>,
-        my all_of<my character<'+'>,my character<'='>>,
-        my all_of<my character<'-'>,my character<'='>>,
-        my all_of<my character<'*'>,my character<'='>>,
-        my all_of<my character<'/'>,my character<'='>>>();
+      return any_of<INCREMENT_DECREMENT_OPS>();
     }
 
     // ===================================================================================================================
     MATCH_F(other_comparison_op) {
       // Match some other comparison ops.
-      return any_of<
-        OTHER_COMPARISON_OPS
-        >();
+      return any_of<OTHER_COMPARISON_OPS>();
     }
 
     // ===================================================================================================================
     MATCH_F(boolean_op) {
       // Match some other some boolean ops.
-      return any_of<
-        BOOLEAN_OPS
-        >();
+      return any_of<BOOLEAN_OPS>();
     }
 #undef X
     // ===================================================================================================================
