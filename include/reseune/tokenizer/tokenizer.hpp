@@ -321,6 +321,15 @@ namespace reseune {
     // Convenience match functions
     // =================================================================================================================
     MATCH_F(lispesque_token_terminator) {
+      // Match tokens that signal the end of a lispesque token.
+      return any<
+        my whitespace,
+        my character<')'>>();
+    }
+    
+    // =================================================================================================================
+    MATCH_F(token) {
+      // Default implementation returns NO_MATCH but descemdent classes may override.
       return any<
         my whitespace,
         my character<')'>>();
@@ -455,20 +464,21 @@ namespace reseune {
   // Lispesque tokenizer class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
-    using t        = tokenizer<lispesque_token_type>;
+    using tt =  lispesque_token_type;
+    using t  = tokenizer<tt>;
 
     MATCH_F(token) {
       return strip<
         my any<
-          my label<l_paren, my character<'('>>,
-          my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
-          my label<symbol,   my lispesque_identifier>
+          my label<l_paren,     my character<'('>>,
+          my label<r_paren,     my with_lispesque_token_terminator<my character<')'>>>,
+          my label<quote,       my without_lispesque_token_terminator<my character<'\''>>>,
+          my label<tt::integer, my with_lispesque_token_terminator<my integer>>,
+          my label<primitive,   my lispesque_primitive>,
+          my label<keyword,     my lispesque_keyword>,
+          my label<symbol,      my lispesque_identifier>
           >>();
 
-      //     my label<quote,     my without_lispesque_token_terminator<my character<'\''>>>,
-      //     my label<integer,   my with_lispesque_token_terminator<my integer>>,
-      //     my label<primitive, my lispesque_primitive>,
-      //     my label<keyword,   my lispesque_keyword>,
     }
   };
   // ===================================================================================================================
