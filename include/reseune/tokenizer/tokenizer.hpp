@@ -354,11 +354,7 @@ namespace reseune {
           my star<
             my all<
               SEPARATOR_MF,
-              TAIL_MF>>,
-          my optional<
-            my any<
-              my character<'!'>,
-              my character<'?'>>>>>();
+              TAIL_MF>>>>();
     }
 
     // ===================================================================================================================
