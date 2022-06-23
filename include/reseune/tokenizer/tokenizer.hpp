@@ -317,7 +317,8 @@ namespace reseune {
     MATCH_F(lispesque_token_terminator) {
       return any_of<
         &t::whitespace,
-        &t::character<')'>>();
+        &t::character<')'>,
+        &t::character<'\n'>>();
     }
     
     // =============================================================================================================    
