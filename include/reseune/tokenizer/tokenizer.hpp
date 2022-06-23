@@ -119,7 +119,8 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(negate) {
       // Match against MF and if it returns a match, rewind and return NO_MATCH, otherwise return empty.
-      START;      MATCH;
+      START;
+      MATCH;
       unless (match)
         RETURN_EMPTY;
       RETURN_NO_MATCH;
