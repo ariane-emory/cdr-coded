@@ -66,7 +66,7 @@ namespace reseune {
     // ===========================================================================================================
     // Constructors
     // ===========================================================================================================
-    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(false) {}
+    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(true) {}
     
     // ===========================================================================================================
     // Forward declarations
