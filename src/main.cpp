@@ -42,7 +42,7 @@ void tokenize() {
 #undef X
 
 #define X(name) #name,
-  const char * token_type_strings[] = {
+  const char * const token_type_strings[] = {
     TOKEN_TYPES
    };
 #undef X
