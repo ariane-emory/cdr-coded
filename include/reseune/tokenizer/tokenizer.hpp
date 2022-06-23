@@ -378,12 +378,7 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_operator) {
       // Match various operator-like symbols.
-      return any<
-        my basic_math_op,
-        my basic_comparison_op,
-        my other_comparison_op,
-        my increment_decrement_op,
-        my boolean_op>();
+      return any<my increment_decrement_op>();
     }
 
     // ===================================================================================================================
@@ -392,30 +387,36 @@ namespace reseune {
       return any<
         my basic_math_op,
         my basic_comparison_op,
-        my other_comparison_op,
-        my increment_decrement_op,
-        my boolean_op>();
+        // my boolean_op,
+        my other_comparison_op>();
     }
 
     // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
       // Match a set of strings that look like reasonable Lisp primitive symbol names.
       return any<
-        my terminated_word<'l','e','t'>,
-        my terminated_word<'l','a','m','b','d','a'>,
-        my terminated_word<'d','e','f','i','n','e'>,
+        my lispesque_primitive_operator,
+        my terminated_word<'t'>,
+        my terminated_word<'i','f'>,
+        my terminated_word<'o','r'>,
+        my terminated_word<'a','n','d'>,
         my terminated_word<'c','a','r'>,        
         my terminated_word<'c','d','r'>,
-        my terminated_word<'c','o','n','s'>,
-        my terminated_word<'p','r','i','n','t'>,
-        my terminated_word<'a','t','o','m','?'>,
+        my terminated_word<'l','e','t'>,
         my terminated_word<'n','i','l'>,
-        my terminated_word<'n','i','l','?'>,
-        my terminated_word<'l','i','s','t'>,
-        my terminated_word<'l','i','s','t','?'>,
+        my terminated_word<'n','o','t'>,
+        my terminated_word<'c','o','n','s'>,
         my terminated_word<'e','q','l','?'>,
+        my terminated_word<'e','x','i','t'>,
+        my terminated_word<'l','i','s','t'>,
+        my terminated_word<'n','i','l','?'>,
         my terminated_word<'s','e','t','!'>,
-        my terminated_word<'t'>
+        my terminated_word<'a','t','o','m','?'>,
+        my terminated_word<'d','e','f','i','n','e'>,
+        my terminated_word<'l','a','m','b','d','a'>,
+        my terminated_word<'l','i','s','t','?'>,
+        my terminated_word<'p','r','i','n','t'>,
+        my terminated_word<'r','e','t','u','r','n'>
         >();
     }
 
