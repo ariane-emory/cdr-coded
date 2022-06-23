@@ -402,23 +402,23 @@ namespace reseune {
     // ===================================================================================================================
     // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
     // ===================================================================================================================
-    FROM_C_CHAR_F(alnum,          isalnum);
-    FROM_C_CHAR_F(alpha,          isalpha);
-    FROM_C_CHAR_F(digit,          isdigit);
-    FROM_C_CHAR_F(xdigit,         isxdigit);
-    FROM_C_CHAR_F(whitespace,     iswhitespace);
-    FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
+      FROM_C_CHAR_F(alnum,          isalnum);
+      FROM_C_CHAR_F(alpha,          isalpha);
+      FROM_C_CHAR_F(digit,          isdigit);
+      FROM_C_CHAR_F(xdigit,         isxdigit);
+      FROM_C_CHAR_F(whitespace,     iswhitespace);
+      FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
-    // ===================================================================================================================
-    // Character predicate helper static functions
-    // ===================================================================================================================
-    template <int (*fun)(int)>
-    constexpr static int negate(int c) {
-      // Make a negated version of a C-style character predicate function.
-      return 0 == fun(c) ? 1 : 0;
-    }
+      // ===================================================================================================================
+      // Character predicate helper static functions
+      // ===================================================================================================================
+      template <int (*fun)(int)>
+        constexpr static int negate(int c) {
+        // Make a negated version of a C-style character predicate function.
+        return 0 == fun(c) ? 1 : 0;
+      }
      
-    // ===================================================================================================================
+      // ===================================================================================================================
   };
   // =====================================================================================================================
 }
