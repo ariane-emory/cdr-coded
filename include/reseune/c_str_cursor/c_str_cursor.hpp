@@ -16,28 +16,28 @@ namespace reseune {
   public:
   
     // =============================================================================================================
-    constexpr inline c_str_cursor(const char * const str) :
+    inline constexpr c_str_cursor(const char * const str) :
       m_begin(str),
       m_end(&m_begin[strlen(str)]),
       m_position(m_begin) {}
 
     // =============================================================================================================
-    constexpr const char * begin() const {
+    inline constexpr const char * begin() const {
       return m_begin;
     }
 
     // =============================================================================================================
-    constexpr const char * end() const {
+    inline constexpr const char * end() const {
       return m_end;
     }
     
     // =============================================================================================================
-    constexpr const char * pos() const {
+    inline constexpr const char * pos() const {
       return m_position;
     }
     
     // =============================================================================================================
-    constexpr const char * set_pos(const char * pos) {
+    inline constexpr const char * set_pos(const char * pos) {
       if ((pos >= begin())
           && (pos < end()))
         return (m_position = pos);
@@ -45,7 +45,7 @@ namespace reseune {
     }
     
     // =============================================================================================================
-    constexpr char operator * () const {
+    inline constexpr char operator * () const {
       return *m_position;
     }
     
