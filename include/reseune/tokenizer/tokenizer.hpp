@@ -328,7 +328,7 @@ namespace reseune {
     }
     
     // =================================================================================================================
-    MATCH_F(token) {
+    virtual MATCH_F(token) {
       // Default implementation returns NO_MATCH but descemdent classes may override.
       return any<
         my whitespace,
