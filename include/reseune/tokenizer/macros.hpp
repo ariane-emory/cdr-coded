@@ -4,17 +4,17 @@
 // =====================================================================================================================
 // Macros
 // =====================================================================================================================
-#define HERE                  (**this)
+#define HERE                  (*cursor)
 #define MATH_OPS              X('+'), X('-'), X('/'), X('*'), X('%')      
 #define MATCH                 CALL_MATCH_F(MF)
 #define MAYBE_RETURN_MATCH    if (match) RETURN_MATCH
 #define MAYBE_RETURN_NO_MATCH if (!match) RETURN_NO_MATCH
 #define my                    &t::
-#define NEXT                  ((*this)++)
+#define NEXT                  ((cursor)++)
 #define NO_MATCH              (span{nullptr, nullptr, false})
 #define NUL_HERE              (0 == HERE)
-#define POS                   (pos())
-#define REWIND                (set_pos(start))
+#define POS                   (cursor.pos())
+#define REWIND                (cursor.set_pos(start))
 #define SPAN                  span{start, POS}
 #define START                 log("%s: Enter.", __FUNCTION__); MARK(start); span match{NO_MATCH};
 #define RETURN_MATCH          {log("%s: Returning match after moving %zu.", __FUNCTION__, POS - start);  return match;}

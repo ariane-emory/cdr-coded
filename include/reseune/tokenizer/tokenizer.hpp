@@ -16,13 +16,13 @@ namespace reseune {
   // tokenizer class
   // ===================================================================================================================
   template <typename LABEL_T>
-  class tokenizer : public c_str_cursor {
+  class tokenizer {
   public:
 
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(false) {}
+    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(false) {}
     
     // =================================================================================================================
     // Forward declarations
@@ -30,9 +30,11 @@ namespace reseune {
     struct span;
     
   private:
+    c_str_cursor cursor;
+    
     // These are both only used by the log method below for debug output:
-    size_t indentation;
-    bool   verbose;
+    size_t       indentation;
+    bool         verbose;
 
     // =================================================================================================================
     // Debug logging helper functions
