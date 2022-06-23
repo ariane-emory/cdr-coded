@@ -353,7 +353,6 @@ namespace reseune {
     Y(other_math_op);
     
 #undef Y
-#undef X
 
     // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
@@ -361,29 +360,11 @@ namespace reseune {
       return any<
         my primitive_math_op,
         my primitive_comparison_op,
-        my terminated_word<'t'>,
-        my terminated_word<'i','f'>,
-        my terminated_word<'o','r'>,
-        my terminated_word<'a','n','d'>,
-        my terminated_word<'c','a','r'>,        
-        my terminated_word<'c','d','r'>,
-        my terminated_word<'l','e','t'>,
-        my terminated_word<'n','i','l'>,
-        my terminated_word<'n','o','t'>,
-        my terminated_word<'c','o','n','s'>,
-        my terminated_word<'e','q','l','?'>,
-        my terminated_word<'e','x','i','t'>,
-        my terminated_word<'l','i','s','t'>,
-        my terminated_word<'n','i','l','?'>,
-        my terminated_word<'s','e','t','!'>,
-        my terminated_word<'a','t','o','m','?'>,
-        my terminated_word<'d','e','f','i','n','e'>,
-        my terminated_word<'l','a','m','b','d','a'>,
-        my terminated_word<'l','i','s','t','?'>,
-        my terminated_word<'p','r','i','n','t'>,
-        my terminated_word<'r','e','t','u','r','n'>
+        primitive_symbols
         >();
     }
+
+#undef X
 
     // ===================================================================================================================
     MATCH_F(lispesque_operator) {

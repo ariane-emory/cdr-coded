@@ -4,7 +4,8 @@
 #undef primitive_math_ops
 #undef other_math_ops
 #undef primitive_comparison_ops
-
+#undef primitive_symbols
+  
 #undef EMPTY
 #undef HERE
 #undef MATCH
