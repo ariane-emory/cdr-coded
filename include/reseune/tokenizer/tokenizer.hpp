@@ -417,7 +417,7 @@ namespace reseune {
     // ===================================================================================================================
     // Static functions
     // ===================================================================================================================
-    constexpr static inline char * create_new_c_str(span const & tok) {
+    constexpr static char * create_new_c_str(span const & tok) {
       // Create a *new* C string from a span. THE CALLER OWNS THE RETURNED C STRING!
 
       if (tok.empty()) return nullptr;
