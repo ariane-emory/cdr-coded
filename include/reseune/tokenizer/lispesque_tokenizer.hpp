@@ -29,6 +29,9 @@ namespace reseune {
 
     // template <match_f MF>
     // constexpr match_f tokenizer_span<label_t> (t::*boof)() = &foof<MF>;
+
+    template <match_f MF>
+    static constexpr span_t(*boof)() = &foof<MF>;
     
     // =================================================================================================================
     virtual MATCH_F(token) {
