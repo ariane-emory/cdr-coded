@@ -36,7 +36,7 @@ void tokenize() {
   };
 
   using namespace    reseune; 
-  using t          = tokenizer<lispesque_token_type>;
+  using t          = lispesque_tokenizer;
   t                  tokenizer{input};
   t::span_type       token{};
   size_t             token_num{1};
