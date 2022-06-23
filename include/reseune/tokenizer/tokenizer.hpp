@@ -359,7 +359,6 @@ namespace reseune {
           my increment_decrement_op,
           my boolean_op,
           my all_of<
-            my optional<my character<':'>>,
             my alpha,
             my star<my alnums>,
             my star<
