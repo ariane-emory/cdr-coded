@@ -377,7 +377,7 @@ namespace reseune {
       constexpr auto SEPARATOR_MF {my any<my plus<my character<'-'>>, my plus<my character<':'>>, my plus<my character<'/'>>>};
       constexpr auto TAIL_MF      {my plus<my alnums>};
       constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
-      constexpr auto TRAILER      {my optional<my any<my character<'!'>, my character<'?'>>>};
+      constexpr auto TRAILER      {my optional<my character<'!','?'>>};
       constexpr auto MF           {my with_lispesque_token_terminator<my any<my lispesque_operator, my all<SYMBODY, TRAILER>>>};
       START;
       MATCH;
