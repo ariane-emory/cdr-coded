@@ -55,10 +55,18 @@ namespace reseune {
                my characters<':'>,
                my characters<'/'>>;
       
-      constexpr match_f symbody = my intercalate<symbol_head, symbol_separator, my alnums>;
-      constexpr match_f trailer = my optional<my character<'!','?'>>;
-      constexpr match_f lispesque_symbol = my with_lispesque_token_terminator<my any<my lispesque_operator, my all<symbody, trailer>>>;
-
+      constexpr match_f symbol_body =
+        my intercalate<symbol_head,
+                       symbol_separator,
+                       my alnums>;
+      
+      constexpr match_f symbol_trailer = my optional<my character<'!','?'>>;
+      
+      constexpr match_f lispesque_symbol =
+        my with_lispesque_token_terminator<
+          my any<my lispesque_operator,
+                 my all<symbol_body, symbol_trailer>>>;
+      
       return strip<
         my any<
           my label<l_paren,     my character<'('>>,
