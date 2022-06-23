@@ -78,7 +78,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      constexpr auto mf {my all_of<MF, my star<MF>>};
+      constexpr auto mf {my all<MF, my star<MF>>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -156,7 +156,7 @@ namespace reseune {
 
     // ===================================================================================================================
     T_MATCH_F MATCH_F(with_lispesque_token_terminator) {
-      return all_of<
+      return all<
         MF,
         my followed_by<
           my lispesque_token_terminator>>();
@@ -164,7 +164,7 @@ namespace reseune {
     
     // ===================================================================================================================
     T_MATCH_F MATCH_F(without_lispesque_token_terminator) {
-      return all_of<
+      return all<
         MF,
         my not_followed_by<
           my lispesque_token_terminator>>();
@@ -215,12 +215,12 @@ namespace reseune {
 
     // ===================================================================================================================
     template <match_f MF, match_f... MFs>
-    MATCH_F(all_of) {
+    MATCH_F(all) {
       // Match MF followed by the MFs in order.
       START;
       MATCH;
       MAYBE_RETURN_NO_MATCH;
-      constexpr auto mf {my all_of<MFs...>};
+      constexpr auto mf {my all<MFs...>};
       CALL_MATCH_F(mf);
       if (match)
         RETURN_SPAN;
@@ -229,25 +229,25 @@ namespace reseune {
     }
     
     template <typename... nil>
-    MATCH_F(all_of) {
+    MATCH_F(all) {
       START;
       RETURN_EMPTY;
     }
 
     // ===================================================================================================================
     template <match_f MF, match_f... MFs>
-    MATCH_F(any_of) {
+    MATCH_F(any) {
       // Match against any of the MFs, attempting them from LEFT_MF to RIGHT_MF.
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      constexpr auto mf {my any_of<MFs...>};
+      constexpr auto mf {my any<MFs...>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
     
     template <typename... nil>
-    MATCH_F(any_of) {
+    MATCH_F(any) {
       START;
       RETURN_NO_MATCH;
     }
@@ -267,7 +267,7 @@ namespace reseune {
     // Convenience match functions
     // ===================================================================================================================
     MATCH_F(lispesque_token_terminator) {
-      return any_of<
+      return any<
         my whitespace,
         my character<')'>>();
     }
@@ -275,7 +275,7 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(positive_integer) {
       // Match a positive integer. Does not permit a leading '+'!
-      return any_of<
+      return any<
         my zero_padded<my digits>,
         my plus<my character<'0'>>>();
     }
@@ -283,9 +283,9 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
-      return all_of<
+      return all<
         my optional<
-          my any_of<
+          my any<
             my character<'-'>,
             my character<'+'>>>,
         my digits>();
@@ -296,35 +296,35 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-      return any_of<BASIC_MATH_OPS>();
+      return any<BASIC_MATH_OPS>();
 
     }
 
     // ===================================================================================================================
     MATCH_F(basic_comparison_op) {
       // Match basic comparison ops.
-      return any_of<BASIC_COMPARISON_OPS>();
+      return any<BASIC_COMPARISON_OPS>();
     }
 
 #undef X
-#define X(A,B) my all_of<my character<A>,my character<B>>
+#define X(A,B) my all<my character<A>,my character<B>>
 
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
       // Match some other comparison ops.
-      return any_of<INCREMENT_DECREMENT_OPS>();
+      return any<INCREMENT_DECREMENT_OPS>();
     }
 
     // ===================================================================================================================
     MATCH_F(other_comparison_op) {
       // Match some other comparison ops.
-      return any_of<OTHER_COMPARISON_OPS>();
+      return any<OTHER_COMPARISON_OPS>();
     }
 
     // ===================================================================================================================
     MATCH_F(boolean_op) {
       // Match some other some boolean ops.
-      return any_of<BOOLEAN_OPS>();
+      return any<BOOLEAN_OPS>();
     }
 
 #undef X
@@ -332,19 +332,19 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
-      constexpr auto HEAD_MF {my all_of<my character<':'>, my alpha, my star<my alnums>>};
+      constexpr auto HEAD_MF {my all<my character<':'>, my alpha, my star<my alnums>>};
       constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
       constexpr auto TAIL_MF {my plus<my alnums>};
 
       return with_lispesque_token_terminator<
-        my all_of<
+        my all<
           HEAD_MF,
           my star<
-            my all_of<
+            my all<
               SEPARATOR_MF,
               TAIL_MF>>,
           my optional<
-            my any_of<
+            my any<
               my character<'!'>,
               my character<'?'>>>>>();
     }
@@ -352,28 +352,28 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
-      constexpr auto HEAD_MF {my all_of<my alpha, my star<my alnums>>};
+      constexpr auto HEAD_MF {my all<my alpha, my star<my alnums>>};
       // constexpr auto SEPARATOR_MF {&t::any<&t::plus<&t::character<'-'>>>};
       constexpr auto TAIL_MF {my plus<my alnums>};
 
       return with_lispesque_token_terminator<
-        my any_of<
+        my any<
           my with_lispesque_token_terminator<my basic_math_op>,
           my with_lispesque_token_terminator<my basic_comparison_op>,
           my other_comparison_op,
           my increment_decrement_op,
           my boolean_op,
-          my all_of<
+          my all<
             HEAD_MF,
             my star<
-              my all_of<
-                my any_of<
+              my all<
+                my any<
                   my plus<my character<'-'>>,
                   my plus<my character<':'>>,
                   my plus<my character<'/'>>>,
                 TAIL_MF>>,
             my optional<
-              my any_of<
+              my any<
                 my character<'!'>,
                 my character<'?'>>>>>>();
     }
@@ -383,13 +383,13 @@ namespace reseune {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
       // legal in #C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
-      return all_of<
-        my any_of<
+      return all<
+        my any<
           my character<'_'>,
           my alpha>,
         my plus<
-          my any_of<my character<'_'>,
-                    my alnums>>>();
+          my any<my character<'_'>,
+                 my alnums>>>();
     }
 
     // ===================================================================================================================

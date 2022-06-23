@@ -60,7 +60,7 @@ void tokenize() {
   
   do {
     token = tokenizer.strip<
-      my any_of<
+      my any<
         my label<l_paren, my character<'('>>,
         my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
         my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
