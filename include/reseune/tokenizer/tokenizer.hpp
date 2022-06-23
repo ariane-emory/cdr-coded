@@ -378,7 +378,10 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_operator) {
       // Match various operator-like symbols.
-      return any<my increment_decrement_op>();
+      return any<
+        my boolean_op,
+        my other_comparison_op,
+        my increment_decrement_op>();
     }
 
     // ===================================================================================================================
@@ -386,9 +389,7 @@ namespace reseune {
       // Match various operator-like symbols that are likely to be primitive.
       return any<
         my basic_math_op,
-        my basic_comparison_op,
-        // my boolean_op,
-        my other_comparison_op>();
+        my basic_comparison_op>();
     }
 
     // ===================================================================================================================
