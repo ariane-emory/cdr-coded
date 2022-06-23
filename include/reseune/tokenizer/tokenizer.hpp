@@ -32,7 +32,7 @@ namespace reseune {
   private:
     // These are both only used by the log method below for debug output:
     size_t indentation;
-    bool verbose;
+    bool   verbose;
 
     // ===========================================================================================================
     // Debug logging helper functions
