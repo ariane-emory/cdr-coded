@@ -1,6 +1,9 @@
-#undef INCREMENT_DECREMENT_OPS
-#undef OTHER_COMPARISON_OPS
-#undef BOOLEAN_OPS
+#undef increment_decrement_ops
+#undef other_comparison_ops
+#undef boolean_ops
+#undef basic_math_ops
+#undef other_math_ops
+#undef basic_comparison_ops
 
 #undef EMPTY
 #undef HERE

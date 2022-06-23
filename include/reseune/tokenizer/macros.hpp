@@ -5,7 +5,7 @@
 // Macros
 // =====================================================================================================================
 
-#define INCREMENT_DECREMENT_OPS                                                 \
+#define increment_decrement_ops                                                 \
   X('+', '+'),                                                                  \
     X('-', '-'),                                                                \
     X('+', '='),                                                                \
@@ -15,21 +15,17 @@
     X('&', '='),                                                                \
     X('|', '='),                                                                \
     X('~', '=') 
-
-
-#define OTHER_COMPARISON_OPS                                                    \
+#define other_comparison_ops                                                    \
   X('!', '='),                                                                  \
     X('=', '='),                                                                \
     X('<', '='),                                                                \
     X('>', '=')                                                          
-
-#define BOOLEAN_OPS                                                             \
+#define boolean_ops                                                             \
   X('&', '&'),                                                                  \
     X('|', '|')
-
-#define BASIC_MATH_OPS        X('+'), X('-'), X('/'), X('*')
-#define OTHER_MATH_OPS        X('%'), X('~'), X('^'), X('&')
-#define BASIC_COMPARISON_OPS  X('!'), X('='), X('>'), X('<')
+#define basic_math_ops        X('+'), X('-'), X('/'), X('*')
+#define other_math_ops        X('%'), X('~'), X('^'), X('&')
+#define basic_comparison_ops  X('!'), X('='), X('>'), X('<')
 
 #define EMPTY                 (span_type{POS, POS})
 #define HERE                  (*cursor)

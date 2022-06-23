@@ -342,19 +342,16 @@ namespace reseune {
     }
 
 #define X(...) my terminated_word<__VA_ARGS__>
-#define Y(name, list)                                                           \
-    MATCH_F(name) {                                                             \
-      return any<list>();                                                       \
-    }
+#define Y(name) MATCH_F(name) { return any<name ## s>(); }
     
     // ===================================================================================================================
-    Y(basic_math_op, BASIC_MATH_OPS);
-    Y(other_math_op, OTHER_MATH_OPS);
-    Y(basic_comparison_op, BASIC_COMPARISON_OPS);
-    Y(increment_decrement_op, INCREMENT_DECREMENT_OPS);
-    Y(other_comparison_op, OTHER_COMPARISON_OPS);
-    Y(boolean_op, BOOLEAN_OPS);
-
+    Y(basic_math_op);
+    Y(other_math_op);
+    Y(basic_comparison_op);
+    Y(increment_decrement_op);
+    Y(other_comparison_op);
+    Y(boolean_op);
+    
 #undef Y
 #undef X
 
