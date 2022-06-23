@@ -255,7 +255,7 @@ namespace reseune {
     // ===================================================================================================================
     template <char C, char... Cs>
     MATCH_F(character) {
-      // Match a particular character C.
+      // Match either the character C or one of the Cs.
       START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
       constexpr auto mf {my character_f<ischar<C>>};
