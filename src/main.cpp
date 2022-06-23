@@ -25,6 +25,8 @@ void tokenize() {
     "window-divider-mode))\n"
     "(funcall mode -1)\n"
     "(setq-default mode nil))\n"
+    "'alpha\n"
+    "' beta\n"
   };
 
 #define TOKEN_TYPES                                                             \
@@ -67,7 +69,7 @@ void tokenize() {
       printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
   } while (token);
 
-  printf("Length: %zu.\n", strlen(input));
+  printf("Input length: %zu.\n", strlen(input));
 }
 
 int main() {
