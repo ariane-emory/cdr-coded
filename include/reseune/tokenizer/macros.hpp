@@ -18,11 +18,11 @@
 #define REWIND                (POS = start)
 #define SAVE                  MARK(saved)
 #define SPAN                  span{start, POS}
-#define START                 log("Entering %s.", __FUNCTION__); MARK(start); span match{NO_MATCH};
-#define RETURN_MATCH          {log("Returning match after moving %zu from %s.", POS - start, __FUNCTION__);  return match;}
-#define RETURN_NO_MATCH       {log("Returning no_match after moving %zu from %s.", POS - start, __FUNCTION__); return NO_MATCH;}
-#define RETURN_SPAN           {log("Returning span after moving %zu from %s.", POS - start, __FUNCTION__); return SPAN;}
-#define RETURN_EMPTY          {log("Returning empty after moving %zu from %s.", POS - start, __FUNCTION__); return span{POS, POS};}
+#define START                 log("%s: Enter.", __FUNCTION__); MARK(start); span match{NO_MATCH};
+#define RETURN_MATCH          {log("%s: Returning match after moving %zu.", __FUNCTION__, POS - start);  return match;}
+#define RETURN_NO_MATCH       {log("%s: Returning no_match after moving %zu.", __FUNCTION__, POS - start); return NO_MATCH;}
+#define RETURN_SPAN           {log("%s: Returning span after moving %zu.", __FUNCTION__, POS - start); return SPAN;}
+#define RETURN_EMPTY          {log("%s: Returning empty after moving %zu.", __FUNCTION__, POS - start); return span{POS, POS};}
 
 #define T_CHAR_F              template <char_f CF>
 #define T_MATCH_F             template <match_f MF>
