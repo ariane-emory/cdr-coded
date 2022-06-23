@@ -66,7 +66,7 @@ namespace reseune {
     // ===========================================================================================================
     // Constructors
     // ===========================================================================================================
-    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(true) {}
+    constexpr tokenizer(const char * const str) : c_str_cursor(str), indentation(0), verbose(false) {}
     
     // ===========================================================================================================
     // Forward declarations
@@ -180,7 +180,7 @@ namespace reseune {
     }
 
     // =============================================================================================================
-    T_MATCH_F MATCH_F(with_lispesque_identifier_terminator) {
+    T_MATCH_F MATCH_F(with_lispesque_token_terminator) {
       return both_of<
         MF,
         &t::followed_by<
@@ -341,14 +341,15 @@ namespace reseune {
       // Currently, identifiers must either_of:
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
-      return with_lispesque_identifier_terminator<
+      return with_lispesque_token_terminator<
         &t::any_of<
           &t::basic_math_op,
           &t::both_of<
             &t::alpha,
-            &t::star<&t::any_of<
-              &t::character<'-'>,
-                       &t::alnum>>>>>();
+            &t::star<
+              &t::any_of<
+                &t::character<'-'>,
+                &t::alnum>>>>>();
       ;
     }
 
