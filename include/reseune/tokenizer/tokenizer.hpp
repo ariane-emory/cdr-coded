@@ -345,12 +345,12 @@ namespace reseune {
 #define Y(name) MATCH_F(name) { return any<name ## s>(); }
     
     // ===================================================================================================================
-    Y(basic_math_op);
-    Y(other_math_op);
     Y(basic_comparison_op);
+    Y(basic_math_op);
+    Y(boolean_op);
     Y(increment_decrement_op);
     Y(other_comparison_op);
-    Y(boolean_op);
+    Y(other_math_op);
     
 #undef Y
 #undef X
