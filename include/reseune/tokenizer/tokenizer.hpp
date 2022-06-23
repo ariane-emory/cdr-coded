@@ -474,6 +474,7 @@ namespace reseune {
     
     // =================================================================================================================
     virtual MATCH_F(token) {
+      // Match many lispesque tokens.
       return strip<
         my any<
           my label<l_paren,     my character<'('>>,
