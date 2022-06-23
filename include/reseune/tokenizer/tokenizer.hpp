@@ -276,7 +276,7 @@ namespace reseune {
       MATCH;
       MAYBE_RETURN_NO_MATCH;
       constexpr auto TAIL_MF {my word<Cs...>};
-      CALL_MATCH_F(TAIL_MF);;
+      CALL_MATCH_F(TAIL_MF);
       if (match)
         RETURN_SPAN;
       REWIND;
