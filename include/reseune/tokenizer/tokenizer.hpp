@@ -252,10 +252,12 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_NO_MATCH;
-      const span rest = all_of<MFs...>();
-      if (! rest)
-        RETURN_NO_MATCH;
-      RETURN_SPAN;
+      constexpr auto mf = &t::all_of<MFs...>;
+      CALL_MATCH_F(mf);
+      if (match)
+        RETURN_SPAN;
+      REWIND;
+      RETURN_NO_MATCH;
     }
     
     template <typename... nil>
@@ -306,7 +308,7 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
-      return both_of<
+      return all_of<
         &t::optional<
           &t::any_of<
             &t::character<'-'>,
