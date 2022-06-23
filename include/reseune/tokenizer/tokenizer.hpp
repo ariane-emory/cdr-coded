@@ -353,7 +353,7 @@ namespace reseune {
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
       constexpr auto HEAD_MF {my all<my alpha, my star<my alnums>>};
-      // constexpr auto SEPARATOR_MF {&t::any<&t::plus<&t::character<'-'>>>};
+      constexpr auto SEPARATOR_MF {my any<my plus<my character<'-'>>, my plus<my character<':'>>, my plus<my character<'/'>>>};
       constexpr auto TAIL_MF {my plus<my alnums>};
 
       return with_lispesque_token_terminator<
