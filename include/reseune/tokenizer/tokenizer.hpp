@@ -268,6 +268,16 @@ namespace reseune {
     }
 
     // ===================================================================================================================
+    template <char C>
+    MATCH_F(characters) {
+      // Match either one or more Cs;
+      START;
+      constexpr auto mf {my plus<my character_f<ischar<C>>>};
+      CALL_MATCH_F(mf);
+      RETURN_MATCH;
+    }
+    
+    // ===================================================================================================================
     template <match_f HEAD_MF, match_f SEPARATOR_MF, match_f TAIL_MF>
     MATCH_F(intercalate) {
       // Match HEAD_MF followed by any number of TAIL_MFs separated by SEPARATOR_MFs.
@@ -356,7 +366,7 @@ namespace reseune {
     MATCH_F(lispesque_keyword) {
       // Match a set of strings that look like reasonable Lisp keyword symbol names.
       constexpr auto HEAD_MF      {my all<my character<':'>, my alpha, my star_alnums>};
-      constexpr auto SEPARATOR_MF {my plus<my character<'-'>>};
+      constexpr auto SEPARATOR_MF {my characters<'-'>};
       constexpr auto TAIL_MF      {my alnums};
       constexpr auto SYM_BODY     {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
       constexpr auto MF           {my with_lispesque_token_terminator<SYM_BODY>};
@@ -369,7 +379,7 @@ namespace reseune {
     MATCH_F(lispesque_identifier) {
       // Match a set of strings that look like reasonable Lisp symbol names.
       constexpr auto HEAD_MF      {my all<my alpha, my star_alnums>};
-      constexpr auto SEPARATOR_MF {my any<my plus<my character<'-'>>, my plus<my character<':'>>, my plus<my character<'/'>>>};
+      constexpr auto SEPARATOR_MF {my any<my characters<'-'>, my characters<':'>, my characters<'/'>>};
       constexpr auto TAIL_MF      {my alnums};
       constexpr auto SYMBODY      {my intercalate<HEAD_MF, SEPARATOR_MF, TAIL_MF>};
       constexpr auto TRAILER      {my optional<my character<'!','?'>>};
