@@ -33,6 +33,7 @@ void tokenize() {
     r_paren,   // 2
     symbol,    // 3
     integer,   // 4
+    quote,     // 5
   };
   
   using t = reseune::tokenizer<token_type>;
@@ -44,13 +45,12 @@ void tokenize() {
   
   do {
     token = tokenizer.strip<
-      read all_of<
-        read optional<read character<'\''>>,
-        read any_of<
-          read label<l_paren, read character<'('>>,
-          read label<r_paren, read character<')'>>,
-          read label<integer, read integer>,
-          read label<symbol,  read lispesque_identifier>>>>();
+      read any_of<
+        read label<quote,   read character<'\''>>,
+        read label<l_paren, read character<'('>>,
+        read label<r_paren, read character<')'>>,
+        read label<integer, read integer>,
+        read label<symbol,  read lispesque_identifier>>>();
     if (token)
       printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
   } while (token);
