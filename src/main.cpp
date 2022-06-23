@@ -35,31 +35,14 @@ void tokenize() {
     "(let ((x 7)) x)\n"
   };
 
-#define TOKEN_TYPES                                                             \
-  X(unlabeled)                                                                  \
-    X(l_paren)                                                                  \
-    X(r_paren)                                                                  \
-    X(symbol)                                                                   \
-    X(keyword)                                                                  \
-    X(integer)                                                                  \
-    X(quote)                                                                    \
-    X(primitive)
-    
-#define X(name) name,
-  enum token_type {TOKEN_TYPES};
-#undef X
+  using namespace    reseune; 
+  using t          = tokenizer<lispesque_token_type>;
+  t                  tokenizer{input};
+  t::span_type       token{};
+  size_t             token_num{1};
 
-#define X(name) #name,
-  const char * const token_type_strings[] {TOKEN_TYPES};
-#undef X
-
-  using t =    reseune::tokenizer<token_type>;
-  t            tokenizer{input};
-  t::span_type token{};
-  size_t       token_num{1};
-  
 #define my &t::
-  
+
   do {
     token = tokenizer.strip<
       my any<
@@ -71,7 +54,10 @@ void tokenize() {
         my label<keyword,   my lispesque_keyword>,
         my label<symbol,    my lispesque_identifier>>>();
     if (token)
-      printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
+      printf("Token #%zu is (token_type: '%s', string: '%s').\n",
+             token_num++,
+             lispesque_token_type_strings[token.label],
+             token.c_str());
   } while (token);
 
   printf("Input length: %zu.\n", strlen(input));
