@@ -47,9 +47,9 @@
 #define boolean_ops                                                             \
   X('&', '&'),                                                                  \
     X('|', '|')
-#define primitive_math_ops        X('+'), X('-'), X('/'), X('*')
-#define other_math_ops        X('%'), X('~'), X('^'), X('&')
-#define primitive_comparison_ops  X('!'), X('='), X('>'), X('<')
+#define primitive_math_ops       X('+'), X('-'), X('/'), X('*')
+#define other_math_ops           X('%'), X('~'), X('^'), X('&')
+#define primitive_comparison_ops X('!'), X('='), X('>'), X('<')
 
 #define EMPTY                 (span_type{POS, POS})
 #define HERE                  (*cursor)
