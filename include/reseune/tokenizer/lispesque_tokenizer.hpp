@@ -4,7 +4,7 @@
 #include "tokenizer.hpp"
 
 #define bases &base::
-#define BASES_T_MATCH_F(name) T_MATCH_F static constexpr span_t(base::*name)()
+#define BASES_T_MATCH_F(name, T) T_MATCH_F static constexpr span_t(base::*name)() = my T
 
 #include "macros.hpp" // include last!
 
@@ -24,8 +24,14 @@ namespace reseune {
     // =================================================================================================================
     constexpr lispesque_tokenizer(const char * const str) : base(str) {}
 
-    BASES_T_MATCH_F(terminated)   = my with_lispesque_token_terminator<MF>;
-    BASES_T_MATCH_F(unterminated) = my without_lispesque_token_terminator<MF>;
+  private: 
+    // =================================================================================================================
+    // Pointers to templates in base.
+    // =================================================================================================================
+    BASES_T_MATCH_F(terminated,   with_lispesque_token_terminator<MF>);
+    BASES_T_MATCH_F(unterminated, without_lispesque_token_terminator<MF>);
+
+  public:
     
     // =================================================================================================================
     virtual MATCH_F(token) {
@@ -68,7 +74,8 @@ namespace reseune {
       
       constexpr match_f lispesque_symbol =
         terminated<my any<my lispesque_operator,
-                          my all<symbol_body, symbol_trailer>>>;
+                          my all<symbol_body,
+                                 symbol_trailer>>>;
       
       return strip<
         my any<
