@@ -330,9 +330,6 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
-      // Currently, identifiers must either_of:
-      //   1. Consist of solely a basic comparison operator or,
-      //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
       return with_lispesque_token_terminator<
         my any_of<
           my with_lispesque_token_terminator<my basic_math_op>,
