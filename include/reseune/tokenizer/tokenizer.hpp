@@ -367,10 +367,7 @@ namespace reseune {
             HEAD_MF,
             my star<
               my all<
-                my any<
-                  my plus<my character<'-'>>,
-                  my plus<my character<':'>>,
-                  my plus<my character<'/'>>>,
+                SEPARATOR_MF,
                 TAIL_MF>>,
             my optional<
               my any<
