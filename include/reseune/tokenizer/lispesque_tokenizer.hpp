@@ -5,6 +5,7 @@
 
 #define bases &base::
 #define BASES_T_MATCH_F(name, T) T_MATCH_F static constexpr span_t(base::*name)() = my T
+#define rule static constexpr match_f
 
 #include "macros.hpp" // include last!
 
@@ -31,50 +32,53 @@ namespace reseune {
     BASES_T_MATCH_F(terminated,   with_lispesque_token_terminator<MF>);
     BASES_T_MATCH_F(unterminated, without_lispesque_token_terminator<MF>);
 
+    // =================================================================================================================
+    // Grammar rules.
+    // =================================================================================================================
+    rule keyword_separator = my characters<'-'>;
+
+    rule lispesque_primitive =
+      my any<my primitive_math_op,
+             my primitive_comparison_op,
+             my primitive_symbol>;
+
+    rule symbol_head =
+      my all<my alpha,
+             my star_alnums>;
+      
+    rule keyword_head =
+      my all<my character<':'>,
+             symbol_head>;
+
+    rule keyword_body =
+      my intercalate<keyword_head,
+                     keyword_separator,
+                     my alnums>;
+      
+    rule lispesque_keyword = terminated<keyword_body>;
+
+    rule symbol_separator =
+      my any<my characters<'-'>,
+             my characters<':'>,
+             my characters<'/'>>;
+      
+    rule symbol_body =
+      my intercalate<symbol_head,
+                     symbol_separator,
+                     my alnums>;
+      
+    rule symbol_trailer = my optional<my character<'!','?'>>;
+      
+    rule lispesque_symbol =
+      terminated<my any<my lispesque_operator,
+                        my all<symbol_body,
+                               symbol_trailer>>>;
+    
   public:
     
     // =================================================================================================================
     virtual MATCH_F(token) {
       // Match many lispesque tokens.
-
-      constexpr match_f lispesque_primitive =
-        my any<my primitive_math_op,
-               my primitive_comparison_op,
-               my primitive_symbol>;
-
-      constexpr match_f symbol_head =
-        my all<my alpha,
-               my star_alnums>;
-      
-      constexpr match_f keyword_head =
-        my all<my character<':'>,
-               symbol_head>;
-
-      constexpr match_f keyword_separator = my characters<'-'>;
-
-      constexpr match_f keyword_body =
-        my intercalate<keyword_head,
-                       keyword_separator,
-                       my alnums>;
-      
-      constexpr match_f lispesque_keyword = terminated<keyword_body>;
-
-      constexpr match_f symbol_separator =
-        my any<my characters<'-'>,
-               my characters<':'>,
-               my characters<'/'>>;
-      
-      constexpr match_f symbol_body =
-        my intercalate<symbol_head,
-                       symbol_separator,
-                       my alnums>;
-      
-      constexpr match_f symbol_trailer = my optional<my character<'!','?'>>;
-      
-      constexpr match_f lispesque_symbol =
-        terminated<my any<my lispesque_operator,
-                          my all<symbol_body,
-                                 symbol_trailer>>>;
       
       return strip<
         my any<
@@ -97,6 +101,7 @@ namespace reseune {
 // =====================================================================================================================
 #undef bases
 #undef BASES_T_MATCH_F
+#undef rule
 
 #include "undef_macros.hpp"
 // =====================================================================================================================
