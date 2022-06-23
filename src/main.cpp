@@ -26,7 +26,7 @@ void tokenize() {
     "(funcall mode -1)\n"
     "(setq-default mode nil))\n"
     "'alpha\n"
-    "' beta\n"
+    "' beta\n" // Invalid because of space after the single quote!
   };
 
 #define TOKEN_TYPES                                                             \
