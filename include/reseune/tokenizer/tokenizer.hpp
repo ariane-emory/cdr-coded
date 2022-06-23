@@ -360,8 +360,7 @@ namespace reseune {
       return any<
         my primitive_math_op,
         my primitive_comparison_op,
-        primitive_symbols
-        >();
+        primitive_symbols>();
     }
 
 #undef X
