@@ -23,7 +23,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(false) {}
+    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(true) {}
     
     // =================================================================================================================
     // Public types
@@ -291,22 +291,22 @@ namespace reseune {
         my digits>();
     }
 
+#define X(c) my tokenizer::character<c>
+
     // ===================================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-#define X(c) my tokenizer::character<c>
       return any_of<BASIC_MATH_OPS>();
-#undef X
+
     }
 
     // ===================================================================================================================
     MATCH_F(basic_comparison_op) {
       // Match basic comparison ops.
-#define X(c) my tokenizer::character<c>
       return any_of<BASIC_COMPARISON_OPS>();
-#undef X
     }
 
+#undef X
 #define X(A,B) my all_of<my character<A>,my character<A>>
 
     // ===================================================================================================================
@@ -326,7 +326,9 @@ namespace reseune {
       // Match some other some boolean ops.
       return any_of<BOOLEAN_OPS>();
     }
+
 #undef X
+
     // ===================================================================================================================
     MATCH_F(lispesque_identifier) {
       // Match a subset of Lisp-style identifiers. Just a subset! Not all of them, yet.
@@ -350,7 +352,7 @@ namespace reseune {
         my optional<
           my any_of<
             my character<'!'>,
-                my character<'?'>>>>>>();
+            my character<'?'>>>>>>();
     }
 
     // ===================================================================================================================
