@@ -23,7 +23,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(true) {}
+    constexpr tokenizer(const char * const str) : cursor(str), indentation(0), verbose(false) {}
     
     // =================================================================================================================
     // Public types
