@@ -307,7 +307,7 @@ namespace reseune {
     }
 
 #undef X
-#define X(A,B) my all_of<my character<A>,my character<A>>
+#define X(A,B) my all_of<my character<A>,my character<B>>
 
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
