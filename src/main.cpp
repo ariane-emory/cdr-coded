@@ -64,9 +64,9 @@ void tokenize() {
         my label<l_paren, my character<'('>>,
         my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
         my label<quote,   my without_lispesque_token_terminator<my character<'\''>>>,
-        my label<integer, my integer>,
-        my label<keyword, my lispesque_keyword>,
-        my label<symbol,  my lispesque_identifier>>>();
+        my label<integer, my with_lispesque_token_terminator<my integer>>,
+        my label<keyword, my with_lispesque_token_terminator<my lispesque_keyword>>,
+        my label<symbol,  my with_lispesque_token_terminator<my lispesque_identifier>>>>();
     if (token)
       // printf("Token #%zu is (token_type: %u, string: '%s').\n", token_num++, token.label, token.c_str());
       printf("Token #%zu is (token_type: '%s', string: '%s').\n", token_num++, token_type_strings[token.label], token.c_str());
