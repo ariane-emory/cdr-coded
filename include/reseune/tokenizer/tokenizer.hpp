@@ -195,10 +195,15 @@ namespace reseune {
       return all_of<
         MF,
         &t::followed_by<
-          &t::any_of<
-          &t::whitespace,
-            &t::character<'('>,
-            &t::character<')'>>>>();
+          &t::lispesque_token_terminator>>();
+    }
+    
+    // =============================================================================================================
+    T_MATCH_F MATCH_F(without_lispesque_token_terminator) {
+      return all_of<
+        MF,
+        &t::not_followed_by<
+          &t::lispesque_token_terminator>>();
     }
     
     // =============================================================================================================
@@ -309,12 +314,19 @@ namespace reseune {
     // =============================================================================================================
     // Convenience match functions
     // =============================================================================================================
-    MATCH_F(positive_integer) {
-      // Match a positive integer. Does not permit a leading '+'!
+    MATCH_F(lispesque_token_terminator) {
       return any_of<
+        &t::whitespace,
+        &t::character<')'>>();
+    }
+    
+    // =============================================================================================================    
+      MATCH_F(positive_integer) {
+        // Match a positive integer. Does not permit a leading '+'!
+        return any_of<
         &t::zero_padded<&t::digits>,
         &t::plus<&t::character<'0'>>>();
-    }
+      }
     
     // =============================================================================================================
     MATCH_F(integer) {

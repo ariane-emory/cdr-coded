@@ -59,7 +59,7 @@ void tokenize() {
   do {
     token = tokenizer.strip<
       read any_of<
-        read label<quote,   read character<'\''>>,
+        read label<quote,   read without_lispesque_token_terminator<read character<'\''>>>,
         read label<l_paren, read character<'('>>,
         read label<r_paren, read character<')'>>,
         read label<integer, read integer>,
