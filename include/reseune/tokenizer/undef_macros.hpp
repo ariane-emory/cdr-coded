@@ -27,4 +27,5 @@
 #undef MATCH_F
 #undef FROM_C_CHAR_F
 
-#undef MATH_OPS
+#undef BASIC_MATH_OPS
+#undef BASIC_COMPARISON_OPS

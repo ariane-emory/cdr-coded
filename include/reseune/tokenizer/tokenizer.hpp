@@ -295,7 +295,15 @@ namespace reseune {
     MATCH_F(basic_math_op) {
       // Match basic math ops.
 #define X(c) my tokenizer::character<c>
-      return any_of<MATH_OPS>();
+      return any_of<BASIC_MATH_OPS>();
+#undef X
+    }
+
+    // ===================================================================================================================
+    MATCH_F(basic_comparison_op) {
+      // Match basic comparison ops.
+#define X(c) my tokenizer::character<c>
+      return any_of<BASIC_COMPARISON_OPS>();
 #undef X
     }
 
@@ -308,6 +316,7 @@ namespace reseune {
       return with_lispesque_token_terminator<
         my any_of<
           my basic_math_op,
+          my basic_comparison_op,
           my all_of<
             my alpha,
             my star<
