@@ -38,15 +38,11 @@ void tokenize() {
     X(quote)                                                                   
     
 #define X(name) name,
-  enum token_type {
-    TOKEN_TYPES
-  };
+  enum token_type { TOKEN_TYPES };
 #undef X
 
 #define X(name) #name,
-  const char * const token_type_strings[] {
-    TOKEN_TYPES
-   };
+  const char * const token_type_strings[] { TOKEN_TYPES };
 #undef X
 
   using t = reseune::tokenizer<token_type>;
