@@ -75,7 +75,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      auto const mf = &t::all_of<MF, &t::star<MF>>;
+      constexpr auto mf {&t::all_of<MF, &t::star<MF>>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -119,8 +119,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(negate) {
       // Match against MF and if it returns a match, rewind and return NO_MATCH, otherwise return empty.
-      START;
-      MATCH;
+      START;      MATCH;
       unless (match)
         RETURN_EMPTY;
       RETURN_NO_MATCH;
@@ -217,7 +216,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_NO_MATCH;
-      constexpr auto mf = &t::all_of<MFs...>;
+      constexpr auto mf {&t::all_of<MFs...>};
       CALL_MATCH_F(mf);
       if (match)
         RETURN_SPAN;
@@ -238,7 +237,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      constexpr auto mf = &t::any_of<MFs...>;
+      constexpr auto mf {&t::any_of<MFs...>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -255,7 +254,7 @@ namespace reseune {
       // Match a particular character C.
       START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      constexpr auto mf = &t::character_f<ischar<C>>;
+      constexpr auto mf {&t::character_f<ischar<C>>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
