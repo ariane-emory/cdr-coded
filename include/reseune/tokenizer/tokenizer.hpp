@@ -341,20 +341,24 @@ namespace reseune {
         my digits>();
     }
 
-#define X(...) my word<__VA_ARGS__>
-#define Y(name) MATCH_F(name) { return with_lispesque_token_terminator<my any<name ## s>>(); }
+#define X(...) my terminated_word<__VA_ARGS__>
+#define Y(name) MATCH_F(name) { return any<name ## s>(); }
     
     // ===================================================================================================================
+    // Manufacture match_fs for common operator-like symbols as terminated_words.
+    // ================================================================================================================
     Y(primitive_comparison_op);
     Y(primitive_math_op);
     Y(boolean_op);
     Y(increment_decrement_op);
     Y(other_comparison_op);
     Y(other_math_op);
-    
-#undef X
+
+    // Also for symbols likely to be primitives:
+    Y(primitive_symbol);
+
 #undef Y
-#define X(...) my terminated_word<__VA_ARGS__>
+#undef X
     
     // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
@@ -362,10 +366,9 @@ namespace reseune {
       return any<
         my primitive_math_op,
         my primitive_comparison_op,
-        primitive_symbols>();
+        my primitive_symbol>();
     }
 
-#undef X
 
     // ===================================================================================================================
     MATCH_F(lispesque_operator) {
@@ -427,23 +430,23 @@ namespace reseune {
     // ===================================================================================================================
     // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
     // ===================================================================================================================
-      FROM_C_CHAR_F(alnum,          isalnum);
-      FROM_C_CHAR_F(alpha,          isalpha);
-      FROM_C_CHAR_F(digit,          isdigit);
-      FROM_C_CHAR_F(xdigit,         isxdigit);
-      FROM_C_CHAR_F(whitespace,     iswhitespace);
-      FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
+    FROM_C_CHAR_F(alnum,          isalnum);
+    FROM_C_CHAR_F(alpha,          isalpha);
+    FROM_C_CHAR_F(digit,          isdigit);
+    FROM_C_CHAR_F(xdigit,         isxdigit);
+    FROM_C_CHAR_F(whitespace,     iswhitespace);
+    FROM_C_CHAR_F(non_whitespace, negate<iswhitespace>);
 
-      // ===================================================================================================================
-      // Character predicate helper static functions
-      // ===================================================================================================================
-      template <int (*fun)(int)>
-        constexpr static int negate(int c) {
-        // Make a negated version of a C-style character predicate function.
-        return 0 == fun(c) ? 1 : 0;
-      }
+    // ===================================================================================================================
+    // Character predicate helper static functions
+    // ===================================================================================================================
+    template <int (*fun)(int)>
+    constexpr static int negate(int c) {
+      // Make a negated version of a C-style character predicate function.
+      return 0 == fun(c) ? 1 : 0;
+    }
      
-      // ===================================================================================================================
+    // ===================================================================================================================
   };
   // =====================================================================================================================
 }
