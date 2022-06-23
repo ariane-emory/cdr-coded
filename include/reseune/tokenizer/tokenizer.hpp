@@ -168,21 +168,9 @@ namespace reseune {
           &t::lispesque_token_terminator>>();
     }
     
-    // // =============================================================================================================
-    // T_2_MATCH_F MATCH_F(both_of) {
-    //   // Match against LEFT_MF and, if it matched, match against RIGHT_MF.
-    //   START;
-    //   CALL_MATCH_F(LEFT_MF);
-    //   MAYBE_RETURN_NO_MATCH;
-    //   CALL_MATCH_F(RIGHT_MF);
-    //   if (match)
-    //     RETURN_SPAN;
-    //   REWIND;
-    //   RETURN_NO_MATCH;
-    // }
-
     // =============================================================================================================
-    T_CHAR_F MATCH_F(character_f) {
+    template <char_f CF>
+    MATCH_F(character_f) {
       // Match a C-style char predicate function CF.
 
       // We will never, ever, permit maching a null character here!

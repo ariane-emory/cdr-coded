@@ -17,9 +17,7 @@
 #undef RETURN_NO_MATCH
 #undef RETURN_SPAN
 
-#undef T_CHAR_F
 #undef T_MATCH_F
-// #undef T_2_MATCH_F
 
 #undef CALL_MATCH_F
 #undef MARK
