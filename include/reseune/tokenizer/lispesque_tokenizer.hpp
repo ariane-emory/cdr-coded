@@ -3,6 +3,8 @@
 
 #include "tokenizer.hpp"
 
+#define bases &base::
+
 #include "macros.hpp" // include last!
 
 // =====================================================================================================================
@@ -31,7 +33,7 @@ namespace reseune {
           my label<quote,       my without_lispesque_token_terminator<my character<'\''>>>,
           my label<tt::integer, my with_lispesque_token_terminator<my integer>>,
           my label<primitive,   my lispesque_primitive>,
-          my label<keyword,     my lispesque_keyword>,
+          my label<keyword,     &base::lispesque_keyword>,
           my label<symbol,      my lispesque_symbol>>>();
 
     }
@@ -44,6 +46,7 @@ namespace reseune {
 // =====================================================================================================================
 // Don't leak the macros!
 // =====================================================================================================================
+#undef bases
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
