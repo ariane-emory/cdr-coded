@@ -287,7 +287,13 @@ namespace reseune {
     MATCH_F(word) {
       return EMPTY;
     }
-
+    
+    // ===================================================================================================================
+    template <char... Cs>
+    MATCH_F(terminated_word) {
+      return with_lispesque_token_terminator<my word<Cs...>>();
+    }
+    
     // ===================================================================================================================
     template <char C>
     MATCH_F(characters) {
@@ -387,16 +393,21 @@ namespace reseune {
     MATCH_F(lispesque_primitive) {
       // Match a set of strings that look like reasonable Lisp primitive symbol names.
       return any<
-        my word<'l','e','t'>,
-        my word<'l','a','m','b','d','a'>,
-        my word<'d','e','f','i','n','e'>,
-        my word<'c','a','r'>,        
-        my word<'c','d','r'>,
-        my word<'c','o','n','s'>,
-        my word<'p','r','i','n','t'>,
-        my word<'a','t','o','m','?'>,
-        my word<'e','q','l','?'>,
-        my word<'s','e','t','!'>
+        my terminated_word<'l','e','t'>,
+        my terminated_word<'l','a','m','b','d','a'>,
+        my terminated_word<'d','e','f','i','n','e'>,
+        my terminated_word<'c','a','r'>,        
+        my terminated_word<'c','d','r'>,
+        my terminated_word<'c','o','n','s'>,
+        my terminated_word<'p','r','i','n','t'>,
+        my terminated_word<'a','t','o','m','?'>,
+        my terminated_word<'n','i','l'>,
+        my terminated_word<'n','i','l','?'>,
+        my terminated_word<'l','i','s','t'>,
+        my terminated_word<'l','i','s','t','?'>,
+        my terminated_word<'e','q','l','?'>,
+        my terminated_word<'s','e','t','!'>,
+        my terminated_word<'t'>
         >();
     }
 
