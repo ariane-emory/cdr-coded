@@ -3,6 +3,7 @@
 #undef MATCH
 #undef MAYBE_RETURN_MATCH
 #undef MAYBE_RETURN_NO_MATCH
+#undef my
 #undef NEXT
 #undef NO_MATCH
 #undef NUL_HERE

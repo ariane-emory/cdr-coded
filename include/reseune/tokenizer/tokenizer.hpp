@@ -75,7 +75,7 @@ namespace reseune {
     T_MATCH_F MATCH_F(plus) {
       // Match against MF one or more times.
       START;
-      constexpr auto mf {&t::all_of<MF, &t::star<MF>>};
+      constexpr auto mf {my all_of<MF, my star<MF>>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -83,7 +83,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(zero_padded) {
       // Ignore any number of 0s and then match against MF. This needs a non-greedy version.
-      ignore<&t::star<&t::character<'0'>>>();
+      ignore<my star<my character<'0'>>>();
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
@@ -113,7 +113,7 @@ namespace reseune {
     // =============================================================================================================
     T_MATCH_F MATCH_F(not_followed_by) {
       // Match against MF, rewined, and if it returned a match, return NO_MATCH, otherwise return empty.
-      return followed_by<&t::negate<MF>>();
+      return followed_by<my negate<MF>>();
     }
 
     // =============================================================================================================
@@ -155,16 +155,16 @@ namespace reseune {
     T_MATCH_F MATCH_F(with_lispesque_token_terminator) {
       return all_of<
         MF,
-        &t::followed_by<
-          &t::lispesque_token_terminator>>();
+        my followed_by<
+          my lispesque_token_terminator>>();
     }
     
     // =============================================================================================================
     T_MATCH_F MATCH_F(without_lispesque_token_terminator) {
       return all_of<
         MF,
-        &t::not_followed_by<
-          &t::lispesque_token_terminator>>();
+        my not_followed_by<
+          my lispesque_token_terminator>>();
     }
     
     // =============================================================================================================
@@ -217,7 +217,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_NO_MATCH;
-      constexpr auto mf {&t::all_of<MFs...>};
+      constexpr auto mf {my all_of<MFs...>};
       CALL_MATCH_F(mf);
       if (match)
         RETURN_SPAN;
@@ -238,7 +238,7 @@ namespace reseune {
       START;
       MATCH;
       MAYBE_RETURN_MATCH;
-      constexpr auto mf {&t::any_of<MFs...>};
+      constexpr auto mf {my any_of<MFs...>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -255,7 +255,7 @@ namespace reseune {
       // Match a particular character C.
       START;
       log("Compare '%c' (%u) with '%c' (%u).", HERE, HERE, C, C);
-      constexpr auto mf {&t::character_f<ischar<C>>};
+      constexpr auto mf {my character_f<ischar<C>>};
       CALL_MATCH_F(mf);
       RETURN_MATCH;
     }
@@ -265,33 +265,33 @@ namespace reseune {
     // =============================================================================================================
     MATCH_F(lispesque_token_terminator) {
       return any_of<
-        &t::whitespace,
-        &t::character<')'>>();
+        my whitespace,
+        my character<')'>>();
     }
     
     // =============================================================================================================
     MATCH_F(positive_integer) {
       // Match a positive integer. Does not permit a leading '+'!
       return any_of<
-        &t::zero_padded<&t::digits>,
-        &t::plus<&t::character<'0'>>>();
+        my zero_padded<my digits>,
+        my plus<my character<'0'>>>();
     }
     
     // =============================================================================================================
     MATCH_F(integer) {
       // Match any integer (with or without leading zeroes).
       return all_of<
-        &t::optional<
-          &t::any_of<
-            &t::character<'-'>,
-            &t::character<'+'>>>,
-        &t::digits>();
+        my optional<
+          my any_of<
+            my character<'-'>,
+            my character<'+'>>>,
+        my digits>();
     }
 
     // =============================================================================================================
     MATCH_F(basic_math_op) {
       // Match basic math ops.
-#define X(c) &t::tokenizer::character<c>
+#define X(c) my tokenizer::character<c>
       return any_of<MATH_OPS>();
 #undef X
     }
@@ -303,14 +303,14 @@ namespace reseune {
       //   1. Consist of solely a basic math operator or,
       //   2. Begin with an alphabetic character and proceed with a sequence of alphanumeric characters and/or dashes.
       return with_lispesque_token_terminator<
-        &t::any_of<
-          &t::basic_math_op,
-          &t::all_of<
-            &t::alpha,
-            &t::star<
-              &t::any_of<
-                &t::alnum,
-                &t::character<'-'>>>>>>();
+        my any_of<
+          my basic_math_op,
+          my all_of<
+            my alpha,
+            my star<
+              my any_of<
+                my alnum,
+                my character<'-'>>>>>>();
     }
 
     // =============================================================================================================
@@ -319,18 +319,18 @@ namespace reseune {
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
       // legal in #C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
       return all_of<
-        &t::any_of<
-          &t::character<'_'>,
-          &t::alpha>,
-        &t::plus<
-          &t::any_of<&t::character<'_'>,
-                     &t::alnums>>>();
+        my any_of<
+          my character<'_'>,
+          my alpha>,
+        my plus<
+          my any_of<my character<'_'>,
+                    my alnums>>>();
     }
 
     // =============================================================================================================
     MATCH_F(ignore_whitespace) {
       // Ignore any number of whitespace characers.
-      return ignore<&t::star_whitespaces>();
+      return ignore<my star_whitespaces>();
     }    
 
     // =============================================================================================================
