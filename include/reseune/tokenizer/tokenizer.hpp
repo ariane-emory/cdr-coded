@@ -307,6 +307,8 @@ namespace reseune {
 #undef X
     }
 
+#define X(A,B) my all_of<my character<A>,my character<A>>
+
     // ===================================================================================================================
     MATCH_F(increment_decrement_op) {
       // Match some other comparison ops.
@@ -323,20 +325,14 @@ namespace reseune {
     MATCH_F(other_comparison_op) {
       // Match some other comparison ops.
       return any_of<
-        my all_of<my character<'!'>,my character<'='>>,
-        my all_of<my character<'='>,my character<'='>>,
-        my all_of<my character<'>'>,my character<'='>>,
-        my all_of<my character<'<'>,my character<'='>>>();
+        OTHER_COMPARISON_OPS
+        >();
     }
 
     // ===================================================================================================================
     MATCH_F(boolean_op) {
       // Match some other some boolean ops.
-#define BOOLEAN_OPS                                                             \
-      X('&', '&'),                                                              \
-        X('|', '|')
       return any_of<
-#define X(A,B) my all_of<my character<A>,my character<A>>
         BOOLEAN_OPS
         >();
     }
