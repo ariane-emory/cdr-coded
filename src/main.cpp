@@ -28,11 +28,11 @@ void tokenize() {
   };
 
 #define TOKEN_TYPES                                                             \
-  X(unlabeled)                                                                 \
-    X(l_paren)                                                                 \
-    X(r_paren)                                                                 \
-    X(symbol)                                                                  \
-    X(integer)                                                                \
+  X(unlabeled)                                                                  \
+    X(l_paren)                                                                  \
+    X(r_paren)                                                                  \
+    X(symbol)                                                                   \
+    X(integer)                                                                  \
     X(quote)                                                                   
     
 #define X(name) name,
