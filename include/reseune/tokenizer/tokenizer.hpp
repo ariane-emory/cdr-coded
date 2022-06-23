@@ -386,7 +386,18 @@ namespace reseune {
     // ===================================================================================================================
     MATCH_F(lispesque_primitive) {
       // Match a set of strings that look like reasonable Lisp primitive symbol names.
-      return word<'l','e','t'>();
+      return any<
+        my word<'l','e','t'>,
+        my word<'l','a','m','b','d','a'>,
+        my word<'d','e','f','i','n','e'>,
+        my word<'c','a','r'>,        
+        my word<'c','d','r'>,
+        my word<'c','o','n','s'>,
+        my word<'p','r','i','n','t'>,
+        my word<'a','t','o','m','?'>,
+        my word<'e','q','l','?'>,
+        my word<'s','e','t','!'>
+        >();
     }
 
     // ===================================================================================================================
