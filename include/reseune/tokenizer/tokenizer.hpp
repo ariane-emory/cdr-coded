@@ -458,16 +458,17 @@ namespace reseune {
     using t        = tokenizer<lispesque_token_type>;
 
     MATCH_F(token) {
-      return character<'x'>();
-      // return strip<
-      //   my any<
-      //     my label<l_paren,   my character<'('>>,
-      //     my label<r_paren,   my with_lispesque_token_terminator<my character<')'>>>,
+      return strip<
+        my any<
+          my label<l_paren, my character<'('>>,
+          my label<r_paren, my with_lispesque_token_terminator<my character<')'>>>,
+          my label<symbol,   my lispesque_identifier>
+          >>();
+
       //     my label<quote,     my without_lispesque_token_terminator<my character<'\''>>>,
       //     my label<integer,   my with_lispesque_token_terminator<my integer>>,
       //     my label<primitive, my lispesque_primitive>,
       //     my label<keyword,   my lispesque_keyword>,
-      //     my label<symbol,    my lispesque_identifier>>>();
     }
   };
   // ===================================================================================================================
