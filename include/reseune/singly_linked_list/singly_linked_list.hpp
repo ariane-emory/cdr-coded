@@ -66,13 +66,18 @@ namespace reseune {
     // =================================================================================================================
     void print() {
       printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
-      for (size_t ix = 0; ix < size(); ix++)
-        printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
+      node_type * cursor = m_head;
+      size_t ix = 0;
+      
+      while (cursor != nullptr) {
+        printf("Item #%zu @ %zu -> %zu: '%i'.\n", ++ix, cursor, cursor->next, cursor->data);
+        cursor = cursor->next;
+      }
     }
 
     // =================================================================================================================
     void loop_print() {
-      printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
+      printf("Loop Printing: Head: %zu, Tail: %zu\n", m_head, m_tail);
       for (size_t ix = 0; ix < size(); ix++)
         printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
     }
@@ -130,7 +135,7 @@ namespace reseune {
     void remove(size_t index) {
       // It is UB to remove from a list of length 0! Doing so will attempt to dereference a null pointer.
       
-      printf("\nRemoving from: Head = %zu, tail = %zu: Removing %zu.\n", m_head, m_tail, index);
+      printf("\nRemoving from: Head @ %zu, tail @xs %zu: Removing index %zu.\n", m_head, m_tail, index);
       
       node_type * target;
 
