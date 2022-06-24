@@ -65,12 +65,12 @@ namespace reseune {
     // Public member functions
     // =================================================================================================================
     void print() {
-      printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
+      // printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
       node_type * cursor = m_head;
       size_t ix = 0;
       
       while (cursor != nullptr) {
-        printf("Item #%zu @ %zu -> %zu: '%i'.\n", ++ix, cursor, cursor->next, cursor->data);
+        printf("Item #%zu    @ %zu -> %zu: '%i'.\n", ++ix, cursor, cursor->next, cursor->data);
         cursor = cursor->next;
       }
     }
@@ -86,11 +86,11 @@ namespace reseune {
     void add(value_type const & element) {
       if (m_head == nullptr) {
         m_tail = m_head = new node_type(element);
-        printf("Added head @ '%zu' pointing at '%zu'.\n", m_tail, m_tail->next);
+        printf("Added head @ '%zu' -> '%zu': '%i'.\n", m_tail, m_tail->next, m_tail->data);
       }
       else {
         m_tail->next = new node_type(element);
-        printf("Added tail @ '%zu' pointing at '%zu'.\n", m_tail->next, m_tail->next->next);
+        printf("Added tail @ '%zu' -> '%zu': '%i'.\n", m_tail->next, m_tail->next->next, m_tail->next->data);
         m_tail = m_tail->next;
       }
 
