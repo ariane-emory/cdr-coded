@@ -3,6 +3,8 @@
 
 #include <cassert>
 
+#include "../linked_list_forward_const_iterator/linked_list_forward_const_iterator.hpp"
+
 namespace reseune {
   template <typename T>
   class singly_linked {
