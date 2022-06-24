@@ -11,9 +11,6 @@ namespace reseune {
   // Lispesque tokenizer abstract class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
-    using tt     = lispesque_token_type;
-    using base_t = tokenizer<tt>;
-    using t      = lispesque_tokenizer;
 
     // =================================================================================================================
     // Constructors
@@ -23,7 +20,14 @@ namespace reseune {
   protected:
 
     // =================================================================================================================
-    // Pointers to match_f templates in base.
+    // Types
+    // =================================================================================================================
+    using tt     = lispesque_token_type;
+    using base_t = tokenizer<tt>;
+    using t      = lispesque_tokenizer;
+
+    // =================================================================================================================
+    // Pointers to match_f templates in base
     // =================================================================================================================
     T_MATCH_F BASES_MATCH_F(Optional)     = my optional<MF>;
     template <match_f... MFs>
