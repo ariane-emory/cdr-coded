@@ -29,7 +29,7 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
-    T_MATCH_F BASES_MATCH_F(Optional)     = my optional<MF>;
+    // T_MATCH_F BASES_MATCH_F(Optional)     = my optional<MF>;
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label)                  = my label<L, MF>;
 
@@ -37,6 +37,7 @@ namespace reseune {
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
     
+    RENAME(match_f, optional,    Optional);
     RENAME(match_f, intercalate, Intercalate);
     RENAME(match_f, strip,       Strip);
     RENAME(match_f, all,         All);
