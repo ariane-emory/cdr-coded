@@ -66,9 +66,31 @@ void test_sll() {
   singly_linked_list<int> sll;
 
   printf("\nAdding things.\n");
-  sll.add(1);
-  sll.add(2);
+  sll.add(8);
+  sll.add(9);
   sll.add(3);
+  printf("\n");
+  sll.print();
+  printf("\n");
+
+  assert(3 == sll.size());
+  assert(8 == sll[0]);
+  assert(9 == sll[1]);
+  assert(3 == sll[2]);
+  
+  printf("Setting a thing.\n");
+  sll.set(1, 2);
+  printf("\n");
+  sll.print();
+  printf("\n");
+
+  assert(3 == sll.size());
+  assert(8 == sll[0]);
+  assert(2 == sll[1]);
+  assert(3 == sll[2]);  
+
+  printf("Setting another thing.\n");
+  sll.set(0, 1);
   printf("\n");
   sll.print();
   printf("\n");
@@ -76,8 +98,8 @@ void test_sll() {
   assert(3 == sll.size());
   assert(1 == sll[0]);
   assert(2 == sll[1]);
-  assert(3 == sll[2]);
-  
+  assert(3 == sll[2]);  
+
   printf("Inserting a thing.\n");
   sll.insert(2, 9);
   printf("\n");
@@ -127,6 +149,6 @@ void test_sll() {
 int main() {
   // reseune::measure_time(&tokenize);
   // while (true)
-    test_sll();
+  test_sll();
 }
 
