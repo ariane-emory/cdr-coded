@@ -3,7 +3,7 @@
 
 #include "tokenizer.hpp"
 
-#define BASES_MATCH_F(name) static constexpr span_t(base::*name)()
+#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
 #define rule static constexpr match_f
 
 #include "macros.hpp" // include last!
