@@ -33,7 +33,7 @@ namespace reseune {
     // Types
     // =================================================================================================================
     using label_type = BASE_T::label_type;
-    using match_f    = BASE_T::match_f;
+    using match_f    = tokenizer<label_type>::match_f;
     using span       = BASE_T::span_type;
     using t          = lispesque_tokenizer;
     
