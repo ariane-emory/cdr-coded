@@ -92,6 +92,7 @@ void test_sll() {
 
   printf("Removing a thing.\n");
   sll.remove(2);
+  sll.print();
 
   assert(3 == sll.size());
   assert(1 == sll[0]);
@@ -100,6 +101,7 @@ void test_sll() {
 
   printf("Clearing all the thing.\n");
   sll.clear();
+  sll.print();
   assert(sll.size() == 0);
     
 // print_sll(sll);
