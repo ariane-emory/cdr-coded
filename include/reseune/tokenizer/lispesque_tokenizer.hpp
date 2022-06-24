@@ -25,29 +25,27 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr lispesque_tokenizer(const char * const str) : base_t(str) {}
+    constexpr lispesque_tokenizer(const char * const str) : BASE_T(str) {}
 
   protected:
 
     // =================================================================================================================
     // Types
     // =================================================================================================================
-    using base_t = BASE_T;
-    using t      = lispesque_tokenizer;
-    using span   = BASE_T::span_type;
+    using label_type = BASE_T::label_type;
+    using match_f    = BASE_T::match_f;
+    using span       = BASE_T::span_type;
+    using t          = lispesque_tokenizer;
     
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span (base_t::*name)()
+#define BASES_MATCH_F(name) static constexpr span (BASE_T::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 
-    using match_f    = base_t::match_f;
-    using label_type = base_t::label_type;
-    
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my template from<Args...>
@@ -70,11 +68,9 @@ namespace reseune {
     rule Whitespace                 = my whitespace;
     rule Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
     
-    template <match_f MF> BASES_MATCH_F(Terminated)   = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
-    template <match_f MF> BASES_MATCH_F(Unterminated) = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
-    template <char... Cs>
-    
-    BASES_MATCH_F(Terminated_Word)        = Terminated<my template word<Cs...>>;
+    template <match_f MF> BASES_MATCH_F(Terminated)      = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
+    template <match_f MF> BASES_MATCH_F(Unterminated)    = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
+    template <char... Cs> BASES_MATCH_F(Terminated_Word) = Terminated<my template word<Cs...>>;
     
 #undef BASES_MATCH_F
 
