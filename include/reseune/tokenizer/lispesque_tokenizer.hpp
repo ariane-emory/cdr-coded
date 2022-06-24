@@ -36,7 +36,9 @@ namespace reseune {
 
   private:
 
+    // =================================================================================================================
     // Declare this rule a little early since we're going to use it while making primitives:
+    // =================================================================================================================
     rule lispesque_token_terminator =
       my any<my whitespace,
              my character<')'>>;
