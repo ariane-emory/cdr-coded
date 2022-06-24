@@ -10,7 +10,7 @@ namespace reseune {
   // Lispesque tokenizer abstract class
   // ===================================================================================================================
   template <typename BASE_T>
-  struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
+  struct lispesque_tokenizer : public BASE_T {
 
     // This class mostly just does some aliasing and forwarding of names so as to let the descendent class write it's
     // language's grammar in a more pleasant and readable way: it doesn't really do any work, it just renames stuff to
@@ -35,43 +35,44 @@ namespace reseune {
     using base_t = BASE_T;
     using tt     = base_t::label_type;
     using t      = lispesque_tokenizer;
-
+    using span   = BASE_T::span_type;
+    
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span_type (base_t::*name)()
+#define BASES_MATCH_F(name) static constexpr span (base_t::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
-    BASES_MATCH_F(to) = my from<Args...>
+    BASES_MATCH_F(to) = my template from<Args...>
     
     RENAME(char,    character,   Char);
     RENAME(char,    characters,  Chars);
-    RENAME(match_f, all,         All);
-    RENAME(match_f, any,         Any);
-    RENAME(match_f, star,        Star);
-    RENAME(match_f, plus,        Plus);
-    RENAME(match_f, optional,    Optional);
-    RENAME(match_f, intercalate, Intercalate);
-    RENAME(match_f, strip,       Strip);
+    RENAME(base_t::match_f, all,         All);
+    RENAME(base_t::match_f, any,         Any);
+    RENAME(base_t::match_f, star,        Star);
+    RENAME(base_t::match_f, plus,        Plus);
+    RENAME(base_t::match_f, optional,    Optional);
+    RENAME(base_t::match_f, intercalate, Intercalate);
+    RENAME(base_t::match_f, strip,       Strip);
 #undef RENAME
 
-    template <label_type L, match_f MF>
-    BASES_MATCH_F(Label) = my label<L, MF>;
+    template <base_t::label_type L, base_t::match_f MF>
+    BASES_MATCH_F(Label) = my template label<L, MF>;
 
     // Declare these rules a little early since we're going to use it while making the termination-related templates:
-    rule Whitespace                       = my whitespace;
-    rule Lispesque_Token_Terminator       = Any<Whitespace, Char<')'>>;
+    static constexpr base_t::match_f Whitespace                 = my whitespace;
+    static constexpr base_t::match_f Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
     
-    T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by    <Lispesque_Token_Terminator>>;
-    T_MATCH_F BASES_MATCH_F(Unterminated) = my all<MF, my not_followed_by<Lispesque_Token_Terminator>>;
+    template <base_t::match_f MF> BASES_MATCH_F(Terminated)   = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
+    template <base_t::match_f MF> BASES_MATCH_F(Unterminated) = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
     template <char... Cs>
     
-    BASES_MATCH_F(Terminated_Word)        = Terminated<my word<Cs...>>;
+    BASES_MATCH_F(Terminated_Word)        = Terminated<my template word<Cs...>>;
     
 #undef BASES_MATCH_F
 
@@ -79,7 +80,7 @@ namespace reseune {
     // Manufacture match_f *s for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
 #define X(...) Terminated_Word<__VA_ARGS__>
-#define Y(name) rule name = Any<name ## s>
+#define Y(name) static constexpr base_t::match_f name = Any<name ## s>
     Y(Boolean_Op);
     Y(Increment_Decrement_Op);
     Y(Other_Comparison_Op);
@@ -93,15 +94,15 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
-    rule AlNums           = my alnums;
-    rule Star_AlNums      = my star_alnums;
-    rule Digits           = my digits;
-    rule Star_Digits      = my star_digits;
-    rule XDigits          = my xdigits;
-    rule Star_XDigits     = my star_xdigits;
-    rule Whitespaces      = my whitespaces;
-    rule Star_Whitespaces = my star_whitespaces;
-    rule Pos_Integer      = my integer;
+    static constexpr base_t::match_f AlNums           = my alnums;
+    static constexpr base_t::match_f Star_AlNums      = my star_alnums;
+    static constexpr base_t::match_f Digits           = my digits;
+    static constexpr base_t::match_f Star_Digits      = my star_digits;
+    static constexpr base_t::match_f XDigits          = my xdigits;
+    static constexpr base_t::match_f Star_XDigits     = my star_xdigits;
+    static constexpr base_t::match_f Whitespaces      = my whitespaces;
+    static constexpr base_t::match_f Star_Whitespaces = my star_whitespaces;
+    static constexpr base_t::match_f Pos_Integer      = my integer;
 
     // =================================================================================================================
   };
