@@ -41,7 +41,7 @@ namespace reseune {
     // Debug logging helper functions
     // =================================================================================================================
 
-    void log(const char * format, ...) const {
+    constexpr void log(const char * format, ...) const {
       unless (verbose)
         return;
       for (size_t ix = 0; ix < indentation; ix++)

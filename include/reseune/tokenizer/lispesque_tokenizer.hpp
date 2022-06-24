@@ -30,7 +30,10 @@ namespace reseune {
     // =============================================================================================================
     virtual MATCH_F(token) {
       // Match many lispesque tokens.
-      return (this->*MF)();
+      START;
+      MATCH;
+      RETURN_MATCH;
+      // return (this->*MF)();
     }
 
   private:
