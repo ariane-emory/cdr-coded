@@ -55,11 +55,9 @@ namespace reseune {
     RENAME(char,    characters,  Chars);
 #undef RENAME
 
-    // Declare these rules a little early since we're going to use it while making primitives:
+    // Declare these rules a little early since we're going to use it while making the termination-related templates:
     rule Whitespace                       = my whitespace;
-    rule Lispesque_Token_Terminator       =
-      Any<Whitespace,
-          Char<')'>>;
+    rule Lispesque_Token_Terminator       = Any<Whitespace, Char<')'>>;
     
     T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by<    Lispesque_Token_Terminator>>;
     T_MATCH_F BASES_MATCH_F(Unterminated) = my all<MF, my not_followed_by<Lispesque_Token_Terminator>>;

@@ -8,7 +8,7 @@
 namespace reseune {
   
   // ===================================================================================================================
-  // Lisp tokenizer class
+  // Tokenizer class for a Lisp with Scheme-like tokens
   // ===================================================================================================================
   struct scheme_tokenizer : public lispesque_tokenizer {
     // =================================================================================================================
@@ -20,14 +20,14 @@ namespace reseune {
     // Main terminal
     // =================================================================================================================
     virtual MATCH_F(token) {
-      // Matchmost lispesque tokens.
+      // Matchmost Lispesque tokens.
       return (this->*Token)();
     }
     
   protected:
     
     // =================================================================================================================
-    // Grammar production rules for a Scheme-like Lisp
+    // Grammar production rules for the tokens of a Scheme-like Lisp
     // =================================================================================================================
     rule Operator =
       Any<Boolean_Op,
