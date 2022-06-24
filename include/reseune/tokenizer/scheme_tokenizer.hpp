@@ -91,7 +91,7 @@ namespace reseune {
             Unterminated<Char<'\''>>>;
 
     rule Integer =
-      Label<tt::integer,
+      Label<label_type::integer,
             Terminated<Pos_Integer>>;
       
     rule Token =

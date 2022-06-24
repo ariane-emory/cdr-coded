@@ -33,7 +33,6 @@ namespace reseune {
     // Types
     // =================================================================================================================
     using base_t = BASE_T;
-    using tt     = base_t::label_type;
     using t      = lispesque_tokenizer;
     using span   = BASE_T::span_type;
     
@@ -46,7 +45,8 @@ namespace reseune {
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 
-#define match_f base_t::match_f
+    using match_f    = base_t::match_f;
+    using label_type = base_t::label_type;
     
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
@@ -63,12 +63,12 @@ namespace reseune {
     RENAME(match_f, strip,       Strip);
 #undef RENAME
 
-    template <base_t::label_type L, match_f MF>
+    template <label_type L, match_f MF>
     BASES_MATCH_F(Label) = my template label<L, MF>;
 
     // Declare these rules a little early since we're going to use it while making the termination-related templates:
-    static constexpr match_f Whitespace                 = my whitespace;
-    static constexpr match_f Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
+    rule Whitespace                 = my whitespace;
+    rule Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
     
     template <match_f MF> BASES_MATCH_F(Terminated)   = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
     template <match_f MF> BASES_MATCH_F(Unterminated) = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
@@ -96,15 +96,15 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
-    static constexpr match_f AlNums           = my alnums;
-    static constexpr match_f Star_AlNums      = my star_alnums;
-    static constexpr match_f Digits           = my digits;
-    static constexpr match_f Star_Digits      = my star_digits;
-    static constexpr match_f XDigits          = my xdigits;
-    static constexpr match_f Star_XDigits     = my star_xdigits;
-    static constexpr match_f Whitespaces      = my whitespaces;
-    static constexpr match_f Star_Whitespaces = my star_whitespaces;
-    static constexpr match_f Pos_Integer      = my integer;
+    rule AlNums           = my alnums;
+    rule Star_AlNums      = my star_alnums;
+    rule Digits           = my digits;
+    rule Star_Digits      = my star_digits;
+    rule XDigits          = my xdigits;
+    rule Star_XDigits     = my star_xdigits;
+    rule Whitespaces      = my whitespaces;
+    rule Star_Whitespaces = my star_whitespaces;
+    rule Pos_Integer      = my integer;
 
     // =================================================================================================================
   };
@@ -113,7 +113,6 @@ namespace reseune {
 // =====================================================================================================================
 // Don't leak the macros!
 // =====================================================================================================================
-#undef match_f
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
