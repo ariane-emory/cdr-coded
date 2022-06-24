@@ -65,7 +65,7 @@ void tokenize() {
 void test_sll() {
   singly_linked_list<int> sll;
 
-  printf("\nAdding things:\n");
+  printf("\nAdding things.\n");
   sll.add(1);
   sll.add(2);
   sll.add(3);
@@ -73,29 +73,32 @@ void test_sll() {
   sll.print();
   printf("\n");
 
-  assert(sll.size() == 3);
-  assert(sll[0] == 1);
-  assert(sll[1] == 2);
-  assert(sll[2] == 3);
+  assert(3 == sll.size());
+  assert(1 == sll[0]);
+  assert(2 == sll[1]);
+  assert(3 == sll[2]);
   
-  printf("Inserting a thing:\n");
-  sll.insert(2, 99);
+  printf("Inserting a thing.\n");
+  sll.insert(2, 9);
   printf("\n");
   sll.print();
   printf("\n");
   
-  assert(sll.size() == 4);
-  assert(sll[0] == 1);
-  assert(sll[1] == 2);
-  assert(sll[2] == 99);
-  assert(sll[3] == 3);
+  assert(4 == sll.size());
+  assert(1 == sll[0]);
+  assert(2 == sll[1]);
+  assert(9 == sll[2]);
+  assert(3 == sll[3]);
 
+  printf("Removing a thing.\n");
   sll.remove(2);
-  assert(sll.size() == 2);
-  assert(sll[0] == 1);
-  assert(sll[1] == 2);
-  assert(sll[2] == 3);
 
+  assert(3 == sll.size());
+  assert(1 == sll[0]);
+  assert(2 == sll[1]);
+  assert(3 == sll[2]);
+
+  printf("Clearing all the thing.\n");
   sll.clear();
   assert(sll.size() == 0);
     
