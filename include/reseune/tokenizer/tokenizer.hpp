@@ -324,6 +324,13 @@ namespace reseune {
     }
     
     // =================================================================================================================
+    MATCH_F(always_match) {
+      // Always return an empty match.
+      START;
+      RETURN_SPAN;
+    }
+    
+    // =================================================================================================================
     // MATCH_F(positive_integer) {
     //   // Match a positive integer. Does not permit a leading '+'!
     //   return any<
