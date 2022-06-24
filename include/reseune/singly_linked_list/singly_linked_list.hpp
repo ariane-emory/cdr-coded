@@ -170,8 +170,8 @@ namespace reseune {
     }
 
     // =====================================================================================================================
-    static constexpr void run_ptr_tests() {
-      singly_linked_list<int> sll;
+    static constexpr void run_tests() {
+      singly_linked_list<uintptr_t> sll;
 
       printf("\nTesting 'add'.\n");
       sll.add(8);
@@ -241,7 +241,8 @@ namespace reseune {
       printf("Passed tests!\n", sll.size());
     }
 
-    static constexpr void run_tests() {
+    // =====================================================================================================================
+    static constexpr void run_ptr_tests() {
       singly_linked_list<int> sll;
 
       printf("\nTesting 'add'.\n");
