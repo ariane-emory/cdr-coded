@@ -64,25 +64,6 @@ namespace reseune {
     // =================================================================================================================
     // Public member functions
     // =================================================================================================================
-    void print() {
-      printf("Printing: Head @ %zu, Tail @ %zu, Size = %zu.\n", m_head, m_tail, size());
-      node_type * cursor = m_head;
-      size_t ix = 0;
-      
-      while (cursor != nullptr) {
-        printf("Item #%zu    @ %zu -> %zu: '%i'.\n", ++ix, cursor, cursor->next, cursor->data);
-        cursor = cursor->next;
-      }
-    }
-
-    // =================================================================================================================
-    void loop_print() {
-      printf("Loop Printing: Head: %zu, Tail: %zu\n", m_head, m_tail);
-      for (size_t ix = 0; ix < size(); ix++)
-        printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
-    }
-
-    // =====================================================================================================================
     void add(value_type const & element) {
       if (m_head == nullptr) {
         m_tail = m_head = new node_type(element);
@@ -171,6 +152,20 @@ namespace reseune {
     // =================================================================================================================
     size_t size() const {
       return m_size;
+    }
+
+    // =====================================================================================================================
+    // Some stupid debug functions and tests.
+    // =====================================================================================================================
+    void print() {
+      printf("Printing: Head @ %zu, Tail @ %zu, Size = %zu.\n", m_head, m_tail, size());
+      node_type * cursor = m_head;
+      size_t ix = 0;
+      
+      while (cursor != nullptr) {
+        printf("Item #%zu    @ %zu -> %zu: '%i'.\n", ++ix, cursor, cursor->next, cursor->data);
+        cursor = cursor->next;
+      }
     }
 
     // =================================================================================================================
