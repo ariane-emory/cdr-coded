@@ -91,11 +91,11 @@ namespace reseune {
     // =================================================================================================================
     // Grammar rules 2/2: Main grammar
     // =================================================================================================================
-    rule Lispesque_Operator = __ any<
-      boolean_op,
-      other_math_op,
-      other_comparison_op,
-      increment_decrement_op>;
+    rule Lispesque_Operator =
+      Any<boolean_op,
+          other_math_op,
+          other_comparison_op,
+          increment_decrement_op>;
 
     rule Keyword_Separator = Characters<'-'>;
 
