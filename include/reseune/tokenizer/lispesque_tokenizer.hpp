@@ -53,6 +53,12 @@ namespace reseune {
     template <char... Cs>
     BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
 
+    template <match_f... MFs>
+    BASES_MATCH_F(All)            = __ all<MFs...>;
+
+    template <match_f... MFs>
+    BASES_MATCH_F(Any)            = __ any<MFs...>;
+
     template <char... Cs>
     BASES_MATCH_F(Character)      = __ character<Cs...>;
     
