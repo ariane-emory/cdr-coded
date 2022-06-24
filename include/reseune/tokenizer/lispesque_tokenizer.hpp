@@ -117,7 +117,7 @@ namespace reseune {
     rule ZeroDigits        = Plus<ZeroDigit>;
     rule StarZeroDigits    = Star<ZeroDigit>;
 
-    rule Pos_Integer       = my integer;
+    // rule Pos_Integer       = my integer;
 
 // =================================================================================================================
   };

@@ -324,20 +324,20 @@ namespace reseune {
     }
     
     // =================================================================================================================
-    MATCH_F(positive_integer) {
-      // Match a positive integer. Does not permit a leading '+'!
-      return any<
-        my zero_padded<my digits>,
-        my plus<my character<'0'>>>();
-    }
+    // MATCH_F(positive_integer) {
+    //   // Match a positive integer. Does not permit a leading '+'!
+    //   return any<
+    //     my zero_padded<my digits>,
+    //     my plus<my character<'0'>>>();
+    // }
     
-    // =================================================================================================================
-    MATCH_F(integer) {
-      // Match any integer (with or without leading zeroes).
-      return all<
-        my optional<my character<'-', '+'>>,
-        my digits>();
-    }
+    // // =================================================================================================================
+    // MATCH_F(integer) {
+    //   // Match any integer (with or without leading zeroes).
+    //   return all<
+    //     my optional<my character<'-', '+'>>,
+    //     my digits>();
+    // }
 
     // =================================================================================================================
     MATCH_F(c_style_identifier) {
