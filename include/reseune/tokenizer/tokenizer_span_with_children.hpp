@@ -1,25 +1,25 @@
-#ifndef RESEUNE_VARIANT_TOKENIZER_SPAN_HPP
-#define RESEUNE_VARIANT_TOKENIZER_SPAN_HPP
+#ifndef RESEUNE_TOKENIZER_SPAN_WITH_CHILDREN_HPP
+#define RESEUNE_TOKENIZER_SPAN_WITH_CHILDREN_HPP
 
 #include "../singly_linked/singly_linked.hpp"
 
 // =====================================================================================================================
 namespace reseune {
   // ===================================================================================================================
-  // variant_tokenizer_span struct
+  // tokenizer_span_with_children struct
   // ===================================================================================================================
   template <typename LABEL_T>
-  struct variant_tokenizer_span : public tokenizer_span<LABEL_T> {
+  struct tokenizer_span_with_children : public tokenizer_span<LABEL_T> {
     // =================================================================================================================
     // Member fields
     // =================================================================================================================
 
-    singly_linked<variant_tokenizer_span> * children;
+    singly_linked<tokenizer_span_with_children> * children;
     
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr variant_tokenizer_span(
+    constexpr tokenizer_span_with_children(
       const char * bb = nullptr,
       const char * ee = nullptr,
       bool         mm = true,
