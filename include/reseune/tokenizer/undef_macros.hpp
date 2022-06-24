@@ -35,7 +35,6 @@
 #undef MATCH_F
 #undef FROM_C_CHAR_F
 
-#undef BASES_MATCH_F
 #undef rule
 
 #undef RESEUNE_TOKENIZER_MACROS_HPP
