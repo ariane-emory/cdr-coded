@@ -39,15 +39,15 @@ namespace reseune {
     // =================================================================================================================
     // Declare this rule a little early since we're going to use it while making primitives:
     // =================================================================================================================
-    rule lispesque_token_terminator =
+    rule Lispesque_token_terminator =
       my any<my whitespace,
              my character<')'>>;
     
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    T_MATCH_F BASES_MATCH_F(terminated)   = my all<MF, my followed_by<    lispesque_token_terminator>>;
-    T_MATCH_F BASES_MATCH_F(unterminated) = my all<MF, my not_followed_by<lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(terminated)   = my all<MF, my followed_by<    Lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(unterminated) = my all<MF, my not_followed_by<Lispesque_token_terminator>>;
 
     template <char... Cs>
     BASES_MATCH_F(terminated_word)        = terminated<my word<Cs...>>;
@@ -70,7 +70,7 @@ namespace reseune {
     // =================================================================================================================
     // Grammar rules.
     // =================================================================================================================
-    rule lispesque_operator = my any<
+    rule Lispesque_operator = my any<
       boolean_op,
       other_math_op,
       other_comparison_op,
@@ -78,52 +78,54 @@ namespace reseune {
 
     rule keyword_separator = my characters<'-'>;
 
-    rule lispesque_primitive =
+    rule Lispesque_Primitive =
       my any<primitive_math_op,
              primitive_comparison_op,
              primitive_symbol>;
 
-    rule symbol_head =
+    rule Symbol_head =
       my all<my alpha,
              my star_alnums>;
       
     rule keyword_head =
       my all<my character<':'>,
-             symbol_head>;
+             Symbol_head>;
 
-    rule keyword_body =
+    rule keyword_Body =
       my intercalate<keyword_head,
                      keyword_separator,
                      my alnums>;
       
-    rule lispesque_keyword = terminated<keyword_body>;
+    rule Lispesque_Keyword = terminated<keyword_Body>;
 
-    rule symbol_separator =
+    rule Symbol_separator =
       my any<my characters<'-'>,
              my characters<':'>,
              my characters<'/'>>;
       
-    rule symbol_body =
-      my intercalate<symbol_head,
-                     symbol_separator,
+    rule Symbol_Body =
+      my intercalate<Symbol_head,
+                     Symbol_separator,
                      my alnums>;
       
-    rule symbol_trailer = my optional<my character<'!','?'>>;
+    rule Symbol_Trailer = my optional<my character<'!','?'>>;
       
-    rule lispesque_symbol =
-      terminated<my any<lispesque_operator,
-                        my all<symbol_body,
-                               symbol_trailer>>>;
+    rule Lispesque_Symbol =
+      terminated<my any<Lispesque_operator,
+                        my all<Symbol_Body,
+                               Symbol_Trailer>>>;
 
-    rule MF =
+    rule Token =
       my strip<
       my any<my label<l_paren,     my character<'('>>,
              my label<r_paren,     terminated<my character<')'>>>,
              my label<quote,       unterminated<my character<'\''>>>,
              my label<tt::integer, terminated<my integer>>,
-             my label<primitive,   lispesque_primitive>,
-             my label<keyword,     lispesque_keyword>,
-             my label<symbol,      lispesque_symbol>>>;
+             my label<primitive,   Lispesque_Primitive>,
+             my label<keyword,     Lispesque_Keyword>,
+             my label<symbol,      Lispesque_Symbol>>>;
+
+    rule MF = Token;
     
   public:
     
