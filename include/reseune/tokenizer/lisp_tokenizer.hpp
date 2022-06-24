@@ -28,21 +28,10 @@ namespace reseune {
     }
     
   protected:
-
-    // =================================================================================================================
-    // Grammar rules 1/2: Just give some rules prettier names.
-    // =================================================================================================================
-    rule AlNums          = my alnums;
-    rule StarAlNums      = my star_alnums;
-    rule Digits          = my digits;
-    rule StarDigits      = my star_digits;
-    rule Whitespaces     = my whitespaces;
-    rule StarWhitespaces = my star_whitespaces;
-    rule PosInteger      = my integer;
     
     // =================================================================================================================
-    // Grammar rules 2/2: Main grammar
-    // =================================================================================================================
+    // Grammar rules 
+       // =================================================================================================================
     rule Lispesque_Operator =
       Any<Boolean_Op,
           Other_Math_Op,
@@ -106,7 +95,7 @@ namespace reseune {
 
     rule Integer =
       Label<tt::integer,
-            Terminated<PosInteger>>;
+            Terminated<Pos_Integer>>;
       
     rule Token =
       Strip<Any<LParen,

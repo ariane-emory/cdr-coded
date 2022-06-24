@@ -68,6 +68,17 @@ namespace reseune {
 #undef X
     
     // =================================================================================================================
+    // Grammar rules: Just give some rules prettier names.
+    // =================================================================================================================
+    rule AlNums           = my alnums;
+    rule Star_AlNums      = my star_alnums;
+    rule Digits           = my digits;
+    rule Star_Digits      = my star_digits;
+    rule Whitespaces      = my whitespaces;
+    rule Star_Whitespaces = my star_whitespaces;
+    rule Pos_Integer      = my integer;
+
+    // =================================================================================================================
   };
   // ===================================================================================================================
 }
