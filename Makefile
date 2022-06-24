@@ -2,8 +2,10 @@ UNAME_S = $(shell uname -s)
 CXXLAGS  = \
 	-std=c++23 \
 	-Iinclude \
-	-Os \
+	-O3 \
 	-ggdb \
+	-flto \
+	-ffunction-sections \
 	-fno-exceptions \
 	-funroll-loops \
 	-fdata-sections \
