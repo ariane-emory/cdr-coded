@@ -82,7 +82,7 @@ namespace reseune {
   // variant_tokenizer_span struct
   // ===================================================================================================================
   template <typename LABEL_T>
-  struct variant_tokenizer_span : tokenizer_span<LABEL_T> {
+  struct variant_tokenizer_span : public tokenizer_span<LABEL_T> {
 
     // =================================================================================================================
     // Constructors

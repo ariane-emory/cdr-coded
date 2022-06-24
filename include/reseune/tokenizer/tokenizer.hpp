@@ -27,7 +27,8 @@ namespace reseune {
     // =================================================================================================================
     // Public types
     // =================================================================================================================
-    using span_type = T_SPAN_T<LABEL_T>;
+    using span_type  = T_SPAN_T<LABEL_T>;
+    using label_type = LABEL_T;
 
   protected:
     c_str_cursor cursor;
@@ -42,7 +43,7 @@ namespace reseune {
 
     constexpr void log(const char * format, ...) const {
       unless (verbose)
-        return;
+      return;
       for (size_t ix = 0; ix < indentation; ix++)
         putchar(' ');
       va_list arglist;
@@ -56,7 +57,6 @@ namespace reseune {
     // Protected types
     // =================================================================================================================
     using char_f     = int (*)(int);
-    using label_type = LABEL_T;
     using match_f    = span_type (tokenizer::*)();
     using t          = tokenizer;
 
