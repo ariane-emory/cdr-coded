@@ -62,93 +62,9 @@ void tokenize() {
 }
 
 // =====================================================================================================================
-void test_sll() {
-  singly_linked_list<int> sll;
-
-  printf("\nAdding things.\n");
-  sll.add(8);
-  sll.add(9);
-  sll.add(3);
-  printf("\n");
-  sll.print();
-  printf("\n");
-
-  assert(3 == sll.size());
-  assert(8 == sll[0]);
-  assert(9 == sll[1]);
-  assert(3 == sll[2]);
-  
-  printf("Setting a thing.\n");
-  sll.set(1, 2);
-  printf("\n");
-  sll.print();
-  printf("\n");
-
-  assert(3 == sll.size());
-  assert(8 == sll[0]);
-  assert(2 == sll[1]);
-  assert(3 == sll[2]);  
-
-  printf("Setting another thing.\n");
-  sll.set(0, 1);
-  printf("\n");
-  sll.print();
-  printf("\n");
-
-  assert(3 == sll.size());
-  assert(1 == sll[0]);
-  assert(2 == sll[1]);
-  assert(3 == sll[2]);  
-
-  printf("Inserting a thing.\n");
-  sll.insert(2, 9);
-  printf("\n");
-  sll.print();
-  
-  assert(4 == sll.size());
-  assert(1 == sll[0]);
-  assert(2 == sll[1]);
-  assert(9 == sll[2]);
-  assert(3 == sll[3]);
-
-  printf("\n");
-  printf("Removing a thing.\n");
-  sll.remove(2);
-  printf("\n");
-  sll.print();
-
-  assert(3 == sll.size());
-  assert(1 == sll[0]);
-  assert(2 == sll[1]);
-  assert(3 == sll[2]);
-
-  printf("\n");
-  printf("Clearing all the things.\n");
-  sll.clear();
-  printf("\n");
-  
-  sll.print();
-  assert(sll.size() == 0);
-    
-// print_sll(sll);
-  // sll.remove(0);
-
-  // print_sll(sll);
-  // sll.remove(0);
-
-  // print_sll(sll);
-  // sll.remove(0);
-
-  // print_sll(sll);
-  // sll.remove(0);
-
-  printf("Done tests, length = %zu.\n", sll.size());
-}
-
-// =====================================================================================================================
 int main() {
   // reseune::measure_time(&tokenize);
   // while (true)
-  test_sll();
+  singly_linked_list<int>::run_tests();
 }
 
