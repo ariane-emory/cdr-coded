@@ -4,7 +4,7 @@
 #include "tokenizer.hpp"
 
 #define bases &base::
-#define BASES_T_MATCH_F(name) T_MATCH_F static constexpr span_t(base::*name)()
+#define BASES_MATCH_F(name) static constexpr span_t(base::*name)()
 #define rule static constexpr match_f
 
 #include "macros.hpp" // include last!
@@ -29,7 +29,7 @@ namespace reseune {
 
 #define X(...) my terminated_word<__VA_ARGS__>
 // #define Y(name) MATCH_F(name) { return any<name ## s>(); }
-#define Y(name) rule x__##name = my any<name ## s>
+#define Y(name) rule name = my any<name ## s>
     
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words.
@@ -46,29 +46,28 @@ namespace reseune {
 
 #undef Y
 #undef X
-
     
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    BASES_T_MATCH_F(terminated)   = my all<MF, my followed_by<    my lispesque_token_terminator>>;
-    BASES_T_MATCH_F(unterminated) = my all<MF, my not_followed_by<my lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(terminated)   = my all<MF, my followed_by<    my lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(unterminated) = my all<MF, my not_followed_by<my lispesque_token_terminator>>;
 
     // =================================================================================================================
     // Grammar rules.
     // =================================================================================================================
     rule lispesque_operator = my any<
-      my boolean_op,
-      my other_math_op,
-      my other_comparison_op,
-      my increment_decrement_op>;
+      boolean_op,
+      other_math_op,
+      other_comparison_op,
+      increment_decrement_op>;
 
     rule keyword_separator = my characters<'-'>;
 
     rule lispesque_primitive =
-      my any<my primitive_math_op,
-             my primitive_comparison_op,
-             my primitive_symbol>;
+      my any<primitive_math_op,
+             primitive_comparison_op,
+             primitive_symbol>;
 
     rule symbol_head =
       my all<my alpha,
@@ -128,6 +127,7 @@ namespace reseune {
 // Don't leak the macros!
 // =====================================================================================================================
 #undef bases
+#undef BASES_MATCH_F
 #undef BASES_T_MATCH_F
 #undef rule
 

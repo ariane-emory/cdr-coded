@@ -361,25 +361,6 @@ namespace reseune {
         my digits>();
     }
 
-#define X(...) my terminated_word<__VA_ARGS__>
-#define Y(name) MATCH_F(name) { return any<name ## s>(); }
-    
-    // =================================================================================================================
-    // Manufacture match_fs for common operator-like symbols as terminated_words.
-    // =================================================================================================================
-    Y(boolean_op);
-    Y(increment_decrement_op);
-    Y(other_comparison_op);
-    Y(other_math_op);
-    Y(primitive_comparison_op);
-    Y(primitive_math_op);
-
-    // Also for symbols likely to be primitives:
-    Y(primitive_symbol);
-
-#undef Y
-#undef X
-    
     // =================================================================================================================
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
