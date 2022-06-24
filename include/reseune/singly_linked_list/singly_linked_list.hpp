@@ -31,6 +31,8 @@ namespace reseune {
     // Protected member functions
     // =================================================================================================================
     node_type * seek(size_t index) {
+      // It UB to seek an index >= size().
+      
       if (index == 0)
         return m_head;
       else if (index == m_size - 1)
@@ -50,7 +52,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructor
     // =================================================================================================================
-    singly_linked_list(): m_head(nullptr), m_tail(nullptr), m_size(0) {}
+    constexpr singly_linked_list(): m_head(nullptr), m_tail(nullptr), m_size(0) {}
 
     // =================================================================================================================
     // Destructor
