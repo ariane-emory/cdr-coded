@@ -40,6 +40,10 @@ namespace reseune {
     BASES_MATCH_F(All)                    = my all<MFs...>;
     template <match_f... MFs>
     BASES_MATCH_F(Any)                    = my any<MFs...>;
+    template <match_f... MFs>
+    BASES_MATCH_F(Star)                   = my star<MFs...>;
+    template <match_f... MFs>
+    BASES_MATCH_F(Plus)                   = my plus<MFs...>;
     template <char... Cs>
     BASES_MATCH_F(Char)                   = my character<Cs...>;
     template <char... Cs>
