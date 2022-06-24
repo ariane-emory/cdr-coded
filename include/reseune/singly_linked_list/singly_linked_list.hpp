@@ -23,20 +23,20 @@ namespace reseune {
     // =================================================================================================================
     // Protected member fields
     // =================================================================================================================
-    node_type * _head;
-    node_type * _tail;
-    size_t      _size;
+    node_type * m_head;
+    node_type * m_tail;
+    size_t      m_size;
 
     // =================================================================================================================
     // Protected member functions
     // =================================================================================================================
     node_type * seek(size_t index) {
       if (index == 0)
-        return _head;
-      else if (index == _size - 1)
-        return _tail;
+        return m_head;
+      else if (index == m_size - 1)
+        return m_tail;
       else {
-        node_type * current = _head;
+        node_type * current = m_head;
 
         while (index-- > 0)
           current = current-> next;
@@ -50,7 +50,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructor
     // =================================================================================================================
-    singly_linked_list(): _head(nullptr), _tail(nullptr), _size(0) {}
+    singly_linked_list(): m_head(nullptr), m_tail(nullptr), m_size(0) {}
 
     // =================================================================================================================
     // Destructor
@@ -63,41 +63,41 @@ namespace reseune {
     // Public member functions
     // =================================================================================================================
     void add(value_type const & element) {
-      if (_head == nullptr) {
-        _tail = new node_type(element);
-        _head = _tail;
+      if (m_head == nullptr) {
+        m_tail = new node_type(element);
+        m_head = m_tail;
       }
       else {
-        _tail->next = new node_type(element);
-        _tail = _tail->next;
+        m_tail->next = new node_type(element);
+        m_tail = m_tail->next;
       }
 
-      _size++;
+      m_size++;
     }
 
     // =================================================================================================================
     value_type & operator[](size_t index) {
-      //if (_size == 0)
+      //if (m_size == 0)
       return seek(index)->data;
     }
 
     // =================================================================================================================
     size_t length() {
-      return _size;
+      return m_size;
     }
 
     // =================================================================================================================
     void clear() {
-      while (_head != nullptr)
+      while (m_head != nullptr)
         remove(0);
     }
 
     // =================================================================================================================
     void insert(size_t index, value_type const & element) { // Inserts before index.
       if (index == 0) {
-        node_type * tmp = _head;
-        _head = new node_type(element);
-        _head->next = tmp;
+        node_type * tmp = m_head;
+        m_head = new node_type(element);
+        m_head->next = tmp;
       }
       else {
         node_type * before = seek(index-1);
@@ -107,21 +107,21 @@ namespace reseune {
         before->next->next = after;
       }
 
-      _size++;
+      m_size++;
     }
 
     // =================================================================================================================
     void remove(size_t index) {
-      printf("/nHead = %zu, tail = %zu: Removing %zu.\n", _head, _tail, index);
+      printf("\nHead = %zu, tail = %zu: Removing %zu.\n", m_head, m_tail, index);
       
       node_type * target;
 
       if (index == 0) {
-        target = _head;
+        target = m_head;
         printf("Removing target %zu.\n", target);
-        _head = target->next;
-        if (_head->next == _head)
-          _tail = _head;
+        m_head = target->next;
+        if (m_head->next == m_head)
+          m_tail = m_head;
       }
       else {
         printf("This case happened!\n");
@@ -129,7 +129,7 @@ namespace reseune {
         target = pretarget->next;
         pretarget->next = target->next;
         if (pretarget->next == nullptr)
-                 _tail = pretarget;
+          m_tail = pretarget;
       }
 
       printf("About to destroy...\n");
@@ -137,7 +137,7 @@ namespace reseune {
       printf("Successfully destroyed.\n");
       
       delete target;
-      _size--;
+      m_size--;
     }
 
     // =================================================================================================================
@@ -147,7 +147,7 @@ namespace reseune {
 
     // =================================================================================================================
     size_t size() const {
-      return _size;
+      return m_size;
     }
 
     // =================================================================================================================
