@@ -73,8 +73,15 @@ void test_sll() {
   sll.add(3);
   
   printf("Added things.\n");
-
   print_sll(sll);
+
+  sll.remove(0);
+  print_sll(sll);
+
+  sll.remove(0);
+  print_sll(sll);
+
+  printf("Done tests.\n");
 }
 
 // =====================================================================================================================
