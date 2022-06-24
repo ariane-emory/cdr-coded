@@ -45,15 +45,16 @@ namespace reseune {
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
-    RENAME(match_f, optional,    Optional);
-    RENAME(match_f, intercalate, Intercalate);
-    RENAME(match_f, strip,       Strip);
+    
+    RENAME(char,    character,   Char);
+    RENAME(char,    characters,  Chars);
     RENAME(match_f, all,         All);
     RENAME(match_f, any,         Any);
     RENAME(match_f, star,        Star);
     RENAME(match_f, plus,        Plus);
-    RENAME(char,    character,   Char);
-    RENAME(char,    characters,  Chars);
+    RENAME(match_f, optional,    Optional);
+    RENAME(match_f, intercalate, Intercalate);
+    RENAME(match_f, strip,       Strip);
 #undef RENAME
 
     template <label_t L, match_f MF>

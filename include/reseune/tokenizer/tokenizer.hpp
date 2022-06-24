@@ -355,7 +355,8 @@ namespace reseune {
     }    
 
     // =================================================================================================================
-    // Manufacture functions of type match_f corresponding to various C-style string predicate functions.
+    // Manufacture functions of type match_f corresponding to various C-style string predicate functions. Each macro
+    // invocation makes 3 match_f functions: name. names and star_name.
     // =================================================================================================================
     FROM_C_CHAR_F(alnum,          isalnum);
     FROM_C_CHAR_F(alpha,          isalpha);
