@@ -68,7 +68,7 @@ namespace reseune {
 #undef X
     
     // =================================================================================================================
-    // Grammar rules: Just give some rules prettier names.
+    // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
     rule AlNums           = my alnums;
     rule Star_AlNums      = my star_alnums;
