@@ -39,7 +39,7 @@ namespace reseune {
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
+#define BASES_MATCH_F(name) static constexpr span_t(base_t::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
