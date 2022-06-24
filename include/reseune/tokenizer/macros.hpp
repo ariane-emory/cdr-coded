@@ -73,7 +73,9 @@
 #define RETURN_EMPTY          {log("%s: Returning empty after moving %zu.", __FUNCTION__, POS - start); return EMPTY;}
 
 #define T_MATCH_F             template <match_f MF>
+#define rule                  static constexpr match_f
 
+#define BASES_MATCH_F(name)   static constexpr span_t(tokenizer<tt>::*name)()
 #define CALL_MATCH_F(match_f) {indentation += 2; match = (this->*match_f)(); indentation -= 2;}
 #define MARK(name)            const char * const name{POS}; std::ignore = name
 #define unless(expr)          if (! (expr))

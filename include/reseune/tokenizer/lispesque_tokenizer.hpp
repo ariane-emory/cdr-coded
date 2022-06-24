@@ -2,10 +2,6 @@
 #define RESEUNE_LISPESQUE_TOKENIZER_HPP
 
 #include "tokenizer.hpp"
-
-#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
-#define rule static constexpr match_f
-
 #include "macros.hpp" // include last!
 
 // =====================================================================================================================
@@ -191,11 +187,6 @@ namespace reseune {
 // =====================================================================================================================
 // Don't leak the macros!
 // =====================================================================================================================
-#undef bases
-#undef BASES_MATCH_F
-#undef BASES_T_MATCH_F
-#undef rule
-
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
