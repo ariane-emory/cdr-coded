@@ -29,7 +29,7 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules for a Scheme-like Lisp
     // =================================================================================================================
-    rule Lispesque_Operator =
+    rule Operator =
       Any<Boolean_Op,
           Other_Math_Op,
           Other_Comparison_Op,
@@ -38,7 +38,7 @@ namespace reseune {
     rule Keyword_Separator =
       Chars<'-'>;
 
-    rule Lispesque_Primitive =
+    rule Primitive =
       Label<primitive,
             Any<Primitive_Math_Op,
                 Primitive_Comparison_Op,
@@ -56,7 +56,7 @@ namespace reseune {
                   Keyword_Separator,
                   AlNums>;
       
-    rule Lispesque_Keyword =
+    rule Keyword =
       Label<keyword,
             Terminated<Keyword_Body>>;
 
@@ -72,9 +72,9 @@ namespace reseune {
       
     rule Symbol_Trailer = Optional<Char<'!','?'>>;
       
-    rule Lispesque_Symbol =
+    rule Symbol =
       Label<symbol,
-            Terminated<Any<Lispesque_Operator,
+            Terminated<Any<Operator,
                            All<Symbol_Body,
                                Symbol_Trailer>>>>;
 
@@ -99,10 +99,14 @@ namespace reseune {
                 RParen,
                 Quote,
                 Integer,
-                Lispesque_Primitive,
-                Lispesque_Keyword,
-                Lispesque_Symbol>>;
+                Primitive,
+                Keyword,
+                Symbol>>;
 
+    // Rules that don't exist yet:
+    //   Quasiquote
+    //   Unquote
+    
     // =================================================================================================================
   };
   // ===================================================================================================================
