@@ -30,12 +30,19 @@ namespace reseune {
     // Pointers to match_f templates in base
     // =================================================================================================================
     T_MATCH_F BASES_MATCH_F(Optional)     = my optional<MF>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Intercalate)            = my intercalate<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Strip)                  = my strip<MFs...>;
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label)                  = my label<L, MF>;
+
+#define ALIAS(type, from, to)                                                   \
+    template <type... Args>                                                     \
+    BASES_MATCH_F(to) = my from<Args...>
+    
+    ALIAS(match_f, intercalate, Intercalate);
+    
+    // template <match_f... MFs>
+    // BASES_MATCH_F(Intercalate)            = my intercalate<MFs...>;
+    template <match_f... MFs>
+    BASES_MATCH_F(Strip)                  = my strip<MFs...>;
     template <match_f... MFs>
     BASES_MATCH_F(All)                    = my all<MFs...>;
     template <match_f... MFs>
@@ -44,6 +51,9 @@ namespace reseune {
     BASES_MATCH_F(Star)                   = my star<MFs...>;
     template <match_f... MFs>
     BASES_MATCH_F(Plus)                   = my plus<MFs...>;
+
+#undef ALIAS
+    
     template <char... Cs>
     BASES_MATCH_F(Char)                   = my character<Cs...>;
     template <char... Cs>
