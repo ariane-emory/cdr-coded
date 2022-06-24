@@ -31,15 +31,15 @@ namespace reseune {
     // =================================================================================================================
     // Types
     // =================================================================================================================
-    using tt     = lispesque_token_type;
     using base_t = tokenizer<tokenizer_span, lispesque_token_type>;
+    using tt     = base_t::label_t;
     using t      = lispesque_tokenizer;
 
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span_t(base_t::*name)()
+#define BASES_MATCH_F(name) static constexpr span_type (base_t::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
