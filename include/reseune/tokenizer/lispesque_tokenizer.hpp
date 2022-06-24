@@ -2,6 +2,7 @@
 #define RESEUNE_LISPESQUE_TOKENIZER_HPP
 
 #include "tokenizer.hpp"
+
 #include "macros.hpp" // include last!
 
 // =====================================================================================================================
