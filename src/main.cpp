@@ -63,14 +63,17 @@ void tokenize() {
 void test_sll() {
   singly_linked_list<int> sll;
 
-  printf("Adding things:\n");
+  printf("\nAdding things:\n");
   sll.add(1);
   sll.add(2);
   sll.add(3);
+  printf("\n");
   sll.print();
-
+  printf("\n");
+  
   printf("Inserting a thing:\n");
   sll.print();
+  printf("\n");
   
   // print_sll(sll);
   // sll.remove(0);
