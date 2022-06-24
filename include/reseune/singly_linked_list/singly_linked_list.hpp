@@ -173,7 +173,7 @@ namespace reseune {
     static constexpr void run_tests() {
       singly_linked_list<int> sll;
 
-      printf("\nAdding things.\n");
+      printf("\nTesting 'add'.\n");
       sll.add(8);
       sll.add(9);
       sll.add(3);
@@ -186,7 +186,7 @@ namespace reseune {
       assert(9 == sll[1]);
       assert(3 == sll[2]);
   
-      printf("Setting a thing.\n");
+      printf("Testing 'set'.\n");
       sll.set(1, 2);
       printf("\n");
       sll.print();
@@ -197,7 +197,7 @@ namespace reseune {
       assert(2 == sll[1]);
       assert(3 == sll[2]);  
 
-      printf("Setting another thing.\n");
+      printf("Testing 'set' again.\n");
       sll.set(0, 1);
       printf("\n");
       sll.print();
@@ -208,7 +208,7 @@ namespace reseune {
       assert(2 == sll[1]);
       assert(3 == sll[2]);  
 
-      printf("Inserting a thing.\n");
+      printf("Testing 'insert'.\n");
       sll.insert(2, 9);
       printf("\n");
       sll.print();
@@ -220,7 +220,7 @@ namespace reseune {
       assert(3 == sll[3]);
 
       printf("\n");
-      printf("Removing a thing.\n");
+      printf("Testing 'remove'.\n");
       sll.remove(2);
       printf("\n");
       sll.print();
@@ -231,7 +231,7 @@ namespace reseune {
       assert(3 == sll[2]);
 
       printf("\n");
-      printf("Clearing all the things.\n");
+      printf("Testing 'clear'.\n");
       sll.clear();
       printf("\n");
   
