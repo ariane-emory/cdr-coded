@@ -147,6 +147,8 @@ namespace reseune {
 
     // =================================================================================================================
     constexpr void set(size_t index, value_type const & element) {
+      // I am shocked that this does not leak memory when value_type is a pointer? It looks like it should, but
+      // seems not to?
       seek(index)->data = element;
     }
 
@@ -171,6 +173,12 @@ namespace reseune {
 
     // =====================================================================================================================
     static constexpr void run_tests() {
+      run_ptr_tests();
+      run_non_ptr_tests();
+    }
+    
+    // =====================================================================================================================
+    static constexpr void run_non_ptr_tests() {
       singly_linked_list<uintptr_t> sll;
 
       printf("\nTesting 'add'.\n");
