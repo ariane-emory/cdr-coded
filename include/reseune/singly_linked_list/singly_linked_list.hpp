@@ -67,10 +67,12 @@ namespace reseune {
     void add(value_type const & element) {
       if (m_head == nullptr) {
         m_tail = new node_type(element);
+        printf("Added head @ '%zu' pointing at '%zu'.\n", m_tail, m_tail->next);
         m_head = m_tail;
       }
       else {
         m_tail->next = new node_type(element);
+        printf("Added tail @ '%zu' pointing at '%zu'.\n", m_tail->next, m_tail->next->next);
         m_tail = m_tail->next;
       }
 

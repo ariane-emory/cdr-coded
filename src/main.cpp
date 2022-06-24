@@ -90,7 +90,7 @@ void test_sll() {
   // print_sll(sll);
   // sll.remove(0);
 
-  printf("Done tests.\n");
+  printf("Done tests, length = %zu.\n", sll.size());
 }
 
 // =====================================================================================================================
