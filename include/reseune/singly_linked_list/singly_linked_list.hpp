@@ -57,14 +57,14 @@ namespace reseune {
     // =================================================================================================================
     // Destructor
     // =================================================================================================================
-    virtual ~singly_linked_list() {
+    constexpr virtual ~singly_linked_list() {
       clear();
     }
 
     // =================================================================================================================
     // Public member functions
     // =================================================================================================================
-    void add(value_type const & element) {
+    constexpr void add(value_type const & element) {
       if (m_head == nullptr) {
         m_tail = m_head = new node_type(element);
         printf("Added head @ '%zu' -> '%zu': '%i'.\n", m_tail, m_tail->next, m_tail->data);
@@ -79,7 +79,8 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    void insert(size_t index, value_type const & element) { // Inserts before index.
+    constexpr void insert(size_t index, value_type const & element) {
+      // Inserts before index.
       if (index == 0) {
         printf("Left case.\n");
         
@@ -102,18 +103,18 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    value_type & operator[](size_t index) {
+    constexpr value_type & operator[](size_t index) {
       return seek(index)->data;
     }
 
     // =================================================================================================================
-    void clear() {
+    constexpr void clear() {
       while (m_head != nullptr)
         remove(0);
     }
 
     // =================================================================================================================
-    void remove(size_t index) {
+    constexpr void remove(size_t index) {
       // It is UB to remove from a list of length 0! Doing so will attempt to dereference a null pointer.
       
       // printf("\nRemoving from: Head @ %zu, tail @xs %zu: Removing index %zu.\n", m_head, m_tail, index);
@@ -145,19 +146,19 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    void set(size_t index, value_type const & element) {
+    constexpr void set(size_t index, value_type const & element) {
       seek(index)->data = element;
     }
 
     // =================================================================================================================
-    size_t size() const {
+    constexpr size_t size() const {
       return m_size;
     }
 
     // =====================================================================================================================
     // Some stupid debug functions and tests.
     // =====================================================================================================================
-    void print() {
+    constexpr void print() {
       printf("Printing: Head @ %zu, Tail @ %zu, Size = %zu.\n", m_head, m_tail, size());
       node_type * cursor = m_head;
       size_t ix = 0;
@@ -169,7 +170,7 @@ namespace reseune {
     }
 
     // =====================================================================================================================
-    static void run_tests() {
+    constexpr static void run_tests() {
       singly_linked_list<int> sll;
 
       printf("\nAdding things.\n");
