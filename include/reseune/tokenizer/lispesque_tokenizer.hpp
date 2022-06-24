@@ -98,7 +98,8 @@ namespace reseune {
           Other_Comparison_Op,
           Increment_Decrement_Op>;
 
-    rule Keyword_Separator = Chars<'-'>;
+    rule Keyword_Separator =
+      Chars<'-'>;
 
     rule Lispesque_Primitive =
       Label<primitive,
