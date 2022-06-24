@@ -69,7 +69,13 @@ namespace reseune {
 #undef X
     
     // =================================================================================================================
-    // Grammar rules.
+    // Grammar rules 1/2: Just give some rules prettier names.
+    // =================================================================================================================
+    rule AlNums     = __ alnums;
+    rule StarAlNums = __ star_alnums;
+
+    // =================================================================================================================
+    // Grammar rules 2/2: Main grammar
     // =================================================================================================================
     rule Lispesque_Operator = __ any<
       boolean_op,
@@ -86,8 +92,7 @@ namespace reseune {
                       primitive_symbol>>;
 
     rule Symbol_Head =
-      __ all<__ alpha,
-             __ star_alnums>;
+      __ all<AlNums>;
       
     rule Keyword_Head =
       __ all<__ character<':'>,
@@ -96,7 +101,7 @@ namespace reseune {
     rule Keyword_Body =
       __ intercalate<Keyword_Head,
                      Keyword_Separator,
-                     __ alnums>;
+                     AlNums>;
       
     rule Lispesque_Keyword =
       __ label<keyword,
@@ -106,11 +111,11 @@ namespace reseune {
       __ any<__ characters<'-'>,
              __ characters<':'>,
              __ characters<'/'>>;
-      
+
     rule Symbol_Body =
       __ intercalate<Symbol_Head,
                      Symbol_Separator,
-                     __ alnums>;
+                     AlNums>;
       
     rule Symbol_Trailer = __ optional<__ character<'!','?'>>;
       
