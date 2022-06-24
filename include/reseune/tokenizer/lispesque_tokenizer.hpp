@@ -89,23 +89,33 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
+    rule AlNum             = my alnum;
     rule AlNums            = my alnums;
     rule Star_AlNums       = my star_alnums;
+
+    rule Digit             = my digit;
     rule Digits            = my digits;
     rule Star_Digits       = my star_digits;
+
+    rule XDigit            = my xdigit;
     rule XDigits           = my xdigits;
     rule Star_XDigits      = my star_xdigits;
+
+    // Singular case is defined above.
     rule Whitespaces       = my whitespaces;
     rule Star_Whitespaces  = my star_whitespaces;
-    rule Pos_Integer       = my integer;
+
     rule NonZeroDigit      = Char<'1','2','3','4','5','6','7','8','9'>;
     rule NonZeroDigits     = Plus<NonZeroDigit>;
     rule StarNonZeroDigits = Star<NonZeroDigit>;
+
     rule ZeroDigit         = Char<'0'>;
     rule ZeroDigits        = Plus<ZeroDigit>;
     rule StarZeroDigits    = Star<ZeroDigit>;
 
-    // =================================================================================================================
+    rule Pos_Integer       = my integer;
+
+// =================================================================================================================
   };
   // ===================================================================================================================
 }
