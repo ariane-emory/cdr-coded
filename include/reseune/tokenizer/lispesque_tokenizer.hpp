@@ -38,13 +38,13 @@ namespace reseune {
     BASES_MATCH_F(to) = my from<Args...>
     
     RENAME(match_f, intercalate, Intercalate);
-    RENAME(match_f, strip, Strip);
-    RENAME(match_f, all, All);
-    RENAME(match_f, any, Any);
-    RENAME(match_f, star, Star);
-    RENAME(match_f, plus, Plus);
-    RENAME(char, character, Char);
-    RENAME(char, characters, Chars);
+    RENAME(match_f, strip,       Strip);
+    RENAME(match_f, all,         All);
+    RENAME(match_f, any,         Any);
+    RENAME(match_f, star,        Star);
+    RENAME(match_f, plus,        Plus);
+    RENAME(char,    character,   Char);
+    RENAME(char,    characters,  Chars);
 #undef RENAME
 
     // Declare these rules a little early since we're going to use it while making primitives:
