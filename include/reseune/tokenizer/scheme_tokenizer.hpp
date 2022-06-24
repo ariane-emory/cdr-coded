@@ -21,9 +21,7 @@ namespace reseune {
     // =================================================================================================================
     virtual MATCH_F(token) {
       // Matchmost lispesque tokens.
-      START;
-      MATCH;
-      RETURN_MATCH;
+      return (this->*Token)();
     }
     
   protected:
@@ -104,8 +102,6 @@ namespace reseune {
                 Lispesque_Primitive,
                 Lispesque_Keyword,
                 Lispesque_Symbol>>;
-
-    rule MF = Token;
 
     // =================================================================================================================
   };

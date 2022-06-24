@@ -8,7 +8,7 @@
 namespace reseune {
   
   // ===================================================================================================================
-  // Lispesque tokenizer class
+  // Lispesque tokenizer abstract class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
     using tt     = lispesque_token_type;
