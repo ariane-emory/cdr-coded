@@ -21,7 +21,6 @@ namespace reseune {
     // If I decide to stick with the names established here, maybe some of this stuff will just get pushed down into their
     // base class, maybe. Not sure yet.
 
-
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
@@ -39,7 +38,6 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
-
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
@@ -91,15 +89,23 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
-    rule AlNums           = my alnums;
-    rule Star_AlNums      = my star_alnums;
-    rule Digits           = my digits;
-    rule Star_Digits      = my star_digits;
-    rule XDigits          = my xdigits;
-    rule Star_XDigits     = my star_xdigits;
-    rule Whitespaces      = my whitespaces;
-    rule Star_Whitespaces = my star_whitespaces;
-    rule Pos_Integer      = my integer;
+    rule AlNums            = my alnums;
+    rule Star_AlNums       = my star_alnums;
+    rule Digits            = my digits;
+    rule Star_Digits       = my star_digits;
+    rule XDigits           = my xdigits;
+    rule Star_XDigits      = my star_xdigits;
+    rule Whitespaces       = my whitespaces;
+    rule Star_Whitespaces  = my star_whitespaces;
+    rule Pos_Integer       = my integer;
+
+    rule NonZeroDigit      = Char<'1','2','3','4','5','6','7','8','9'>;
+    rule NonZeroDigits     = Plus<NonZeroDigit>;
+    rule StarNonZeroDigits = Star<NonZeroDigit>;
+
+    rule ZeroDigit         = Char<'0'>;
+    rule ZeroDigits        = Plus<ZeroDigit>;
+    rule StarZeroDigits    = Star<ZeroDigit>;
 
     // =================================================================================================================
   };
