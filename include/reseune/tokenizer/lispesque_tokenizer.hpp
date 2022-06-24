@@ -42,7 +42,7 @@ namespace reseune {
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label) = my label<L, MF>;
 
-    // 'Rename' a bunch of functions from base to more knames that will make the written grammar read more nicely. The
+    // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
