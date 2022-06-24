@@ -38,20 +38,14 @@ namespace reseune {
     BASES_MATCH_F(to) = my from<Args...>
     
     ALIAS(match_f, intercalate, Intercalate);
+    ALIAS(match_f, strip, Strip);
+    ALIAS(match_f, all, All);
+    ALIAS(match_f, any, Any);
+    ALIAS(match_f, star, Star);
+    ALIAS(match_f, plus, Plus);
+    // ALIAS<char, character, Char>;
+    // ALIAS<char, characters, Chars>;
     
-    // template <match_f... MFs>
-    // BASES_MATCH_F(Intercalate)            = my intercalate<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Strip)                  = my strip<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(All)                    = my all<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Any)                    = my any<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Star)                   = my star<MFs...>;
-    template <match_f... MFs>
-    BASES_MATCH_F(Plus)                   = my plus<MFs...>;
-
 #undef ALIAS
     
     template <char... Cs>
