@@ -165,22 +165,6 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    T_MATCH_F MATCH_F(with_lispesque_token_terminator) {
-      return all<
-        MF,
-        my followed_by<
-          my lispesque_token_terminator>>();
-    }
-    
-    // =================================================================================================================
-    T_MATCH_F MATCH_F(without_lispesque_token_terminator) {
-      return all<
-        MF,
-        my not_followed_by<
-          my lispesque_token_terminator>>();
-    }
-    
-    // =================================================================================================================
     template <char_f CF>
     MATCH_F(character_f) {
       // Match a C-style char predicate function CF.
@@ -296,12 +280,6 @@ namespace reseune {
     template <typename... nil>
     MATCH_F(word) {
       return EMPTY;
-    }
-    
-    // =================================================================================================================
-    template <char... Cs>
-    MATCH_F(terminated_word) {
-      return with_lispesque_token_terminator<my word<Cs...>>();
     }
     
     // =================================================================================================================
