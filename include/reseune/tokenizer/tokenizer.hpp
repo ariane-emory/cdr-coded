@@ -39,7 +39,6 @@ namespace reseune {
     // =================================================================================================================
     // Debug logging helper functions
     // =================================================================================================================
-
     constexpr void log(const char * format, ...) const {
       unless (verbose)
         return;
@@ -57,7 +56,6 @@ namespace reseune {
     // =================================================================================================================
     using char_f   = int (*)(int);
     using label_t  = LABEL_T;
-    // using span_t   = tokenizer_span<label_t>;
     using match_f  = span_type (tokenizer::*)();
     using t        = tokenizer;
 
