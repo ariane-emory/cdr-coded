@@ -39,7 +39,7 @@ void tokenize() {
   using t          = scheme_tokenizer;
   t                  tokenizer{input};
   t::span_type       token{};
-  size_t             token_num{1};
+  size_t             token_num{};
 
 #define my &t::
 
@@ -48,7 +48,7 @@ void tokenize() {
     
     if (token)
       printf("Token #%zu is (token_type: '%s', string: '%s').\n",
-             token_num++,
+             ++token_num,
              lispesque_token_type_strings[token.label],
              token.c_str());
   } while (token);

@@ -96,14 +96,13 @@ namespace reseune {
             Terminated<Pos_Integer>>;
       
     rule Token =
-      Strip<
-      Any<LParen,
-          RParen,
-          Quote,
-          Integer,
-          Primitive,
-          Keyword,
-          Symbol>>;
+      Strip<Any<LParen,
+                RParen,
+                Quote,
+                Integer,
+                Primitive,
+                Keyword,
+                Symbol>>;
 
     // Rules that don't exist yet:
     //   Quasiquote
