@@ -170,7 +170,7 @@ namespace reseune {
     }
 
     // =====================================================================================================================
-    constexpr static void run_tests() {
+    static constexpr void run_tests() {
       singly_linked_list<int> sll;
 
       printf("\nAdding things.\n");
