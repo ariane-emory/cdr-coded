@@ -46,30 +46,32 @@ namespace reseune {
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 
+#define match_f base_t::match_f
+    
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my template from<Args...>
     
     RENAME(char,    character,   Char);
     RENAME(char,    characters,  Chars);
-    RENAME(base_t::match_f, all,         All);
-    RENAME(base_t::match_f, any,         Any);
-    RENAME(base_t::match_f, star,        Star);
-    RENAME(base_t::match_f, plus,        Plus);
-    RENAME(base_t::match_f, optional,    Optional);
-    RENAME(base_t::match_f, intercalate, Intercalate);
-    RENAME(base_t::match_f, strip,       Strip);
+    RENAME(match_f, all,         All);
+    RENAME(match_f, any,         Any);
+    RENAME(match_f, star,        Star);
+    RENAME(match_f, plus,        Plus);
+    RENAME(match_f, optional,    Optional);
+    RENAME(match_f, intercalate, Intercalate);
+    RENAME(match_f, strip,       Strip);
 #undef RENAME
 
-    template <base_t::label_type L, base_t::match_f MF>
+    template <base_t::label_type L, match_f MF>
     BASES_MATCH_F(Label) = my template label<L, MF>;
 
     // Declare these rules a little early since we're going to use it while making the termination-related templates:
-    static constexpr base_t::match_f Whitespace                 = my whitespace;
-    static constexpr base_t::match_f Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
+    static constexpr match_f Whitespace                 = my whitespace;
+    static constexpr match_f Lispesque_Token_Terminator = Any<Whitespace, Char<')'>>;
     
-    template <base_t::match_f MF> BASES_MATCH_F(Terminated)   = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
-    template <base_t::match_f MF> BASES_MATCH_F(Unterminated) = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
+    template <match_f MF> BASES_MATCH_F(Terminated)   = my template all<MF, my template followed_by    <Lispesque_Token_Terminator>>;
+    template <match_f MF> BASES_MATCH_F(Unterminated) = my template all<MF, my template not_followed_by<Lispesque_Token_Terminator>>;
     template <char... Cs>
     
     BASES_MATCH_F(Terminated_Word)        = Terminated<my template word<Cs...>>;
@@ -80,7 +82,7 @@ namespace reseune {
     // Manufacture match_f *s for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
 #define X(...) Terminated_Word<__VA_ARGS__>
-#define Y(name) static constexpr base_t::match_f name = Any<name ## s>
+#define Y(name) static constexpr match_f name = Any<name ## s>
     Y(Boolean_Op);
     Y(Increment_Decrement_Op);
     Y(Other_Comparison_Op);
@@ -94,15 +96,15 @@ namespace reseune {
     // =================================================================================================================
     // Grammar production rules: Just give some rules prettier names.
     // =================================================================================================================
-    static constexpr base_t::match_f AlNums           = my alnums;
-    static constexpr base_t::match_f Star_AlNums      = my star_alnums;
-    static constexpr base_t::match_f Digits           = my digits;
-    static constexpr base_t::match_f Star_Digits      = my star_digits;
-    static constexpr base_t::match_f XDigits          = my xdigits;
-    static constexpr base_t::match_f Star_XDigits     = my star_xdigits;
-    static constexpr base_t::match_f Whitespaces      = my whitespaces;
-    static constexpr base_t::match_f Star_Whitespaces = my star_whitespaces;
-    static constexpr base_t::match_f Pos_Integer      = my integer;
+    static constexpr match_f AlNums           = my alnums;
+    static constexpr match_f Star_AlNums      = my star_alnums;
+    static constexpr match_f Digits           = my digits;
+    static constexpr match_f Star_Digits      = my star_digits;
+    static constexpr match_f XDigits          = my xdigits;
+    static constexpr match_f Star_XDigits     = my star_xdigits;
+    static constexpr match_f Whitespaces      = my whitespaces;
+    static constexpr match_f Star_Whitespaces = my star_whitespaces;
+    static constexpr match_f Pos_Integer      = my integer;
 
     // =================================================================================================================
   };
@@ -111,6 +113,7 @@ namespace reseune {
 // =====================================================================================================================
 // Don't leak the macros!
 // =====================================================================================================================
+#undef match_f
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
