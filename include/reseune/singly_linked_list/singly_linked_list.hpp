@@ -243,53 +243,53 @@ namespace reseune {
 
     // =====================================================================================================================
     static constexpr void run_ptr_tests() {
-      singly_linked_list<int> sll;
+      singly_linked_list<uintptr_t *> sll;
 
       printf("\nTesting 'add'.\n");
-      sll.add(8);
-      sll.add(9);
-      sll.add(3);
+      sll.add(new uintptr_t(8));
+      sll.add(new uintptr_t(9));
+      sll.add(new uintptr_t(3));
       printf("\n");
       sll.print();
       printf("\n");
 
       assert(3 == sll.size());
-      assert(8 == sll[0]);
-      assert(9 == sll[1]);
-      assert(3 == sll[2]);
+      assert(8 == *sll[0]);
+      assert(9 == *sll[1]);
+      assert(3 == *sll[2]);
   
       printf("Testing 'set'.\n");
-      sll.set(1, 2);
+      sll.set(1, new uintptr_t(2));
       printf("\n");
       sll.print();
       printf("\n");
 
       assert(3 == sll.size());
-      assert(8 == sll[0]);
-      assert(2 == sll[1]);
-      assert(3 == sll[2]);  
+      assert(8 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);  
 
       printf("Testing 'set' again.\n");
-      sll.set(0, 1);
+      sll.set(0, new uintptr_t(1));
       printf("\n");
       sll.print();
       printf("\n");
 
       assert(3 == sll.size());
-      assert(1 == sll[0]);
-      assert(2 == sll[1]);
-      assert(3 == sll[2]);  
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);  
 
       printf("Testing 'insert'.\n");
-      sll.insert(2, 9);
+      sll.insert(2, new uintptr_t(9));
       printf("\n");
       sll.print();
   
       assert(4 == sll.size());
-      assert(1 == sll[0]);
-      assert(2 == sll[1]);
-      assert(9 == sll[2]);
-      assert(3 == sll[3]);
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(9 == *sll[2]);
+      assert(3 == *sll[3]);
 
       printf("\n");
       printf("Testing 'remove'.\n");
@@ -298,9 +298,9 @@ namespace reseune {
       sll.print();
 
       assert(3 == sll.size());
-      assert(1 == sll[0]);
-      assert(2 == sll[1]);
-      assert(3 == sll[2]);
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);
 
       printf("\n");
       printf("Testing 'clear'.\n");
