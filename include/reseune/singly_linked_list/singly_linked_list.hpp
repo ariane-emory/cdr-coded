@@ -86,7 +86,7 @@ namespace reseune {
       }
       else {
         node_type * before = seek(index-1);
-        node_type * after = before->next;
+        node_type * after  = before->next;
 
         before->next = new node_type(element);
         before->next->next = after;

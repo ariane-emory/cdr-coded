@@ -72,7 +72,7 @@ void test_sll() {
   sll.add(1);
   sll.add(2);
   sll.add(4);
-  sll.insert(3, 3);
+  sll.insert(3, 99);
   // sll.insert(1 , 5);
 
   print_sll(sll);
