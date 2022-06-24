@@ -74,9 +74,10 @@ namespace reseune {
       
     rule Symbol =
       Label<symbol,
-            Terminated<Any<Operator,
-                           All<Symbol_Body,
-                               Symbol_Trailer>>>>;
+            Terminated<
+              Any<Operator,
+                  All<Symbol_Body,
+                      Symbol_Trailer>>>>;
 
     rule LParen =
       Label<l_paren,
@@ -95,13 +96,14 @@ namespace reseune {
             Terminated<Pos_Integer>>;
       
     rule Token =
-      Strip<Any<LParen,
-                RParen,
-                Quote,
-                Integer,
-                Primitive,
-                Keyword,
-                Symbol>>;
+      Strip<
+      Any<LParen,
+          RParen,
+          Quote,
+          Integer,
+          Primitive,
+          Keyword,
+          Symbol>>;
 
     // Rules that don't exist yet:
     //   Quasiquote
