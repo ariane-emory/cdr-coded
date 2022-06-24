@@ -1,5 +1,7 @@
-#include "reseune/tokenizer/scheme_tokenizer.hpp"
+#include <cassert>
+
 #include "reseune/util/util.hpp"
+#include "reseune/tokenizer/scheme_tokenizer.hpp"
 #include "reseune/singly_linked_list/singly_linked_list.hpp"
 
 // =====================================================================================================================
@@ -70,12 +72,34 @@ void test_sll() {
   printf("\n");
   sll.print();
   printf("\n");
+
+  assert(sll.size() == 3);
+  assert(sll[0] == 1);
+  assert(sll[1] == 2);
+  assert(sll[2] == 3);
   
   printf("Inserting a thing:\n");
+  sll.insert(2, 99);
+  printf("\n");
   sll.print();
   printf("\n");
   
-  // print_sll(sll);
+  assert(sll.size() == 4);
+  assert(sll[0] == 1);
+  assert(sll[1] == 2);
+  assert(sll[2] == 99);
+  assert(sll[3] == 3);
+
+  sll.remove(2);
+  assert(sll.size() == 2);
+  assert(sll[0] == 1);
+  assert(sll[1] == 2);
+  assert(sll[2] == 3);
+
+  sll.clear();
+  assert(sll.size() == 0);
+    
+// print_sll(sll);
   // sll.remove(0);
 
   // print_sll(sll);

@@ -65,7 +65,7 @@ namespace reseune {
     // Public member functions
     // =================================================================================================================
     void print() {
-      // printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
+      printf("Printing: Head @ %zu, Tail @ %zu, Size = %zu.\n", m_head, m_tail, size());
       node_type * cursor = m_head;
       size_t ix = 0;
       
