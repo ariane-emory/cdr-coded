@@ -1,6 +1,7 @@
 #ifndef RESEUNE_TOKENIZER_SPAN_WITH_CHILDREN_HPP
 #define RESEUNE_TOKENIZER_SPAN_WITH_CHILDREN_HPP
 
+#include "../singly_linked_list/singly_linked_list.hpp"
 #include "../singly_linked/singly_linked.hpp"
 
 // =====================================================================================================================
