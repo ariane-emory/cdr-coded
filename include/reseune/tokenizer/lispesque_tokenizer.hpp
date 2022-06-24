@@ -53,6 +53,9 @@ namespace reseune {
     template <char... Cs>
     BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
 
+    template <label_t L, match_f MF>
+    BASES_MATCH_F(Label)          = __ label<L, MF>;
+
     template <match_f... MFs>
     BASES_MATCH_F(All)            = __ all<MFs...>;
 
@@ -63,8 +66,7 @@ namespace reseune {
     BASES_MATCH_F(Character)      = __ character<Cs...>;
     
     template <char... Cs>
-    BASES_MATCH_F(Characters)     = __ characters<Cs...>;
-    
+    BASES_MATCH_F(Characters)     = __ characters<Cs...>;    
 
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
@@ -99,17 +101,17 @@ namespace reseune {
     rule Keyword_Separator = Characters<'-'>;
 
     rule Lispesque_Primitive =
-      __ label<primitive,
-               __ any<primitive_math_op,
-                      primitive_comparison_op,
-                      primitive_symbol>>;
+      Label<primitive,
+            Any<primitive_math_op,
+                primitive_comparison_op,
+                primitive_symbol>>;
 
     rule Symbol_Head =
-      __ all<AlNums>;
+      All<AlNums>;
       
     rule Keyword_Head =
-      __ all<Character<':'>,
-             Symbol_Head>;
+      All<Character<':'>,
+          Symbol_Head>;
 
     rule Keyword_Body =
       __ intercalate<Keyword_Head,
@@ -117,13 +119,13 @@ namespace reseune {
                      AlNums>;
       
     rule Lispesque_Keyword =
-      __ label<keyword,
-               Terminated<Keyword_Body>>;
+      Label<keyword,
+            Terminated<Keyword_Body>>;
 
     rule Symbol_Separator =
-      __ any<Characters<'-'>,
-             Characters<':'>,
-             Characters<'/'>>;
+      Any<Characters<'-'>,
+          Characters<':'>,
+          Characters<'/'>>;
 
     rule Symbol_Body =
       __ intercalate<Symbol_Head,
@@ -133,36 +135,36 @@ namespace reseune {
     rule Symbol_Trailer = __ optional<Character<'!','?'>>;
       
     rule Lispesque_Symbol =
-      __ label<symbol,
-               Terminated<__ any<Lispesque_Operator,
-                                 __ all<Symbol_Body,
-                                        Symbol_Trailer>>>>;
+      Label<symbol,
+            Terminated<Any<Lispesque_Operator,
+                           All<Symbol_Body,
+                               Symbol_Trailer>>>>;
 
     rule LParen =
-      __ label<l_paren,
-               Character<'('>>;
+      Label<l_paren,
+            Character<'('>>;
 
     rule RParen =
-      __ label<r_paren,
-               Terminated<Character<')'>>>;
+      Label<r_paren,
+            Terminated<Character<')'>>>;
 
     rule Quote =
-      __ label<quote,
-               Unterminated<Character<'\''>>>;
+      Label<quote,
+            Unterminated<Character<'\''>>>;
 
     rule Integer =
-      __ label<tt::integer,
-               Terminated<__ integer>>;
+      Label<tt::integer,
+            Terminated<__ integer>>;
       
     rule Token =
       __ strip<
-      __ any<LParen,
-             RParen,
-             Quote,
-             Integer,
-             Lispesque_Primitive,
-             Lispesque_Keyword,
-             Lispesque_Symbol>>;
+      Any<LParen,
+          RParen,
+          Quote,
+          Integer,
+          Lispesque_Primitive,
+          Lispesque_Keyword,
+          Lispesque_Symbol>>;
 
     rule MF = Token;
     
