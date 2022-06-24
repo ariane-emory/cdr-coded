@@ -40,11 +40,11 @@ namespace reseune {
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span_type (base_t::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
 
+#define BASES_MATCH_F(name) static constexpr span_type (base_t::*name)()
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
@@ -69,10 +69,8 @@ namespace reseune {
     
     T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by    <Lispesque_Token_Terminator>>;
     T_MATCH_F BASES_MATCH_F(Unterminated) = my all<MF, my not_followed_by<Lispesque_Token_Terminator>>;
-    template <char... Cs>
-    
+    template <char... Cs>    
     BASES_MATCH_F(Terminated_Word)        = Terminated<my word<Cs...>>;
-    
 #undef BASES_MATCH_F
 
     // =================================================================================================================
