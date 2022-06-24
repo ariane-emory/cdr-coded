@@ -47,16 +47,23 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    T_MATCH_F BASES_MATCH_F(terminated)   = __ all<MF, __ followed_by<    Lispesque_token_terminator>>;
-    T_MATCH_F BASES_MATCH_F(unterminated) = __ all<MF, __ not_followed_by<Lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(Terminated)   = __ all<MF, __ followed_by<    Lispesque_token_terminator>>;
+    T_MATCH_F BASES_MATCH_F(Unterminated) = __ all<MF, __ not_followed_by<Lispesque_token_terminator>>;
 
     template <char... Cs>
-    BASES_MATCH_F(terminated_word)        = terminated<__ word<Cs...>>;
+    BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
+
+    template <char C>
+    BASES_MATCH_F(Character)      = __ character<C>;
     
+    template <char... Cs>
+    BASES_MATCH_F(Characters)     = __ characters<Cs...>;
+    
+
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
-#define X(...) terminated_word<__VA_ARGS__>
+#define X(...) TerminatedWord<__VA_ARGS__>
 #define Y(name) rule name = __ any<name ## s>
     Y(boolean_op);
     Y(increment_decrement_op);
@@ -105,7 +112,7 @@ namespace reseune {
       
     rule Lispesque_Keyword =
       __ label<keyword,
-               terminated<Keyword_Body>>;
+               Terminated<Keyword_Body>>;
 
     rule Symbol_Separator =
       __ any<__ characters<'-'>,
@@ -121,7 +128,7 @@ namespace reseune {
       
     rule Lispesque_Symbol =
       __ label<symbol,
-               terminated<__ any<Lispesque_Operator,
+               Terminated<__ any<Lispesque_Operator,
                                  __ all<Symbol_Body,
                                         Symbol_Trailer>>>>;
 
@@ -131,15 +138,15 @@ namespace reseune {
 
     rule RParen =
       __ label<r_paren,
-               terminated<__ character<')'>>>;
+               Terminated<__ character<')'>>>;
 
     rule Quote =
       __ label<quote,
-               unterminated<__ character<'\''>>>;
+               Unterminated<__ character<'\''>>>;
 
     rule Integer =
       __ label<tt::integer,
-               terminated<__ integer>>;
+               Terminated<__ integer>>;
       
     rule Token =
       __ strip<
