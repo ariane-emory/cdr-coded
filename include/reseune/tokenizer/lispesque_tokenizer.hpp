@@ -9,7 +9,7 @@ namespace reseune {
   // ===================================================================================================================
   // Lispesque tokenizer abstract class
   // ===================================================================================================================
-  struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
+  struct lispesque_tokenizer : public tokenizer<tokenizer_span, lispesque_token_type> {
 
     // This class mostly just does some aliasing and forwarding of names so as to let the descendent class write it's
     // language's grammar in a more pleasant and readable way: it doesn't really do any work, it just renames stuff to
@@ -32,14 +32,14 @@ namespace reseune {
     // Types
     // =================================================================================================================
     using tt     = lispesque_token_type;
-    using base_t = tokenizer<tt>;
+    using base_t = tokenizer<tokenizer_span, lispesque_token_type>;
     using t      = lispesque_tokenizer;
 
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
 
-#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
+#define BASES_MATCH_F(name) static constexpr span_t(base_t::*name)()
 
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
