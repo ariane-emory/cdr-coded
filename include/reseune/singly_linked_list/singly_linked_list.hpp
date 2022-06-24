@@ -114,7 +114,9 @@ namespace reseune {
 
     // =================================================================================================================
     void remove(size_t index) {
-      printf("\nHead = %zu, tail = %zu: Removing %zu.\n", m_head, m_tail, index);
+      // It is UB to remove from a list of length 0! Doing so will attempt to dereference a null pointer.
+      
+      printf("\nRemoving from: Head = %zu, tail = %zu: Removing %zu.\n", m_head, m_tail, index);
       
       node_type * target;
 
@@ -122,7 +124,7 @@ namespace reseune {
         target = m_head;
         printf("Removing target %zu.\n", target);
         m_head = target->next;
-        if (m_head->next == m_head)
+        if (m_head == nullptr)
           m_tail = m_head;
       }
       else {
