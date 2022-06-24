@@ -33,25 +33,19 @@ namespace reseune {
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label)                  = my label<L, MF>;
 
-#define ALIAS(type, from, to)                                                   \
+#define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
     
-    ALIAS(match_f, intercalate, Intercalate);
-    ALIAS(match_f, strip, Strip);
-    ALIAS(match_f, all, All);
-    ALIAS(match_f, any, Any);
-    ALIAS(match_f, star, Star);
-    ALIAS(match_f, plus, Plus);
-    // ALIAS<char, character, Char>;
-    // ALIAS<char, characters, Chars>;
-    
-#undef ALIAS
-    
-    template <char... Cs>
-    BASES_MATCH_F(Char)                   = my character<Cs...>;
-    template <char... Cs>
-    BASES_MATCH_F(Chars)                  = my characters<Cs...>;    
+    RENAME(match_f, intercalate, Intercalate);
+    RENAME(match_f, strip, Strip);
+    RENAME(match_f, all, All);
+    RENAME(match_f, any, Any);
+    RENAME(match_f, star, Star);
+    RENAME(match_f, plus, Plus);
+    RENAME(char, character, Char);
+    RENAME(char, characters, Chars);
+#undef RENAME
 
     // Declare these rules a little early since we're going to use it while making primitives:
     rule Whitespace                       = my whitespace;
