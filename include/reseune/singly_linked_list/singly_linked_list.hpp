@@ -64,8 +64,14 @@ namespace reseune {
     // =================================================================================================================
     // Public member functions
     // =================================================================================================================
-
     void print() {
+      printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
+      for (size_t ix = 0; ix < size(); ix++)
+        printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
+    }
+
+    // =================================================================================================================
+    void loop_print() {
       printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
       for (size_t ix = 0; ix < size(); ix++)
         printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
