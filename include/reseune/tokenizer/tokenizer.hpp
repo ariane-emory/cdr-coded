@@ -32,6 +32,10 @@ namespace reseune {
     using label_type = LABEL_T;
 
   protected:
+    
+    // =================================================================================================================
+    // Protected member fields
+    // =================================================================================================================
     c_str_cursor cursor;
     
     // These are both only used by the log method below for debug output:
@@ -39,7 +43,7 @@ namespace reseune {
     size_t       indentation;
 
     // =================================================================================================================
-    // Debug logging helper functions
+    // Debug logging helper function
     // =================================================================================================================
 
     constexpr void log(const char * format, ...) const {
