@@ -1,7 +1,6 @@
 #ifndef RESEUNE_LISP_TOKENIZER_HPP
 #define RESEUNE_LISP_TOKENIZER_HPP
 
-#include "tokenizer.hpp"
 #include "lispesque_tokenizer.hpp"
 #include "macros.hpp" // include last!
 
