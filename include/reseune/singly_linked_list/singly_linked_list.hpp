@@ -18,6 +18,7 @@ namespace reseune {
     using value_type = T;
     using node_type  = singly_linked<T>;
     
+  protected:
 
     // =================================================================================================================
     // Protected member fields
@@ -25,7 +26,6 @@ namespace reseune {
     node_type * m_head;
     node_type * m_tail;
 
-  protected:
 
     size_t      m_size;
 
