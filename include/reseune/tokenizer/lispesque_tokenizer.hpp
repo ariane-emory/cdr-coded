@@ -98,11 +98,9 @@ namespace reseune {
     rule Whitespaces       = my whitespaces;
     rule Star_Whitespaces  = my star_whitespaces;
     rule Pos_Integer       = my integer;
-
     rule NonZeroDigit      = Char<'1','2','3','4','5','6','7','8','9'>;
     rule NonZeroDigits     = Plus<NonZeroDigit>;
     rule StarNonZeroDigits = Star<NonZeroDigit>;
-
     rule ZeroDigit         = Char<'0'>;
     rule ZeroDigits        = Plus<ZeroDigit>;
     rule StarZeroDigits    = Star<ZeroDigit>;
