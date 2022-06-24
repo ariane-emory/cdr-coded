@@ -381,16 +381,6 @@ namespace reseune {
 #undef X
     
     // =================================================================================================================
-    MATCH_F(lispesque_operator) {
-      // Match various operator-like symbols.
-      return any<
-        my boolean_op,
-        my other_math_op,
-        my other_comparison_op,
-        my increment_decrement_op>();
-    }
-
-    // =================================================================================================================
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are

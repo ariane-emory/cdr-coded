@@ -25,7 +25,29 @@ namespace reseune {
     // =================================================================================================================
     constexpr lispesque_tokenizer(const char * const str) : base(str) {}
 
-  private: 
+  private:
+
+#define X(...) my terminated_word<__VA_ARGS__>
+// #define Y(name) MATCH_F(name) { return any<name ## s>(); }
+#define Y(name) rule x__ ## name = my any<name ## s>
+    
+    // =================================================================================================================
+    // Manufacture match_fs for common operator-like symbols as terminated_words.
+    // =================================================================================================================
+    Y(boolean_op);
+    Y(increment_decrement_op);
+    Y(other_comparison_op);
+    Y(other_math_op);
+    Y(primitive_comparison_op);
+    Y(primitive_math_op);
+
+    // Also for symbols likely to be primitives:
+    Y(primitive_symbol);
+
+#undef Y
+#undef X
+
+    
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
@@ -35,6 +57,12 @@ namespace reseune {
     // =================================================================================================================
     // Grammar rules.
     // =================================================================================================================
+    rule lispesque_operator = my any<
+      my boolean_op,
+      my other_math_op,
+      my other_comparison_op,
+      my increment_decrement_op>;
+
     rule keyword_separator = my characters<'-'>;
 
     rule lispesque_primitive =
@@ -70,7 +98,7 @@ namespace reseune {
     rule symbol_trailer = my optional<my character<'!','?'>>;
       
     rule lispesque_symbol =
-      terminated<my any<my lispesque_operator,
+      terminated<my any<lispesque_operator,
                         my all<symbol_body,
                                symbol_trailer>>>;
     
