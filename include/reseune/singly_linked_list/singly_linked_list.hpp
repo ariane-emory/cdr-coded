@@ -21,9 +21,9 @@ namespace reseune {
     // =================================================================================================================
     class node {
     public:
-      value_type value;
+      value_type data;
       node* next;
-      node(value_type const & _value) : value(_value), next(nullptr) {}
+      node(value_type const & _value) : data(_value), next(nullptr) {}
     };
     // =================================================================================================================
 
@@ -85,7 +85,7 @@ namespace reseune {
     // =================================================================================================================
     value_type & operator[](size_t index) {
       if (_size == 0)
-        return seek(index)->value;
+        return seek(index)->data;
     }
 
     // =================================================================================================================
@@ -130,14 +130,14 @@ namespace reseune {
           _tail = pretarget;
       }
 
-      DT<value_type>::destroy(target->value);
+      DT<value_type>::destroy(target->data);
       delete target;
       _size--;
     }
 
     // =================================================================================================================
     void set(size_t index, value_type const & element) override {
-      seek(index)->value = element;
+      seek(index)->data = element;
     }
 
     // =================================================================================================================
