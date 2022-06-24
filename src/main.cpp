@@ -63,7 +63,7 @@ void tokenize() {
 void print_sll(singly_linked_list<int> & sll) {
   printf("\nPrinting: Head: %zu, Tail: %zu\n", sll.m_head, sll.m_tail);
   for (size_t ix = 0; ix < sll.size(); ix++)
-    printf("Item %zu = '%i'.\n", ix, sll[ix]);
+    printf("Item #%zu = '%i'.\n", ix, sll[ix]);
 }
 
 // =====================================================================================================================

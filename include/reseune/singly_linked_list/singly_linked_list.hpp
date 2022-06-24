@@ -80,15 +80,20 @@ namespace reseune {
     // =================================================================================================================
     void insert(size_t index, value_type const & element) { // Inserts before index.
       if (index == 0) {
+        printf("Left case.\n");
+        
         node_type * tmp = m_head;
         m_head = new node_type(element);
         m_head->next = tmp;
       }
       else {
+        printf("Right case, element = '%i'.\n", element);
+        
         node_type * before = seek(index-1);
         node_type * after  = before->next;
 
         before->next = new node_type(element);
+        printf("New node's value is '%i'.\n", before->next->data);
         before->next->next = after;
       }
 
