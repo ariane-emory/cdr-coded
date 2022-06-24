@@ -9,6 +9,7 @@ namespace reseune {
   // ===================================================================================================================
   // Lispesque tokenizer abstract class
   // ===================================================================================================================
+  template <typename BASE_T>
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
 
     // This class mostly just does some aliasing and forwarding of names so as to let the descendent class write it's
@@ -31,7 +32,7 @@ namespace reseune {
     // =================================================================================================================
     // Types
     // =================================================================================================================
-    using base_t = tokenizer<lispesque_token_type>;
+    using base_t = BASE_T;
     using tt     = base_t::label_t;
     using t      = lispesque_tokenizer;
 
