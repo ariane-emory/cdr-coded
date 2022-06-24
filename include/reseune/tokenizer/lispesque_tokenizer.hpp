@@ -79,9 +79,10 @@ namespace reseune {
     rule Keyword_Separator = my characters<'-'>;
 
     rule Lispesque_Primitive =
-      my any<primitive_math_op,
-             primitive_comparison_op,
-             primitive_symbol>;
+      my label<primitive,
+               my any<primitive_math_op,
+                      primitive_comparison_op,
+                      primitive_symbol>>;
 
     rule Symbol_Head =
       my all<my alpha,
@@ -96,7 +97,9 @@ namespace reseune {
                      Keyword_Separator,
                      my alnums>;
       
-    rule Lispesque_Keyword = terminated<Keyword_Body>;
+    rule Lispesque_Keyword =
+      my label<keyword,
+               terminated<Keyword_Body>>;
 
     rule Symbol_Separator =
       my any<my characters<'-'>,
@@ -111,9 +114,10 @@ namespace reseune {
     rule Symbol_Trailer = my optional<my character<'!','?'>>;
       
     rule Lispesque_Symbol =
-      terminated<my any<Lispesque_Operator,
-                        my all<Symbol_Body,
-                               Symbol_Trailer>>>;
+      my label<symbol,
+               terminated<my any<Lispesque_Operator,
+                                 my all<Symbol_Body,
+                                        Symbol_Trailer>>>>;
 
     rule Token =
       my strip<
@@ -121,13 +125,11 @@ namespace reseune {
              my label<r_paren,     terminated<my character<')'>>>,
              my label<quote,       unterminated<my character<'\''>>>,
              my label<tt::integer, terminated<my integer>>,
-             my label<primitive,   Lispesque_Primitive>,
-             my label<keyword,     Lispesque_Keyword>,
-             my label<symbol,      Lispesque_Symbol>>>;
+             Lispesque_Primitive,
+             Lispesque_Keyword,
+             Lispesque_Symbol>>;
 
     rule MF = Token;
-    
-  public:
     
     // =================================================================================================================
   };
