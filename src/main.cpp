@@ -1,4 +1,4 @@
-#include "reseune/tokenizer/lisp_tokenizer.hpp"
+#include "reseune/tokenizer/scheme_tokenizer.hpp"
 #include "reseune/util/util.hpp"
 
 // ===============================================================================================================
@@ -36,7 +36,7 @@ void tokenize() {
   };
 
   using namespace    reseune; 
-  using t          = lisp_tokenizer;
+  using t          = scheme_tokenizer;
   t                  tokenizer{input};
   t::span_type       token{};
   size_t             token_num{1};

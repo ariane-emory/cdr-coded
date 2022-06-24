@@ -1,5 +1,5 @@
-#ifndef RESEUNE_LISP_TOKENIZER_HPP
-#define RESEUNE_LISP_TOKENIZER_HPP
+#ifndef RESEUNE_SCHEME_TOKENIZER_HPP
+#define RESEUNE_SCHEME_TOKENIZER_HPP
 
 #include "lispesque_tokenizer.hpp"
 #include "macros.hpp" // include last!
@@ -10,17 +10,17 @@ namespace reseune {
   // ===================================================================================================================
   // Lisp tokenizer class
   // ===================================================================================================================
-  struct lisp_tokenizer : public lispesque_tokenizer {
+  struct scheme_tokenizer : public lispesque_tokenizer {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr lisp_tokenizer(const char * const str) : lispesque_tokenizer(str) {}
+    constexpr scheme_tokenizer(const char * const str) : lispesque_tokenizer(str) {}
 
     // =================================================================================================================
     // Main terminal
     // =================================================================================================================
     virtual MATCH_F(token) {
-      // Match most lispesque tokens.
+      // Matchmost lispesque tokens.
       START;
       MATCH;
       RETURN_MATCH;
