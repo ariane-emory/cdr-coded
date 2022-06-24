@@ -18,11 +18,6 @@ namespace reseune {
     // If I decide to stick with the names established here, maybe some of this stuff will just get pushed down into their
     // base class, maybe. Not sure yet.
 
-    // =================================================================================================================
-    // Macros
-    // =================================================================================================================
-    
-#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
 
     // =================================================================================================================
     // Constructors
@@ -41,8 +36,11 @@ namespace reseune {
     // =================================================================================================================
     // Pointers to match_f templates in base
     // =================================================================================================================
+
+#define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
+
     template <label_t L, match_f MF>
-    BASES_MATCH_F(Label)                  = my label<L, MF>;
+    BASES_MATCH_F(Label) = my label<L, MF>;
 
     // 'Rename' a bunch of functions from base to more knames that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
@@ -64,13 +62,16 @@ namespace reseune {
     rule Whitespace                       = my whitespace;
     rule Lispesque_Token_Terminator       = Any<Whitespace, Char<')'>>;
     
-    T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by<    Lispesque_Token_Terminator>>;
+    T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by    <Lispesque_Token_Terminator>>;
     T_MATCH_F BASES_MATCH_F(Unterminated) = my all<MF, my not_followed_by<Lispesque_Token_Terminator>>;
     template <char... Cs>
+    
     BASES_MATCH_F(Terminated_Word)        = Terminated<my word<Cs...>>;
+    
+#undef BASES_MATCH_F
 
     // =================================================================================================================
-    // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
+    // Manufacture match_f *s for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
 #define X(...) Terminated_Word<__VA_ARGS__>
 #define Y(name) rule name = Any<name ## s>
@@ -104,7 +105,6 @@ namespace reseune {
 // =====================================================================================================================
 // Don't leak the macros!
 // =====================================================================================================================
-#undef BASES_MATCH_F
 #include "undef_macros.hpp"
 // =====================================================================================================================
 #endif
