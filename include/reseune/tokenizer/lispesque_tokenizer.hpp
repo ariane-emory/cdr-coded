@@ -15,14 +15,14 @@ namespace reseune {
   // Lispesque tokenizer class
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
-    using tt   = lispesque_token_type;
-    using base = tokenizer<tt>;
-    using t    = lispesque_tokenizer;
+    using tt     = lispesque_token_type;
+    using base_t = tokenizer<tt>;
+    using t      = lispesque_tokenizer;
 
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr lispesque_tokenizer(const char * const str) : base(str) {}
+    constexpr lispesque_tokenizer(const char * const str) : base_t(str) {}
 
     // =================================================================================================================
     // Main terminal
