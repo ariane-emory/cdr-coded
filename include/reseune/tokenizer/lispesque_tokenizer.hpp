@@ -78,6 +78,8 @@ namespace reseune {
     rule Star_AlNums      = my star_alnums;
     rule Digits           = my digits;
     rule Star_Digits      = my star_digits;
+    rule XDigits          = my xdigits;
+    rule Star_XDigits     = my star_xdigits;
     rule Whitespaces      = my whitespaces;
     rule Star_Whitespaces = my star_whitespaces;
     rule Pos_Integer      = my integer;
