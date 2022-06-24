@@ -12,6 +12,13 @@ namespace reseune {
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
 
+    // This class mostly just does some aliasing and forwarding of names so as to let the descendant classes their
+    // languages grammar in a more pleasant and readible way. It doesn't really do any work, it just renames stuff to
+    // make the descendant classes nicer.
+
+    // If I decide to stick with the names established here, maybe some of this stuff will just get pushed down into their
+    // base class, maybe. Not sure yet.
+    
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
@@ -32,16 +39,11 @@ namespace reseune {
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label)                  = my label<L, MF>;
 
+    // 'Rename' a bunch of functions from base to more knames that will make the written grammar read more nicely. The
+    // 'renamed' entities exist as static match_f *s.
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
-
-#define RENAME2(type, from, to)                                                 \
-    template <type... Args>                                                     \
-    MATCH_F(to) {                                                               \
-      return my from<Args...>();                                                \
-    }
-    
     RENAME(match_f, optional,    Optional);
     RENAME(match_f, intercalate, Intercalate);
     RENAME(match_f, strip,       Strip);
