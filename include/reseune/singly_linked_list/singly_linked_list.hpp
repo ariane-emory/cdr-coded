@@ -112,23 +112,30 @@ namespace reseune {
 
     // =================================================================================================================
     void remove(size_t index) {
+      printf("/nHead = %zu, tail = %zu: Removing %zu.\n", _head, _tail, index);
+      
       node_type * target;
 
       if (index == 0) {
         target = _head;
+        printf("Removing target %zu.\n", target);
         _head = target->next;
-        if (_head->next == nullptr)
+        if (_head->next == _head)
           _tail = _head;
       }
       else {
+        printf("This case happened!\n");
         node_type * pretarget = seek(index-1);
         target = pretarget->next;
         pretarget->next = target->next;
         if (pretarget->next == nullptr)
-          _tail = pretarget;
+                 _tail = pretarget;
       }
 
+      printf("About to destroy...\n");
       DT<value_type>::destroy(target->data);
+      printf("Successfully destroyed.\n");
+      
       delete target;
       _size--;
     }
