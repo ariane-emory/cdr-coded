@@ -329,28 +329,14 @@ namespace reseune {
       START;
       RETURN_SPAN;
     }
-    
-    // =================================================================================================================
-    // MATCH_F(positive_integer) {
-    //   // Match a positive integer. Does not permit a leading '+'!
-    //   return any<
-    //     my zero_padded<my digits>,
-    //     my plus<my character<'0'>>>();
-    // }
-    
-    // // =================================================================================================================
-    // MATCH_F(integer) {
-    //   // Match any integer (with or without leading zeroes).
-    //   return all<
-    //     my optional<my character<'-', '+'>>,
-    //     my digits>();
-    // }
 
     // =================================================================================================================
     MATCH_F(c_style_identifier) {
       // Match unqualified C-style identifiers. This should probably match all of them, I think?
       // If anything, it's too broad: it will accept '__' or '___', etc., I'm not immediately certain if those are
       // legal in #C.... those might be legal, but they're also /weird/. Whatever, we'll accept 'em for now.
+      //
+      // Conceptually this method probably doesn't really belong in this class and it will probably be removed soon.
       return all<
         my any<
           my character<'_'>,
