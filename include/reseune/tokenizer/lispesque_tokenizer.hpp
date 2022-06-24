@@ -33,7 +33,6 @@ namespace reseune {
       START;
       MATCH;
       RETURN_MATCH;
-      // return (this->*MF)();
     }
 
   private:
