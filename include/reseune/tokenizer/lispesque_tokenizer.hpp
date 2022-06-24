@@ -28,7 +28,7 @@ namespace reseune {
     // Main terminal
     // =============================================================================================================
     virtual MATCH_F(token) {
-      // Match many lispesque tokens.
+      // Match most lispesque tokens.
       START;
       MATCH;
       RETURN_MATCH;
