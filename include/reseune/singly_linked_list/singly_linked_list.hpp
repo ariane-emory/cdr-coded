@@ -5,6 +5,7 @@
 
 #include "../util/util.hpp"
 #include "../delete_traits/delete_traits.hpp"
+#include "../singly_linked/singly_linked.hpp"
 
 // =====================================================================================================================
 namespace reseune {
@@ -15,35 +16,27 @@ namespace reseune {
     // Types
     // =================================================================================================================
     using value_type = T;
+    using node_type  = singly_linked<T>;
     
   protected:
 
     // =================================================================================================================
-    class node {
-    public:
-      value_type data;
-      node* next;
-      node(value_type const & _value) : data(_value), next(nullptr) {}
-    };
-    // =================================================================================================================
-
-    // =================================================================================================================
     // Protected member fields
     // =================================================================================================================
-    node * _head;
-    node * _tail;
-    size_t _size;
+    node_type * _head;
+    node_type * _tail;
+    size_t      _size;
 
     // =================================================================================================================
     // Protected member functions
     // =================================================================================================================
-    node * seek(size_t index) {
+    node_type * seek(size_t index) {
       if (index == 0)
         return _head;
       else if (index == _size - 1)
         return _tail;
       else {
-        node * current = _head;
+        node_type * current = _head;
 
         while (index-- > 0)
           current = current-> next;
@@ -71,11 +64,11 @@ namespace reseune {
     // =================================================================================================================
     void add(value_type const & element) {
       if (_head == nullptr) {
-        _tail = new node(element);
+        _tail = new node_type(element);
         _head = _tail;
       }
       else {
-        _tail->next = new node(element);
+        _tail->next = new node_type(element);
         _tail = _tail->next;
       }
 
@@ -97,15 +90,15 @@ namespace reseune {
     // =================================================================================================================
     void insert(size_t index, value_type const & element) override { // Inserts before index.
       if (index == 0) {
-        node * tmp = _head;
-        _head = new node(element);
+        node_type * tmp = _head;
+        _head = new node_type(element);
         _head->next = tmp;
       }
       else {
-        node * before = seek(index-1);
-        node * after = before->next;
+        node_type * before = seek(index-1);
+        node_type * after = before->next;
 
-        before->next = new node(element);
+        before->next = new node_type(element);
         before->next->next = after;
       }
 
@@ -114,7 +107,7 @@ namespace reseune {
 
     // =================================================================================================================
     void remove(size_t index) override {
-      node * target;
+      node_type * target;
 
       if (index == 0) {
         target = _head;
@@ -123,7 +116,7 @@ namespace reseune {
           _tail = _head;
       }
       else {
-        node * pretarget = seek(index-1);
+        node_type * pretarget = seek(index-1);
         target = pretarget->next;
         pretarget->next = target->next;
         if (pretarget->next == nullptr)

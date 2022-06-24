@@ -1,7 +1,11 @@
 #include "reseune/tokenizer/scheme_tokenizer.hpp"
 #include "reseune/util/util.hpp"
+#include "reseune/singly_linked_list/singly_linked_list.hpp"
 
-// ===============================================================================================================
+// =====================================================================================================================
+using namespace reseune; 
+
+// =====================================================================================================================
 void tokenize() {
   const char * const input {
     "'b\n"
@@ -35,7 +39,6 @@ void tokenize() {
     "(let ((x 7)) x)\n"
   };
 
-  using namespace    reseune; 
   using t          = scheme_tokenizer;
   t                  tokenizer{input};
   t::span_type       token{};
@@ -56,8 +59,13 @@ void tokenize() {
   printf("Input length: %zu.\n", strlen(input));
 }
 
-int main() {
-  reseune::measure_time(&tokenize);
+// =====================================================================================================================
+void test_sll() {
 }
 
-#undef read
+// =====================================================================================================================
+int main() {
+  // reseune::measure_time(&tokenize);
+  test_sll();
+}
+
