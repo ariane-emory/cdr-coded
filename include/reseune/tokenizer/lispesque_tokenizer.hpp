@@ -5,7 +5,6 @@
 
 #define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
 #define rule static constexpr match_f
-#define __ my
 
 #include "macros.hpp" // include last!
 
@@ -38,40 +37,40 @@ namespace reseune {
   private:
 
     // =================================================================================================================
-    // Declare this rule a little early since we're going to use it while making primitives:
-    // =================================================================================================================
-    rule Lispesque_Token_Terminator =
-      __ any<__ whitespace,
-             __ character<')'>>;
-    
-    // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    T_MATCH_F BASES_MATCH_F(Optional)     = __ optional<MF>;
+    T_MATCH_F BASES_MATCH_F(Optional)     = my optional<MF>;
     template <match_f... MFs>
-    BASES_MATCH_F(Intercalate)            = __ intercalate<MFs...>;
+    BASES_MATCH_F(Intercalate)            = my intercalate<MFs...>;
     template <match_f... MFs>
-    BASES_MATCH_F(Strip)                  = __ strip<MFs...>;
+    BASES_MATCH_F(Strip)                  = my strip<MFs...>;
     template <label_t L, match_f MF>
-    BASES_MATCH_F(Label)                  = __ label<L, MF>;
+    BASES_MATCH_F(Label)                  = my label<L, MF>;
     template <match_f... MFs>
-    BASES_MATCH_F(All)                    = __ all<MFs...>;
+    BASES_MATCH_F(All)                    = my all<MFs...>;
     template <match_f... MFs>
-    BASES_MATCH_F(Any)                    = __ any<MFs...>;
+    BASES_MATCH_F(Any)                    = my any<MFs...>;
     template <char... Cs>
-    BASES_MATCH_F(Char)                   = __ character<Cs...>;
+    BASES_MATCH_F(Char)                   = my character<Cs...>;
     template <char... Cs>
-    BASES_MATCH_F(Chars)                  = __ characters<Cs...>;    
-    T_MATCH_F BASES_MATCH_F(Terminated)   = __ all<MF, __ followed_by<    Lispesque_Token_Terminator>>;
-    T_MATCH_F BASES_MATCH_F(Unterminated) = __ all<MF, __ not_followed_by<Lispesque_Token_Terminator>>;
+    BASES_MATCH_F(Chars)                  = my characters<Cs...>;    
+
+    // Declare these rules a little early since we're going to use it while making primitives:
+    rule Whitespace                       = my whitespace;
+    rule Lispesque_Token_Terminator       =
+      Any<Whitespace,
+          Char<')'>>;
+    
+    T_MATCH_F BASES_MATCH_F(Terminated)   = my all<MF, my followed_by<    Lispesque_Token_Terminator>>;
+    T_MATCH_F BASES_MATCH_F(Unterminated) = my all<MF, my not_followed_by<Lispesque_Token_Terminator>>;
     template <char... Cs>
-    BASES_MATCH_F(TerminatedWord)         = Terminated<__ word<Cs...>>;
+    BASES_MATCH_F(Terminated_Word)        = Terminated<my word<Cs...>>;
 
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
-#define X(...) TerminatedWord<__VA_ARGS__>
-#define Y(name) rule name = __ any<name ## s>
+#define X(...) Terminated_Word<__VA_ARGS__>
+#define Y(name) rule name = Any<name ## s>
     Y(Boolean_Op);
     Y(Increment_Decrement_Op);
     Y(Other_Comparison_Op);
@@ -85,9 +84,9 @@ namespace reseune {
     // =================================================================================================================
     // Grammar rules 1/2: Just give some rules prettier names.
     // =================================================================================================================
-    rule AlNums     = __ alnums;
-    rule StarAlNums = __ star_alnums;
-    rule PosInteger = __ integer;
+    rule AlNums     = my alnums;
+    rule StarAlNums = my star_alnums;
+    rule PosInteger = my integer;
 
     // =================================================================================================================
     // Grammar rules 2/2: Main grammar
@@ -181,7 +180,6 @@ namespace reseune {
 #undef BASES_MATCH_F
 #undef BASES_T_MATCH_F
 #undef rule
-#undef __
 
 #include "undef_macros.hpp"
 // =====================================================================================================================
