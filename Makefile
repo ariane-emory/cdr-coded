@@ -4,7 +4,6 @@ CXXLAGS  = \
 	-Iinclude \
 	-O3 \
 	-ggdb \
-	-flto \
 	-ffunction-sections \
 	-fno-exceptions \
 	-funroll-loops \
