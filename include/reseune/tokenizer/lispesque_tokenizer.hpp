@@ -12,8 +12,8 @@ namespace reseune {
   // ===================================================================================================================
   struct lispesque_tokenizer : public tokenizer<lispesque_token_type> {
 
-    // This class mostly just does some aliasing and forwarding of names so as to let the descendant classes their
-    // languages grammar in a more pleasant and readible way. It doesn't really do any work, it just renames stuff to
+    // This class mostly just does some aliasing and forwarding of names so as to let the descendant class write it's
+    // language's grammar in a more pleasant and readable way: it doesn't really do any work, it just renames stuff to
     // make the descendant classes nicer.
 
     // If I decide to stick with the names established here, maybe some of this stuff will just get pushed down into their
