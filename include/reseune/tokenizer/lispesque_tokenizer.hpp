@@ -53,8 +53,8 @@ namespace reseune {
     template <char... Cs>
     BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
 
-    template <char C>
-    BASES_MATCH_F(Character)      = __ character<C>;
+    template <char... Cs>
+    BASES_MATCH_F(Character)      = __ character<Cs...>;
     
     template <char... Cs>
     BASES_MATCH_F(Characters)     = __ characters<Cs...>;
@@ -90,7 +90,7 @@ namespace reseune {
       other_comparison_op,
       increment_decrement_op>;
 
-    rule Keyword_Separator = __ characters<'-'>;
+    rule Keyword_Separator = Characters<'-'>;
 
     rule Lispesque_Primitive =
       __ label<primitive,
@@ -102,7 +102,7 @@ namespace reseune {
       __ all<AlNums>;
       
     rule Keyword_Head =
-      __ all<__ character<':'>,
+      __ all<Character<':'>,
              Symbol_Head>;
 
     rule Keyword_Body =
@@ -115,16 +115,16 @@ namespace reseune {
                Terminated<Keyword_Body>>;
 
     rule Symbol_Separator =
-      __ any<__ characters<'-'>,
-             __ characters<':'>,
-             __ characters<'/'>>;
+      __ any<Characters<'-'>,
+             Characters<':'>,
+             Characters<'/'>>;
 
     rule Symbol_Body =
       __ intercalate<Symbol_Head,
                      Symbol_Separator,
                      AlNums>;
       
-    rule Symbol_Trailer = __ optional<__ character<'!','?'>>;
+    rule Symbol_Trailer = __ optional<Character<'!','?'>>;
       
     rule Lispesque_Symbol =
       __ label<symbol,
@@ -134,15 +134,15 @@ namespace reseune {
 
     rule LParen =
       __ label<l_paren,
-               __ character<'('>>;
+               Character<'('>>;
 
     rule RParen =
       __ label<r_paren,
-               Terminated<__ character<')'>>>;
+               Terminated<Character<')'>>>;
 
     rule Quote =
       __ label<quote,
-               Unterminated<__ character<'\''>>>;
+               Unterminated<Character<'\''>>>;
 
     rule Integer =
       __ label<tt::integer,
