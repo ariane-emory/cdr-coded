@@ -5,7 +5,7 @@
 // Macros
 // =====================================================================================================================
 
-#define primitive_symbols                                                       \
+#define Primitive_Symbols                                                       \
   X('t'),                                                                       \
     X('i','f'),                                                                 \
     X('o','r'),                                                                 \
@@ -32,7 +32,7 @@
     X('p','r','i','n','t'),                                                     \
     X('p','r','o','g','n'),                                                     \
     X('r','e','t','u','r','n')
-#define increment_decrement_ops                                                 \
+#define Increment_Decrement_Ops                                                 \
   X('+', '+'),                                                                  \
     X('-', '-'),                                                                \
     X('+', '='),                                                                \
@@ -42,17 +42,17 @@
     X('&', '='),                                                                \
     X('|', '='),                                                                \
     X('~', '=') 
-#define other_comparison_ops                                                    \
+#define Other_Comparison_Ops                                                    \
   X('!', '='),                                                                  \
     X('=', '='),                                                                \
     X('<', '='),                                                                \
     X('>', '=')                                                          
-#define boolean_ops                                                             \
+#define Boolean_Ops                                                             \
   X('&', '&'),                                                                  \
     X('|', '|')
-#define primitive_math_ops       X('+'), X('-'), X('/'), X('*')
-#define other_math_ops           X('%'), X('~'), X('^'), X('&')
-#define primitive_comparison_ops X('!'), X('='), X('>'), X('<')
+#define Primitive_Math_Ops       X('+'), X('-'), X('/'), X('*')
+#define Other_Math_Ops           X('%'), X('~'), X('^'), X('&')
+#define Primitive_Comparison_Ops X('!'), X('='), X('>'), X('<')
 
 #define EMPTY                 (span_type{POS, POS})
 #define HERE                  (*cursor)

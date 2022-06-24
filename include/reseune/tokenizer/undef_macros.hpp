@@ -1,10 +1,10 @@
-#undef boolean_ops
-#undef increment_decrement_ops
-#undef other_comparison_ops
-#undef other_math_ops
-#undef primitive_comparison_ops
-#undef primitive_math_ops
-#undef primitive_symbols
+#undef Boolean_Ops
+#undef Increment_Decrement_Ops
+#undef Other_Comparison_Ops
+#undef Other_Math_Ops
+#undef Primitive_Comparison_Ops
+#undef Primitive_Math_Ops
+#undef Primitive_Symbols
 
 #undef EMPTY
 #undef HERE

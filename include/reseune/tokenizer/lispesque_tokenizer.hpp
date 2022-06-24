@@ -63,22 +63,22 @@ namespace reseune {
     template <match_f... MFs>
     BASES_MATCH_F(Any)                    = __ any<MFs...>;
     template <char... Cs>
-    BASES_MATCH_F(Character)              = __ character<Cs...>;
+    BASES_MATCH_F(Char)                   = __ character<Cs...>;
     template <char... Cs>
-    BASES_MATCH_F(Characters)             = __ characters<Cs...>;    
+    BASES_MATCH_F(Chars)                  = __ characters<Cs...>;    
 
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
     // =================================================================================================================
 #define X(...) TerminatedWord<__VA_ARGS__>
 #define Y(name) rule name = __ any<name ## s>
-    Y(boolean_op);
-    Y(increment_decrement_op);
-    Y(other_comparison_op);
-    Y(other_math_op);
-    Y(primitive_comparison_op);
-    Y(primitive_math_op);
-    Y(primitive_symbol);
+    Y(Boolean_Op);
+    Y(Increment_Decrement_Op);
+    Y(Other_Comparison_Op);
+    Y(Other_Math_Op);
+    Y(Primitive_Comparison_Op);
+    Y(Primitive_Math_Op);
+    Y(Primitive_Symbol);
 #undef Y
 #undef X
     
@@ -87,29 +87,30 @@ namespace reseune {
     // =================================================================================================================
     rule AlNums     = __ alnums;
     rule StarAlNums = __ star_alnums;
+    rule PosInteger = __ integer;
 
     // =================================================================================================================
     // Grammar rules 2/2: Main grammar
     // =================================================================================================================
     rule Lispesque_Operator =
-      Any<boolean_op,
-          other_math_op,
-          other_comparison_op,
-          increment_decrement_op>;
+      Any<Boolean_Op,
+          Other_Math_Op,
+          Other_Comparison_Op,
+          Increment_Decrement_Op>;
 
-    rule Keyword_Separator = Characters<'-'>;
+    rule Keyword_Separator = Chars<'-'>;
 
     rule Lispesque_Primitive =
       Label<primitive,
-            Any<primitive_math_op,
-                primitive_comparison_op,
-                primitive_symbol>>;
+            Any<Primitive_Math_Op,
+                Primitive_Comparison_Op,
+                Primitive_Symbol>>;
 
     rule Symbol_Head =
       All<AlNums>;
       
     rule Keyword_Head =
-      All<Character<':'>,
+      All<Char<':'>,
           Symbol_Head>;
 
     rule Keyword_Body =
@@ -122,16 +123,16 @@ namespace reseune {
             Terminated<Keyword_Body>>;
 
     rule Symbol_Separator =
-      Any<Characters<'-'>,
-          Characters<':'>,
-          Characters<'/'>>;
+      Any<Chars<'-'>,
+          Chars<':'>,
+          Chars<'/'>>;
 
     rule Symbol_Body =
       Intercalate<Symbol_Head,
                   Symbol_Separator,
                   AlNums>;
       
-    rule Symbol_Trailer = Optional<Character<'!','?'>>;
+    rule Symbol_Trailer = Optional<Char<'!','?'>>;
       
     rule Lispesque_Symbol =
       Label<symbol,
@@ -141,19 +142,19 @@ namespace reseune {
 
     rule LParen =
       Label<l_paren,
-            Character<'('>>;
+            Char<'('>>;
 
     rule RParen =
       Label<r_paren,
-            Terminated<Character<')'>>>;
+            Terminated<Char<')'>>>;
 
     rule Quote =
       Label<quote,
-            Unterminated<Character<'\''>>>;
+            Unterminated<Char<'\''>>>;
 
     rule Integer =
       Label<tt::integer,
-            Terminated<__ integer>>;
+            Terminated<PosInteger>>;
       
     rule Token =
       Strip<Any<LParen,
