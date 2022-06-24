@@ -66,5 +66,6 @@ int main() {
   // reseune::measure_time(&tokenize);
   // while (true)
   singly_linked_list<int>::run_tests();
+  singly_linked_list<int>::run_ptr_tests();
 }
 
