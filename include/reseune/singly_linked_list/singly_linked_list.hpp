@@ -77,7 +77,7 @@ namespace reseune {
 
     // =================================================================================================================
     value_type & operator[](size_t index) {
-      if (_size == 0)
+      //if (_size == 0)
         return seek(index)->data;
     }
 
@@ -88,7 +88,7 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    void insert(size_t index, value_type const & element) override { // Inserts before index.
+    void insert(size_t index, value_type const & element) { // Inserts before index.
       if (index == 0) {
         node_type * tmp = _head;
         _head = new node_type(element);
@@ -106,7 +106,7 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    void remove(size_t index) override {
+    void remove(size_t index) {
       node_type * target;
 
       if (index == 0) {
@@ -129,7 +129,7 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    void set(size_t index, value_type const & element) override {
+    void set(size_t index, value_type const & element) {
       seek(index)->data = element;
     }
 
