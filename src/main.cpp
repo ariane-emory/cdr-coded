@@ -60,13 +60,6 @@ void tokenize() {
 }
 
 // =====================================================================================================================
-void print_sll(singly_linked_list<int> & sll) {
-  printf("\nPrinting: Head: %zu, Tail: %zu\n", sll.m_head, sll.m_tail);
-  for (size_t ix = 0; ix < sll.size(); ix++)
-    printf("Item #%zu @ %zu = '%i'.\n", ix, &sll[ix], sll[ix]);
-}
-
-// =====================================================================================================================
 void test_sll() {
   singly_linked_list<int> sll;
   sll.add(1);
@@ -75,7 +68,7 @@ void test_sll() {
   sll.insert(3, 99);
   // sll.insert(1 , 5);
 
-  print_sll(sll);
+  sll.print();
   printf("Added things.\n");
 
   // print_sll(sll);

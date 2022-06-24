@@ -64,6 +64,14 @@ namespace reseune {
     // =================================================================================================================
     // Public member functions
     // =================================================================================================================
+
+    void print() {
+      printf("\nPrinting: Head: %zu, Tail: %zu\n", m_head, m_tail);
+      for (size_t ix = 0; ix < size(); ix++)
+        printf("Item #%zu @ %zu = '%i'.\n", ix, (*this)[ix], (*this)[ix]);
+    }
+
+    // =====================================================================================================================
     void add(value_type const & element) {
       if (m_head == nullptr) {
         m_tail = m_head = new node_type(element);
