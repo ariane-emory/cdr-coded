@@ -40,41 +40,32 @@ namespace reseune {
     // =================================================================================================================
     // Declare this rule a little early since we're going to use it while making primitives:
     // =================================================================================================================
-    rule Lispesque_token_terminator =
+    rule Lispesque_Token_Terminator =
       __ any<__ whitespace,
              __ character<')'>>;
     
     // =================================================================================================================
     // Pointers to match_f templates in base.
     // =================================================================================================================
-    T_MATCH_F BASES_MATCH_F(Terminated)   = __ all<MF, __ followed_by<    Lispesque_token_terminator>>;
-    T_MATCH_F BASES_MATCH_F(Unterminated) = __ all<MF, __ not_followed_by<Lispesque_token_terminator>>;
-
+    T_MATCH_F BASES_MATCH_F(Terminated)   = __ all<MF, __ followed_by<    Lispesque_Token_Terminator>>;
+    T_MATCH_F BASES_MATCH_F(Unterminated) = __ all<MF, __ not_followed_by<Lispesque_Token_Terminator>>;
     T_MATCH_F BASES_MATCH_F(Optional)     = __ optional<MF>;
-
     template <char... Cs>
-    BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
-
+    BASES_MATCH_F(TerminatedWord)         = Terminated<__ word<Cs...>>;
     template <match_f... MFs>
-    BASES_MATCH_F(Intercalate)    = __ intercalate<MFs...>;
-
+    BASES_MATCH_F(Intercalate)            = __ intercalate<MFs...>;
     template <match_f... MFs>
-    BASES_MATCH_F(Strip      )    = __ strip<MFs...>;
-
+    BASES_MATCH_F(Strip      )            = __ strip<MFs...>;
     template <label_t L, match_f MF>
-    BASES_MATCH_F(Label)          = __ label<L, MF>;
-
+    BASES_MATCH_F(Label)                  = __ label<L, MF>;
     template <match_f... MFs>
-    BASES_MATCH_F(All)            = __ all<MFs...>;
-
+    BASES_MATCH_F(All)                    = __ all<MFs...>;
     template <match_f... MFs>
-    BASES_MATCH_F(Any)            = __ any<MFs...>;
-
+    BASES_MATCH_F(Any)                    = __ any<MFs...>;
     template <char... Cs>
-    BASES_MATCH_F(Character)      = __ character<Cs...>;
-    
+    BASES_MATCH_F(Character)              = __ character<Cs...>;
     template <char... Cs>
-    BASES_MATCH_F(Characters)     = __ characters<Cs...>;    
+    BASES_MATCH_F(Characters)             = __ characters<Cs...>;    
 
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words as well as some primitive symbols.
