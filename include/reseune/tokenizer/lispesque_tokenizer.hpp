@@ -119,10 +119,18 @@ namespace reseune {
                                  my all<Symbol_Body,
                                         Symbol_Trailer>>>>;
 
+    rule LParen =
+      my label<l_paren,
+               my character<'('>>;
+
+    rule RParen =
+      my label<r_paren,
+               terminated<my character<')'>>>;
+    
     rule Token =
       my strip<
-      my any<my label<l_paren,     my character<'('>>,
-             my label<r_paren,     terminated<my character<')'>>>,
+      my any<LParen,
+             RParen,
              my label<quote,       unterminated<my character<'\''>>>,
              my label<tt::integer, terminated<my integer>>,
              Lispesque_Primitive,
