@@ -92,8 +92,12 @@ namespace reseune {
 
     rule Integer =
       Label<tt::integer,
-            Terminated<Pos_Integer>>;
-      
+            All<Optional<Char<'-','+'>>,
+                Any<Terminated<ZeroDigits>,
+                    Terminated<
+                      All<NonZeroDigit,
+                          Star_Digits>>>>>;
+
     rule Token =
       Strip<Any<LParen,
                 RParen,

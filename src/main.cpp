@@ -5,7 +5,7 @@
 void tokenize() {
   const char * const input {
     "'b\n"
-      "2\n"
+    "2\n"
     "(+ 2 4)\n"
     "'(* 2 581)\n"
     "(let (a (- 6 1)))\n"
@@ -14,9 +14,9 @@ void tokenize() {
     "0\n"
     "-0\n"
     "+0\n"
-    "01\n"
-    "-01\n"
-    "+01\n"
+    "1\n"
+    "-1\n"
+    "+1\n"
     "a\n"
     "-250\n"
     "(dolist (mode\n"
