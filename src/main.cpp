@@ -66,7 +66,7 @@ void test_sll() {
   sll.add(2);
   sll.add(3);
   // for (size_t ix = 0; ix < sll.length(); ix++)
-  for (size_t ix = 0; ix < 3; ix++)
+  for (size_t ix = 0; ix < sll.length(); ix++)
     printf("Item %i.\n", sll[ix]);
   printf("Added things.\n");
 }
