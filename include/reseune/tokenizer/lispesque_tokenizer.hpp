@@ -50,8 +50,16 @@ namespace reseune {
     T_MATCH_F BASES_MATCH_F(Terminated)   = __ all<MF, __ followed_by<    Lispesque_token_terminator>>;
     T_MATCH_F BASES_MATCH_F(Unterminated) = __ all<MF, __ not_followed_by<Lispesque_token_terminator>>;
 
+    T_MATCH_F BASES_MATCH_F(Optional)     = __ optional<MF>;
+
     template <char... Cs>
     BASES_MATCH_F(TerminatedWord) = Terminated<__ word<Cs...>>;
+
+    template <match_f... MFs>
+    BASES_MATCH_F(Intercalate)    = __ intercalate<MFs...>;
+
+    template <match_f... MFs>
+    BASES_MATCH_F(Strip      )    = __ strip<MFs...>;
 
     template <label_t L, match_f MF>
     BASES_MATCH_F(Label)          = __ label<L, MF>;
@@ -114,9 +122,9 @@ namespace reseune {
           Symbol_Head>;
 
     rule Keyword_Body =
-      __ intercalate<Keyword_Head,
-                     Keyword_Separator,
-                     AlNums>;
+      Intercalate<Keyword_Head,
+                  Keyword_Separator,
+                  AlNums>;
       
     rule Lispesque_Keyword =
       Label<keyword,
@@ -128,11 +136,11 @@ namespace reseune {
           Characters<'/'>>;
 
     rule Symbol_Body =
-      __ intercalate<Symbol_Head,
-                     Symbol_Separator,
-                     AlNums>;
+      Intercalate<Symbol_Head,
+                  Symbol_Separator,
+                  AlNums>;
       
-    rule Symbol_Trailer = __ optional<Character<'!','?'>>;
+    rule Symbol_Trailer = Optional<Character<'!','?'>>;
       
     rule Lispesque_Symbol =
       Label<symbol,
@@ -157,14 +165,13 @@ namespace reseune {
             Terminated<__ integer>>;
       
     rule Token =
-      __ strip<
-      Any<LParen,
-          RParen,
-          Quote,
-          Integer,
-          Lispesque_Primitive,
-          Lispesque_Keyword,
-          Lispesque_Symbol>>;
+      Strip<Any<LParen,
+                RParen,
+                Quote,
+                Integer,
+                Lispesque_Primitive,
+                Lispesque_Keyword,
+                Lispesque_Symbol>>;
 
     rule MF = Token;
     
