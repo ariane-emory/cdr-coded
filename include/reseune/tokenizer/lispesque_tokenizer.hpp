@@ -126,13 +126,21 @@ namespace reseune {
     rule RParen =
       my label<r_paren,
                terminated<my character<')'>>>;
-    
+
+    rule Quote =
+      my label<quote,
+               unterminated<my character<'\''>>>;
+
+    rule Integer =
+      my label<tt::integer,
+               terminated<my integer>>;
+      
     rule Token =
       my strip<
       my any<LParen,
              RParen,
-             my label<quote,       unterminated<my character<'\''>>>,
-             my label<tt::integer, terminated<my integer>>,
+             Quote,
+             Integer,
              Lispesque_Primitive,
              Lispesque_Keyword,
              Lispesque_Symbol>>;
