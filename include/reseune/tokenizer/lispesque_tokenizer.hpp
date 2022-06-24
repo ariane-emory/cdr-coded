@@ -93,6 +93,10 @@ namespace reseune {
     rule AlNums            = my alnums;
     rule Star_AlNums       = my star_alnums;
 
+    rule Alpha             = my alpha;
+    rule Alphas            = my alphas;
+    rule Star_Alphas       = my star_alphas;
+
     rule Digit             = my digit;
     rule Digits            = my digits;
     rule Star_Digits       = my star_digits;

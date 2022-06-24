@@ -44,7 +44,7 @@ namespace reseune {
                 Primitive_Symbol>>;
 
     rule Symbol_Head =
-      All<AlNums>;
+      All<Alpha, Star_AlNums>;
       
     rule Keyword_Head =
       All<Char<':'>,
