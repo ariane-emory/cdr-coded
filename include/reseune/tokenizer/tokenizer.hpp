@@ -55,10 +55,10 @@ namespace reseune {
     // =================================================================================================================
     // Protected types
     // =================================================================================================================
-    using char_f   = int (*)(int);
-    using label_t  = LABEL_T;
-    using match_f  = span_type (tokenizer::*)();
-    using t        = tokenizer;
+    using char_f     = int (*)(int);
+    using label_type = LABEL_T;
+    using match_f    = span_type (tokenizer::*)();
+    using t          = tokenizer;
 
   public:
     
@@ -201,7 +201,7 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    template<LABEL_T L, match_f MF>
+    template<label_type L, match_f MF>
     MATCH_F(label) {
       // Match against MF and, if it matches, label the token type of the resulting span as L.
       START;

@@ -32,8 +32,8 @@ namespace reseune {
     // Types
     // =================================================================================================================
     using base_t = tokenizer<tokenizer_span, lispesque_token_type>;
-    using tt     = base_t::label_t;
     using t      = lispesque_tokenizer;
+    using tt     = base_t::label_type;
 
     // =================================================================================================================
     // Pointers to match_f templates in base
@@ -59,7 +59,7 @@ namespace reseune {
     RENAME(match_f, strip,       Strip);
 #undef RENAME
 
-    template <label_t L, match_f MF>
+    template <label_type L, match_f MF>
     BASES_MATCH_F(Label) = my label<L, MF>;
 
     // Declare these rules a little early since we're going to use it while making the termination-related templates:
