@@ -67,6 +67,6 @@ int main() {
   // while (true)
   // singly_linked_list<int>::run_tests();
   while (true)
-    singly_linked_list<int>::run_ptr_tests();
+    singly_linked_list<int>::run_tests();
 }
 
