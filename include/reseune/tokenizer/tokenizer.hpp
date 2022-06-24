@@ -7,6 +7,7 @@
 #include "../util/util.hpp"
 #include "../c_str_cursor/c_str_cursor.hpp"
 #include "tokenizer_span.hpp"
+#include "variant_tokenizer_span.hpp"
 #include "lispesque_token_types.hpp"
 
 #include "macros.hpp" // include last!
