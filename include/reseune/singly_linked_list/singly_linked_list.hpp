@@ -4,6 +4,7 @@
 #include <inttypes.h>
 
 #include "../util/util.hpp"
+#include "../delete_traits/delete_traits.hpp"
 
 // =====================================================================================================================
 namespace reseune {
