@@ -70,48 +70,48 @@ namespace reseune {
     // =================================================================================================================
     // Grammar rules.
     // =================================================================================================================
-    rule Lispesque_operator = my any<
+    rule Lispesque_Operator = my any<
       boolean_op,
       other_math_op,
       other_comparison_op,
       increment_decrement_op>;
 
-    rule keyword_separator = my characters<'-'>;
+    rule Keyword_Separator = my characters<'-'>;
 
     rule Lispesque_Primitive =
       my any<primitive_math_op,
              primitive_comparison_op,
              primitive_symbol>;
 
-    rule Symbol_head =
+    rule Symbol_Head =
       my all<my alpha,
              my star_alnums>;
       
-    rule keyword_head =
+    rule Keyword_Head =
       my all<my character<':'>,
-             Symbol_head>;
+             Symbol_Head>;
 
-    rule keyword_Body =
-      my intercalate<keyword_head,
-                     keyword_separator,
+    rule Keyword_Body =
+      my intercalate<Keyword_Head,
+                     Keyword_Separator,
                      my alnums>;
       
-    rule Lispesque_Keyword = terminated<keyword_Body>;
+    rule Lispesque_Keyword = terminated<Keyword_Body>;
 
-    rule Symbol_separator =
+    rule Symbol_Separator =
       my any<my characters<'-'>,
              my characters<':'>,
              my characters<'/'>>;
       
     rule Symbol_Body =
-      my intercalate<Symbol_head,
-                     Symbol_separator,
+      my intercalate<Symbol_Head,
+                     Symbol_Separator,
                      my alnums>;
       
     rule Symbol_Trailer = my optional<my character<'!','?'>>;
       
     rule Lispesque_Symbol =
-      terminated<my any<Lispesque_operator,
+      terminated<my any<Lispesque_Operator,
                         my all<Symbol_Body,
                                Symbol_Trailer>>>;
 
