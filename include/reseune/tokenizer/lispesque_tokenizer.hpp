@@ -39,11 +39,9 @@ namespace reseune {
 
 #define BASES_MATCH_F(name) static constexpr span_t(tokenizer<tt>::*name)()
 
-    template <label_t L, match_f MF>
-    BASES_MATCH_F(Label) = my label<L, MF>;
-
     // 'Rename' a bunch of functions from base to names that will make the written grammar read more nicely. The
     // 'renamed' entities exist as static match_f *s.
+
 #define RENAME(type, from, to)                                                  \
     template <type... Args>                                                     \
     BASES_MATCH_F(to) = my from<Args...>
@@ -57,6 +55,9 @@ namespace reseune {
     RENAME(char,    character,   Char);
     RENAME(char,    characters,  Chars);
 #undef RENAME
+
+    template <label_t L, match_f MF>
+    BASES_MATCH_F(Label) = my label<L, MF>;
 
     // Declare these rules a little early since we're going to use it while making the termination-related templates:
     rule Whitespace                       = my whitespace;
