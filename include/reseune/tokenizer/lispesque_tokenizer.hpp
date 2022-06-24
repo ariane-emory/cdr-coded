@@ -29,7 +29,7 @@ namespace reseune {
 
 #define X(...) my terminated_word<__VA_ARGS__>
 // #define Y(name) MATCH_F(name) { return any<name ## s>(); }
-#define Y(name) rule x__ ## name = my any<name ## s>
+#define Y(name) rule x__##name = my any<name ## s>
     
     // =================================================================================================================
     // Manufacture match_fs for common operator-like symbols as terminated_words.
