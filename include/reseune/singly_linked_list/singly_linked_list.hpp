@@ -135,19 +135,19 @@ namespace reseune {
     void remove(size_t index) {
       // It is UB to remove from a list of length 0! Doing so will attempt to dereference a null pointer.
       
-      printf("\nRemoving from: Head @ %zu, tail @xs %zu: Removing index %zu.\n", m_head, m_tail, index);
+      // printf("\nRemoving from: Head @ %zu, tail @xs %zu: Removing index %zu.\n", m_head, m_tail, index);
       
       node_type * target;
 
       if (index == 0) {
         target = m_head;
-        printf("Removing target %zu.\n", target);
+        // printf("Removing target %zu.\n", target);
         m_head = target->next;
         if (m_head == nullptr)
           m_tail = m_head;
       }
       else {
-        printf("This case happened!\n");
+        // printf("This case happened!\n");
         node_type * pretarget = seek(index-1);
         target = pretarget->next;
         pretarget->next = target->next;
@@ -155,9 +155,9 @@ namespace reseune {
           m_tail = pretarget;
       }
 
-      printf("About to destroy...\n");
+      // printf("About to destroy...\n");
       DT<value_type>::destroy(target->data);
-      printf("Successfully destroyed.\n");
+      // printf("Successfully destroyed.\n");
       
       delete target;
       m_size--;
