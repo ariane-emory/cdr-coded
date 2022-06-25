@@ -3,7 +3,6 @@
 
 #include <type_traits>
 #include <tuple>
-#include <inttypes.h>
 
 #include "../util/util.hpp"
 #include "../delete_traits/delete_traits.hpp"
@@ -150,13 +149,13 @@ namespace reseune {
     // =================================================================================================================
     constexpr void set(size_t index, value_type const & element) {
       // If T is a pointer and DT = delete_traits::owner, this will avoid a leak by freeing the pointed at memory.
-      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the  pointed at
+      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the pointed at
       // memory, else a leak will occur.
       // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
-      DT<value_type>::destroy(target->data);
-      
+
+      DT<value_type>::destroy(seek(index)->data);
       seek(index)->data = element;
-    }
+                              }
 
     // =================================================================================================================
     constexpr size_t size() const {
@@ -180,7 +179,7 @@ namespace reseune {
 
     // =====================================================================================================================
     static constexpr void run_tests() {
-      // run_non_ptr_tests();
+      run_non_ptr_tests();
       run_ptr_tests();
     }
     
@@ -273,59 +272,59 @@ namespace reseune {
       assert(9 == *sll[1]);
       assert(3 == *sll[2]);
   
-      // // printf("Testing 'set'.\n");
-      // sll.set(1, new uintptr_t(2));
-      // // printf("\n");
-      // sll.print();
-      // // printf("\n");
+      // printf("Testing 'set'.\n");
+      sll.set(1, new uintptr_t(2));
+      // printf("\n");
+      sll.print();
+      // printf("\n");
 
-      // assert(3 == sll.size());
-      // assert(8 == *sll[0]);
-      // assert(2 == *sll[1]);
-      // assert(3 == *sll[2]);  
+      assert(3 == sll.size());
+      assert(8 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);  
 
-      // // printf("Testing 'set' again.\n");
-      // sll.set(0, new uintptr_t(1));
-      // // printf("\n");
-      // sll.print();
-      // // printf("\n");
+      // printf("Testing 'set' again.\n");
+      sll.set(0, new uintptr_t(1));
+      // printf("\n");
+      sll.print();
+      // printf("\n");
 
-      // assert(3 == sll.size());
-      // assert(1 == *sll[0]);
-      // assert(2 == *sll[1]);
-      // assert(3 == *sll[2]);  
+      assert(3 == sll.size());
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);  
 
-      // // printf("Testing 'insert'.\n");
-      // sll.insert(2, new uintptr_t(9));
-      // // printf("\n");
-      // sll.print();
+      // printf("Testing 'insert'.\n");
+      sll.insert(2, new uintptr_t(9));
+      // printf("\n");
+      sll.print();
   
-      // assert(4 == sll.size());
-      // assert(1 == *sll[0]);
-      // assert(2 == *sll[1]);
-      // assert(9 == *sll[2]);
-      // assert(3 == *sll[3]);
+      assert(4 == sll.size());
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(9 == *sll[2]);
+      assert(3 == *sll[3]);
 
-      // // printf("\n");
-      // // printf("Testing 'remove'.\n");
-      // sll.remove(2);
-      // // printf("\n");
-      // sll.print();
+      // printf("\n");
+      // printf("Testing 'remove'.\n");
+      sll.remove(2);
+      // printf("\n");
+      sll.print();
 
-      // assert(3 == sll.size());
-      // assert(1 == *sll[0]);
-      // assert(2 == *sll[1]);
-      // assert(3 == *sll[2]);
+      assert(3 == sll.size());
+      assert(1 == *sll[0]);
+      assert(2 == *sll[1]);
+      assert(3 == *sll[2]);
 
-      // // printf("\n");
-      // // printf("Testing 'clear'.\n");
-      // sll.clear();
-      // // printf("\n");
+      // printf("\n");
+      // printf("Testing 'clear'.\n");
+      sll.clear();
+      // printf("\n");
   
-      // sll.print();
-      // assert(sll.size() == 0);
+      sll.print();
+      assert(sll.size() == 0);
   
-      // // printf("Passed tests!\n", sll.size());
+      // printf("Passed tests!\n", sll.size());
     }
 
     // =================================================================================================================
