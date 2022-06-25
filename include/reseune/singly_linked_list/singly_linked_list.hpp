@@ -153,8 +153,8 @@ namespace reseune {
       // memory, else a leak will occur.
       // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
 
-      DT<value_type>::destroy(seek(index)->data);
-      seek(index)->data = element;
+      DT<value_type>::destroy(**seek(index));
+      **seek(index) = element;
     }
 
     // =================================================================================================================
@@ -182,7 +182,7 @@ namespace reseune {
       }
 
       // // printf("About to destroy...\n");
-      DT<value_type>::destroy(target->data);
+      DT<value_type>::destroy(**target);
       // // printf("Successfully destroyed.\n");
       
       delete target;
