@@ -228,7 +228,7 @@ namespace reseune {
 
       // printf("\nTesting 'add'.\n");
       sll << 9;
-      sll << 3;
+      sll.push_back(3);
       sll.push(8);
       // printf("\n");
       sll.print();
@@ -303,7 +303,7 @@ namespace reseune {
 
       // printf("\nTesting 'add'.\n");
       sll << new uintptr_t(9);
-      sll << new uintptr_t(3);
+      sll.push_back(new uintptr_t(3));
       sll.push(new uintptr_t(8));
       // printf("\n");
       sll.print();
