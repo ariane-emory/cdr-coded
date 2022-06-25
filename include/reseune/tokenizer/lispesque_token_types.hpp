@@ -13,7 +13,8 @@
   X(keyword)                                                                    \
   X(integer)                                                                    \
   X(quote)                                                                      \
-  X(primitive)
+  X(primitive)                                                                  \
+  X(invalid)
     
 namespace reseune {
 #define X(name) name,

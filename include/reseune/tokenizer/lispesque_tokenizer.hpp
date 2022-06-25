@@ -65,6 +65,7 @@ namespace reseune {
     RENAME(match_f, optional,    Optional);
     RENAME(match_f, intercalate, Intercalate);
     RENAME(match_f, strip,       Strip);
+    RENAME(match_f, negate,      Negate);
 #undef RENAME
 
     template <label_type L, match_f MF>
