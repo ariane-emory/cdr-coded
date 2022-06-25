@@ -44,6 +44,7 @@ namespace reseune {
       next = next_;
     }
     
+    // =================================================================================================================
     constexpr void insert_before(reference next_) {
       insert_before(&next_);
     }
@@ -55,6 +56,7 @@ namespace reseune {
       return const_iterator::begin(this);
     }
 
+    // =================================================================================================================
     constexpr auto end() const {
       return const_iterator::end();
     }

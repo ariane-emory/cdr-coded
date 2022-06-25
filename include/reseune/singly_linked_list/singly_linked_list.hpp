@@ -77,10 +77,33 @@ namespace reseune {
     }
 
     // =================================================================================================================
+    constexpr singly_linked_list & push_back(value_type const & element) {
+      // Add an item to the tail of the list.
+      add(element);
+      return *this;
+    }
+
+    // =================================================================================================================
     constexpr singly_linked_list & push(value_type const & element) {
       // Add an item to the tail of the list.
       insert(0, element);
       return *this;
+    }
+
+    // =================================================================================================================
+    constexpr value_type & operator[](size_t index) {
+      return seek(index)->data;
+    }
+
+    // =================================================================================================================
+    constexpr void clear() {
+      while (m_head != nullptr)
+        remove(0);
+    }
+
+    // =================================================================================================================
+    constexpr size_t size() const {
+      return m_size;
     }
 
     // =================================================================================================================
@@ -99,17 +122,6 @@ namespace reseune {
       m_size++;
     }
 
-    // =================================================================================================================
-    // Iterator-related member functions
-    // =================================================================================================================
-    constexpr auto begin() const {
-      return const_iterator::begin(m_head);
-    }
-
-    constexpr auto end() const {
-      return const_iterator::end();
-    }
-    
     // =================================================================================================================
     constexpr void insert(size_t index, value_type const & element) {
       // Inserts before index.
@@ -135,14 +147,14 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    constexpr value_type & operator[](size_t index) {
-      return seek(index)->data;
-    }
+    constexpr void set(size_t index, value_type const & element) {
+      // If T is a pointer and DT = delete_traits::owner, this will avoid a leak by freeing the pointed at memory.
+      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the pointed at
+      // memory, else a leak will occur.
+      // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
 
-    // =================================================================================================================
-    constexpr void clear() {
-      while (m_head != nullptr)
-        remove(0);
+      DT<value_type>::destroy(seek(index)->data);
+      seek(index)->data = element;
     }
 
     // =================================================================================================================
@@ -179,21 +191,16 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    constexpr void set(size_t index, value_type const & element) {
-      // If T is a pointer and DT = delete_traits::owner, this will avoid a leak by freeing the pointed at memory.
-      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the pointed at
-      // memory, else a leak will occur.
-      // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
-
-      DT<value_type>::destroy(seek(index)->data);
-      seek(index)->data = element;
-    }
-
+    // Iterator-related member functions
     // =================================================================================================================
-    constexpr size_t size() const {
-      return m_size;
+    constexpr auto begin() const {
+      return const_iterator::begin(m_head);
     }
 
+    constexpr auto end() const {
+      return const_iterator::end();
+    }
+    
     // =====================================================================================================================
     // Some stupid debug functions and tests.
     // =====================================================================================================================
