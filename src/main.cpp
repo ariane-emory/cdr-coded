@@ -66,7 +66,8 @@ void tokenize() {
 // =====================================================================================================================
 int main() {
   while (true) {
-    reseune::measure_time(&tokenize);
+    // reseune::measure_time(&tokenize);
+    tokenize();
     singly_linked_list<int>::run_tests();
   }
 }
