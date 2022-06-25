@@ -51,19 +51,21 @@ void tokenize() {
   do {
     tokenizer >> token;
     
-    if (token)
-      printf("Token #%zu is (token_type: '%s', string: '%s').\n",
-             ++token_num,
-             lispesque_token_type_strings[token.label],
-             token.c_str());
+    // if (token)
+    //   printf("Token #%zu is (token_type: '%s', string: '%s').\n",
+    //          ++token_num,
+    //          lispesque_token_type_strings[token.label],
+    //          token.c_str());
   } while (token);
 
-  printf("Input length: %zu.\n", strlen(input));
+  // printf("Input length: %zu.\n", strlen(input));
 }
 
 // =====================================================================================================================
 int main() {
-  reseune::measure_time(&tokenize);
-  // singly_linked_list<int>::run_tests();
+  while (true) {
+    reseune::measure_time(&tokenize);
+    singly_linked_list<int>::run_tests();
+  }
 }
 
