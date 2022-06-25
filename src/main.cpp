@@ -1,4 +1,5 @@
 #include <cassert>
+#include <tuple>
 
 #include "reseune/util/util.hpp"
 #include "reseune/tokenizer/scheme_tokenizer.hpp"
@@ -45,7 +46,8 @@ void tokenize() {
   t                  tokenizer{input};
   t::span_type       token{};
   size_t             token_num{};
-
+  std::ignore      = token_num;
+  
 #define my &t::
 
   do {
