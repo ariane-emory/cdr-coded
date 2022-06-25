@@ -90,10 +90,10 @@ namespace reseune {
       Label<quote,
             Unterminated<Char<'\''>>>;
 
-    rule Integer = // No zero=padding allowed for now!
+    rule Integer = // No zero-padding allowed for now!
       Label<tt::integer,
             All<Optional<Char<'-','+'>>,
-                Any<Terminated<ZeroDigits>,
+                Any<Terminated<ZeroDigit>,
                     Terminated<
                       All<NonZeroDigit,
                           Star_Digits>>>>>;
