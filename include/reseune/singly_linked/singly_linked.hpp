@@ -39,6 +39,10 @@ namespace reseune {
     // =================================================================================================================
     // Other member functions
     // =================================================================================================================
+    constexpr const value_type & operator *() const {
+      return data;
+    }
+    
     constexpr value_type & operator *() {
       return data;
     }
