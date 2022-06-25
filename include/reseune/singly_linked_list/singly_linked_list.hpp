@@ -65,7 +65,22 @@ namespace reseune {
     // =================================================================================================================
     // Public member functions
     // =================================================================================================================
+    constexpr singly_linked_list & operator << (value_type const & element) {
+      // Add an item to the tail of the list.
+      add(element);
+      return *this;
+    }
+
+    // =================================================================================================================
+    constexpr singly_linked_list & push(value_type const & element) {
+      // Add an item to the tail of the list.
+      insert(0, element);
+      return *this;
+    }
+
+    // =================================================================================================================
     constexpr void add(value_type const & element) {
+      // Add an item to the tail of the list.
       if (m_head == nullptr) {
         m_tail = m_head = new node_type(element);
         // printf("Added head @ '%zu' -> '%zu': '%i'.\n", m_tail, m_tail->next, m_tail->data);
@@ -143,7 +158,8 @@ namespace reseune {
       // // printf("Successfully destroyed.\n");
       
       delete target;
-      m_size--;
+
+      --m_size;
     }
 
     // =================================================================================================================
@@ -155,7 +171,7 @@ namespace reseune {
 
       DT<value_type>::destroy(seek(index)->data);
       seek(index)->data = element;
-                              }
+    }
 
     // =================================================================================================================
     constexpr size_t size() const {
@@ -188,9 +204,9 @@ namespace reseune {
       singly_linked_list<uintptr_t> sll;
 
       // printf("\nTesting 'add'.\n");
-      sll.add(8);
-      sll.add(9);
-      sll.add(3);
+      sll << 9;
+      sll << 3;
+      sll.push(8);
       // printf("\n");
       sll.print();
       // printf("\n");
@@ -260,9 +276,9 @@ namespace reseune {
       singly_linked_list<uintptr_t *> sll;
 
       // printf("\nTesting 'add'.\n");
-      sll.add(new uintptr_t(8));
-      sll.add(new uintptr_t(9));
-      sll.add(new uintptr_t(3));
+      sll << new uintptr_t(9);
+      sll << new uintptr_t(3);
+      sll.push(new uintptr_t(8));
       // printf("\n");
       sll.print();
       // printf("\n");
