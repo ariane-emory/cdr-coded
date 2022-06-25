@@ -16,11 +16,11 @@ namespace reseune {
     struct owner {
       static void destroy(T1 & x) {
         if constexpr (std::is_pointer<T1>::value) {
-          printf("Destroy 1.\n");
+          // printf("Destroy 1.\n");
           delete x;
         }
         else {
-          printf("Destroy 2.\n");
+          // printf("Destroy 2.\n");
         }
       }
     };
@@ -34,7 +34,7 @@ namespace reseune {
     // =================================================================================================================
     template<typename T1>
     struct non_owner {
-      static void destroy(T1&) {  printf("Destroy 3.\n"); }
+      static void destroy(T1 &) {  printf("Destroy 3.\n"); }
     };
 
     // =================================================================================================================
