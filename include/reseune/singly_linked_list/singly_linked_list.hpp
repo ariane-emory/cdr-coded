@@ -33,27 +33,7 @@ namespace reseune {
     node_type * m_tail;
     size_t      m_size;
 
-    // =================================================================================================================
-    // Protected member functions
-    // =================================================================================================================
-    node_type * seek(size_t index) {
-      // It UB to seek an index >= size().
-      
-      if (index == 0)
-        return m_head;
-      else if (index == m_size - 1)
-        return m_tail;
-      else {
-        node_type * current = m_head;
-
-        while (index-- > 0)
-          current = current-> next;
-
-        return current;
-      }
-    }
-
- public:
+  public:
 
     // =================================================================================================================
     // Constructor
@@ -68,18 +48,29 @@ namespace reseune {
     }
 
     // =================================================================================================================
+    // Public iterator-related member functions
+    // =================================================================================================================
+    constexpr auto begin() const {
+      return const_iterator::begin(m_head);
+    }
+
+    constexpr auto end() const {
+      return const_iterator::end();
+    }
+    
+    // =================================================================================================================
     // Public member functions
     // =================================================================================================================
-    constexpr singly_linked_list & operator << (value_type const & element) {
-      // Add an item to the tail of the list.
-      add(element);
+    constexpr singly_linked_list & push(value_type const & element) {
+      // Add an item to the head of the list.
+      insert(0, element);
       return *this;
     }
 
     // =================================================================================================================
-    constexpr singly_linked_list & push(value_type const & element) {
+    constexpr singly_linked_list & operator << (value_type const & element) {
       // Add an item to the tail of the list.
-      insert(0, element);
+      add(element);
       return *this;
     }
 
@@ -107,19 +98,14 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    constexpr void add(value_type const & element) {
-      // Add an item to the tail of the list.
-      if (m_head == nullptr) {
-        m_tail = m_head = new node_type(element);
-        // printf("Added head @ '%zu' -> '%zu': '%i'.\n", m_tail, m_tail->next, m_tail->data);
-      }
-      else {
-        m_tail->next = new node_type(element);
-        // printf("Added tail @ '%zu' -> '%zu': '%i'.\n", m_tail->next, m_tail->next->next, m_tail->next->data);
-        m_tail = m_tail->next;
-      }
+    constexpr void set(size_t index, value_type const & element) {
+      // If T is a pointer and DT = delete_traits::owner, this will avoid a leak by freeing the pointed at memory.
+      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the pointed at
+      // memory, else a leak will occur.
+      // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
 
-      m_size++;
+      DT<value_type>::destroy(**seek(index));
+      **seek(index) = element;
     }
 
     // =================================================================================================================
@@ -144,17 +130,6 @@ namespace reseune {
       }
 
       m_size++;
-    }
-
-    // =================================================================================================================
-    constexpr void set(size_t index, value_type const & element) {
-      // If T is a pointer and DT = delete_traits::owner, this will avoid a leak by freeing the pointed at memory.
-      // If T is a pointer and DT = delete_traits::non_owner, it is your responsibility to free the pointed at
-      // memory, else a leak will occur.
-      // If T is not a pointer this should not leak (so long as T's destructor is not itself broken).
-
-      DT<value_type>::destroy(**seek(index));
-      **seek(index) = element;
     }
 
     // =================================================================================================================
@@ -190,17 +165,46 @@ namespace reseune {
       --m_size;
     }
 
+  protected:
+    
     // =================================================================================================================
-    // Iterator-related member functions
+    // Protected member functions
     // =================================================================================================================
-    constexpr auto begin() const {
-      return const_iterator::begin(m_head);
+    constexpr void add(value_type const & element) {
+      // Add an item to the tail of the list.
+      if (m_head == nullptr) {
+        m_tail = m_head = new node_type(element);
+        // printf("Added head @ '%zu' -> '%zu': '%i'.\n", m_tail, m_tail->next, m_tail->data);
+      }
+      else {
+        m_tail->next = new node_type(element);
+        // printf("Added tail @ '%zu' -> '%zu': '%i'.\n", m_tail->next, m_tail->next->next, m_tail->next->data);
+        m_tail = m_tail->next;
+      }
+
+      m_size++;
     }
 
-    constexpr auto end() const {
-      return const_iterator::end();
+    // =================================================================================================================
+    node_type * seek(size_t index) {
+      // It UB to seek an index >= size().
+      
+      if (index == 0)
+        return m_head;
+      else if (index == m_size - 1)
+        return m_tail;
+      else {
+        node_type * current = m_head;
+
+        while (index-- > 0)
+          current = current-> next;
+
+        return current;
+      }
     }
-    
+
+  public:
+
     // =====================================================================================================================
     // Some stupid debug functions and tests.
     // =====================================================================================================================
@@ -221,6 +225,8 @@ namespace reseune {
       run_non_ptr_tests();
       run_ptr_tests();
     }
+
+  protected:
     
     // =====================================================================================================================
     static constexpr void run_non_ptr_tests() {
