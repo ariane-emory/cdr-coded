@@ -50,8 +50,14 @@ namespace reseune {
     // ===========================================================================================================
     // Other member functions
     // ===========================================================================================================
+    constexpr const value_type & operator *() const {
+      return data;
+    }
     
-
+    constexpr value_type & operator *() {
+      return data;
+    }
+        
 #define INSERT(name, A, B)                                                      \
     inline void insert_##name(pointer new_##B) {                                \
       A = new_##B->A;                                                           \
