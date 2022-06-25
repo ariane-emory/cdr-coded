@@ -15,7 +15,7 @@ namespace reseune {
     // Member fields
     // =================================================================================================================
 
-    singly_linked<tokenizer_span_with_children> * children;
+    singly_linked_list<tokenizer_span_with_children> * children;
     
     // =================================================================================================================
     // Constructors
