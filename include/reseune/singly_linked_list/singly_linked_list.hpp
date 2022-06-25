@@ -276,6 +276,9 @@ namespace reseune {
       assert(2 == sll[1]);
       assert(3 == sll[2]);
 
+      for (auto & x: sll)
+        printf("This is '%zu'.\n", x);
+      
       // printf("\n");
       // printf("Testing 'clear'.\n");
       sll.clear();
