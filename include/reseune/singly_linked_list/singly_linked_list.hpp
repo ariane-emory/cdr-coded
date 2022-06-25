@@ -77,16 +77,16 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    constexpr singly_linked_list & push_back(value_type const & element) {
+    constexpr singly_linked_list & push(value_type const & element) {
       // Add an item to the tail of the list.
-      add(element);
+      insert(0, element);
       return *this;
     }
 
     // =================================================================================================================
-    constexpr singly_linked_list & push(value_type const & element) {
+    constexpr singly_linked_list & push_back(value_type const & element) {
       // Add an item to the tail of the list.
-      insert(0, element);
+      add(element);
       return *this;
     }
 
