@@ -5,12 +5,18 @@
 
 #include "macros.hpp" // include last!
 
+#ifdef RESEUNE_USE_TOKENIZER_SPAN_WITH_CHILDREN
+#define TOKENIZER_T tokenizer_span_with_children
+#else
+#define TOKENIZER_T tokenizer_span
+#endif
+
 // =====================================================================================================================
 namespace reseune {  
   // ===================================================================================================================
   // Lispesque tokenizer abstract class
   // ===================================================================================================================
-  struct lispesque_tokenizer : public tokenizer<tokenizer_span_with_children, lispesque_token_type> {
+  struct lispesque_tokenizer : public tokenizer<TOKENIZER_T, lispesque_token_type> {
 
     // This class mostly just does some aliasing and forwarding of names so as to let the descendent class write it's
     // language's grammar in a more pleasant and readable way: it doesn't really do any work, it just renames stuff to
@@ -31,7 +37,10 @@ namespace reseune {
     // =================================================================================================================
     // Types
     // =================================================================================================================
-    using base_t = tokenizer<tokenizer_span_with_children, lispesque_token_type>;
+    using base_t = tokenizer<TOKENIZER_T, lispesque_token_type>;
+
+#undef TOKENIZER_T
+
     using t      = lispesque_tokenizer;
     using tt     = base_t::label_type;
 
