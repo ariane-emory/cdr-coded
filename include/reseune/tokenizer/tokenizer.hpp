@@ -63,7 +63,7 @@ namespace reseune {
     // =================================================================================================================
     using char_f        = int (*)(int);
     using match_f       = span_type (tokenizer::*)();
-    using child_match_f = span_type (tokenizer::*)(span_type &);
+    using child_match_f = void (tokenizer::*)(span_type &);
     using t             = tokenizer;
 
   public:
@@ -237,6 +237,24 @@ namespace reseune {
 
       if (nullptr == match.children)
         match.children = new span_type::children_type();
+
+      match.children->push(match);
+      
+      RETURN_SPAN;
+    }
+
+    // =================================================================================================================
+    T_MATCH_F void as_child_of(span_type & parent) {
+      // Match against MF and if it matches, attach the resulting span as a child of parent.
+      START;
+      MATCH;
+      unless (match)
+        return;
+
+      if (nullptr == parent.children)
+        parent.children = new span_type::children_type();
+
+      parent.children->push(match);
       
       RETURN_SPAN;
     }
