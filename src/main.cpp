@@ -12,6 +12,7 @@ using namespace reseune;
 void tokenize() {
   const char * const input {
     "(+ 2 4)\n"
+    "(+ 2 (+ 3 4))\n"
     // "'b\n"
     // "2\n"
     // "'(* 2 581)\n"

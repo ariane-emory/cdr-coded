@@ -48,7 +48,7 @@ namespace reseune {
 
     constexpr void log(const char * format, ...) const {
       unless (verbose)
-      return;
+        return;
       for (size_t ix = 0; ix < indentation; ix++)
         putchar(' ');
       va_list arglist;
@@ -269,9 +269,30 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    template <match_f MF, match_f... MFs>
+    template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
+    MATCH_F(rec_list) {
+      START;
+      ignore_whitespace();
+      CALL_MATCH_F(HEAD_MF);
+      MAYBE_RETURN_NO_MATCH;
+
+      do {
+        ignore_whitespace();
+        CALL_MATCH_F(ITEM_MF);
+        unless (match)
+          rec_list<HEAD_MF, ITEM_MF, TAIL_MF>();
+      } while (match); // ???
+
+      CALL_MATCH_F(TAIL_MF);
+
+      MAYBE_RETURN_NO_MATCH;
+      RETURN_SPAN;
+    }
+
+    // =================================================================================================================
+    // Match MF followed by the MFs in order.
+    template <match_f MF, match_f... MFs> 
     MATCH_F(all) {
-      // Match MF followed by the MFs in order.
       START;
       MATCH;
       MAYBE_RETURN_NO_MATCH;
