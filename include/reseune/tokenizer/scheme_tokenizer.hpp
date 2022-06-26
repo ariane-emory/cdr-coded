@@ -105,7 +105,7 @@ namespace reseune {
           Symbol,
           Quote>;
 
-    rule List = Collect<LParen>;
+    rule List = Collect<LParen, RParen>;
     
     rule Token =
       Strip<Any<LParen,
