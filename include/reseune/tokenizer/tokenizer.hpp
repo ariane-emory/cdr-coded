@@ -151,9 +151,21 @@ namespace reseune {
     }
 
     // =================================================================================================================
+    T_MATCH_F MATCH_F(child) {
+      // Match against MF and if it matches, attach the resulting span as a child of this span.
+      START;
+      MATCH;
+      MAYBE_RETURN_NO_MATCH;
+
+      if (nullptr == match.children)
+        match.children = new span_type::children_type();
+      
+      RETURN_SPAN;
+    }
+
+    // =================================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against MF and ignore the result by returning empty.
-      // Should this ever return NO_MATCH? Maybe...
       START;
       MATCH;
       RETURN_EMPTY;

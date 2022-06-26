@@ -92,11 +92,12 @@ namespace reseune {
 
     rule Integer = // No zero-padding allowed for now!
       Label<tt::integer,
-            All<Optional<Char<'-','+'>>,
-                Any<Terminated<ZeroDigit>,
-                    Terminated<
-                      All<NonZeroDigit,
-                          Star_Digits>>>>>;
+            Child<
+              All<Optional<Char<'-','+'>>,
+                  Any<Terminated<ZeroDigit>,
+                      Terminated<
+                        All<NonZeroDigit,
+                            Star_Digits>>>>>>;
 
     rule Token =
       Strip<Any<LParen,
