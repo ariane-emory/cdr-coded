@@ -160,6 +160,16 @@ namespace reseune {
     }
 
     // =================================================================================================================
+    T_MATCH_F MATCH_F(discard) {
+      // Match against MF and, if it matches, ignore the result by returning empty.
+      // Unlike ignore, MATCH_F must match, we're just throwing away the resulting span.
+      START;
+      if (match)
+        RETURN_EMPTY;
+      return NO_MATCH;
+    }
+
+    // =================================================================================================================
     T_MATCH_F MATCH_F(strip) {
       // Match against MF while ignoring any surrounding whitespace (before and after).
       START;

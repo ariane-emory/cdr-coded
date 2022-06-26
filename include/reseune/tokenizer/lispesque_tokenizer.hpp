@@ -62,6 +62,8 @@ namespace reseune {
     RENAME(match_f, any,         Any);
     RENAME(match_f, star,        Star);
     RENAME(match_f, plus,        Plus);
+    RENAME(match_f, ignore,      Ignore);
+    RENAME(match_f, discard,     Discard);
     RENAME(match_f, optional,    Optional);
     RENAME(match_f, intercalate, Intercalate);
     RENAME(match_f, strip,       Strip);
