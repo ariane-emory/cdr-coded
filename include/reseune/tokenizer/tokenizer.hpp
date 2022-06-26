@@ -240,13 +240,13 @@ namespace reseune {
       RETURN_MATCH;
     }
 
-    template <typename... nil>
-    MATCH_F(collect) {
-      START;
+    // template <typename... nil>
+    // MATCH_F(collect) {
+    //   START;
       
-      RETURN_EMPTY;
-    }
-
+    //   RETURN_EMPTY;
+    // }
+    
     // -----------------------------------------------------------------------------------------------------------------
     T_MATCH_F void as_child_of(span_type & parent) {
       // Match against MF and if it matches, attach the resulting span as a child of parent.
