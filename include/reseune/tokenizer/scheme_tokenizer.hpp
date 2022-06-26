@@ -92,22 +92,24 @@ namespace reseune {
 
     rule Integer = // No zero-padding allowed for now!
       Label<tt::integer,
-            Child<
-              All<Optional<Char<'-','+'>>,
-                  Any<Terminated<ZeroDigit>,
+            All<Optional<Char<'-','+'>>,
+                Any<Terminated<ZeroDigit>,
                       Terminated<
                         All<NonZeroDigit,
-                            Star_Digits>>>>>>;
+                            Star_Digits>>>>>;
+
+    rule Atom =
+      Any<Integer,
+          Primitive,
+          Keyword,
+          Symbol>;
 
     rule Token =
       Strip<Any<LParen,
                 RParen,
                 Quote,
-                Integer,
-                Primitive,
-                Keyword,
-                Symbol>>;
-
+                Atom>>;
+ 
     // Rules that don't exist yet:
     //   Quasiquote
     //   Unquote

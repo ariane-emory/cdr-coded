@@ -229,34 +229,54 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    T_MATCH_F MATCH_F(child) {
-      // Match against MF and if it matches, attach the resulting span as a child of this span.
+    template <match_f... MFs>
+    MATCH_F(collect) {
+      // Match MF followed by the MFs in order and attach them as children to this match.
       START;
-      MATCH;
-      MAYBE_RETURN_NO_MATCH;
-
-      if (nullptr == match.children)
-        match.children = new span_type::children_type();
-
-      match.children->push(match);
       
-      RETURN_SPAN;
+      collect_as_children_of<MFs...>(match);
+      collect<MFs...>(match);
+      
+      RETURN_MATCH;
     }
 
-    // =================================================================================================================
+    // -----------------------------------------------------------------------------------------------------------------
     T_MATCH_F void as_child_of(span_type & parent) {
       // Match against MF and if it matches, attach the resulting span as a child of parent.
       START;
       MATCH;
+
       unless (match)
         return;
 
       if (nullptr == parent.children)
         parent.children = new span_type::children_type();
 
-      parent.children->push(match);
-      
-      RETURN_SPAN;
+      parent.children->push_back(match);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    template <match_f MF, match_f... MFs>
+    void collect_as_children_of(span_type & parent) {
+      // Match MF followed by the MFs in order and attach them as children to this match.
+      // as_child_of<MF>(parent);
+      START;
+      MATCH;
+
+      unless (match)
+        return;
+
+      if (nullptr == parent.children)
+        parent.children = new span_type::children_type();
+
+      parent.children->push_back(match);
+      collect<MFs...>(parent);
+    }
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    template <typename... nil>
+    void collect_as_children_of(span_type & parent) {
+      return;
     }
 
     // =================================================================================================================
