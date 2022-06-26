@@ -61,9 +61,10 @@ namespace reseune {
     // =================================================================================================================
     // Protected types
     // =================================================================================================================
-    using char_f     = int (*)(int);
-    using match_f    = span_type (tokenizer::*)();
-    using t          = tokenizer;
+    using char_f        = int (*)(int);
+    using match_f       = span_type (tokenizer::*)();
+    using child_match_f = span_type (tokenizer::*)(span_type &);
+    using t             = tokenizer;
 
   public:
     
@@ -151,19 +152,6 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    T_MATCH_F MATCH_F(child) {
-      // Match against MF and if it matches, attach the resulting span as a child of this span.
-      START;
-      MATCH;
-      MAYBE_RETURN_NO_MATCH;
-
-      if (nullptr == match.children)
-        match.children = new span_type::children_type();
-      
-      RETURN_SPAN;
-    }
-
-    // =================================================================================================================
     T_MATCH_F MATCH_F(ignore) {
       // Match against MF and ignore the result by returning empty.
       START;
@@ -238,6 +226,19 @@ namespace reseune {
       log("Label as '%u' was matched.", L);
       match.label = L;
       RETURN_MATCH;      
+    }
+
+    // =================================================================================================================
+    T_MATCH_F MATCH_F(child) {
+      // Match against MF and if it matches, attach the resulting span as a child of this span.
+      START;
+      MATCH;
+      MAYBE_RETURN_NO_MATCH;
+
+      if (nullptr == match.children)
+        match.children = new span_type::children_type();
+      
+      RETURN_SPAN;
     }
 
     // =================================================================================================================
