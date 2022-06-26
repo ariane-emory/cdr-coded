@@ -102,12 +102,14 @@ namespace reseune {
       Any<Integer,
           Primitive,
           Keyword,
-          Symbol>;
+          Symbol,
+          Quote>;
 
+
+    
     rule Token =
       Strip<Any<LParen,
                 RParen,
-                Quote,
                 Atom>>;
  
     // Rules that don't exist yet:

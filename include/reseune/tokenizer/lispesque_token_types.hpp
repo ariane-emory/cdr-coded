@@ -14,6 +14,7 @@
   X(integer)                                                                    \
   X(quote)                                                                      \
   X(primitive)                                                                  \
+  X(list)                                                                       \
   X(invalid)
     
 namespace reseune {
