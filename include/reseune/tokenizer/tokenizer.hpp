@@ -229,15 +229,22 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    template <match_f... MFs>
+    template <match_f MF, match_f... MFs>
     MATCH_F(collect) {
       // Match MF followed by the MFs in order and attach them as children to this match.
       START;
-      
+
+      as_child_of<MF>(match);
       collect_as_children_of<MFs...>(match);
-      collect<MFs...>(match);
       
       RETURN_MATCH;
+    }
+
+    template <typename... nil>
+    MATCH_F(collect) {
+      START;
+      
+      RETURN_EMPTY;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -260,16 +267,7 @@ namespace reseune {
     void collect_as_children_of(span_type & parent) {
       // Match MF followed by the MFs in order and attach them as children to this match.
       // as_child_of<MF>(parent);
-      START;
-      MATCH;
-
-      unless (match)
-        return;
-
-      if (nullptr == parent.children)
-        parent.children = new span_type::children_type();
-
-      parent.children->push_back(match);
+      as_child_of<MF>(parent);
       collect<MFs...>(parent);
     }
     
