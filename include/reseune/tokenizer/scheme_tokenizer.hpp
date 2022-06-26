@@ -104,13 +104,16 @@ namespace reseune {
           Keyword,
           Symbol,
           Quote>;
+ 
+    rule List = Label<tt::list, Collect<LParen, Star<Strip<Atom>>, RParen>>;
 
-    rule List = Collect<LParen, RParen>;
-    
     rule Token =
-      Strip<Any<LParen,
-                RParen,
-                Atom>>;
+      Strip<Any<List, Atom>>;
+
+    // rule Token =
+    //         Strip<Any<LParen,
+    //                   RParen,
+    //                   Atom>>;
  
     // Rules that don't exist yet:
     //   Quasiquote
