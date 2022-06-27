@@ -105,10 +105,9 @@ namespace reseune {
           Symbol,
           Quote>;
  
-    rule List = Label<tt::list, Rec_List<LParen, Atom, RParen>>;
+    rule List = Label<tt::list, Collect_Rec_List<LParen, Atom, RParen>>;
 
-    rule Token =
-      Strip<Any<List, Atom>>;
+    rule Token = Strip<Any<List, Atom>>;
 
     // rule Token =
     //         Strip<Any<LParen,

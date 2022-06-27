@@ -60,6 +60,7 @@ namespace reseune {
     RENAME(char,    characters,  Chars);
     RENAME(match_f, all,         All);
     RENAME(match_f, rec_list,    Rec_List);
+    RENAME(match_f, collect_rec_list,    Collect_Rec_List);
     RENAME(match_f, collect,     Collect);
     RENAME(match_f, any,         Any);
     RENAME(match_f, star,        Star);

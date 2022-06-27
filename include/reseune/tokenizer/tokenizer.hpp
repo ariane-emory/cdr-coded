@@ -270,6 +270,27 @@ namespace reseune {
 
     // =================================================================================================================
     template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
+    MATCH_F(collect_rec_list) {
+      START;
+      ignore_whitespace();
+      CALL_MATCH_F(HEAD_MF);
+      MAYBE_RETURN_NO_MATCH;
+
+      do {
+        ignore_whitespace();
+        CALL_MATCH_F(ITEM_MF);
+        unless (match)
+          collect_rec_list<HEAD_MF, ITEM_MF, TAIL_MF>();
+      } while (match); // ???
+
+      CALL_MATCH_F(TAIL_MF);
+
+      MAYBE_RETURN_NO_MATCH;
+      RETURN_SPAN;
+    }
+
+    // =================================================================================================================
+    template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
     MATCH_F(rec_list) {
       START;
       ignore_whitespace();
