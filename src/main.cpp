@@ -50,11 +50,15 @@ void tokenize() {
   do {
     tokenizer >> token;
     
-    if (token)
+    if (token) {
       printf("Token #%zu is (token_type: '%s', string: '%s').\n",
              ++token_num,
              lispesque_token_type_strings[token.label],
              token.c_str());
+
+      if (nullptr != token.children)
+        printf("It has %zu children.\n", token.children->size());
+    }
   } while (token);
 
   printf("Input length: %zu.\n", strlen(input));
@@ -64,7 +68,6 @@ void tokenize() {
 int main() {
   // while (true) {
    reseune::measure_time(&tokenize);
-   tokenize();
    singly_linked_list<int>::run_tests();
    // }
 }
