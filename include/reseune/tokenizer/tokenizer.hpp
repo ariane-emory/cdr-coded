@@ -23,7 +23,7 @@ namespace reseune {
     // =================================================================================================================
     // Constructors
     // =================================================================================================================
-    constexpr tokenizer(const char * const str) : cursor(str), verbose(true), indentation(0) {}
+    constexpr tokenizer(const char * const str) : cursor(str), verbose(false), indentation(0) {}
     
     // =================================================================================================================
     // Public types
@@ -269,26 +269,26 @@ namespace reseune {
     }
 
     // =================================================================================================================
-    template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
-    MATCH_F(collect_rec_list) {
-      START;
-      ignore_whitespace();
-      CALL_MATCH_F(HEAD_MF);
-      MAYBE_RETURN_NO_MATCH;
+    // template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
+    // MATCH_F(collect_rec_list) {
+    //   START;
+    //   ignore_whitespace();
+    //   collect<HEAD_MF>(match);
+    //   MAYBE_RETURN_NO_MATCH;
 
-      do {
-        ignore_whitespace();
-        CALL_MATCH_F(ITEM_MF);
-        unless (match)
-          collect_rec_list<HEAD_MF, ITEM_MF, TAIL_MF>();
-      } while (match); // ???
+    //   do {
+    //     ignore_whitespace();
+    //     collect<ITEM_MF>(match);
+    //     unless (match)
+    //       collect_rec_list<HEAD_MF, ITEM_MF, TAIL_MF>();
+    //   } while (match); // ???
 
-      CALL_MATCH_F(TAIL_MF);
+    //   CALL_MATCH_F(TAIL_MF);
 
-      MAYBE_RETURN_NO_MATCH;
-      RETURN_SPAN;
-    }
-
+    //   MAYBE_RETURN_NO_MATCH;
+    //   RETURN_SPAN;
+    // }
+    
     // =================================================================================================================
     template <match_f HEAD_MF, match_f ITEM_MF, match_f TAIL_MF>
     MATCH_F(rec_list) {
