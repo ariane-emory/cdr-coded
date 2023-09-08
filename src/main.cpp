@@ -51,7 +51,7 @@ allocator<alloc_node> alloc {};
 #define malloc(s) ALLOC valloc(s, 1, verbose)
 #define free(s) ALLOC release(s, verbose)
 
-const bool verbose {false};
+const bool verbose {true};
 
 constexpr size_t buff_len = 1 << 14; // 16 kb
 
@@ -244,8 +244,6 @@ void test_allocator() {
   printf("After coalesce.\n");
 
   if (verbose) ALLOC describe_free_list();
-
-  return;
 
   // Allocate ints until we run out of memory ====================================================================
   {
