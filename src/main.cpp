@@ -292,9 +292,11 @@ void test_allocator() {
 // ===============================================================================================================
 int main() {
   setup_allocator();
+  
+  reseune::measure_time(test_allocator);
 
-  // reseune::measure_time(test_allocator);
-
+  return 0;
+  
   enum label_t {
     unlabeled,
     l_paren,
