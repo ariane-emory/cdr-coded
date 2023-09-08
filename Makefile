@@ -23,7 +23,7 @@ CXXLAGS  = \
 	-DRESEUNE_USE_ALLOC_INFO_WITH_UNFREE_FLAG
 
 ifeq ($(UNAME_S),Darwin)
-	CXX = g++-12
+	CXX = g++-13
 endif
 
 GDB      = gdb
